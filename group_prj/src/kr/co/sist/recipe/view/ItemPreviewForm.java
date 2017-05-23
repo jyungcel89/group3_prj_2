@@ -71,7 +71,7 @@ public class ItemPreviewForm extends JDialog {
 		jtIngrednt.getTableHeader().setReorderingAllowed(false);
 		//컬럼의 높이 설정
 		jtIngrednt.setRowHeight(100);
-		//컬럼의 넒이 설정
+		//컬럼의 넒이 설정 
 		//"번호","이미지","메뉴코드","설명","가격"
 		jtIngrednt.getColumnModel().getColumn(0).setPreferredWidth(140);
 		jtIngrednt.getColumnModel().getColumn(1).setPreferredWidth(50);
