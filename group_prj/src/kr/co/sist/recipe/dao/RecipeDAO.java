@@ -139,7 +139,7 @@ public class RecipeDAO {
 				pstmt.setString(1, mtv.getAnju());
 				pstmt.setString(2, mtv.getMeal());
 				pstmt.setString(3, mtv.getDessert());
-				pstmt.setString(4, mtv.getBunsik());
+				pstmt.setString(4, mtv.getBunsik()); 
 				
 				rs=pstmt.executeQuery();
 			}//end else
