@@ -16,9 +16,11 @@ import java.util.Properties;
 import javax.swing.JOptionPane;
 
 import kr.co.sist.recipe.vo.AddRecipeVO;
+import kr.co.sist.recipe.vo.IngredientOfRecipeVO;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MenuTypeVO;
-import kr.co.sist.recipe.vo.RecipeVO;
+import kr.co.sist.recipe.vo.MgrRcpInfoListVO;
+import kr.co.sist.recipe.vo.SelectRecipeInfoVO;
 import kr.co.sist.recipe.vo.ShowRecipeVO;
 
 public class RecipeDAO {
@@ -70,22 +72,40 @@ public class RecipeDAO {
 	 * @param menuCode
 	 * @return
 	 */
-	public RecipeVO selectOneRecipe(String menuName) throws SQLException{
+	public SelectRecipeInfoVO selectOneRecipe(String menuName) throws SQLException{
+		SelectRecipeInfoVO srv = new SelectRecipeInfoVO();
 		Connection con = null;
 		PreparedStatement pstmt= null;
+		ResultSet rs= null;
 		
 		try {
 			con= getConnection();
+			
+			String SelectRecipeInfoVO=
+					"select menu_name, img, totalprice, food_type, info, recipe_info from reciperegister reg where menu_name=?";
+			
+			pstmt = con.prepareStatement(SelectRecipeInfoVO);
+			pstmt.setString(1, menuName);
+			rs = pstmt.executeQuery();
+			
+			// 선택된 한가지 메뉴에대한 정보를 RecipeVO에 저장
+			while(rs.next()){
+				srv.setMenuName(menuName);
+				srv.setMenuImg(rs.getString("img"));
+				srv.setMenuPrice(rs.getString("totalprice"));
+				srv.setMenuType(rs.getString("food_type"));
+				srv.setMenuSimpleInfo(rs.getString("info"));
+				srv.setRecipeInfo(rs.getString("recipe_info"));
+			}//end while
+			
 		}finally {
+			if(rs!= null){ rs.close(); }
 			if(pstmt!= null){ pstmt.close(); }
 			if(con!= null){ con.close(); }
 		}//end finally
 		
-		String selectOneRecipe=
-				"select reg.menu_name, reg.totalprice, reg.food_type, ing.ingredient_name ingrdnts, reg.recipe_flag from reciperegister reg, RECIPE_INGREDIENTS ing where ing.menu_name=reg.menu_name and reg.menu_name='공화뽕' ";
-		// 쿼리 보류 - 북마크, 별점도 추가해야함
+		return srv;
 		
-		return null;
 	}//selectOneRecipe
 	
 	// 메인폼 - 전체레시피 조회
@@ -108,23 +128,6 @@ public class RecipeDAO {
 			// 검색조건이 비어있으면 전체 검색
 			StringBuilder sbSelectRecipe = new StringBuilder();
 			sbSelectRecipe.append("select menu_name, img, food_type, info, totalprice from reciperegister");
-//			if(mtv==null){
-//				System.out.println("객체가 있음");
-//				sbSelectRecipe.append(" where food_type in(?,?,?,?)");
-//				pstmt= con.prepareStatement(sbSelectRecipe.toString());
-//				
-//				// 조건이 있을 때
-//				pstmt.setString(1, mtv.getAnju());
-//				pstmt.setString(2, mtv.getMeal());
-//				pstmt.setString(3, mtv.getDessert());
-//				pstmt.setString(4, mtv.getBunsik());
-//				
-//				rs=pstmt.executeQuery();
-//			}else{
-//				System.out.println("객체가 비어있음");
-//				pstmt= con.prepareStatement(sbSelectRecipe.toString());
-//				rs=pstmt.executeQuery();
-//			}//end else
 			
 			if(mtv.getAnju().equals("") && mtv.getBunsik().equals("") && mtv.getDessert().equals("") && mtv.getMeal().equals("")){
 				System.out.println("객체가 비어있음");
@@ -203,20 +206,28 @@ public class RecipeDAO {
 	}//confirmRecipe
 	
 	public static void main(String[] args){
+		RecipeDAO md= RecipeDAO.getInstance();
 		
-		//			System.out.println(RecipeDAO.getInstance().getConnection());
-					RecipeDAO md= RecipeDAO.getInstance();
-					try {
-						List<MainRecipeVO> list;
-						list = md.selectAllRecipe(new MenuTypeVO("","","",""));
-						for(MainRecipeVO tmp : list){
-							System.out.println(tmp.toString());
-						}
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+		try {
+//				List<MainRecipeVO> list;
+//				list = md.selectAllRecipe(new MenuTypeVO("","","",""));
+//				for(MainRecipeVO tmp : list){
+//					System.out.println(tmp.toString());
+//				}//end for
+//============================================================
+			SelectRecipeInfoVO srv = new SelectRecipeInfoVO();
+			srv=md.selectOneRecipe("공화뽕");
+			
+			System.out.println(srv.getMenuName()+"\n"+srv.getMenuImg()+"\n"+
+					srv.getMenuPrice()+"\n"+srv.getMenuType()+"\n"+srv.getMenuSimpleInfo()+"\n"+
+					srv.getRecipeInfo());
+//============================================================
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-	}
+	}//main
 
 }//class
