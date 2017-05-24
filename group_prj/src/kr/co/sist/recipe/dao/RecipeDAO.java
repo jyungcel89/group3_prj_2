@@ -15,7 +15,7 @@ public class RecipeDAO {
 		if(mem_dao==null){
 			mem_dao = new MemberDAO();
 		}//end if
-		return mem_dao;
+		return mem_dao;  
 	}//getInstance
 	
 	// 레시피 전체 조회 + 선택조회
