@@ -184,7 +184,7 @@ public class MemberDAO {
 			pstmt.setString(2, memVo.getMail());
 //			pstmt.setString(3, );
 			
-			pstmt.executeUpdate();
+			pstmt.executeUpdate(); 
 		}finally{
 		//5.¿¬°á²÷±â
 			if( pstmt != null ){ pstmt.close(); };//end if
