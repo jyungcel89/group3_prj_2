@@ -176,7 +176,8 @@ public class MemberDAO {
 			con=getConnection();
 		//3.쿼리문 생성객체 얻기
 			//로그인된 회원정보를 수정하는 쿼리문
-			String updateMember="update members set pw=?, email=? where id=?";
+			//해당 아이디를 가져오는 것 질문하기
+			String updateMember="update members set pw=?, mail=? where id=?";
 			pstmt=con.prepareStatement(updateMember);
 		//4.쿼리문 수행 후 결과 얻기
 			pstmt.setString(1, memVo.getPw());

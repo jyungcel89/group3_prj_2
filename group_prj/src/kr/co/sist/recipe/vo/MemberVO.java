@@ -1,5 +1,12 @@
 package kr.co.sist.recipe.vo;
 
+/**
+ * MemberDAO - updateMember method에서 사용<br/>
+ * 회원정보 수정 시 필요한 VO<br/>
+ * 수정 정보 ( 비밀번호pw, 이메일mail )<br/>
+ * @author JiYong
+ *
+ */
 public class MemberVO {
 
 	private String pw, mail;

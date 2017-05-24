@@ -1,5 +1,12 @@
 package kr.co.sist.recipe.vo;
 
+/**
+ * MemberDAO - selectAllMember method에서 사용<br/>
+ * 관리자가 전체 회원 목록을 조회에 필요<br/>
+ * 조회정보( id, name, mail )<br/>
+ * @author JiYong
+ *
+ */
 public class MgrMemberVO {
 
 	private String id,name,email;
