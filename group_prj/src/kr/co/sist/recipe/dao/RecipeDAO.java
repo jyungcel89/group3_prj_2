@@ -31,7 +31,7 @@ public class RecipeDAO {
 		}//end if
 		return rcp_dao; 
 	}//getInstance
-	
+	 
 	private Connection getConnection() throws SQLException{
 		Connection con=null;
 		
