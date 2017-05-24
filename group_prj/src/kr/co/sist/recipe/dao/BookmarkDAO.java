@@ -17,7 +17,7 @@ public class BookmarkDAO {
 		}
 		return book_dao;
 	}//getInstance
-	//이야 수연이 수정 잘햇네
+	//이야 수연이 수정 잘햇네! 지용마스터에서 수연칭찬 +1
 	
 	// 마이페이지 북마크리스트 조회
 	public List<BookmarkVO> searchAll(String id){
