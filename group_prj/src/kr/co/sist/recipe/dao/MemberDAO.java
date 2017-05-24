@@ -19,7 +19,7 @@ import kr.co.sist.recipe.vo.InsertMemberVO;
 import kr.co.sist.recipe.vo.LoginVO;
 import kr.co.sist.recipe.vo.MemberVO;
 import kr.co.sist.recipe.vo.MgrMemberVO;
-
+ 
 public class MemberDAO {
 
 	private static MemberDAO mem_dao;
