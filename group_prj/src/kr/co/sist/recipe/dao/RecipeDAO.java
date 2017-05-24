@@ -29,7 +29,7 @@ public class RecipeDAO {
 		if(rcp_dao==null){
 			rcp_dao = new RecipeDAO();
 		}//end if
-		return rcp_dao;
+		return rcp_dao; 
 	}//getInstance
 	
 	private Connection getConnection() throws SQLException{
