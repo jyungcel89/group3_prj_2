@@ -18,7 +18,9 @@ import javax.swing.JOptionPane;
 
 import kr.co.sist.recipe.vo.IngdntSchVO;
 import kr.co.sist.recipe.vo.IngdntVO;
+import kr.co.sist.recipe.vo.IngrdntCategVO;
 import kr.co.sist.recipe.vo.ShowIngdntVO;
+import kr.co.sist.recipe.vo.addIngrdntVO;
 
 public class IngdntDAO {
 	
@@ -121,8 +123,62 @@ public class IngdntDAO {
 	 }//selectIngdntOfRecp
 	 
 	 // 사용자, 관리자 : 레시피 추가 창에서 재료선택후 메뉴당 재료 테이블에 추가
-	 public boolean insertIngdntOfRecp(IngdntVO ingVo){
-		return false;
+	 /**
+	 * 05-25 홍승환 작성
+	 * 수정사항:레시피 추가 폼에서 내가 선택한 재료들을 요청하여 메뉴당 재료테이블에 insert를 하는 메서드 인데
+	 * 기존의 VO에선 menuName을 받아오는VO가 없어 addIngVo를 만들어 매개변수로 넣어줌
+	 */
+	public boolean insertIngdntOfRecp(addIngrdntVO addIngVo)throws SQLException{
+		 
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			boolean flag=false;
+			try {
+				con=getConnection();
+				
+			
+					con = getConnection();
+					String selectIngrdntCode ="select distinct ingredients_code "
+							+ "from RECIPE_INGREDIENTS "
+							+ "where INGREDIENT_NAME='"+addIngVo.getIngrdntName()+"'"; 
+					pstmt = con.prepareStatement(selectIngrdntCode);
+					rs = pstmt.executeQuery();
+					String result="";
+						if(rs.next()) {
+						result=rs.getString("ingredients_code");
+						addIngVo.setIngrdntCode(result);
+						} // end while
+			  System.out.println(addIngVo.getIngrdntCode());
+			  if (pstmt != null) {
+					pstmt.close();
+				} // end if
+			  
+				String insertIngrdnt="insert into RECIPE_INGREDIENTS(INGREDIENTS_CODE,INGREDIENT_NAME,MENU_NAME)"
+						+ " values(?,?,?)";
+				pstmt=con.prepareStatement(insertIngrdnt);
+			// 4.
+				pstmt.setString(1, addIngVo.getIngrdntCode());
+				pstmt.setString(2, addIngVo.getIngrdntName());
+				pstmt.setString(3, addIngVo.getMenuName());
+				
+				pstmt.executeUpdate();
+				flag=true;
+			} finally {
+			// 5.
+				
+				if (pstmt != null) {
+					pstmt.close();
+				} // end if
+
+				if (con != null) {
+					con.close();
+				} // end if
+				if (rs != null) {
+					rs.close();
+				} // end if
+			}
+		return flag;
 	 }//insertIngdntOfRecp
 	 
 	 // 관리자 : 레시피 추가 창에서 재료 수정
@@ -130,20 +186,70 @@ public class IngdntDAO {
 		return false;
 	 }//updateIngdntOfRecp
 	 
+	 
 	 // 관리자 : 레시피 추가 창에서 재료 수정
-	 public boolean deleteIngdntOfRecp(int ingdntCode){
+	 public boolean deleteIngdntOfRecp(int ingdntCode)throws SQLException{
+		 
 		 return false;
 	 }//updateIngdntOfRecp
 	 
 	 // 레시피 추가 창에서 카테고리별 재료 조회
-	 public List<ShowIngdntVO> selectIngdnt(IngdntSchVO ingSchVo){
-		return null;
+	 /**
+	  *	작성자:홍승환
+	  *	   날짜:05-25
+	  *		특이사항: 이 메서드는 원래 IngrdntSchVO를 매개변수로 받아 카테고리별 재료명,가격조회를 하기 위해 만든 메서드
+	  *		인데 매개변수의 오류가 있어 편의점브랜드,재료종류를 가진 IngrdntCategVo를 만들어 매개변수로 새로넣음
+	  */
+	public List<ShowIngdntVO> selectIngdnt(IngrdntCategVO icv)throws SQLException{
+		 List<ShowIngdntVO> list = new ArrayList<ShowIngdntVO>();
+
+			Connection con = null; 
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			try {
+				con = getConnection();
+				String selectIngrdnt ="select price,ingredient_name "
+						+ "from ingredients "
+						+ "where brand='"+icv.getBrand()+"' and type='"+icv.getIngrdntSort()+"'";
+
+				pstmt = con.prepareStatement(selectIngrdnt);
+				rs = pstmt.executeQuery();
+				
+				ShowIngdntVO siv= null;
+				while (rs.next()) {
+					siv =new ShowIngdntVO();
+					siv.setIngrdntName(rs.getString("ingredient_name"));
+					siv.setIngrdntPrice(rs.getString("price"));
+					
+					list.add(siv);
+				} // end while
+
+			} finally {
+				// 5.
+				if (rs != null) {
+					rs.close();
+				} // end if
+
+				if (pstmt != null) {
+					pstmt.close();
+				} // end if
+
+				if (con != null) {
+					con.close();
+				} // end if
+			}
+
+			return list;
 	 }//selectIngdnt
 	 public static void main(String[] args){
 		 try {
-			 IngdntVO iv= new IngdntVO();
 			 
-			System.out.println(IngdntDAO.getInstance().selectIngdntOfRecp("하태짝태").toString());
+//			System.out.println(IngdntDAO.getInstance().selectIngdntOfRecp("하태짝태").toString());
+//			 IngrdntCategVO icv=new IngrdntCategVO("GS25","과자");
+//			System.out.println(IngdntDAO.getInstance().selectIngdnt(icv));
+			addIngrdntVO iv= new addIngrdntVO("김치","하태짝태");
+			System.out.println(IngdntDAO.getInstance().insertIngdntOfRecp(iv));
 			JOptionPane.showMessageDialog(null, "굿");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
