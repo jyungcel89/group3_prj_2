@@ -11,7 +11,7 @@ package kr.co.sist.recipe.vo;
  */
 public class IngrdntCategVO {
 	private String brand,ingrdntSort;
-	
+	 
 	public IngrdntCategVO(){
 		
 	}
