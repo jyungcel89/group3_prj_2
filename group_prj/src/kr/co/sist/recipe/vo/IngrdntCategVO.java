@@ -13,7 +13,7 @@ public class IngrdntCategVO {
 	private String brand,ingrdntSort;
 	 
 	public IngrdntCategVO(){
-		
+	
 	}
 	public IngrdntCategVO(String brand,String ingrdntSort){
 		super();
