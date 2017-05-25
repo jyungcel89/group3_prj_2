@@ -63,6 +63,7 @@ public class ScoreDAO {
 //////////////////////////////////////////////////// 상품보기 팝업 - 평점주기///////////////////////////////////////////////////////////////
 	public boolean insertScore(ScoreVO sv) throws SQLException{
 		boolean result=false;
+		int flag=0;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -80,16 +81,13 @@ public class ScoreDAO {
 			pstmt.setString(2, sv.getMenuName());
 			pstmt.setInt(3, sv.getValue());
 			
-			result = pstmt.execute();
+			flag=pstmt.executeUpdate();
+			 
 
-			if(result){
-                 //원하는 결과가 나오면 transation을 완료
-                 con.commit();
+			if(flag!=0){
+                 result=true;
            }else{
-                 //update나 delete 는 예외상황보다는 원하는
-                 //결과가 나오지 않는 상황이기 때문에
-                 //else로 rollback 처리한다.
-                 con.rollback();
+                 result=false;
            }//end if
 
 			
@@ -109,9 +107,9 @@ public class ScoreDAO {
 //////////////////////////////////////////////////// 상품보기 팝업 - 평점 갱신///////////////////////////////////////////////////////////////
 	public boolean updateScore(ScoreVO sv) throws SQLException{
 		boolean result=false;
+		int flag=0;
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		
 		
 		try{
 			//1. 드라이버로딩
@@ -119,15 +117,22 @@ public class ScoreDAO {
 			con = getConnection();
 			//3. 쿼리문 생성객체 얻기
 			String updatePoint = "update score set value = ? where id = ? and menu_name = ?";
-			pstmt = con.prepareStatement(updatePoint);
+			pstmt = con.prepareStatement(updatePoint.toString());
 			//4. 쿼리수행 후 결과얻기
 				// 바인드변수에 값 설정
 			pstmt.setInt(1, sv.getValue());
 			pstmt.setString(2, sv.getId());
 			pstmt.setString(3, sv.getMenuName());
 			
-			pstmt.execute();
+			flag=pstmt.executeUpdate();
+			
+			if(flag!=0){
 				result=true;
+			}else{
+				
+				result=false;
+			}
+			
 		}finally {
 			//5.
 			if(pstmt!=null){ pstmt.close(); }
@@ -143,7 +148,7 @@ public class ScoreDAO {
 	public static void main(String[] args){
 		String id="duck";
 		String menu_name="오지 치즈 후라이";
-		int value=9;
+		int value=3;
 		
 		ScoreDAO sd = new ScoreDAO();
 		ScoreVO sv = new ScoreVO();
@@ -153,7 +158,7 @@ public class ScoreDAO {
 		sv.setValue(value);
 		
 		try {
-			System.out.println(sd.updateScore(sv));
+			System.out.println(sd.insertScore(sv));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
