@@ -15,7 +15,7 @@ import java.util.Properties;
 import javax.swing.JOptionPane;
 
 import kr.co.sist.recipe.vo.ScoreVO;
-
+ 
 public class ScoreDAO {
 
 	private static ScoreDAO score_dao;
@@ -25,7 +25,7 @@ public class ScoreDAO {
 			score_dao = new ScoreDAO();
 		}
 		return score_dao;
-	}//getInstance
+	}//getInstance 
 	
 	private Connection getConnection() throws SQLException {
 	      Connection con = null;
