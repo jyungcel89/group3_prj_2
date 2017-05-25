@@ -1,30 +1,22 @@
 package kr.co.sist.recipe.vo;
 
-public class AddRecipeVO {
-	String menuName, menuImg, menuType, menuSimpleInfo, menuDetailInfo, menuPrice;
+/**
+ * RecipeDAO의 updateRecipe메소드에서 관리자가 메뉴수정시에 값들을 저장할 때 사용
+ * @author user
+ * set img=?, food_type=?, info=?, recipe_info=? 
+ */
+public class RecipeInfoUpdateVO {
+	String menuImg, menuType, menuSimpleInfo, menuDetailInfo;
 
-	public AddRecipeVO() {
-		super();
-		// TODO Auto-generated constructor stub
+	public RecipeInfoUpdateVO() {
 	}
 
-	public AddRecipeVO(String menuName, String menuImg, String menuType, String menuSimpleInfo, String menuDetailInfo,
-			String menuPrice) {
+	public RecipeInfoUpdateVO(String menuImg, String menuType, String menuSimpleInfo, String menuDetailInfo) {
 		super();
-		this.menuName = menuName;
 		this.menuImg = menuImg;
 		this.menuType = menuType;
 		this.menuSimpleInfo = menuSimpleInfo;
 		this.menuDetailInfo = menuDetailInfo;
-		this.menuPrice = menuPrice;
-	}
-
-	public String getMenuName() {
-		return menuName;
-	}
-
-	public void setMenuName(String menuName) {
-		this.menuName = menuName;
 	}
 
 	public String getMenuImg() {
@@ -57,14 +49,6 @@ public class AddRecipeVO {
 
 	public void setMenuDetailInfo(String menuDetailInfo) {
 		this.menuDetailInfo = menuDetailInfo;
-	}
-
-	public String getMenuPrice() {
-		return menuPrice;
-	}
-
-	public void setMenuPrice(String menuPrice) {
-		this.menuPrice = menuPrice;
 	}
 	
 	
