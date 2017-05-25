@@ -81,10 +81,10 @@ public class RecipeDAO {
 		try {
 			con= getConnection();
 			
-			String SelectRecipeInfoVO=
-					"select menu_name, img, totalprice, food_type, info, recipe_info from reciperegister reg where menu_name=?";
+			String selectQuery=
+					"select menu_name, img, totalprice, food_type, info, recipe_info from reciperegister where menu_name=?";
 			
-			pstmt = con.prepareStatement(SelectRecipeInfoVO);
+			pstmt = con.prepareStatement(selectQuery);
 			pstmt.setString(1, menuName);
 			rs = pstmt.executeQuery();
 			
@@ -170,8 +170,35 @@ public class RecipeDAO {
 	}//ShowAllRecipe
 	
 	// 메인폼 - 최신메뉴
-	public List<ShowRecipeVO> showNewRecipe(){
-		return null;
+	public List<ShowRecipeVO> showNewRecipe() throws SQLException{
+		List<ShowRecipeVO> recntImgList = new ArrayList<ShowRecipeVO>();
+		Connection con= null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try{
+			con = getConnection();
+			
+			String query="select menu_name, img from reciperegister order by inputdate";
+			pstmt = con.prepareStatement(query);
+			
+			rs = pstmt.executeQuery();
+			
+			ShowRecipeVO srv = null;
+			while(rs.next()){
+				srv = new ShowRecipeVO();
+				srv.setMenuName(rs.getString("menu_name"));
+				srv.setMenuImg(rs.getString("img"));
+				
+				recntImgList.add(srv);
+			}
+		}finally {
+			if(rs!= null){ rs.close(); }
+			if(pstmt!= null){ pstmt.close(); }
+			if(con!= null){ con.close(); }
+		}
+		
+		return recntImgList;
 	}//showNewRecipe
 
 	// 관리자폼 - 모든레시피, 요청레시피 리스트 뿌리기
@@ -184,15 +211,32 @@ public class RecipeDAO {
 		try{
 			con = getConnection();
 			
+			String selectQuery=
+					"select menu_name, img, totalprice, food_type, info from reciperegister where recipe_flag=?";
+			pstmt = con.prepareStatement(selectQuery);
 			
-			pstmt = con.prepareStatement(null);
+			// flag조건에 따라서 이벤트 처리
+			pstmt.setString(1, flag);
+			rs = pstmt.executeQuery();
+			
+			MainRecipeVO mrv = null;
+			while(rs.next()){
+				mrv = new MainRecipeVO();
+				
+				mrv.setMenuName(rs.getString("menu_name"));
+				mrv.setMenuImg(rs.getString("img"));
+				mrv.setMenuPrice(rs.getString("totalprice"));
+				mrv.setMenuType(rs.getString("food_type"));
+				mrv.setMenuInfo(rs.getString("info"));
+				
+				list.add(mrv);
+			}//end while
 			
 		}finally{
 			if(rs!= null){ rs.close(); }
 			if(pstmt!= null){ pstmt.close(); }
 			if(con!= null){ con.close(); }
 		}
-		
 		return list;
 	}//recipeList
 	
@@ -232,13 +276,25 @@ public class RecipeDAO {
 //					System.out.println(tmp.toString());
 //				}//end for
 //============================================================
-			SelectRecipeInfoVO srv = new SelectRecipeInfoVO();
-			srv=md.selectOneRecipe("공화뽕");
-			
-			System.out.println(srv.getMenuName()+"\n"+srv.getMenuImg()+"\n"+
-					srv.getMenuPrice()+"\n"+srv.getMenuType()+"\n"+srv.getMenuSimpleInfo()+"\n"+
-					srv.getRecipeInfo());
+//			SelectRecipeInfoVO srv = new SelectRecipeInfoVO();
+//			srv=md.selectOneRecipe("공화뽕");
+//			
+//			System.out.println(srv.getMenuName()+"\n"+srv.getMenuImg()+"\n"+
+//					srv.getMenuPrice()+"\n"+srv.getMenuType()+"\n"+srv.getMenuSimpleInfo()+"\n"+
+//					srv.getRecipeInfo());
 //============================================================
+			
+//			List<MainRecipeVO> list;
+//			list = md.recipeList("Y");
+//			for(MainRecipeVO tmp: list){
+//				System.out.println(tmp.toString());
+//			}//end for
+//============================================================
+
+			List<ShowRecipeVO> list= md.showNewRecipe();
+			for(ShowRecipeVO tmp: list){
+				System.out.println(tmp.toString());
+			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
