@@ -80,8 +80,18 @@ public class ScoreDAO {
 			pstmt.setString(2, sv.getMenuName());
 			pstmt.setInt(3, sv.getValue());
 			
-			pstmt.executeUpdate();
-			result=true;
+			result = pstmt.execute();
+
+			if(result){
+                 //원하는 결과가 나오면 transation을 완료
+                 con.commit();
+           }else{
+                 //update나 delete 는 예외상황보다는 원하는
+                 //결과가 나오지 않는 상황이기 때문에
+                 //else로 rollback 처리한다.
+                 con.rollback();
+           }//end if
+
 			
 		}finally {
 			//5.
@@ -102,12 +112,13 @@ public class ScoreDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
+		
 		try{
 			//1. 드라이버로딩
 			//2. 커넥션 얻기
 			con = getConnection();
 			//3. 쿼리문 생성객체 얻기
-			String updatePoint = "update score set value = ? where id =? and menu_name = ?";
+			String updatePoint = "update score set value = ? where id = ? and menu_name = ?";
 			pstmt = con.prepareStatement(updatePoint);
 			//4. 쿼리수행 후 결과얻기
 				// 바인드변수에 값 설정
@@ -115,15 +126,13 @@ public class ScoreDAO {
 			pstmt.setString(2, sv.getId());
 			pstmt.setString(3, sv.getMenuName());
 			
-			pstmt.executeUpdate();
-			result=true;
-			
+			pstmt.execute();
+				result=true;
 		}finally {
 			//5.
 			if(pstmt!=null){ pstmt.close(); }
 			if(con!=null){ con.close(); }
 		}//end finally
-		System.out.println();
 		
 		return result;
 		
@@ -134,7 +143,7 @@ public class ScoreDAO {
 	public static void main(String[] args){
 		String id="duck";
 		String menu_name="오지 치즈 후라이";
-		int value=4;
+		int value=9;
 		
 		ScoreDAO sd = new ScoreDAO();
 		ScoreVO sv = new ScoreVO();
@@ -144,7 +153,7 @@ public class ScoreDAO {
 		sv.setValue(value);
 		
 		try {
-			System.out.println(sd.insertScore(sv));
+			System.out.println(sd.updateScore(sv));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
