@@ -12,6 +12,7 @@ import java.util.Properties;
 
 import javax.swing.JOptionPane;
 
+import kr.co.sist.recipe.view.ItemPreviewForm;
 import kr.co.sist.recipe.vo.ScoreVO;
 
 public class ScoreDAO {
@@ -89,7 +90,6 @@ public class ScoreDAO {
            }else{
                  result=false;
            }//end if
-
 			
 		}finally {
 			//5.
@@ -144,6 +144,19 @@ public class ScoreDAO {
 	}//updateScore
 //////////////////////////////////////////////////// 상품보기 팝업 - 평점 갱신///////////////////////////////////////////////////////////////
 	
+	
+	
+	
+	
+//////////////////////////////////////////////////// 메인폼 - 전체평점계산///////////////////////////////////////////////////////////////
+	// 연산된 값을 가지고 메인폼에 보이기 위해서는 RecipeDAO전체조회 메소드
+	// 에서 레시피테이블과 점수테이블을 gourpby(avg)조건으로 조인하는 쿼리필요
+	// 테이블에 값저장X 값을 바로 가져오는 형식
+	public double getAvg(String menuName){
+		return 0;
+	}//getAvg
+	
+//////////////////////////////////////////////////// 메인폼 - 전체평점계산///////////////////////////////////////////////////////////////
 ////////////////////단위테스트///////////////////////////////////////////	
 	public static void main(String[] args){
 		String id="duck";
@@ -158,7 +171,7 @@ public class ScoreDAO {
 		sv.setValue(value);
 		
 		try {
-			System.out.println(sd.insertScore(sv));
+			System.out.println(sd.updateScore(sv));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -167,16 +180,4 @@ public class ScoreDAO {
 	
 	
 ////////////////////단위테스트///////////////////////////////////////////	
-	
-	
-	
-	
-	// 메인폼 - 전체평점계산
-	// 연산된 값을 가지고 메인폼에 보이기 위해서는 RecipeDAO전체조회 메소드
-	// 에서 레시피테이블과 점수테이블을 gourpby(avg)조건으로 조인하는 쿼리필요
-	// 테이블에 값저장X 값을 바로 가져오는 형식
-	public double getAvg(String menuName){
-		return 0;
-	}//getAvg
-	
 }//class
