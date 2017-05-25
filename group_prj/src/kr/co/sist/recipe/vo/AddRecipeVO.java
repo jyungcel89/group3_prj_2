@@ -1,5 +1,5 @@
 package kr.co.sist.recipe.vo;
-
+ 
 public class AddRecipeVO {
 	String menuName, menuImg, menuType, menuSimpleInfo, menuDetailInfo, menuPrice;
 
