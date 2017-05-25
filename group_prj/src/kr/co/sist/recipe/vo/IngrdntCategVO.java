@@ -1,6 +1,5 @@
 package kr.co.sist.recipe.vo;
 
-<<<<<<< HEAD
 
 
 
@@ -10,8 +9,6 @@ package kr.co.sist.recipe.vo;
  * 레시피 추가창에서 재료를 검색할때 편의점 종류와 재료의 유형을 가지고 재료가 조회되기 때문임
  *
  */
-=======
->>>>>>> refs/heads/hong
 public class IngrdntCategVO {
 	private String brand,ingrdntSort;
 	
