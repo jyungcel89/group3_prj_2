@@ -38,7 +38,6 @@ public class ScoreDAO {
 	            String url = prop.getProperty("url");
 	            String id = prop.getProperty("dboid");
 	            String pass = prop.getProperty("dbopwd");
-	            System.out.println(driver);
 
 	            try {
 	               Class.forName(driver);
@@ -61,8 +60,8 @@ public class ScoreDAO {
 	   }// getConnection
 	
 	
-	///////////////////// 상품보기 팝업 - 평점주기/////////////////////
-	public boolean insertScore(String id, String menu_name, int value) throws SQLException{
+//////////////////////////////////////////////////// 상품보기 팝업 - 평점주기///////////////////////////////////////////////////////////////
+	public boolean insertScore(ScoreVO sv) throws SQLException{
 		boolean result=false;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -77,9 +76,9 @@ public class ScoreDAO {
 			//4. 쿼리수행 후 결과얻기
 				// 바인드변수에 값 설정
 			
-			pstmt.setString(1, id);
-			pstmt.setString(2, menu_name);
-			pstmt.setInt(3, value);
+			pstmt.setString(1, sv.getId());
+			pstmt.setString(2, sv.getMenuName());
+			pstmt.setInt(3, sv.getValue());
 			
 			pstmt.executeUpdate();
 			result=true;
@@ -91,26 +90,61 @@ public class ScoreDAO {
 		}//end finally
 		
 		
-		if(result){
-			System.out.println("추가되었음");
-		}else{
-			System.out.println("추가 안되었음");
-			
-		}
 		return result;
 		
 	}//insertScore
+//////////////////////////////////////////////////// 상품보기 팝업 - 평점주기///////////////////////////////////////////////////////////////
+	
+	
+//////////////////////////////////////////////////// 상품보기 팝업 - 평점 갱신///////////////////////////////////////////////////////////////
+	public boolean updateScore(ScoreVO sv) throws SQLException{
+		boolean result=false;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try{
+			//1. 드라이버로딩
+			//2. 커넥션 얻기
+			con = getConnection();
+			//3. 쿼리문 생성객체 얻기
+			String updatePoint = "update score set value = ? where id =? and menu_name = ?";
+			pstmt = con.prepareStatement(updatePoint);
+			//4. 쿼리수행 후 결과얻기
+				// 바인드변수에 값 설정
+			pstmt.setInt(1, sv.getValue());
+			pstmt.setString(2, sv.getId());
+			pstmt.setString(3, sv.getMenuName());
+			
+			pstmt.executeUpdate();
+			result=true;
+			
+		}finally {
+			//5.
+			if(pstmt!=null){ pstmt.close(); }
+			if(con!=null){ con.close(); }
+		}//end finally
+		System.out.println();
+		
+		return result;
+		
+	}//updateScore
+//////////////////////////////////////////////////// 상품보기 팝업 - 평점 갱신///////////////////////////////////////////////////////////////
 	
 ////////////////////단위테스트///////////////////////////////////////////	
 	public static void main(String[] args){
 		String id="duck";
 		String menu_name="오지 치즈 후라이";
-		int value=3;
+		int value=4;
 		
 		ScoreDAO sd = new ScoreDAO();
+		ScoreVO sv = new ScoreVO();
+		
+		sv.setId(id);
+		sv.setMenuName(menu_name);
+		sv.setValue(value);
 		
 		try {
-			sd.insertScore(id, menu_name, value);
+			System.out.println(sd.insertScore(sv));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -119,10 +153,9 @@ public class ScoreDAO {
 	
 	
 ////////////////////단위테스트///////////////////////////////////////////	
-	// 상품보기 팝업 - 평점 갱신
-	public boolean updateScore(ScoreVO scoreVo){
-		return false;
-	}//updateScore
+	
+	
+	
 	
 	// 메인폼 - 전체평점계산
 	// 연산된 값을 가지고 메인폼에 보이기 위해서는 RecipeDAO전체조회 메소드
