@@ -50,7 +50,7 @@ public class LogInForm extends JFrame {
 		setBounds(50, 50, 580, 220);
 		
 		//이벤트 추가
-		LogInFormEvt lfe=new LogInFormEvt(this);
+		LogInEvt lfe=new LogInEvt(this);
 		jbtLogIn.addActionListener(lfe);
 		jbtSignIn.addActionListener(lfe);
 		

@@ -7,12 +7,13 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
 
-import kr.co.sist.recipe.view.ItemPreviewForm;
 import kr.co.sist.recipe.vo.ScoreVO;
 
 public class ScoreDAO {
@@ -152,16 +153,65 @@ public class ScoreDAO {
 	// 연산된 값을 가지고 메인폼에 보이기 위해서는 RecipeDAO전체조회 메소드
 	// 에서 레시피테이블과 점수테이블을 gourpby(avg)조건으로 조인하는 쿼리필요
 	// 테이블에 값저장X 값을 바로 가져오는 형식
-	public double getAvg(String menuName){
-		return 0;
+	public String getAvg(String menuName) throws SQLException{
+		String result="";
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		DecimalFormat form = new DecimalFormat("#.##");// 소수점 1자리 까지만 표현하기위해 선언
+
+		try{
+		// 1.
+		// 2.
+			con = getConnection();
+		// 3.
+			String scoreAvg = "select value from score where menu_name=?";
+		// 4.
+			pstmt=con.prepareStatement(scoreAvg.toString());
+			pstmt.setString(1, menuName);
+			rs=pstmt.executeQuery();
+
+			int sum=0;
+			int cnt=0;
+				while (rs.next()) {
+				
+					sum+=rs.getInt("value");
+					cnt++;
+				} // end while
+
+				if(sum!=0){
+					double flag=0.0;
+					flag=(double)sum/cnt;
+					result=form.format(flag);										// 결과 값을 소수점 2째자리 까지 표현
+				}else{
+					result="-";														   // 초기 값은 "-" 한번도 검색이 되지 않더라도 값은 - 로 표현
+				}
+				
+		}finally{
+		// 5.
+			if (rs != null) {
+				rs.close();
+			} // end if
+
+			if (pstmt != null) {
+				pstmt.close();
+			} // end if
+
+			if (con != null) {
+				con.close();
+			} // end if
+		}
+		
+		
+		return result;
 	}//getAvg
 	
 //////////////////////////////////////////////////// 메인폼 - 전체평점계산///////////////////////////////////////////////////////////////
 ////////////////////단위테스트///////////////////////////////////////////	
-	public static void main(String[] args){
+/*	public static void main(String[] args){
 		String id="duck";
-		String menu_name="오지 치즈 후라이";
-		int value=3;
+		String menu_name="";
+		int value=5;
 		
 		ScoreDAO sd = new ScoreDAO();
 		ScoreVO sv = new ScoreVO();
@@ -171,13 +221,13 @@ public class ScoreDAO {
 		sv.setValue(value);
 		
 		try {
-			System.out.println(sd.updateScore(sv));
+			//System.out.println(sd.insertScore(sv));
+			System.out.println(sd.getAvg(menu_name));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	
-////////////////////단위테스트///////////////////////////////////////////	
+*/////////////////////단위테스트///////////////////////////////////////////	
 }//class
