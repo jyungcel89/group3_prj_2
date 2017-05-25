@@ -22,6 +22,12 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 	
 	private SignInForm sf;
 	private int flag;
+	
+	
+	public SignEvt(SignInForm sf) {
+		this.sf = sf;
+	}
+
 	// 회원가입한 멤버 넣기
 	public void addMember(/*MemberVO*/){
 		System.out.println("중복확인"+flag);

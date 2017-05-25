@@ -68,7 +68,7 @@ public class RecipeDAO {
 	}//getConnection
 	
 	/**
-	 * 하나의 레시피 정보 조회
+	 * 메인폼, 관리자폼, 마이페이지 폼 -  하나의 레시피 정보 조회
 	 * @param menuCode
 	 * @return
 	 */
@@ -110,7 +110,7 @@ public class RecipeDAO {
 	
 	// 메인폼 - 전체레시피 조회
 	/**
-	 * 전체레시피 정보 조회
+	 * 메인폼 - 전체레시피 정보 조회
 	 * 메소드명 showAllRecipe > selectAllRecipe로 변경
 	 * @return
 	 * @throws SQLException 
@@ -174,9 +174,26 @@ public class RecipeDAO {
 		return null;
 	}//showNewRecipe
 
-	// 관리자폼 - 모든레시피, 요청레시피 조회
-	public List<MainRecipeVO> recipeList(String flag){
-		return null;
+	// 관리자폼 - 모든레시피, 요청레시피 리스트 뿌리기
+	public List<MainRecipeVO> recipeList(String flag) throws SQLException{
+		List<MainRecipeVO> list = new ArrayList<MainRecipeVO>();
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try{
+			con = getConnection();
+			
+			
+			pstmt = con.prepareStatement(null);
+			
+		}finally{
+			if(rs!= null){ rs.close(); }
+			if(pstmt!= null){ pstmt.close(); }
+			if(con!= null){ con.close(); }
+		}
+		
+		return list;
 	}//recipeList
 	
 	// 관리자 - 기존메뉴 삭제
