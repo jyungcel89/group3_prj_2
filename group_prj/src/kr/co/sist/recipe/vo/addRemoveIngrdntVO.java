@@ -5,7 +5,7 @@ public class addRemoveIngrdntVO {
 	
 	public addRemoveIngrdntVO(){
 		
-	}
+	} 
 	public addRemoveIngrdntVO(String ingrdntName,String menuName){
 		super();
 		this.ingrdntName=ingrdntName;

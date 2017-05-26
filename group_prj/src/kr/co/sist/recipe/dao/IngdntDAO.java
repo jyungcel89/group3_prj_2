@@ -223,7 +223,7 @@ public class IngdntDAO {
 		         		+ " where INGREDIENT_NAME='"+removeIngVo.getIngrdntName()+"' "
 		         		+ " and MENU_NAME='"+removeIngVo.getMenuName()+"'";
 		         pstmt=con.prepareStatement(deleteIngrdnt);
-		         pstmt.executeUpdate();
+		         pstmt.executeUpdate(); 
 		         flag=true;
 		      } finally {
 		         // 5.
