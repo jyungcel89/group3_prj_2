@@ -18,14 +18,18 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import kr.co.sist.recipe.evt.MainFormEvt;
+
 @SuppressWarnings("serial")
 public class MainForm extends JFrame{
 
-	JButton jbSearch, jbFstImg, jbSecImg, jbTrdImg, jbMypage, jbClose, jbAddRecipe;
-	JTable jtRecipe;
-	DefaultTableModel dtmRecipe;
-	JCheckBox chkOne, chkTwo, chkThree, chkFour;
-	JTextField jtfSearch;	
+	private JButton jbSearch, jbFstImg, jbSecImg, jbTrdImg, jbMypage, jbClose, jbAddRecipe;
+	private JTable jtRecipe;
+	private DefaultTableModel dtmRecipe;
+	private JCheckBox chkOne, chkTwo, chkThree, chkFour;
+	private JTextField jtfSearch;	
+	private String imgPath1, imgPath2, imgPath3;
+	private JLabel menuName1, menuName2, menuName3;
 	
 	public MainForm() {
 		super("홍홍홍의 편의점 레시피");
@@ -36,13 +40,15 @@ public class MainForm extends JFrame{
 		// 등록된 레시피 이미지
 		JLabel jlRecent = new JLabel("최근 레시피");
 		jlRecent.setFont(new Font("", Font.BOLD, 15));
+		MainFormEvt mfe= new MainFormEvt(this);
 		
 		JPanel jpRcntRecipe = new JPanel();
 		jpRcntRecipe.setBackground(new Color(255, 255, 255, 130));
-		jbFstImg = new JButton("메뉴이름",new ImageIcon("C:/dev/workspace/group_prj/src/kr/co/sist/recipe/img/m1_l4.gif"));
-		jbSecImg = new JButton("메뉴이름");
-		jbTrdImg = new JButton("메뉴이름");
-		
+		jbFstImg = new JButton(new ImageIcon(imgPath1));
+		jbSecImg = new JButton(new ImageIcon(imgPath2));
+		jbTrdImg = new JButton(new ImageIcon(imgPath3));
+		System.out.println(imgPath3);
+
 		// 검색조건
 		JLabel jlSearch = new JLabel("검색 조건");
 		jlSearch.setFont(new Font("맑은고딕", Font.BOLD, 15));
@@ -57,10 +63,10 @@ public class MainForm extends JFrame{
 		};
 		jpSrchOption.setOpaque(false);
 		jpSrchOption.setBackground(new Color(255, 255, 255, 130));
-		chkOne = new JCheckBox("첫번째");
-		chkTwo = new JCheckBox("두번째");
-		chkThree = new JCheckBox("세번째");
-		chkFour = new JCheckBox("네번째");
+		chkOne = new JCheckBox("안주류");
+		chkTwo = new JCheckBox("식사류");
+		chkThree = new JCheckBox("디저트");
+		chkFour = new JCheckBox("분식류");
 		jtfSearch = new JTextField();
 		jbSearch = new JButton("검 색");
 		chkOne.setOpaque(false);
@@ -102,8 +108,8 @@ public class MainForm extends JFrame{
 		jbClose.setBounds(730, 10, 100, 30);
 		
 		// 테이블
-		String[] columnName = {"이미지", "메뉴이름", "총가격", "소개"};
-		String[][] rowData = {{"jpg","딘나맛있맨","4000","맛있어"}};
+		String[] columnName = {"메뉴이름", "이미지", "메뉴타입", "간단소개","가격"};
+		String[][] rowData = {{"딘나맛있","jpg","분식류", "맛나", "4000"}};
 		// 테이블 수정 막기
 		dtmRecipe = new DefaultTableModel(rowData, columnName){
 			@Override
@@ -150,7 +156,15 @@ public class MainForm extends JFrame{
 		add(jspTab);
 		add(jpFootBtns);
 		
+		// 이벤트 적용
+	
+		chkOne.addItemListener(mfe);
+		chkTwo.addItemListener(mfe);
+		chkThree.addItemListener(mfe);
+		chkFour.addItemListener(mfe);
+		jbSearch.addActionListener(mfe);
 		
+		// 부모창
 		setBounds(10, 10, 880, 770);
 		setVisible(true);
 		setResizable(false);
@@ -158,6 +172,242 @@ public class MainForm extends JFrame{
 		
 	}//MainForm
 	
+	
+	
+	//////////////////////////////////////////////////////////////////////
+	public JButton getJbSearch() {
+		return jbSearch;
+	}
+
+
+
+
+	public void setJbSearch(JButton jbSearch) {
+		this.jbSearch = jbSearch;
+	}
+
+
+
+
+	public JButton getJbFstImg() {
+		return jbFstImg;
+	}
+
+
+
+
+	public void setJbFstImg(JButton jbFstImg) {
+		this.jbFstImg = jbFstImg;
+	}
+
+
+
+
+	public JButton getJbSecImg() {
+		return jbSecImg;
+	}
+
+
+
+
+	public void setJbSecImg(JButton jbSecImg) {
+		this.jbSecImg = jbSecImg;
+	}
+
+
+
+
+	public JButton getJbTrdImg() {
+		return jbTrdImg;
+	}
+
+
+
+
+	public void setJbTrdImg(JButton jbTrdImg) {
+		this.jbTrdImg = jbTrdImg;
+	}
+
+
+
+
+	public JButton getJbMypage() {
+		return jbMypage;
+	}
+
+
+
+
+	public void setJbMypage(JButton jbMypage) {
+		this.jbMypage = jbMypage;
+	}
+
+
+
+
+	public JButton getJbClose() {
+		return jbClose;
+	}
+
+
+
+
+	public void setJbClose(JButton jbClose) {
+		this.jbClose = jbClose;
+	}
+
+
+
+
+	public JButton getJbAddRecipe() {
+		return jbAddRecipe;
+	}
+
+
+
+
+	public void setJbAddRecipe(JButton jbAddRecipe) {
+		this.jbAddRecipe = jbAddRecipe;
+	}
+
+
+
+
+	public JTable getJtRecipe() {
+		return jtRecipe;
+	}
+
+
+
+
+	public void setJtRecipe(JTable jtRecipe) {
+		this.jtRecipe = jtRecipe;
+	}
+
+
+
+
+	public DefaultTableModel getDtmRecipe() {
+		return dtmRecipe;
+	}
+
+
+
+
+	public void setDtmRecipe(DefaultTableModel dtmRecipe) {
+		this.dtmRecipe = dtmRecipe;
+	}
+
+
+
+
+	public JCheckBox getChkOne() {
+		return chkOne;
+	}
+
+
+
+
+	public void setChkOne(JCheckBox chkOne) {
+		this.chkOne = chkOne;
+	}
+
+
+
+
+	public JCheckBox getChkTwo() {
+		return chkTwo;
+	}
+
+
+
+
+	public void setChkTwo(JCheckBox chkTwo) {
+		this.chkTwo = chkTwo;
+	}
+
+
+
+
+	public JCheckBox getChkThree() {
+		return chkThree;
+	}
+
+
+
+
+	public void setChkThree(JCheckBox chkThree) {
+		this.chkThree = chkThree;
+	}
+
+
+
+
+	public JCheckBox getChkFour() {
+		return chkFour;
+	}
+
+
+
+
+	public void setChkFour(JCheckBox chkFour) {
+		this.chkFour = chkFour;
+	}
+
+
+
+
+	public JTextField getJtfSearch() {
+		return jtfSearch;
+	}
+
+
+
+
+	public void setJtfSearch(JTextField jtfSearch) {
+		this.jtfSearch = jtfSearch;
+	}
+
+	
+
+
+
+	public String getImgPath1() {
+		return imgPath1;
+	}
+
+
+
+	public void setImgPath1(String imgPath1) {
+		this.imgPath1 = imgPath1;
+	}
+
+
+
+	public String getImgPath2() {
+		return imgPath2;
+	}
+
+
+
+	public void setImgPath2(String imgPath2) {
+		this.imgPath2 = imgPath2;
+	}
+
+
+
+	public String getImgPath3() {
+		return imgPath3;
+	}
+
+
+
+	public void setImgPath3(String imgPath3) {
+		this.imgPath3 = imgPath3;
+	}
+
+
+
 	public static void main(String[] args) {
 		new MainForm();
 	}//main

@@ -28,7 +28,11 @@ public class RecipeDAO {
 
 	private static RecipeDAO rcp_dao;
 	
-	static RecipeDAO getInstance(){
+	private RecipeDAO(){
+		
+	}
+	
+	public static RecipeDAO getInstance(){
 		if(rcp_dao==null){
 			rcp_dao = new RecipeDAO();
 		}//end if
@@ -47,6 +51,7 @@ public class RecipeDAO {
 				String url= prop.getProperty("url");
 				String id= prop.getProperty("dboid");
 				String pass= prop.getProperty("dbopwd");
+				
 				
 				// 드라이버 연동
 				try {
@@ -115,7 +120,7 @@ public class RecipeDAO {
 	 * @return
 	 * @throws SQLException 
 	 */
-	public List<MainRecipeVO> selectAllRecipe(MenuTypeVO mtv) throws SQLException{
+	public List<MainRecipeVO> selectAllRecipe(MenuTypeVO mtv, String srchText) throws SQLException{
 		List<MainRecipeVO> recpList = new ArrayList<MainRecipeVO>();
 		Connection con=null;
 		PreparedStatement pstmt= null;
@@ -128,25 +133,47 @@ public class RecipeDAO {
 			// 검색조건이 비어있으면 전체 검색
 			StringBuilder sbSelectRecipe = new StringBuilder();
 			sbSelectRecipe.append("select menu_name, img, food_type, info, totalprice from reciperegister");
-			
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			if(mtv.getAnju().equals("") && mtv.getBunsik().equals("") && mtv.getDessert().equals("") && mtv.getMeal().equals("")){
-				System.out.println("객체가 비어있음");
-				pstmt= con.prepareStatement(sbSelectRecipe.toString());
-				rs=pstmt.executeQuery();
+				// 검색창에 입력한 값이 비어있지 않다면 값을 포함하여 검색
+				if(!srchText.equals("")){
+					sbSelectRecipe.append(" where like '%'||?||'%'");
+					pstmt= con.prepareStatement(sbSelectRecipe.toString());
+					pstmt.setString(1, srchText);
+					rs=pstmt.executeQuery();
+				}else{
+					pstmt= con.prepareStatement(sbSelectRecipe.toString());
+					rs=pstmt.executeQuery();
+				}//end else
 			}else{
-				System.out.println("객체가 있음");
-				sbSelectRecipe.append(" where food_type in(?,?,?,?)");
-				pstmt= con.prepareStatement(sbSelectRecipe.toString());
-				
-				// 조건이 있을 때
-				pstmt.setString(1, mtv.getAnju());
-				pstmt.setString(2, mtv.getMeal());
-				pstmt.setString(3, mtv.getDessert());
-				pstmt.setString(4, mtv.getBunsik()); 
-				
-				rs=pstmt.executeQuery();
+				//검색조건이 있으면 타입을 체크한거만 검색
+				if(!srchText.equals("")){
+					// 타입이 체크되어있고 검색창이 비어있지 않을때 
+					sbSelectRecipe.append(" where like '%'||?||'%' and food_type in(?,?,?,?)");
+					pstmt= con.prepareStatement(sbSelectRecipe.toString());
+					pstmt.setString(1, srchText);
+					
+					pstmt.setString(2, mtv.getAnju());
+					pstmt.setString(3, mtv.getMeal());
+					pstmt.setString(4, mtv.getDessert());
+					pstmt.setString(5, mtv.getBunsik()); 
+					
+					rs=pstmt.executeQuery();
+				}else{
+					
+					sbSelectRecipe.append(" where food_type in(?,?,?,?)");
+					pstmt= con.prepareStatement(sbSelectRecipe.toString());
+					
+					// 조건이 있을 때
+					pstmt.setString(1, mtv.getAnju());
+					pstmt.setString(2, mtv.getMeal());
+					pstmt.setString(3, mtv.getDessert());
+					pstmt.setString(4, mtv.getBunsik()); 
+					
+					rs=pstmt.executeQuery();
+				}//end else
 			}//end else
-			
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			
 			MainRecipeVO mrv = null;
 			while(rs.next()){
