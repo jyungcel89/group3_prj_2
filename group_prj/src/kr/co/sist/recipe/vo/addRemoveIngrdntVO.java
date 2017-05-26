@@ -1,12 +1,12 @@
 package kr.co.sist.recipe.vo;
 
-public class addIngrdntVO {
+public class addRemoveIngrdntVO {
 	private String ingrdntName,menuName,ingrdntCode;
 	
-	public addIngrdntVO(){
+	public addRemoveIngrdntVO(){
 		
-	}
-	public addIngrdntVO(String ingrdntName,String menuName){
+	} 
+	public addRemoveIngrdntVO(String ingrdntName,String menuName){
 		super();
 		this.ingrdntName=ingrdntName;
 		this.menuName=menuName;
