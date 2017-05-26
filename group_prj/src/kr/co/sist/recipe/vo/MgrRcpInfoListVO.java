@@ -3,7 +3,7 @@ package kr.co.sist.recipe.vo;
 /**
  * 관리자폼에서 리스트에 뿌려줄 정보를 가져오는 VO
  * @author user
- *
+ * 
  */
 public class MgrRcpInfoListVO {
 	String menuName, menuImg, menuPrice, menuSimpleInfo, menuType, flag;

@@ -22,6 +22,19 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 	
 	private SignInForm sf;
 	private int flag;
+	
+<<<<<<< HEAD
+	public SignEvt(SignInForm sf){
+		this.sf=sf;
+	}
+	
+=======
+	
+	public SignEvt(SignInForm sf) {
+		this.sf = sf;
+	}
+
+>>>>>>> branch 'master' of https://github.com/jyungcel89/group3_prj_2.git
 	// 회원가입한 멤버 넣기
 	public void addMember(/*MemberVO*/){
 		System.out.println("중복확인"+flag);

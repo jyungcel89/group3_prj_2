@@ -50,9 +50,15 @@ public class LogInForm extends JFrame {
 		setBounds(50, 50, 580, 220);
 		
 		//이벤트 추가
-		LogInFormEvt lfe=new LogInFormEvt(this);
+<<<<<<< HEAD
+		LogInEvt le=new LogInEvt(this);
+		jbtLogIn.addActionListener(le);
+		jbtSignIn.addActionListener(le);
+=======
+		LogInEvt lfe=new LogInEvt(this);
 		jbtLogIn.addActionListener(lfe);
 		jbtSignIn.addActionListener(lfe);
+>>>>>>> branch 'master' of https://github.com/jyungcel89/group3_prj_2.git
 		
 		//배치
 		add(jlblLogo);

@@ -20,6 +20,7 @@ import kr.co.sist.recipe.vo.IngredientOfRecipeVO;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MenuTypeVO;
 import kr.co.sist.recipe.vo.MgrRcpInfoListVO;
+import kr.co.sist.recipe.vo.RecipeInfoUpdateVO;
 import kr.co.sist.recipe.vo.SelectRecipeInfoVO;
 import kr.co.sist.recipe.vo.ShowRecipeVO;
 
@@ -68,7 +69,7 @@ public class RecipeDAO {
 	}//getConnection
 	
 	/**
-	 * 하나의 레시피 정보 조회
+	 * 메인폼, 관리자폼, 마이페이지 폼 -  하나의 레시피 정보 조회
 	 * @param menuCode
 	 * @return
 	 */
@@ -81,10 +82,10 @@ public class RecipeDAO {
 		try {
 			con= getConnection();
 			
-			String SelectRecipeInfoVO=
-					"select menu_name, img, totalprice, food_type, info, recipe_info from reciperegister reg where menu_name=?";
+			String selectQuery=
+					"select menu_name, img, totalprice, food_type, info, recipe_info from reciperegister where menu_name=?";
 			
-			pstmt = con.prepareStatement(SelectRecipeInfoVO);
+			pstmt = con.prepareStatement(selectQuery);
 			pstmt.setString(1, menuName);
 			rs = pstmt.executeQuery();
 			
@@ -108,9 +109,8 @@ public class RecipeDAO {
 		
 	}//selectOneRecipe
 	
-	// 메인폼 - 전체레시피 조회
 	/**
-	 * 전체레시피 정보 조회
+	 * 메인폼 - 전체레시피 정보 조회
 	 * 메소드명 showAllRecipe > selectAllRecipe로 변경
 	 * @return
 	 * @throws SQLException 
@@ -169,41 +169,216 @@ public class RecipeDAO {
 		return recpList;
 	}//ShowAllRecipe
 	
-	// 메인폼 - 최신메뉴
-	public List<ShowRecipeVO> showNewRecipe(){
-		return null;
+	/**
+	 * 메인폼 - 최신메뉴 리스트 이름, 이미지 정보
+	 * @return List<ShowRecipeVO>
+	 * @throws SQLException
+	 */
+	public List<ShowRecipeVO> showNewRecipe() throws SQLException{
+		List<ShowRecipeVO> recntImgList = new ArrayList<ShowRecipeVO>();
+		Connection con= null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try{
+			con = getConnection();
+			
+			// 등록날짜 기준으로 정렬
+			String query="select menu_name, img from reciperegister order by inputdate";
+			pstmt = con.prepareStatement(query);
+			
+			rs = pstmt.executeQuery();
+			
+			ShowRecipeVO srv = null;
+			while(rs.next()){
+				srv = new ShowRecipeVO();
+				srv.setMenuName(rs.getString("menu_name"));
+				srv.setMenuImg(rs.getString("img"));
+				
+				recntImgList.add(srv);
+			}
+		}finally {
+			if(rs!= null){ rs.close(); }
+			if(pstmt!= null){ pstmt.close(); }
+			if(con!= null){ con.close(); }
+		}//finally
+		
+		return recntImgList;
 	}//showNewRecipe
 
-	// 관리자폼 - 모든레시피, 요청레시피 조회
-	public List<MainRecipeVO> recipeList(String flag){
-		return null;
+	/**
+	 * 관리자폼 - flag="Y" 일 때 모든레시피, flag="N" 일 때 요청레시피 테이블의 리스트정보 
+	 * @param flag
+	 * @return List<MainRecipeVO>
+	 * @throws SQLException
+	 */
+	public List<MainRecipeVO> recipeList(String flag) throws SQLException{
+		List<MainRecipeVO> list = new ArrayList<MainRecipeVO>();
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try{
+			con = getConnection();
+			
+			String selectQuery=
+					"select menu_name, img, totalprice, food_type, info from reciperegister where recipe_flag=?";
+			pstmt = con.prepareStatement(selectQuery);
+			
+			// 바인드 변수 flag조건에 따라서 이벤트 처리
+			pstmt.setString(1, flag);
+			rs = pstmt.executeQuery();
+			
+			MainRecipeVO mrv = null;
+			while(rs.next()){
+				mrv = new MainRecipeVO();
+				
+				mrv.setMenuName(rs.getString("menu_name"));
+				mrv.setMenuImg(rs.getString("img"));
+				mrv.setMenuPrice(rs.getString("totalprice"));
+				mrv.setMenuType(rs.getString("food_type"));
+				mrv.setMenuInfo(rs.getString("info"));
+				
+				list.add(mrv);
+			}//end while
+			
+		}finally{
+			if(rs!= null){ rs.close(); }
+			if(pstmt!= null){ pstmt.close(); }
+			if(con!= null){ con.close(); }
+		}
+		return list;
 	}//recipeList
 	
-	// 관리자 - 기존메뉴 삭제
-	public boolean deleteRecipe(String menuName){
-		return false;
+	/**
+	 * 관리자 - 기존메뉴 삭제
+	 * @param menuName
+	 * @return boolean
+	 */
+	public boolean deleteRecipe(String menuName) throws SQLException{
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		
+		try{
+			con = getConnection();
+			
+			String query="delete from reciperegister where menu_name=?";
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, menuName);
+			
+			pstmt.executeUpdate();
+		}finally {
+			if(pstmt!= null){ pstmt.close(); }
+			if(con!= null){ con.close(); }
+		}//end finally
+		
+		return true;
 	}//deleteRecipe
 	
+	
 	/**
-	 * 회원 - 레시피 승인요청
-	 * 메소드명 insertRecipe > requestRecipe으로 변경
+	 * 회원 - 레시피 승인요청버튼을 누르면 테이블에 flag가 N인 상태로 추가
+	 * 
+	 * ---------------------------------변경사항----------------------------------------
+	 * 메소드명 requestRecipe > insertRecipe으로 변경
+	 * 매개변수 id 추가
 	 * @param addVo(AddRecipeVO) : String menuName, menuImg, menuInfo, menuType, id
 	 * 						  					 Date inputDate
-	 * @return
+	 * @return boolean
 	 */
-	public boolean requestRecipe(AddRecipeVO addVo){
-		return false;
+	public boolean insertRecipe(AddRecipeVO addVo, String id) throws SQLException{
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		
+		try{
+			con = getConnection();
+			
+			String query="insert into reciperegister values(?, ?, ?, ?, ?, ?, ?, sysdate, 'N')";
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, addVo.getMenuName());
+			pstmt.setString(2, addVo.getMenuImg());
+			pstmt.setString(3, addVo.getMenuType());
+			pstmt.setString(4, addVo.getMenuSimpleInfo());
+			pstmt.setString(5, addVo.getMenuDetailInfo());
+			pstmt.setString(6, addVo.getMenuPrice());
+			pstmt.setString(7, id);	//id는 mainForm에서 로그인한 id를 가져옴
+			
+			pstmt.executeUpdate();
+		}finally {
+			if(pstmt!= null){ pstmt.close(); }
+			if(con!= null){ con.close(); }
+		}//end finally
+		
+		return true;
 	}//insertRecipe
 	
-	// 관리자 - 기존메뉴수정
-	public boolean updateRecipe(AddRecipeVO addVo){
-		return false;
+	
+	
+	/**
+	 * 관리자폼에서 기존메뉴를 수정하면 정보가 업데이트
+	 * 원레있던 메뉴이름을 가져와 바꾼다.
+	 * 관리자는 메뉴이름은 변경불가.
+	 * 
+	 * ---------------------------------변경사항----------------------------------------
+	 * 매개변수를 AddRecipeVO addVo > String menuName으로 변경
+	 * @param addVo
+	 * @return
+	 */
+	public boolean updateRecipe(RecipeInfoUpdateVO updateVo, String menuName) throws SQLException{
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		
+		try{
+			con = getConnection();
+			
+			String query="update reciperegister set img=?, food_type=?, info=?, recipe_info=? where menu_name=?";
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, updateVo.getMenuImg());
+			pstmt.setString(2, updateVo.getMenuType());
+			pstmt.setString(3, updateVo.getMenuSimpleInfo());
+			pstmt.setString(4, updateVo.getMenuDetailInfo());
+			pstmt.setString(5, menuName);
+			
+			pstmt.executeUpdate();
+		}finally {
+			if(pstmt!= null){ pstmt.close(); }
+			if(con!= null){ con.close(); }
+		}//end finally
+		
+		return true;
 	}//updateRecipe
 	
-	// 관리자 - 레시피요청 승인
-	public boolean insertRecipe(String menuCode){
-		return false;
-	}//confirmRecipe
+
+	/**
+	 * 관리자폼 - 승인처리> reciperegister테이블의 flag컬럼을 "Y"로 변경해준다.
+	 * ---------------------------------변경사항----------------------------------------
+	 * 메소드명 insertRecipe > updateFlag 로 변경
+	 * @param menuCode
+	 * @return
+	 */
+	public boolean updateFlag(String menuName) throws SQLException{
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		
+		try{
+			con = getConnection();
+			
+			String query="update reciperegister set recipe_flag='Y' where menu_name=?";
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, menuName);
+			
+			pstmt.executeUpdate();
+		}finally {
+			if(pstmt!= null){ pstmt.close(); }
+			if(con!= null){ con.close(); }
+		}//end finally
+		
+		return true;
+	}//confirmRecipe 
 	
 	public static void main(String[] args){
 		RecipeDAO md= RecipeDAO.getInstance();
@@ -215,14 +390,44 @@ public class RecipeDAO {
 //					System.out.println(tmp.toString());
 //				}//end for
 //============================================================
-			SelectRecipeInfoVO srv = new SelectRecipeInfoVO();
-			srv=md.selectOneRecipe("공화뽕");
-			
-			System.out.println(srv.getMenuName()+"\n"+srv.getMenuImg()+"\n"+
-					srv.getMenuPrice()+"\n"+srv.getMenuType()+"\n"+srv.getMenuSimpleInfo()+"\n"+
-					srv.getRecipeInfo());
+//			SelectRecipeInfoVO srv = new SelectRecipeInfoVO();
+//			srv=md.selectOneRecipe("공화뽕");
+//			
+//			System.out.println(srv.getMenuName()+"\n"+srv.getMenuImg()+"\n"+
+//					srv.getMenuPrice()+"\n"+srv.getMenuType()+"\n"+srv.getMenuSimpleInfo()+"\n"+
+//					srv.getRecipeInfo());
 //============================================================
 			
+//			List<MainRecipeVO> list;
+//			list = md.recipeList("Y");
+//			for(MainRecipeVO tmp: list){
+//				System.out.println(tmp.toString());
+//			}//end for
+//============================================================
+
+//			List<ShowRecipeVO> list= md.showNewRecipe();
+//			for(ShowRecipeVO tmp: list){
+//				System.out.println(tmp.toString());
+//			}
+
+//============================================================
+//			AddRecipeVO arv = new AddRecipeVO("추가된당", "img", "안주류", "된당된당", "된당된당 자세한 정보", "5000");
+//			md.insertRecipe(arv, "mgr");
+//			System.out.println("메뉴추가성공");
+//============================================================
+			
+//			md.updateFlag("추가된당");
+//			System.out.println("업데이트 성공");
+//============================================================
+//============================================================
+			
+//			RecipeInfoUpdateVO riuv = new RecipeInfoUpdateVO("바뀐이미지", "바뀐타입", "바뀜", "바뀜");
+//			md.updateRecipe(riuv, "추가된당");
+//			System.out.println("성공");
+//============================================================
+
+			md.deleteRecipe("추가된당");
+			System.out.println("제거성공");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
