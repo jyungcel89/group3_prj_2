@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
@@ -182,23 +183,46 @@ public class IngdntDAO {
 	 }//insertIngdntOfRecp
 	 
 	 // 관리자 : 레시피 추가 창에서 재료 수정
-	 public boolean updateIngdntOfRecp(IngdntVO ingVo){
-		return false;
-	 }//updateIngdntOfRecp
+//	 public boolean updateIngdntOfRecp(IngdntVO ingVo){
+//		
+//			Connection con=null;
+//			PreparedStatement pstmt = null;
+//			try{
+//				con = getConnection();
+//				String query="update reciperegister set img=?, food_type=?, info=?, recipe_info=? where menu_name=?";
+//				pstmt = con.prepareStatement(query);
+//				pstmt.setString(1, updateVo.getMenuImg());
+//				pstmt.setString(2, updateVo.getMenuType());
+//				pstmt.setString(3, updateVo.getMenuSimpleInfo());
+//				pstmt.setString(4, updateVo.getMenuDetailInfo());
+//				pstmt.setString(5, menuName);
+//				
+//				pstmt.executeUpdate();
+//			}finally {
+//				if(pstmt!= null){ pstmt.close(); }
+//				if(con!= null){ con.close(); }
+//			}//end finally
+//		 return false;
+//	 }//updateIngdntOfRecp
 	 
 	 
 	 // 관리자 : 레시피 추가 창에서 재료 수정
-	 public boolean deleteIngdntOfRecp(addRemoveIngrdntVO removeIngVo)throws SQLException{
+	 /**
+	 *  05-26 홍승환 코드 작성
+	 * 	 수정사항: 관리자창에서 재료를 클릭 후 삭제를 하기 위하 메소드로 기존에 재료코드를 받아와 재료코드를 가지고 삭제되도록
+	 *  했지만 그렇게 하지 않고 재료명,메뉴이름이 들어 있는 addRemoveIngrdntVO를 만들어 매개변수로 받게함
+	 *  재료명,메뉴명이 2개가 묶이면 식별이 가능하기 때문에 잠을잤음...zzzzzzzzzz
+	 */
+	public boolean deleteIngdntOfRecp(addRemoveIngrdntVO removeIngVo)throws SQLException{
 		      Connection con = null;
 		      PreparedStatement pstmt = null;
 		      boolean flag=false;
 		      try {
 		         con = getConnection();
 		         String deleteIngrdnt="delete from RECIPE_INGREDIENTS "
-		         		+ "where INGREDIENT_NAME='"+removeIngVo.getIngrdntName()+"' "
-		         		+ "and MENU_NAME='"+removeIngVo.getMenuName()+"'";
+		         		+ " where INGREDIENT_NAME='"+removeIngVo.getIngrdntName()+"' "
+		         		+ " and MENU_NAME='"+removeIngVo.getMenuName()+"'";
 		         pstmt=con.prepareStatement(deleteIngrdnt);
-		         // 4.
 		         pstmt.executeUpdate();
 		         flag=true;
 		      } finally {
@@ -210,7 +234,6 @@ public class IngdntDAO {
 		            con.close();
 		         }
 		      } // end finally
-
 		 return flag;
 	 }//updateIngdntOfRecp
 	 
@@ -267,11 +290,11 @@ public class IngdntDAO {
 		 //			System.out.println(IngdntDAO.getInstance().selectIngdntOfRecp("하태짝태").toString());
 		//			 IngrdntCategVO icv=new IngrdntCategVO("GS25","과자");
 		//			System.out.println(IngdntDAO.getInstance().selectIngdnt(icv));
-					addRemoveIngrdntVO iv= new addRemoveIngrdntVO("김치","하태짝태");
-//					System.out.println(IngdntDAO.getInstance().insertIngdntOfRecp(iv));
-					
+		 //					System.out.println(IngdntDAO.getInstance().deleteIngdntOfRecp(iv));
 					 try {
+						 addRemoveIngrdntVO iv= new addRemoveIngrdntVO("김치","하태짝태");
 						System.out.println(IngdntDAO.getInstance().deleteIngdntOfRecp(iv));
+//						 System.out.println(IngdntDAO.getInstance().insertIngdntOfRecp(iv));
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						JOptionPane.showMessageDialog(null, "안댐;");
