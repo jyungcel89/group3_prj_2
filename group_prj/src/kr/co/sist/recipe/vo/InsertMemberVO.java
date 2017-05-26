@@ -2,17 +2,17 @@ package kr.co.sist.recipe.vo;
 
 public class InsertMemberVO {
 
-	private String id,pw,name,email;
+	private String id,pw,name,mail;
 	
 	public InsertMemberVO() {
 	}//InsertMemberVO
 
-	public InsertMemberVO(String id, String pw, String name, String email) {
+	public InsertMemberVO(String id, String pw, String name, String mail) {
 		super();
 		this.id = id;
 		this.pw = pw;
 		this.name = name;
-		this.email = email;
+		this.mail = mail;
 	}
 
 	public String getId() {
@@ -39,12 +39,12 @@ public class InsertMemberVO {
 		this.name = name;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getMail() {
+		return mail;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 	
 	

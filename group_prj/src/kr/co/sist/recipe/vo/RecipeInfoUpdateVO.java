@@ -1,5 +1,5 @@
 package kr.co.sist.recipe.vo;
-
+ 
 /**
  * RecipeDAO의 updateRecipe메소드에서 관리자가 메뉴수정시에 값들을 저장할 때 사용
  * @author user

@@ -405,7 +405,7 @@ public class RecipeDAO {
 		}//end finally
 		
 		return true;
-	}//confirmRecipe
+	}//confirmRecipe 
 	
 	public static void main(String[] args){
 		RecipeDAO md= RecipeDAO.getInstance();
