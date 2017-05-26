@@ -35,6 +35,11 @@ public class LoginVO {
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
+
+	@Override
+	public String toString() {
+		return "LoginVO [id=" + id + ", pw=" + pw + "]";
+	}
 	
 	
 }

@@ -38,7 +38,7 @@ public class MemberDAO {
 		Properties prop=new Properties();
 		try{
 			//파일 경로 확인하고 수정할 것!
-			File file=new File("C:/dev/workspace/group_prj/src/kr/co/sist/recipe/dao/member_db.properties");
+			File file=new File("C:/dev/git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
 			
 			if( file.exists() ){
 				prop.load(new FileInputStream(file));
@@ -67,9 +67,43 @@ public class MemberDAO {
 		return con;
 	}//getConnection
 	
-	// 마이페이지 정보
-	public MemberVO selectOneMember(String id){
-		return null;
+	/**
+	 * 회원 상세정보 조회 - 회원가입/수정창
+	 * 수정사항
+	 * 1.MemberVO > MgrMemeberVO (id,name,mail)
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public MgrMemberVO selectOneMember(String id) throws SQLException{
+		MgrMemberVO mmv=new MgrMemberVO();
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		try{
+		//1.드라이버로딩
+		//2.Connection 얻기
+			con=getConnection();
+		//3.쿼리 생성객체 얻기
+			String selectOneMember=
+					"select id, name, mail from members where id=?";
+			pstmt=con.prepareStatement(selectOneMember);
+			pstmt.setString(1, id);
+		//4.쿼리수행 후 결과 얻기
+			rs=pstmt.executeQuery();
+			while( rs.next() ){
+				mmv.setId(rs.getString("id"));
+				mmv.setName(rs.getString("name"));
+				mmv.setEmail(rs.getString("mail"));
+			}
+		}finally{
+			//5.연결끊기
+			if( rs != null ){ rs.close(); };//end if
+			if( pstmt !=null ){ pstmt.close(); };//end if
+			if( con != null ){ con.close(); };//end if
+		}
+		return mmv;
 	}//selectOneMember
 	
 	/**
@@ -91,7 +125,7 @@ public class MemberDAO {
 			con=getConnection();
 		//3.쿼리문 생성객체 얻기
 			String selectAllMember=
-					"select id,name,email from members";
+					"select id,name,mail from members";
 			pstmt=con.prepareStatement(selectAllMember);
 		//4.쿼리수행 후 결과 얻기
 			rs=pstmt.executeQuery();
@@ -100,7 +134,7 @@ public class MemberDAO {
 				mmv=new MgrMemberVO();
 				mmv.setId(rs.getString("id"));
 				mmv.setName(rs.getString("name"));
-				mmv.setEmail(rs.getString("email"));
+				mmv.setEmail(rs.getString("mail"));
 				
 				mgrMemberList.add(mmv);
 			}//end while
@@ -134,14 +168,14 @@ public class MemberDAO {
 		//3.쿼리문 생성객체 얻기
 			//회원가입시 정보를 members 테이블에 추가하는 쿼리문  
 			String insertMember=
-					"insert into members (id,pw,name,email) values (?,?,?,?)";
+					"insert into members (id,pw,name,mail) values (?,?,?,?)";
 			pstmt=con.prepareStatement(insertMember);
 		//4.쿼리문 수행 후 결과 얻기
 			//바인딩.set자료형(컬럼, 들어갈 데이터)
 			pstmt.setString(1, imemVo.getId());
 			pstmt.setString(2, imemVo.getPw());
 			pstmt.setString(3, imemVo.getName());
-			pstmt.setString(4, imemVo.getEmail());
+			pstmt.setString(4, imemVo.getMail());
 			
 			pstmt.executeUpdate();
 		}finally{
@@ -167,7 +201,7 @@ public class MemberDAO {
 	 * @param memVo
 	 * @throws SQLException
 	 */
-	public void updateMember(MemberVO memVo) throws SQLException{
+	public void updateMember(MemberVO memVo, String id) throws SQLException{
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		try{
@@ -182,7 +216,7 @@ public class MemberDAO {
 		//4.쿼리문 수행 후 결과 얻기
 			pstmt.setString(1, memVo.getPw());
 			pstmt.setString(2, memVo.getMail());
-//			pstmt.setString(3, );
+			pstmt.setString(3, id);
 			
 			pstmt.executeUpdate(); 
 		}finally{
@@ -193,14 +227,122 @@ public class MemberDAO {
 	}//updateMember
 	
 	// 아이디 중복확인
-	public boolean checkId(String id){
-		return false;
+	/**
+	 * 아이디 중복확인
+	 * 입력된 아이디를 받아서 members 테이블에 있는 아이디인지 판단
+	 * 이미 있다면 true, 없어서 사용 가능하다면 false
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean checkId(String id) throws SQLException{
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		boolean flag=false;
+		try{
+		//1.드라이버로딩
+		//2.Connection 얻기
+			con=getConnection();
+		//3.쿼리문 생성객체 얻기
+			String checkId="select id from members where id=?";
+			pstmt=con.prepareStatement(checkId);
+			
+			pstmt.setString(1, id);
+		//4.쿼리문 수행 후 결과 얻기.
+			rs=pstmt.executeQuery();
+			//중복 아이디가 있다면 flag값에 true를 담는다.
+			if(rs.next()){
+				flag=true;
+			}//end if
+		}finally{
+		//5.연결끊기
+			if( pstmt != null ){ pstmt.close(); };//end if
+			if( con != null ){ con.close(); };//end if
+			if( rs != null ){ rs.close(); }//end if
+		}
+		return flag;
 	}//checkId
 	
 	// 로그인
-	public boolean loginCheck(LoginVO logVo){
-		return false;
+	/**
+	 * 로그인
+	 * LoginVO( id, pw )
+	 * 로그인 창에서 입력된 아이디와 비밀번호를 받아서
+	 * members 테이블에 있는 회원정보와 일치하는지 판단
+	 * 일치하면 true, 없다면 false
+	 * @param logVo
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean loginCheck(LoginVO logVo) throws SQLException{
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		boolean flag=false;
+		try{
+			//1.드라이버로딩
+			//2.Connection 얻기
+			con=getConnection();
+			//3.쿼리문 생성객체 얻기
+			String loginCheck="select id from members where id=? and pw=?";
+			pstmt=con.prepareStatement(loginCheck);
+			
+			pstmt.setString(1, logVo.getId());
+			pstmt.setString(2, logVo.getPw());
+			
+			pstmt.executeQuery();
+			//4.쿼리문 수행 후 결과 얻기.
+			rs=pstmt.executeQuery();
+			//아이디와 비밀번호가 맞다면 flag값에 true를 담는다.
+			if(rs.next()){
+				flag=true;
+			}//end if
+		}finally{
+			//5.연결끊기
+			if( pstmt != null ){ pstmt.close(); };//end if
+			if( con != null ){ con.close(); };//end if
+			if( rs != null ){ rs.close(); }//end if
+		}
+		return flag;
 	}//loginCheck
 	
-	
+	public static void main(String[] args){
+		MemberDAO md=new MemberDAO();
+//		try {
+			//관리자  - 회원 전체 조회
+//			List<MgrMemberVO> list;
+//			list=md.selectAllMember();
+//			for(MgrMemberVO tmp : list){
+//				System.out.println(tmp.toString());
+//			}
+			//회원가입 - id pw name mail
+//			InsertMemberVO imemVo=new InsertMemberVO("choi", "5678", "jiyong", "choi@gmail.com");
+//			InsertMemberVO imemVo=new InsertMemberVO("kim", "1111", "suyeon", "kim@gmail.com");
+//			InsertMemberVO imemVo=new InsertMemberVO("hong", "9999", "seunghwan", "hong@gmail.com");
+//			InsertMemberVO imemVo=new InsertMemberVO("jung", "5555", "yoonho", "jung@gmail.com");
+//			InsertMemberVO imemVo=new InsertMemberVO("koo", "7777", "changmo", "koo@gmail.com");
+//			InsertMemberVO imemVo=new InsertMemberVO("kdr", "4444", "dongryul", "kdr@gmail.com");
+//			md.insertMember(imemVo);
+//			System.out.println("회원가입성공!");
+			//회원정보 수정 - pw mail
+//			MemberVO memVo=new MemberVO("6666","jung@naver.com");
+//			String id="jung";
+//			md.updateMember(memVo,id);
+//			System.out.println("회원수정성공!");
+			//해당 회원정보 조회
+//			String id="choi";
+//			md.selectOneMember(id);
+//			System.out.println("해당 회원정보 조회 성공!"+md.selectOneMember(id));
+			//아이디 중복확인
+//			String id="choi";
+//			System.out.println(md.checkId(id));
+			//
+//			LoginVO lv=new LoginVO("choi1","5678");
+//			md.loginCheck(lv);
+//			System.out.println(md.loginCheck(lv));
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+	}
 }//class

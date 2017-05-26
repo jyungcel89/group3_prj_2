@@ -47,9 +47,9 @@ public class MgrMemberVO {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		return "MgrMemberVO [id=" + id + ", name=" + name + ", email=" + email + "]";
 	}
+
 	
 	
 }

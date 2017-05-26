@@ -36,7 +36,6 @@ public class IngdntDAO {
 	//*********************getConnection()추가(원래 없었음)*********************************
 	private Connection getConnection() throws SQLException {
 		Connection con = null;
-		//지용이인 내가 수정 하였다!!!!!!! merge 하였음
 		Properties prop = new Properties();
 		try {
 			File file = new File("C:/dev/group3_prj_2/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
