@@ -157,12 +157,12 @@ public class MainForm extends JFrame{
 		add(jpFootBtns);
 		
 		// 이벤트 적용
-	
-		chkOne.addItemListener(mfe);
-		chkTwo.addItemListener(mfe);
-		chkThree.addItemListener(mfe);
-		chkFour.addItemListener(mfe);
+//		chkOne.addItemListener(mfe);
+//		chkTwo.addItemListener(mfe);
+//		chkThree.addItemListener(mfe);
+//		chkFour.addItemListener(mfe);
 		jbSearch.addActionListener(mfe);
+	
 		
 		// 부모창
 		setBounds(10, 10, 880, 770);

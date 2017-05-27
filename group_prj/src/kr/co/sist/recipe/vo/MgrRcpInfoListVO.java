@@ -69,6 +69,12 @@ public class MgrRcpInfoListVO {
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
+
+	@Override
+	public String toString() {
+		return "MgrRcpInfoListVO [menuName=" + menuName + ", menuImg=" + menuImg + ", menuPrice=" + menuPrice
+				+ ", menuSimpleInfo=" + menuSimpleInfo + ", menuType=" + menuType + ", flag=" + flag + "]";
+	}
 	
 
 	

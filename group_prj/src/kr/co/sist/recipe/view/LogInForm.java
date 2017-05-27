@@ -3,6 +3,7 @@ package kr.co.sist.recipe.view;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.security.auth.login.LoginException;
 //import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,6 +20,8 @@ public class LogInForm extends JFrame {
 	private JPasswordField jpfPass;
 	private JButton jbtLogIn, jbtSignIn;
 	private JLabel jlblLogo;
+	private boolean flag;
+	private int cnt;
 	
 	public LogInForm() {
 		setLayout(null);
@@ -100,6 +103,22 @@ public class LogInForm extends JFrame {
 		this.jbtSignIn = jbtSignIn;
 	}
 	
+	//LogInEvt에서 로그인 결과 설정
+	public void setFlag(boolean flag, int cnt) {
+		this.flag = flag;
+		this.cnt = cnt;
+	}//setFlag
+	
+	public boolean getFlag() throws LoginException {
+		//로그인을 수행하였으나 아이디나 비밀번호가 
+		//틀려서 LoginException 강제 발생
+		if(cnt==1 && !flag){
+			throw new LoginException();
+		}//end if
+		//로그인을 수행하지 않고 닫기를 클릭하면
+		//무조건 false가 반환
+		return flag;
+	}//end getFlag
 	public static void main(String[] args){
 		new LogInForm();
 	}

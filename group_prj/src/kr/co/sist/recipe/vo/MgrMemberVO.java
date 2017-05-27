@@ -9,17 +9,17 @@ package kr.co.sist.recipe.vo;
  */
 public class MgrMemberVO {
 
-	private String id,name,email;
+	private String id,name,mail;
 	
 	public MgrMemberVO(){
 	}//MgrMemberVO
 
-	public MgrMemberVO(String id, String name, String email) {
+	public MgrMemberVO(String id, String name, String mail) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.email = email;
-	}
+		this.mail = mail;
+	}//MgrMemberVO
 
 	public String getId() {
 		return id;
@@ -37,19 +37,20 @@ public class MgrMemberVO {
 		this.name = name;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getMail() {
+		return mail;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 	@Override
 	public String toString() {
-		return "MgrMemberVO [id=" + id + ", name=" + name + ", email=" + email + "]";
+		return "MgrMemberVO [id=" + id + ", name=" + name + ", mail=" + mail + "]";
 	}
 
+	
 	
 	
 }

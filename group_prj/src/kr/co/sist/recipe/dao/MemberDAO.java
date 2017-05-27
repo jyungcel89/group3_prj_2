@@ -24,21 +24,27 @@ public class MemberDAO {
 
 	private static MemberDAO mem_dao;
 	
-	static MemberDAO getInstance(){
+	//생성자
+	private MemberDAO() {
+	}//MemberDAO
+	
+	//Instance 얻기
+	public static MemberDAO getInstance(){
 		if(mem_dao==null){
 			mem_dao = new MemberDAO();
 		}
 		return mem_dao;
 	}//getInstance
 	
-	//////////////////////////05-22-2017 작성////////////////////////
+	//Connection 얻기
 	private Connection getConnection()throws SQLException{
 		Connection con=null;
 		
 		Properties prop=new Properties();
 		try{
 			//파일 경로 확인하고 수정할 것!
-			File file=new File("C:/dev/git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
+//			File file=new File("C:/dev/git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
+			File file=new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
 			
 			if( file.exists() ){
 				prop.load(new FileInputStream(file));
@@ -95,14 +101,14 @@ public class MemberDAO {
 			while( rs.next() ){
 				mmv.setId(rs.getString("id"));
 				mmv.setName(rs.getString("name"));
-				mmv.setEmail(rs.getString("mail"));
-			}
+				mmv.setMail(rs.getString("mail"));
+			}//end while
 		}finally{
 			//5.연결끊기
 			if( rs != null ){ rs.close(); };//end if
 			if( pstmt !=null ){ pstmt.close(); };//end if
 			if( con != null ){ con.close(); };//end if
-		}
+		}//end finally
 		return mmv;
 	}//selectOneMember
 	
@@ -134,7 +140,7 @@ public class MemberDAO {
 				mmv=new MgrMemberVO();
 				mmv.setId(rs.getString("id"));
 				mmv.setName(rs.getString("name"));
-				mmv.setEmail(rs.getString("mail"));
+				mmv.setMail(rs.getString("mail"));
 				
 				mgrMemberList.add(mmv);
 			}//end while
@@ -150,11 +156,11 @@ public class MemberDAO {
 	
 	/**
 	 * 회원가입<br>
-	 * 입력된 회원정보(id,pw,name,email)를 받아서 
+	 * 입력된 회원정보(id,pw,name,mail)를 받아서 
 	 * db의 members 테이블에 추가하는 일<br>
 	 * <수정사항><br>
 	 * 1.boolean > void<br>
-	 * 2.InsertMemberVO 추가 > id,pw,name,email 있는 VO<br>
+	 * 2.InsertMemberVO 추가 > id,pw,name,mail 있는 VO<br>
 	 * @param imemVo
 	 * @throws SQLException
 	 */
@@ -168,7 +174,7 @@ public class MemberDAO {
 		//3.쿼리문 생성객체 얻기
 			//회원가입시 정보를 members 테이블에 추가하는 쿼리문  
 			String insertMember=
-					"insert into members (id,pw,name,mail) values (?,?,?,?)";
+					"insert into members(id,pw,name,mail) values (?,?,?,?)";
 			pstmt=con.prepareStatement(insertMember);
 		//4.쿼리문 수행 후 결과 얻기
 			//바인딩.set자료형(컬럼, 들어갈 데이터)
@@ -185,12 +191,45 @@ public class MemberDAO {
 		}//end finally
 	}//insertMember
 	
-	// 관리자 회원탈퇴
-	public boolean deleteMember(String id){
-		return false;
+	/**
+	 * 관리자 회원탈퇴
+	 * 회원 아이디를 받아 해당하는 회원을 삭제하는 일을 하는 method
+	 * 삭제 성공  - true, 실패 - false
+	 * @param id
+	 * @return flag
+	 * @throws SQLException
+	 */
+	public boolean deleteMember(String id) throws SQLException{
+		Connection con=null;
+		PreparedStatement pstmt=null;
+//		ResultSet rs=null;
+		boolean flag=false;
+		try{
+		//1.드라이버로딩
+		//2.Connection 얻기
+			con=getConnection();
+		//3.쿼리문 생성객체 얻기
+			String deleteMember=
+					"delete from members where id=?";
+			pstmt=con.prepareStatement(deleteMember);
+			
+			pstmt.setString(1, id);
+		//4.쿼리문 수행 후 결과 얻기
+			pstmt.executeUpdate();
+//			rs=pstmt.executeUpdate();
+			//해당 아이디가 일치하는 것이 있다면 flag 값에 true를 담는다.
+//			if(rs.next()){
+				flag=true;
+//			}
+		}finally{
+		//5.연결끊기
+			if( pstmt != null ){ pstmt.close(); };//end if
+			if( con != null ){ con.close(); };//end if
+//			if( rs != null ){ rs.close(); }//end if
+		}//end finally
+		return flag;
 	}//deleteMember
 	
-	// 회원정보 수정
 	/**
 	 * 회원정보 수정<br>
 	 * 해당 회원정보(pw, email)의 값을 받아 
@@ -226,13 +265,12 @@ public class MemberDAO {
 		}//end finally
 	}//updateMember
 	
-	// 아이디 중복확인
 	/**
 	 * 아이디 중복확인
 	 * 입력된 아이디를 받아서 members 테이블에 있는 아이디인지 판단
 	 * 이미 있다면 true, 없어서 사용 가능하다면 false
 	 * @param id
-	 * @return
+	 * @return flag
 	 * @throws SQLException
 	 */
 	public boolean checkId(String id) throws SQLException{
@@ -260,11 +298,10 @@ public class MemberDAO {
 			if( pstmt != null ){ pstmt.close(); };//end if
 			if( con != null ){ con.close(); };//end if
 			if( rs != null ){ rs.close(); }//end if
-		}
+		}//end finally
 		return flag;
 	}//checkId
 	
-	// 로그인
 	/**
 	 * 로그인
 	 * LoginVO( id, pw )
@@ -272,7 +309,7 @@ public class MemberDAO {
 	 * members 테이블에 있는 회원정보와 일치하는지 판단
 	 * 일치하면 true, 없다면 false
 	 * @param logVo
-	 * @return
+	 * @return flag
 	 * @throws SQLException
 	 */
 	public boolean loginCheck(LoginVO logVo) throws SQLException{
@@ -281,10 +318,10 @@ public class MemberDAO {
 		ResultSet rs=null;
 		boolean flag=false;
 		try{
-			//1.드라이버로딩
-			//2.Connection 얻기
+		//1.드라이버로딩
+		//2.Connection 얻기
 			con=getConnection();
-			//3.쿼리문 생성객체 얻기
+		//3.쿼리문 생성객체 얻기
 			String loginCheck="select id from members where id=? and pw=?";
 			pstmt=con.prepareStatement(loginCheck);
 			
@@ -292,24 +329,24 @@ public class MemberDAO {
 			pstmt.setString(2, logVo.getPw());
 			
 			pstmt.executeQuery();
-			//4.쿼리문 수행 후 결과 얻기.
+		//4.쿼리문 수행 후 결과 얻기.
 			rs=pstmt.executeQuery();
 			//아이디와 비밀번호가 맞다면 flag값에 true를 담는다.
 			if(rs.next()){
 				flag=true;
 			}//end if
 		}finally{
-			//5.연결끊기
+		//5.연결끊기
 			if( pstmt != null ){ pstmt.close(); };//end if
 			if( con != null ){ con.close(); };//end if
 			if( rs != null ){ rs.close(); }//end if
-		}
+		}//end finally
 		return flag;
 	}//loginCheck
 	
 	public static void main(String[] args){
 		MemberDAO md=new MemberDAO();
-//		try {
+		try {
 			//관리자  - 회원 전체 조회
 //			List<MgrMemberVO> list;
 //			list=md.selectAllMember();
@@ -337,12 +374,16 @@ public class MemberDAO {
 			//아이디 중복확인
 //			String id="choi";
 //			System.out.println(md.checkId(id));
-			//
-//			LoginVO lv=new LoginVO("choi1","5678");
+			//로그인 확인
+//			LoginVO lv=new LoginVO("choi","5678");
 //			md.loginCheck(lv);
 //			System.out.println(md.loginCheck(lv));
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-	}
+			//회원 삭제
+			String id="kdr";
+			md.deleteMember(id);
+			System.out.println(md.deleteMember(id));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}//end catch
+	}//main
 }//class

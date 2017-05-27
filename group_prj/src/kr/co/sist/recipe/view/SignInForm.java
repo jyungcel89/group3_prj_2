@@ -13,8 +13,8 @@ import kr.co.sist.recipe.evt.SignEvt;
 
 @SuppressWarnings("serial")
 public class SignInForm extends JDialog {
-	private JLabel jlbId, jlbPw, jlbChkPw, jlbName, jlbEmail;
-	public JTextField jtfId, jtfName, jtfEmail;
+	private JLabel jlbId, jlbPw, jlbChkPw, jlbName, jlbMail;
+	public JTextField jtfId, jtfName, jtfMail;
 	private JPasswordField jpfPw, jpfChkPw;
 	private JButton jbtChkId, jbtSubmit, jbtCancel;
 	
@@ -25,10 +25,10 @@ public class SignInForm extends JDialog {
 		jlbPw=new JLabel("비밀번호");
 		jlbChkPw=new JLabel("비밀번호 확인");
 		jlbName=new JLabel("성명");
-		jlbEmail=new JLabel("E-MAIL");
+		jlbMail=new JLabel("E-MAIL");
 		jtfId=new JTextField();
 		jtfName=new JTextField();
-		jtfEmail=new JTextField();
+		jtfMail=new JTextField();
 		jpfPw=new JPasswordField();
 		jpfChkPw=new JPasswordField();
 		jbtChkId=new JButton("중복확인");
@@ -41,10 +41,10 @@ public class SignInForm extends JDialog {
 		jlbPw.setFont(font);
 		jlbChkPw.setFont(font);
 		jlbName.setFont(font);
-		jlbEmail.setFont(font);
+		jlbMail.setFont(font);
 		jtfId.setFont(font);
 		jtfName.setFont(font);
-		jtfEmail.setFont(font);
+		jtfMail.setFont(font);
 		jpfPw.setFont(font);
 		jpfChkPw.setFont(font);
 		jbtChkId.setFont(font);
@@ -56,13 +56,13 @@ public class SignInForm extends JDialog {
 		jlbPw.setBounds(50, 140, 100, 30);
 		jlbChkPw.setBounds(50, 180, 100, 30);
 		jlbName.setBounds(50, 220, 100, 30);
-		jlbEmail.setBounds(50, 260, 100, 30);
+		jlbMail.setBounds(50, 260, 100, 30);
 		
 		jtfId.setBounds(160, 100, 130, 30);
 		jpfPw.setBounds(160, 140, 200, 30);
 		jpfChkPw.setBounds(160, 180, 200, 30);
 		jtfName.setBounds(160, 220, 130, 30);
-		jtfEmail.setBounds(160, 260, 250, 30);
+		jtfMail.setBounds(160, 260, 250, 30);
 		
 		jbtChkId.setBounds(300, 100, 110, 30);
 		jbtSubmit.setBounds(240, 320, 80, 50);
@@ -80,11 +80,11 @@ public class SignInForm extends JDialog {
 		add(jlbPw);
 		add(jlbChkPw);
 		add(jlbName);
-		add(jlbEmail);
+		add(jlbMail);
 		
 		add(jtfId);
 		add(jtfName);
-		add(jtfEmail);
+		add(jtfMail);
 		add(jpfPw);
 		add(jpfChkPw);
 		
@@ -95,7 +95,7 @@ public class SignInForm extends JDialog {
 		//
 		setVisible(true);
 		setResizable(false);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+//		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 	}//SignInForm
 
@@ -115,12 +115,12 @@ public class SignInForm extends JDialog {
 		this.jtfName = jtfName;
 	}
 
-	public JTextField getJtfEmail() {
-		return jtfEmail;
+	public JTextField getJtfMail() {
+		return jtfMail;
 	}
 
-	public void setJtfEmail(JTextField jtfEmail) {
-		this.jtfEmail = jtfEmail;
+	public void setJtfMail(JTextField jtfMail) {
+		this.jtfMail = jtfMail;
 	}
 
 	public JPasswordField getJpfPw() {

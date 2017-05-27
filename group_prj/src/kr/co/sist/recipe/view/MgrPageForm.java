@@ -33,10 +33,14 @@ public class MgrPageForm extends JDialog {
 		jbClose=new JButton("닫기");
 		
 		//테이블
-		String[] menuColumnNames={"메뉴명","타입","가격","간단설명"};
-		String[][] menuData={{"간장라면","면류","9000","맛없고 비싸다"}};
+		String[] menuColumnNames={"메뉴이름","메뉴이미지","메뉴타입","간단설명","가격"};
+		String[][] menuData={{"","","",""}};
 		String[] memberColumnNames={"아이디","이름","이메일"};
-		String[][] memberData={{"reallyreally","winner","winner@yge.com"}};
+		String[][] memberData={{"","",""}};
+//		String[] menuColumnNames={"메뉴명","타입","가격","간단설명"};
+//		String[][] menuData={{"간장라면","면류","9000","맛없고 비싸다"}};
+//		String[] memberColumnNames={"아이디","이름","이메일"};
+//		String[][] memberData={{"reallyreally","winner","winner@yge.com"}};
 		// 테이블 수정 막기
 		dtmMenuList=new DefaultTableModel(menuData, menuColumnNames){
 			@Override
@@ -125,6 +129,126 @@ public class MgrPageForm extends JDialog {
 	public static void main(String[] args) {
 		new MgrPageForm();
 	}//main
+
+	public JLabel getJlbMenuList() {
+		return jlbMenuList;
+	}
+
+	public void setJlbMenuList(JLabel jlbMenuList) {
+		this.jlbMenuList = jlbMenuList;
+	}
+
+	public JLabel getJlbMenuRequest() {
+		return jlbMenuRequest;
+	}
+
+	public void setJlbMenuRequest(JLabel jlbMenuRequest) {
+		this.jlbMenuRequest = jlbMenuRequest;
+	}
+
+	public JLabel getJlbMember() {
+		return jlbMember;
+	}
+
+	public void setJlbMember(JLabel jlbMember) {
+		this.jlbMember = jlbMember;
+	}
+
+	public JTable getJtMenuList() {
+		return jtMenuList;
+	}
+
+	public void setJtMenuList(JTable jtMenuList) {
+		this.jtMenuList = jtMenuList;
+	}
+
+	public JTable getJtMenuRequest() {
+		return jtMenuRequest;
+	}
+
+	public void setJtMenuRequest(JTable jtMenuRequest) {
+		this.jtMenuRequest = jtMenuRequest;
+	}
+
+	public JTable getJtMember() {
+		return jtMember;
+	}
+
+	public void setJtMember(JTable jtMember) {
+		this.jtMember = jtMember;
+	}
+
+	public DefaultTableModel getDtmMenuList() {
+		return dtmMenuList;
+	}
+
+	public void setDtmMenuList(DefaultTableModel dtmMenuList) {
+		this.dtmMenuList = dtmMenuList;
+	}
+
+	public DefaultTableModel getDtmMenuRequest() {
+		return dtmMenuRequest;
+	}
+
+	public void setDtmMenuRequest(DefaultTableModel dtmMenuRequest) {
+		this.dtmMenuRequest = dtmMenuRequest;
+	}
+
+	public DefaultTableModel getDtmMember() {
+		return dtmMember;
+	}
+
+	public void setDtmMember(DefaultTableModel dtmMember) {
+		this.dtmMember = dtmMember;
+	}
+
+	public JTabbedPane getJtpTab() {
+		return jtpTab;
+	}
+
+	public void setJtpTab(JTabbedPane jtpTab) {
+		this.jtpTab = jtpTab;
+	}
+
+	public JButton getJbRmvMenu() {
+		return jbRmvMenu;
+	}
+
+	public void setJbRmvMenu(JButton jbRmvMenu) {
+		this.jbRmvMenu = jbRmvMenu;
+	}
+
+	public JButton getJbRmvRqust() {
+		return jbRmvRqust;
+	}
+
+	public void setJbRmvRqust(JButton jbRmvRqust) {
+		this.jbRmvRqust = jbRmvRqust;
+	}
+
+	public JButton getJbSmitRqust() {
+		return jbSmitRqust;
+	}
+
+	public void setJbSmitRqust(JButton jbSmitRqust) {
+		this.jbSmitRqust = jbSmitRqust;
+	}
+
+	public JButton getJbRmvMember() {
+		return jbRmvMember;
+	}
+
+	public void setJbRmvMember(JButton jbRmvMember) {
+		this.jbRmvMember = jbRmvMember;
+	}
+
+	public JButton getJbClose() {
+		return jbClose;
+	}
+
+	public void setJbClose(JButton jbClose) {
+		this.jbClose = jbClose;
+	}
 
 }//class
 
