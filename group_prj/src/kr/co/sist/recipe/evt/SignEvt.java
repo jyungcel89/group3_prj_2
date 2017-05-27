@@ -42,7 +42,7 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 	 * id, pw, pwChk, name, mail - 입력여부 확인
 	 */
 	public void addMember(){
-		
+		 
 		mem_dao=MemberDAO.getInstance();
 		InsertMemberVO imem_vo=new InsertMemberVO();
 		
