@@ -67,7 +67,7 @@ public class MgrPageForm extends JDialog {
 		jtMenuList=new JTable(dtmMenuList); 
 		jtMenuRequest=new JTable(dtmMenuRequest);
 		jtMember=new JTable(dtmMember);
-		//컬럼 고정
+		//컬럼 고정 
 		jtMenuList.getTableHeader().setReorderingAllowed(false);
 		jtMenuRequest.getTableHeader().setReorderingAllowed(false);
 		jtMember.getTableHeader().setReorderingAllowed(false);
