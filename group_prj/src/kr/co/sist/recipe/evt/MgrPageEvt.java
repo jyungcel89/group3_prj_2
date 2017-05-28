@@ -2,6 +2,8 @@ package kr.co.sist.recipe.evt;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -9,21 +11,23 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.recipe.dao.MemberDAO;
 import kr.co.sist.recipe.dao.RecipeDAO;
+import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.view.MgrPageForm;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MgrMemberVO;
-import kr.co.sist.recipe.vo.MgrRcpInfoListVO;
 
 /**
- * 진행중
+ * 관리자페이지 이벤트 클래스
+ * flag에 대한 재분류 고려중
  * @author JiYong
  *
  */
-public class MgrPageEvt extends WindowAdapter implements ActionListener {
+public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseListener {
 
 	private MgrPageForm mpf;
 	private MemberDAO mem_dao;
@@ -38,8 +42,13 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener {
 		memberList();
 	}//MgrPageEvt
 	
-	//--------------------------전체메뉴관리 탭
-	// 전체 메뉴리스트 조회
+	//--------------------------전체메뉴관리 탭------------------------
+		/**
+		 * 전체 메뉴리스트 조회
+		 * 승인된 레시피 전체 리스트를 조회
+		 * RecipeDAO - recipeList("N") method 를 실행
+		 * menu_flag='Y' 
+		 */
 		public void allRecipeList(){
 			
 			try {
@@ -61,12 +70,24 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener {
 					
 					dtmMenu.addRow(rowMenu);
 				}//end for
+			} catch (ArrayIndexOutOfBoundsException aioobe) {
+				JOptionPane.showMessageDialog(mpf, 
+						"레시피를 선택해주세요.");
+				aioobe.printStackTrace();
 			} catch (SQLException se) {
+				JOptionPane.showMessageDialog(mpf, 
+						"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
 				se.printStackTrace();
 			}//end catch
 		}//allRecipeList
 		
-	// 요청관리 리스트조회
+		
+		/**
+		 * 레시피 요청 리스트 조회
+		 * 승인처리되지 않은 레시피 전체 리스트를 조회
+		 * RecipeDAO - recipeList("N") method 를 실행
+		 * menu_flag='N'
+		 */
 		public void requestList(){
 			
 			try {
@@ -88,28 +109,140 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener {
 					
 					dtmMenu.addRow(rowMenu);
 				}//end for
+			} catch (ArrayIndexOutOfBoundsException aioobe) {
+				JOptionPane.showMessageDialog(mpf, 
+						"레시피를 선택해주세요.");
+				aioobe.printStackTrace();
 			} catch (SQLException se) {
+				JOptionPane.showMessageDialog(mpf, 
+						"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
 				se.printStackTrace();
 			}//end catch
 		}//requestList
 	
-	// 기존레시피 삭제 : 상위remove버튼
+		
+		/**
+		 * 기존레시피 삭제 : 상위remove버튼
+		 * 기존레시피를 삭제 처리해주는 method
+		 * 선택된 레시피의 menuName값을 가져와서
+		 * RecipeDAO - deleteRecipe(menuName) method 를 실행
+		 */
 		public void rmvRecipe(){
 			
+			try {
+				// 테이블에서 클릭 > menuName 가져오기
+				JTable jtRcp=mpf.getJtMenuList();
+				int row=jtRcp.getSelectedRow();
+				String value = (String) jtRcp.getValueAt(row, 0);
+//				System.out.println(row);
+//				System.out.println("row : "+row+", 선택 값 : "+value);
+//				System.out.println("delFlag : "+mem_dao.deleteMember(value));
+				
+				int flag=JOptionPane.showConfirmDialog(mpf, 
+						"[ "+value+" ] 선택하신 메뉴를 정말 삭제하시겠습니까?");
+				switch (flag) {
+				case JOptionPane.OK_OPTION:
+					// 가져온 menuName 값 > 삭제
+					rcp_dao.deleteRecipe(value);
+				}//end catch
+				// 삭제 후 갱신
+				allRecipeList();
+			} catch (ArrayIndexOutOfBoundsException aioobe) {
+				JOptionPane.showMessageDialog(mpf, 
+						"레시피를 선택해주세요.");
+				aioobe.printStackTrace();
+			} catch (SQLException se) {
+				JOptionPane.showMessageDialog(mpf, 
+						"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
+				se.printStackTrace();
+			}//end catch
+
 		}//rmvRecipe
 		
-	// 요청레시피 거절 : 하위remove버튼
+		
+		/**
+		 * 요청레시피 거절 : 하위remove버튼
+		 * 
+		 */
 		public void rmvReqRecipe(){
+			
+			try {
+				// 테이블에서 클릭 > menuName 가져오기
+				JTable jtReqRcp=mpf.getJtMenuRequest();
+				int row=jtReqRcp.getSelectedRow();
+				String value = (String) jtReqRcp.getValueAt(row, 0);
+//				System.out.println(row);
+//				System.out.println("row : "+row+", 선택 값 : "+value);
+//				System.out.println("delFlag : "+mem_dao.deleteMember(value));
+				
+				int flag=JOptionPane.showConfirmDialog(mpf, 
+						"[ "+value+" ] 선택하신 메뉴를 요청거절 하시겠습니까?");
+				switch (flag) {
+				case JOptionPane.OK_OPTION:
+					// 가져온 menuName 값 > 삭제
+					rcp_dao.deleteRecipe(value);
+				}//end catch
+				// 삭제 후 갱신
+				requestList();
+			} catch (ArrayIndexOutOfBoundsException aioobe) {
+				JOptionPane.showMessageDialog(mpf, 
+						"레시피를 선택해주세요.");
+				aioobe.printStackTrace();
+			} catch (SQLException se) {
+				JOptionPane.showMessageDialog(mpf, 
+						"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
+				se.printStackTrace();
+			}//end catch
 			
 		}//rmvReqRecipe
 		
-	// 요청레시피 승인 : submit버튼
+		
+		/**
+		 * 요청레시피 승인 : submit버튼
+		 * 요청된 레시피를 승인 처리해주는 method
+		 * 선택된 레시피의 menuName값을 가져와서 
+		 * RecipeDAO - updateFlag(menuName) method 를 실행
+		 * recipeFlag 'N' > 'Y'
+		 */
 		public void confirmReqRecipe(){
 			
+			try {
+				// 테이블에서 클릭 > menuName 가져오기
+				JTable jtSmtRcp=mpf.getJtMenuRequest();
+				int row=jtSmtRcp.getSelectedRow();
+				String value = (String) jtSmtRcp.getValueAt(row, 0);
+//				System.out.println(row);
+//				System.out.println("row : "+row+", 선택 값 : "+value);
+//				System.out.println("delFlag : "+mem_dao.deleteMember(value));
+				
+				int flag=JOptionPane.showConfirmDialog(mpf, 
+						"[ "+value+" ] 선택하신 요청 메뉴를 승인 하시겠습니까?");
+				switch (flag) {
+				case JOptionPane.OK_OPTION:
+					// 가져온 menuName 값 > 삭제
+					rcp_dao.updateFlag(value);
+				}//end catch
+				// 삭제 후 갱신
+				requestList();
+				allRecipeList();
+			} catch (ArrayIndexOutOfBoundsException aioobe) {
+				JOptionPane.showMessageDialog(mpf, 
+						"레시피를 선택해주세요.");
+				aioobe.printStackTrace();
+			} catch (SQLException se) {
+				JOptionPane.showMessageDialog(mpf, 
+						"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
+				se.printStackTrace();
+			}//end catch
 		}//confirmReqRecipe
 
-	//--------------------------회원관리 탭
-	// 회원관리 리스트
+		
+	//--------------------------회원관리 탭----------------------------
+		/**
+		 * 회원관리 리스트 : 자동갱신
+		 * 전체회원의 id, name, mail을 테이블에 보여준다.
+		 * MemberDAO - selectAllMember() method를 실행
+		 */
 		public void memberList(){
 			
 			try {
@@ -128,16 +261,52 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener {
 					
 					dtmMem.addRow(rowMem);
 				}//end for
+			} catch (ArrayIndexOutOfBoundsException aioobe) {
+				JOptionPane.showMessageDialog(mpf, 
+						"레시피를 선택해주세요.");
+				aioobe.printStackTrace();
 			} catch (SQLException se) {
-				JOptionPane.showMessageDialog(mpf, "죄송합니다. 메뉴를 불러올 수 없습니다.");
+				JOptionPane.showMessageDialog(mpf, 
+						"죄송합니다. 회원정보를 불러올 수 없습니다.");
 				se.printStackTrace();
 			}//end catch
-			
 		}//memberList
 		
-	// 회원탈퇴 시키기 : remove버튼
+		
+		/**
+		 * 회원탈퇴 시키기 : remove 버튼
+		 * 테이블에서 선택된 회원 id를 가져와서 
+		 * MemberDAO - deleteMember(id) method를 실행
+		 */
 		public void rmvMember(){ 
 			
+			try {
+				// 테이블에서 클릭 > id 가져오기
+				JTable jtMem=mpf.getJtMember();
+				int row=jtMem.getSelectedRow();
+				String value = (String) jtMem.getValueAt(row, 0);
+//				System.out.println(row);
+//				System.out.println("row : "+row+", 선택 값 : "+value);
+			int flag=JOptionPane.showConfirmDialog(mpf, 
+					"[ "+value+" ] 선택하신 회원을 영구적으로 삭제하시겠습니까?");
+			switch (flag) {
+			case JOptionPane.OK_OPTION:
+				// 가져온 id 값 > 삭제
+				mem_dao.deleteMember(value);
+			}//end switch
+//				System.out.println("delFlag : "+mem_dao.deleteMember(value));
+			
+				// 삭제 후 갱신
+				memberList();
+			} catch (ArrayIndexOutOfBoundsException aioobe) {
+				JOptionPane.showMessageDialog(mpf, 
+						"레시피를 선택해주세요.");
+				aioobe.printStackTrace();
+			} catch (SQLException se) {
+				JOptionPane.showMessageDialog(mpf, 
+						"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
+				se.printStackTrace();
+			}//end catch
 		}//rmvMember
 		
 	// 닫기버튼
@@ -149,7 +318,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener {
 	public void actionPerformed(ActionEvent ae) {
 		// 관리자 - 메뉴관리탭 - 메뉴리스트 삭제버튼
 		if( ae.getSource() == mpf.getJbRmvMenu() ){
-			rmvRecipe();
+				rmvRecipe();
 		}//end if
 		// 관리자 - 메뉴관리탭 - 메뉴요청리스트 요청거절버튼
 		if( ae.getSource() == mpf.getJbRmvRqust() ){
@@ -168,5 +337,43 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener {
 			checkCancel();
 		}//end if
 	}//actionPerformed
+
+	@Override
+	public void mouseClicked(MouseEvent me) {
+		if( me.getSource()==mpf.getJtMenuRequest() ){
+			if( me.getClickCount()==2 ){
+				new ItemPreviewEvt();
+			}
+		}
+			if( me.getSource()==mpf.getJtMenuList() ){
+				if( me.getClickCount()==2 ){
+					new AddRecipeForm();
+				}
+			}
+	}//mouseClicked
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }//class

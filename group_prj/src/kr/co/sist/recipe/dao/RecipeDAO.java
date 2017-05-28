@@ -346,7 +346,6 @@ public class RecipeDAO {
 	}//insertRecipe
 	
 	
-	
 	/**
 	 * 관리자폼에서 기존메뉴를 수정하면 정보가 업데이트
 	 * 원래있던 메뉴이름을 가져와 바꾼다.
@@ -381,8 +380,8 @@ public class RecipeDAO {
 		
 		return true;
 	}//updateRecipe
-	
 
+	
 	/**
 	 * 관리자폼 - 승인처리> reciperegister테이블의 flag컬럼을 "Y"로 변경해준다.
 	 * ---------------------------------변경사항----------------------------------------

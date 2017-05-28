@@ -20,8 +20,11 @@ public class MgrPageForm extends JDialog {
 	private DefaultTableModel dtmMenuList, dtmMenuRequest, dtmMember;
 	private JTabbedPane jtpTab;
 	private JButton jbRmvMenu, jbRmvRqust, jbSmitRqust, jbRmvMember, jbClose;
+//	private MainForm mf;
 	
-	public MgrPageForm() {
+	public MgrPageForm(/*MainForm mf*/) {
+//		super(mf,"Manager Page",true);
+//		this.mf=mf;
 		setLayout(null);
 		
 		jlbMenuList=new JLabel("메뉴리스트");
@@ -39,10 +42,6 @@ public class MgrPageForm extends JDialog {
 		String[][] menuData={{"","","",""}};
 		String[] memberColumnNames={"아이디","이름","이메일"};
 		String[][] memberData={{"","",""}};
-//		String[] menuColumnNames={"메뉴명","타입","가격","간단설명"};
-//		String[][] menuData={{"간장라면","면류","9000","맛없고 비싸다"}};
-//		String[] memberColumnNames={"아이디","이름","이메일"};
-//		String[][] memberData={{"reallyreally","winner","winner@yge.com"}};
 		// 테이블 수정 막기
 		dtmMenuList=new DefaultTableModel(menuData, menuColumnNames){
 			@Override
@@ -68,10 +67,25 @@ public class MgrPageForm extends JDialog {
 		jtMenuList=new JTable(dtmMenuList); 
 		jtMenuRequest=new JTable(dtmMenuRequest);
 		jtMember=new JTable(dtmMember);
-		
+		//컬럼 고정
 		jtMenuList.getTableHeader().setReorderingAllowed(false);
 		jtMenuRequest.getTableHeader().setReorderingAllowed(false);
 		jtMember.getTableHeader().setReorderingAllowed(false);
+		//컬럼 높이 설정
+		jtMenuList.setRowHeight(100);
+		jtMenuRequest.setRowHeight(100);
+		//컬럼 너비 설정
+		jtMenuList.getColumnModel().getColumn(0).setPreferredWidth(100);
+		jtMenuList.getColumnModel().getColumn(1).setPreferredWidth(100);
+		jtMenuList.getColumnModel().getColumn(2).setPreferredWidth(10);
+		jtMenuList.getColumnModel().getColumn(3).setPreferredWidth(450);
+		jtMenuList.getColumnModel().getColumn(4).setPreferredWidth(5);
+		
+		jtMenuRequest.getColumnModel().getColumn(0).setPreferredWidth(100);
+		jtMenuRequest.getColumnModel().getColumn(1).setPreferredWidth(100);
+		jtMenuRequest.getColumnModel().getColumn(2).setPreferredWidth(10);
+		jtMenuRequest.getColumnModel().getColumn(3).setPreferredWidth(450);
+		jtMenuRequest.getColumnModel().getColumn(4).setPreferredWidth(5);
 		
 		JScrollPane jspMenuList=new JScrollPane(jtMenuList);
 		JScrollPane jspRequest=new JScrollPane(jtMenuRequest);
@@ -101,12 +115,14 @@ public class MgrPageForm extends JDialog {
 		jtpTab.add("회원 관리", jpMgrMember);
 		
 		//이벤트
-		MgrPageEvt mre=new MgrPageEvt(this);
-		jbRmvMenu.addActionListener(mre);
-		jbRmvRqust.addActionListener(mre);
-		jbSmitRqust.addActionListener(mre);
-		jbRmvMember.addActionListener(mre);
-		jbClose.addActionListener(mre);
+		MgrPageEvt mpe=new MgrPageEvt(this);
+		jbRmvMenu.addActionListener(mpe);
+		jbRmvRqust.addActionListener(mpe);
+		jbSmitRqust.addActionListener(mpe);
+		jbRmvMember.addActionListener(mpe);
+		jbClose.addActionListener(mpe);
+		jtMenuList.addMouseListener(mpe);
+		jtMenuRequest.addMouseListener(mpe);
 		
 		//탭 위치
 		jtpTab.setBounds(10, 100, 900, 640);
@@ -118,6 +134,7 @@ public class MgrPageForm extends JDialog {
 		jbRmvRqust.setBounds(680, 310, 100, 30);
 		jspMenuList.setBounds(10, 50, 880, 250);
 		jspRequest.setBounds(10, 350, 880, 250);
+		
 		//회원관리탭 위치
 		jlbMember.setBounds(10, 10, 100, 30);
 		jbRmvMember.setBounds(790, 10, 100, 30);
