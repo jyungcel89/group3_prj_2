@@ -10,6 +10,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import kr.co.sist.recipe.evt.MgrPageEvt;
+
 @SuppressWarnings("serial")
 public class MgrPageForm extends JDialog {
 
@@ -99,7 +101,12 @@ public class MgrPageForm extends JDialog {
 		jtpTab.add("회원 관리", jpMgrMember);
 		
 		//이벤트
-		
+		MgrPageEvt mre=new MgrPageEvt(this);
+		jbRmvMenu.addActionListener(mre);
+		jbRmvRqust.addActionListener(mre);
+		jbSmitRqust.addActionListener(mre);
+		jbRmvMember.addActionListener(mre);
+		jbClose.addActionListener(mre);
 		
 		//탭 위치
 		jtpTab.setBounds(10, 100, 900, 640);

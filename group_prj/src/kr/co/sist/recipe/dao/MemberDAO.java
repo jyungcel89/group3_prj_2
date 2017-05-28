@@ -348,11 +348,11 @@ public class MemberDAO {
 		MemberDAO md=new MemberDAO();
 		try {
 			//관리자  - 회원 전체 조회
-//			List<MgrMemberVO> list;
-//			list=md.selectAllMember();
-//			for(MgrMemberVO tmp : list){
-//				System.out.println(tmp.toString());
-//			}
+			List<MgrMemberVO> list;
+			list=md.selectAllMember();
+			for(MgrMemberVO tmp : list){
+				System.out.println(tmp.toString());
+			}
 			//회원가입 - id pw name mail
 //			InsertMemberVO imemVo=new InsertMemberVO("choi", "5678", "jiyong", "choi@gmail.com");
 //			InsertMemberVO imemVo=new InsertMemberVO("kim", "1111", "suyeon", "kim@gmail.com");
@@ -379,9 +379,9 @@ public class MemberDAO {
 //			md.loginCheck(lv);
 //			System.out.println(md.loginCheck(lv));
 			//회원 삭제
-			String id="kdr";
-			md.deleteMember(id);
-			System.out.println(md.deleteMember(id));
+//			String id="kdr";
+//			md.deleteMember(id);
+//			System.out.println(md.deleteMember(id));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}//end catch

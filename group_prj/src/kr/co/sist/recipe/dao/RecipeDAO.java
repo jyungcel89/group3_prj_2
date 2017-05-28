@@ -44,7 +44,8 @@ public class RecipeDAO {
 		
 		Properties prop = new Properties();
 		try {
-			File file = new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
+//			File file = new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
+			File file=new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
 			if(file.exists()){
 				prop.load(new FileInputStream(file));
 				String driver= prop.getProperty("driver");
@@ -248,8 +249,10 @@ public class RecipeDAO {
 		try{
 			con = getConnection();
 			
+//			String selectQuery=
+//					"select menu_name, img, totalprice, food_type, info from reciperegister where recipe_flag=?";
 			String selectQuery=
-					"select menu_name, img, totalprice, food_type, info from reciperegister where recipe_flag=?";
+					"select menu_name, img, food_type, info, totalprice from reciperegister where recipe_flag=?";
 			pstmt = con.prepareStatement(selectQuery);
 			
 			// 바인드 변수 flag조건에 따라서 이벤트 처리
@@ -262,9 +265,10 @@ public class RecipeDAO {
 				
 				mrv.setMenuName(rs.getString("menu_name"));
 				mrv.setMenuImg(rs.getString("img"));
-				mrv.setMenuPrice(rs.getString("totalprice"));
+//				mrv.setMenuPrice(rs.getString("totalprice"));
 				mrv.setMenuType(rs.getString("food_type"));
 				mrv.setMenuInfo(rs.getString("info"));
+				mrv.setMenuPrice(rs.getString("totalprice"));
 				
 				list.add(mrv);
 			}//end while
@@ -410,7 +414,7 @@ public class RecipeDAO {
 	public static void main(String[] args){
 		RecipeDAO md= RecipeDAO.getInstance();
 		
-		try {
+//		try {
 //				List<MainRecipeVO> list;
 //				list = md.selectAllRecipe(new MenuTypeVO("","","",""));
 //				for(MainRecipeVO tmp : list){
@@ -453,12 +457,12 @@ public class RecipeDAO {
 //			System.out.println("성공");
 //============================================================
 
-			md.deleteRecipe("추가된당");
-			System.out.println("제거성공");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//			md.deleteRecipe("추가된당");
+//			System.out.println("제거성공");
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 	}//main
 

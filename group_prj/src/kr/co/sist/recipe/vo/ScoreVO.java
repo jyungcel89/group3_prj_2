@@ -4,9 +4,6 @@ public class ScoreVO {
 	private String id, menuName;
 	private int value;
 	
-	
-	
-	
 	public ScoreVO() {
 	}
 	

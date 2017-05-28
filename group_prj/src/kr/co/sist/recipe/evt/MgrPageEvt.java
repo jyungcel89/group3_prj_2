@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import kr.co.sist.recipe.dao.MemberDAO;
 import kr.co.sist.recipe.dao.RecipeDAO;
 import kr.co.sist.recipe.view.MgrPageForm;
+import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MgrMemberVO;
 import kr.co.sist.recipe.vo.MgrRcpInfoListVO;
 
@@ -31,7 +32,9 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener {
 	public MgrPageEvt( MgrPageForm mpf ) {
 		this.mpf=mpf;
 		mem_dao=MemberDAO.getInstance();
-		
+		rcp_dao=RecipeDAO.getInstance();
+		allRecipeList();
+		requestList();
 		memberList();
 	}//MgrPageEvt
 	
@@ -39,15 +42,55 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener {
 	// 전체 메뉴리스트 조회
 		public void allRecipeList(){
 			
-//			rcp_dao=RecipeDAO.getInstance();
-//			MgrRcpInfoListVO mrl_vo=new MgrRcpInfoListVO();
-			
-			
+			try {
+				String flag="Y";
+				List<MainRecipeVO> listAllRcp = rcp_dao.recipeList(flag);
+				Object[] rowMenu = new Object[5];
+				DefaultTableModel dtmMenu = mpf.getDtmMenuList();
+				
+				MainRecipeVO mrv=null; 
+				dtmMenu.setRowCount(0);
+				// name,img,type,info,price 
+				for( int i=0; i < listAllRcp.size(); i++ ){
+					mrv=listAllRcp.get(i);
+					rowMenu[0]=mrv.getMenuName();
+					rowMenu[1]=mrv.getMenuImg();
+					rowMenu[2]=mrv.getMenuType();
+					rowMenu[3]=mrv.getMenuInfo();
+					rowMenu[4]=mrv.getMenuPrice();
+					
+					dtmMenu.addRow(rowMenu);
+				}//end for
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}//end catch
 		}//allRecipeList
 		
 	// 요청관리 리스트조회
 		public void requestList(){
 			
+			try {
+				String flag="N";
+				List<MainRecipeVO> listReqRcp = rcp_dao.recipeList(flag);
+				Object[] rowMenu = new Object[5];
+				DefaultTableModel dtmMenu = mpf.getDtmMenuRequest();
+				
+				MainRecipeVO mrv=null;
+				dtmMenu.setRowCount(0);
+				// name,img,type,info,price 
+				for( int i=0; i < listReqRcp.size(); i++ ){
+					mrv=listReqRcp.get(i);
+					rowMenu[0]=mrv.getMenuName();
+					rowMenu[1]=mrv.getMenuImg();
+					rowMenu[2]=mrv.getMenuType();
+					rowMenu[3]=mrv.getMenuInfo();
+					rowMenu[4]=mrv.getMenuPrice();
+					
+					dtmMenu.addRow(rowMenu);
+				}//end for
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}//end catch
 		}//requestList
 	
 	// 기존레시피 삭제 : 상위remove버튼
@@ -70,20 +113,21 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener {
 		public void memberList(){
 			
 			try {
-				List<MgrMemberVO> list=mem_dao.selectAllMember();
+				List<MgrMemberVO> listMem=mem_dao.selectAllMember();
 				String[] rowMem = new String[3];
 				DefaultTableModel dtmMem = mpf.getDtmMember();
 				
 				MgrMemberVO mmv=null;
-				for( int i=0; i < list.size(); i++ ){
-					mmv=list.get(i);
+				dtmMem.setRowCount(0);
+				//id,name,mail
+				for( int i=0; i < listMem.size(); i++ ){
+					mmv=listMem.get(i);
 					rowMem[0]=mmv.getId();
 					rowMem[1]=mmv.getName();
 					rowMem[2]=mmv.getMail();
 					
 					dtmMem.addRow(rowMem);
 				}//end for
-				
 			} catch (SQLException se) {
 				JOptionPane.showMessageDialog(mpf, "죄송합니다. 메뉴를 불러올 수 없습니다.");
 				se.printStackTrace();
@@ -92,15 +136,14 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener {
 		}//memberList
 		
 	// 회원탈퇴 시키기 : remove버튼
-		public void rmvMember(){
+		public void rmvMember(){ 
 			
 		}//rmvMember
 		
 	// 닫기버튼
 		public void checkCancel(){
-			
+			mpf.dispose();
 		}//checkCancel
-	
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {

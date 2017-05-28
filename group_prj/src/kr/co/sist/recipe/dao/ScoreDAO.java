@@ -57,7 +57,6 @@ public class ScoreDAO {
 	      } catch (IOException ie) {
 	         ie.printStackTrace();
 	      } // end catch
-
 	      return con;
 	   }// getConnection
 	
@@ -78,29 +77,23 @@ public class ScoreDAO {
 			pstmt = con.prepareStatement(insertPoint);
 			//4. 쿼리수행 후 결과얻기
 				// 바인드변수에 값 설정
-			
 			pstmt.setString(1, sv.getId());
 			pstmt.setString(2, sv.getMenuName());
 			pstmt.setInt(3, sv.getValue());
 			
 			flag=pstmt.executeUpdate();
-			 
 
 			if(flag!=0){
                  result=true;
            }else{
                  result=false;
            }//end if
-			
 		}finally {
 			//5.
 			if(pstmt!=null){ pstmt.close(); }
 			if(con!=null){ con.close(); }
 		}//end finally
-		
-		
 		return result;
-		
 	}//insertScore
 //////////////////////////////////////////////////// 상품보기 팝업 - 평점주기///////////////////////////////////////////////////////////////
 	
@@ -130,23 +123,17 @@ public class ScoreDAO {
 			if(flag!=0){
 				result=true;
 			}else{
-				
 				result=false;
-			}
+			}//end if
 			
 		}finally {
 			//5.
 			if(pstmt!=null){ pstmt.close(); }
 			if(con!=null){ con.close(); }
 		}//end finally
-		
 		return result;
-		
 	}//updateScore
 //////////////////////////////////////////////////// 상품보기 팝업 - 평점 갱신///////////////////////////////////////////////////////////////
-	
-	
-	
 	
 	
 //////////////////////////////////////////////////// 메인폼 - 전체평점계산///////////////////////////////////////////////////////////////
@@ -174,41 +161,29 @@ public class ScoreDAO {
 			int sum=0;
 			int cnt=0;
 				while (rs.next()) {
-				
 					sum+=rs.getInt("value");
 					cnt++;
 				} // end while
-
 				if(sum!=0){
 					double flag=0.0;
 					flag=(double)sum/cnt;
-					result=form.format(flag);										// 결과 값을 소수점 2째자리 까지 표현
+					result=form.format(flag); // 결과 값을 소수점 2째자리 까지 표현
 				}else{
-					result="-";														   // 초기 값은 "-" 한번도 검색이 되지 않더라도 값은 - 로 표현
-				}
-				
+					result="-"; // 초기 값은 "-" 한번도 검색이 되지 않더라도 값은 - 로 표현
+				} //end if
 		}finally{
 		// 5.
-			if (rs != null) {
-				rs.close();
-			} // end if
-
-			if (pstmt != null) {
-				pstmt.close();
-			} // end if
-
-			if (con != null) {
-				con.close();
-			} // end if
-		}
-		
-		
+			if (rs != null) { rs.close();	} // end if
+			if (pstmt != null) { pstmt.close(); } // end if
+			if (con != null) { con.close(); } // end if
+		}//end finally
 		return result;
 	}//getAvg
 	
 //////////////////////////////////////////////////// 메인폼 - 전체평점계산///////////////////////////////////////////////////////////////
 ////////////////////단위테스트///////////////////////////////////////////	
-/*	public static void main(String[] args){
+/*	
+ 	public static void main(String[] args){
 		String id="duck";
 		String menu_name="";
 		int value=5;
@@ -227,7 +202,6 @@ public class ScoreDAO {
 			e.printStackTrace();
 		}
 	}
-	
-	
-*/////////////////////단위테스트///////////////////////////////////////////	
+*/
+////////////////////단위테스트///////////////////////////////////////////	
 }//class
