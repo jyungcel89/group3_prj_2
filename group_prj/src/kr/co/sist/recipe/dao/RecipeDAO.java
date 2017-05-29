@@ -21,13 +21,21 @@ import kr.co.sist.recipe.vo.MenuTypeVO;
 import kr.co.sist.recipe.vo.MgrRcpInfoListVO;
 import kr.co.sist.recipe.vo.RecipeInfoUpdateVO;
 
+/**
+ * <수정사항>
+ * 1. flag 수정 : recipe_flag='Y' : 승인 / recipe_flag='N' : 요청거절 / recipe_flag='S' : 승인대기
+ * 2. updateFlag method명 변경 : updateFlagY()
+ * 3. updateFlagN method 추가  
+ * @author user
+ *
+ */
 public class RecipeDAO {
 
 	private static RecipeDAO rcp_dao;
 	
 	private RecipeDAO(){
 		
-	}
+	}//RecipeDAO
 	
 	public static RecipeDAO getInstance(){
 		if(rcp_dao==null){
@@ -41,7 +49,6 @@ public class RecipeDAO {
 		
 		Properties prop = new Properties();
 		try {
-//			File file = new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
 			File file=new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
 			if(file.exists()){
 				prop.load(new FileInputStream(file));
@@ -238,7 +245,10 @@ public class RecipeDAO {
 	}//showNewRecipe
 
 	/**
-	 * 관리자폼 - flag="Y" 일 때 모든레시피, flag="N" 일 때 요청레시피 테이블의 리스트정보 
+	 * 관리자폼
+	 *  - jtMenuList, jtMenuRequest DB조회
+	 * recipe_flag='Y' : 승인 / recipe_flag='N' : 요청거절 / recipe_flag='S' : 승인대기
+	 *  - flag="Y" 일 때 모든레시피, flag="S" 일 때 요청레시피 테이블의 리스트정보 
 	 * @param flag
 	 * @return List<MainRecipeVO>
 	 * @throws SQLException
@@ -283,7 +293,8 @@ public class RecipeDAO {
 	}//recipeList
 	
 	/**
-	 * 관리자 - 기존메뉴 삭제
+	 * 관리자
+	 *  - 기존메뉴 삭제
 	 * @param menuName
 	 * @return boolean
 	 */
@@ -308,46 +319,8 @@ public class RecipeDAO {
 		return true;
 	}//deleteRecipe
 	
-	
 	/**
-	 * 회원 - 레시피 승인요청버튼을 누르면 테이블에 flag가 N인 상태로 추가
-	 * 
-	 * ---------------------------------변경사항----------------------------------------
-	 * 메소드명 requestRecipe > insertRecipe으로 변경
-	 * 매개변수 id 추가
-	 * @param addVo(AddRecipeVO) : String menuName, menuImg, menuInfo, menuType, id
-	 * 						  					 Date inputDate
-	 * @return boolean
-	 */
-	public boolean insertRecipe(MainRecipeVO mrv, String id) throws SQLException{
-		Connection con=null;
-		PreparedStatement pstmt = null;
-		
-		try{
-			con = getConnection();
-			
-			String query="insert into reciperegister values(?, ?, ?, ?, ?, ?, ?, sysdate, 'N')";
-			pstmt = con.prepareStatement(query);
-			
-			pstmt.setString(1, mrv.getMenuName());
-			pstmt.setString(2, mrv.getMenuImg());
-			pstmt.setString(3, mrv.getMenuType());
-			pstmt.setString(4, mrv.getMenuSimpeInfo());
-			pstmt.setString(5, mrv.getMenuDetailInfo());
-			pstmt.setString(6, mrv.getMenuPrice());
-			pstmt.setString(7, id);	//id는 mainForm에서 로그인한 id를 가져옴
-			
-			pstmt.executeUpdate();
-		}finally {
-			if(pstmt!= null){ pstmt.close(); }
-			if(con!= null){ con.close(); }
-		}//end finally
-		
-		return true;
-	}//insertRecipe
-	
-	
-	/**
+	 * 관리자폼 > 추가/수정메뉴폼 : 수정버튼
 	 * 관리자폼에서 기존메뉴를 수정하면 정보가 업데이트
 	 * 원래있던 메뉴이름을 가져와 바꾼다.
 	 * 관리자는 메뉴이름은 변경불가.
@@ -381,23 +354,24 @@ public class RecipeDAO {
 		
 		return true;
 	}//updateRecipe
-
 	
 	/**
-	 * 관리자폼 - 승인처리> reciperegister테이블의 flag컬럼을 "Y"로 변경해준다.
+	 * 관리자폼
+	 *  - 요청승인 버튼
+	 *  - 승인처리> reciperegister테이블의 flag컬럼을 "S"에서 "Y"로 변경해준다.
 	 * ---------------------------------변경사항----------------------------------------
 	 * 메소드명 insertRecipe > updateFlag 로 변경
 	 * @param menuCode
 	 * @return
 	 */
-	public boolean updateFlag(String menuName) throws SQLException{
+	public boolean updateFlagY(String menuName) throws SQLException{
 		Connection con=null;
 		PreparedStatement pstmt = null;
 		
 		try{
 			con = getConnection();
 			
-			String query="update reciperegister set recipe_flag='Y' where menu_name=?";
+			String query="update reciperegister set recipe_flag='Y' where menu_name=? and recipe_flag='S'";
 			pstmt = con.prepareStatement(query);
 			
 			pstmt.setString(1, menuName);
@@ -409,7 +383,76 @@ public class RecipeDAO {
 		}//end finally
 		
 		return true;
-	}//confirmRecipe 
+	}//updateFlagY 
+	
+	/**
+	 * 관리자폼
+	 *  - 요청거절 버튼 
+	 *  - 승인처리> reciperegister테이블의 flag컬럼을 "S"에서 "N"로 변경해준다.
+	 * ---------------------------------변경사항----------------------------------------
+	 * 메소드명 insertRecipe > updateFlag 로 변경
+	 * @param menuCode
+	 * @return
+	 */
+	public boolean updateFlagN(String menuName) throws SQLException{
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		
+		try{
+			con = getConnection();
+			
+			String query="update reciperegister set recipe_flag='N' where menu_name=? and recipe_flag='S'";
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, menuName);
+			
+			pstmt.executeUpdate();
+		}finally {
+			if(pstmt!= null){ pstmt.close(); }
+			if(con!= null){ con.close(); }
+		}//end finally
+		
+		return true;
+	}//updateFlagY 
+	
+	
+	/**
+	 * 회원 - 레시피 승인요청버튼을 누르면 테이블에 flag가 S인 상태로 추가
+	 * 
+	 * ---------------------------------변경사항----------------------------------------
+	 * 메소드명 requestRecipe > insertRecipe으로 변경
+	 * 매개변수 id 추가
+	 * @param addVo(AddRecipeVO) : String menuName, menuImg, menuInfo, menuType, id
+	 * 						  					 Date inputDate
+	 * @return boolean
+	 */
+	public boolean insertRecipe(MainRecipeVO mrv, String id) throws SQLException{
+		Connection con=null;
+		PreparedStatement pstmt = null;
+		
+		try{
+			con = getConnection();
+			
+			String query="insert into reciperegister values(?, ?, ?, ?, ?, ?, ?, sysdate, 'S')";
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setString(1, mrv.getMenuName());
+			pstmt.setString(2, mrv.getMenuImg());
+			pstmt.setString(3, mrv.getMenuType());
+			pstmt.setString(4, mrv.getMenuSimpeInfo());
+			pstmt.setString(5, mrv.getMenuDetailInfo());
+			pstmt.setString(6, mrv.getMenuPrice());
+			pstmt.setString(7, id);	//id는 mainForm에서 로그인한 id를 가져옴
+			
+			pstmt.executeUpdate();
+		}finally {
+			if(pstmt!= null){ pstmt.close(); }
+			if(con!= null){ con.close(); }
+		}//end finally
+		
+		return true;
+	}//insertRecipe
+	
 	
 	public static void main(String[] args){
 		RecipeDAO md= RecipeDAO.getInstance();
