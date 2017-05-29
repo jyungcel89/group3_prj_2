@@ -20,8 +20,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.recipe.dao.RecipeDAO;
+import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.view.ItemPreviewForm;
 import kr.co.sist.recipe.view.MainForm;
+import kr.co.sist.recipe.view.MgrPageForm;
+import kr.co.sist.recipe.view.MyPageForm;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MenuTypeVO;
 
@@ -59,7 +62,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
          mainFrm.setImgPath1(path + dataList.get(0).getMenuImg());
          mainFrm.setImgPath2(path + dataList.get(1).getMenuImg());
          mainFrm.setImgPath3(path + dataList.get(2).getMenuImg());
-         
+         System.out.println(dataList.get(2).getMenuImg());
          // 등록한 날짜기준 3위까지 이름 등록
          mainFrm.setImgName1(dataList.get(0).getMenuName());
          mainFrm.setImgName2(dataList.get(1).getMenuName());
@@ -131,14 +134,16 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    }// searchList
 
    // 마이페이지(관리자 페이지)로 이동 버튼
-   public void addRecipe() {
-	   
+   public void showAddRecipe() {
+	   new AddRecipeForm();
+   }// addRecipe
+   
+   public void showMyPage() {
+	   // 로그인 // 매니저일 때, 회원일 때
+//	   new MyPageForm();
+	   new MgrPageForm();
    }// addRecipe
 
-   // 닫기
-   public void close() {
-
-   }// close
 
    @Override 
    public void actionPerformed(ActionEvent ae) {
@@ -150,7 +155,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
     	  MainRecipeVO mrv;
 		try {
 			mrv = rcp_dao.selectOneRecipe(mainFrm.getImgName1());
-			new ItemPreviewForm(mainFrm, mrv);
+			new ItemPreviewForm(mrv);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}//end catch
@@ -159,7 +164,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
     	  MainRecipeVO mrv;
     	  try {
     		  mrv = rcp_dao.selectOneRecipe(mainFrm.getImgName2());
-    		  new ItemPreviewForm(mainFrm, mrv);
+    		  new ItemPreviewForm(mrv);
     	  } catch (SQLException e) {
     		  e.printStackTrace();
     	  }//end catch
@@ -168,7 +173,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
     	  MainRecipeVO mrv;
     	  try {
     		  mrv = rcp_dao.selectOneRecipe(mainFrm.getImgName3());
-    		  new ItemPreviewForm(mainFrm, mrv);
+    		  new ItemPreviewForm(mrv);
     	  } catch (SQLException e) {
     		  e.printStackTrace();
     	  }//end catch
@@ -182,6 +187,13 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
 		}//end switch
       }//end if //닫기버튼
       
+      if(ae.getSource() == mainFrm.getJbMypage()){
+    	  showMyPage();
+      }//end if
+      
+      if(ae.getSource() == mainFrm.getJbAddRecipe()){
+    	  showAddRecipe();
+      }//end if
       
        
    }// actionPerformed
@@ -195,7 +207,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
 		try {
 			mrv = rcp_dao.selectOneRecipe((String)jtTmp.getValueAt(selecedRow, 0));
 			/// 자세한 정보도 같이 가져와야함
-			new ItemPreviewForm(mainFrm, mrv);
+			new ItemPreviewForm(mrv);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}//end catch
