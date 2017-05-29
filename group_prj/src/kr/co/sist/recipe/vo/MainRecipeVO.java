@@ -5,7 +5,7 @@ public class MainRecipeVO {
 
 	public MainRecipeVO() {
 	}
-
+ 
 	public MainRecipeVO(String menuName, String menuPrice, String menuSimpeInfo, String menuDetailInfo, String menuType,
 			String menuImg) {
 		super();

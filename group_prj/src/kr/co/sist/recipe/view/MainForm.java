@@ -31,7 +31,7 @@ public class MainForm extends JFrame{
 	private String imgPath1, imgPath2, imgPath3;
 	private JLabel menuName1, menuName2, menuName3;
 	
-	public MainForm() {
+	public MainForm() { 
 		super("È«È«È«ÀÇ ÆíÀÇÁ¡ ·¹½ÃÇÇ");
 		setLayout(null);
 		
