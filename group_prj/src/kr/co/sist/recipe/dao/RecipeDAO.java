@@ -329,7 +329,7 @@ public class RecipeDAO {
 	 * 매개변수를 AddRecipeVO addVo > String menuName으로 변경
 	 * @param addVo
 	 * @return
-	 */
+	 */ 
 	public boolean updateRecipe(RecipeInfoUpdateVO updateVo, String menuName) throws SQLException{
 		Connection con=null;
 		PreparedStatement pstmt = null;
