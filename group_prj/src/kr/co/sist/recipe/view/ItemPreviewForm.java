@@ -1,7 +1,10 @@
 package kr.co.sist.recipe.view;
- 
+
+
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Label;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,10 +25,9 @@ import kr.co.sist.recipe.vo.MainRecipeVO;
 public class ItemPreviewForm extends JDialog {
 	
 	private JTable jtIngrednt;
-	private JTextArea jtaInfo;
+	private JTextArea jtaDetail, jtaSimple;
 	private JButton jbClose,jbSubmit;
-	private JLabel jlRecipeName,jlIngrednt,jlScore,jlBookmark,jlMakeMethod,imgLabel;
-	private ImageIcon imgIcon;
+	private JLabel jlRecipeName, jlIngrednt;
 	private DefaultTableModel dtmIngrednt;
 	private JScrollPane jspIngrednt;
 	private JComboBox<Integer> jcScore;
@@ -36,26 +38,33 @@ public class ItemPreviewForm extends JDialog {
 		setLayout(null);
 		
 		//region 상품명,재료,별점,북마크,만드는법,이미지 라벨및 이미지 아이콘 구역
-		Font defaultFont=new Font("돋음",Font.BOLD,15);
-		jlRecipeName=new JLabel("상품명");
-		jlRecipeName.setBounds(170,50,100,40);
+		Font defaultFont=new Font("맑은고딕",Font.BOLD,13);
 		
-		jlIngrednt=new JLabel("재료");
-		jlIngrednt.setBounds(400,50,100,40);
+		jlRecipeName=new JLabel("▧ "+mrv.getMenuName()+" ▧");
+		jlRecipeName.setFont(new Font("맑은고딕", Font.BOLD, 17));
+		jlRecipeName.setBounds(30,70,300,30);
 		
-		jlScore=new JLabel("별점");
-		jlScore.setBounds(400,300,100,40);
+		jlIngrednt=new JLabel("◑ 재료");
+		jlIngrednt.setBounds(400,70,100,30);
 		
-		jlBookmark=new JLabel("북마크♡");
-		jlBookmark.setBounds(640,300,100,40);
+		JLabel jlScore=new JLabel("별점");
+		jlScore.setBounds(520,320,100,30);
 		
-		jlMakeMethod=new JLabel("만드는법");
-		jlMakeMethod.setBounds(370,400,100,40);
+		JLabel jlBookmark=new JLabel("북마크");
+		jlBookmark.setBounds(405,320,50,30);
 		
-		imgIcon=new ImageIcon("C:/dev/workspace/group_prj/src/kr/co/sist/recipe/view/FI_0031.JPG");
-		imgLabel=new JLabel(imgIcon);
+		JLabel jlMakeMethod=new JLabel("◑ 레시피");
+		jlMakeMethod.setBounds(400,380,70,30);
+		
+		// 이미지 경로
+		String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/";
+		// 이미지 넣어주기
+		ImageIcon imgIcon=new ImageIcon(path+mrv.getMenuImg());
+		JLabel imgLabel=new JLabel(imgIcon);
 		imgLabel.setBounds(30,100,330,270);
-		//endregion //상품명,재료,별점,북마크,만드는법,이미지 라벨 구역끝
+	
+		JLabel jlSimpleInfo = new JLabel("◑ 간단 설명");
+		jlSimpleInfo.setBounds(30, 380, 100, 30);
 		
 		//region 재료테이블 영역
 		String[] columnNames={"재료명","가격"};
@@ -81,40 +90,46 @@ public class ItemPreviewForm extends JDialog {
 		jspIngrednt.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		jspIngrednt.setBounds(400,100,350,180);
 		
-		
-		
-		
 		//endregion 재료테이블영역 끝
 		
-		//region 별점 콤보박스 영역
-		jcScore=new JComboBox<Integer>();
-		jcScore.setBounds(440,310,100,30);
-		//endregion 별점 콤보박스 영역 끝
-
 		//region 좋아요 체크박스 영역
 		jchBookmark=new JCheckBox();
-		jchBookmark.setBounds(705,300,300,40);
+		jchBookmark.setBounds(450,320,20,30);
 		//endregion 좋아요 체크박스 영역 끝
+	
+		//region 별점 콤보박스 영역
+		jcScore=new JComboBox<Integer>();
+		jcScore.setBounds(560,325,100,20);
+		//endregion 별점 콤보박스 영역 끝
 		
 		//region 닫기,제출 버튼 영역
 		jbSubmit=new JButton("제출!");
-		jbSubmit.setBounds(550,310,70,30);
+		jbSubmit.setBounds(670,325,70,20);
 		
 		jbClose=new JButton("확인");
-		jbClose.setBounds(650,610,100,40);
+		jbClose.setBounds(650,610,100,25);
 		//endregion 닫기,제출버튼 영역 끝
 		
 		//region 만드는법 TextArea
 		
-		jtaInfo=new JTextArea();
-		jtaInfo.setLineWrap(true);
-		jspTextArea=new JScrollPane(jtaInfo);
+		jtaSimple=new JTextArea(mrv.getMenuSimpeInfo());
+		jtaSimple.setFont(new Font("맑은고딕", Font.PLAIN, 12));
+		jtaSimple.setLineWrap(true);
+		jtaSimple.setBounds(30, 420, 330, 70);
+		jtaSimple.setEditable(false);
+		
+		jtaDetail=new JTextArea(mrv.getMenuDetailInfo());
+		jtaDetail.setLineWrap(true);
+		jspTextArea=new JScrollPane(jtaDetail);
 		jspTextArea.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		jspTextArea.setBounds(95,450,600,150);
+		jspTextArea.setBounds(400,420,350,150);
 		//endregion 만드는법 TextArea끝
 		
-		Component[] com={jlRecipeName,imgLabel,jlIngrednt,jspIngrednt,jlScore,jlBookmark,jcScore,jchBookmark
-				,jbSubmit,jlMakeMethod,jspTextArea,jbClose};
+		add(jlRecipeName);
+		add(jtaSimple);
+		
+		Component[] com={imgLabel,jlIngrednt,jspIngrednt,jlScore,jlBookmark,jcScore,jchBookmark
+				,jbSubmit,jlMakeMethod,jspTextArea,jbClose,jlSimpleInfo};
 		
 		for(int i=0; i<com.length;i++){
 			com[i].setFont(defaultFont);
@@ -135,11 +150,11 @@ public class ItemPreviewForm extends JDialog {
 	}
 
 	public JTextArea getJtaInfo() {
-		return jtaInfo;
+		return jtaDetail;
 	}
 
 	public void setJtaInfo(JTextArea jtaInfo) {
-		this.jtaInfo = jtaInfo;
+		this.jtaDetail = jtaInfo;
 	}
 
 	public JButton getJbClose() {
@@ -173,47 +188,7 @@ public class ItemPreviewForm extends JDialog {
 	public void setJlIngrednt(JLabel jlIngrednt) {
 		this.jlIngrednt = jlIngrednt;
 	}
-
-	public JLabel getJlScore() {
-		return jlScore;
-	}
-
-	public void setJlScore(JLabel jlScore) {
-		this.jlScore = jlScore;
-	}
-
-	public JLabel getJlBookmark() {
-		return jlBookmark;
-	}
-
-	public void setJlBookmark(JLabel jlBookmark) {
-		this.jlBookmark = jlBookmark;
-	}
-
-	public JLabel getJlMakeMethod() {
-		return jlMakeMethod;
-	}
-
-	public void setJlMakeMethod(JLabel jlMakeMethod) {
-		this.jlMakeMethod = jlMakeMethod;
-	}
-
-	public JLabel getImgLabel() {
-		return imgLabel;
-	}
-
-	public void setImgLabel(JLabel imgLabel) {
-		this.imgLabel = imgLabel;
-	}
-
-	public ImageIcon getImgIcon() {
-		return imgIcon;
-	}
-
-	public void setImgIcon(ImageIcon imgIcon) {
-		this.imgIcon = imgIcon;
-	}
-
+	
 	public DefaultTableModel getDtmIngrednt() {
 		return dtmIngrednt;
 	}
