@@ -33,7 +33,7 @@ public class MainForm extends JFrame{
 
 	public MainForm(String logId) { 
 		super("홍홍홍의 편의점 레시피");
-		setLayout(null);
+		setLayout(null); 
 		System.out.println("메인"+logId);
 		
 		JLabel jlRecent = new JLabel("◑ 최근 레시피");
