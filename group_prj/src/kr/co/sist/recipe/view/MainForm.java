@@ -35,19 +35,6 @@ public class MainForm extends JFrame{
 		super("홍홍홍의 편의점 레시피");
 		setLayout(null);
 		
-		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/workspace/group_prj/src/kr/co/sist/recipe/img/background_image.png"));
-		setContentPane(jlImg);
-		// 등록된 레시피 이미지
-		JLabel jlRecent = new JLabel("최근 레시피");
-		jlRecent.setFont(new Font("", Font.BOLD, 15));
-		MainFormEvt mfe= new MainFormEvt(this);
-		
-		JPanel jpRcntRecipe = new JPanel();
-		jpRcntRecipe.setBackground(new Color(255, 255, 255, 130));
-		jbFstImg = new JButton(new ImageIcon(imgPath1));
-		jbSecImg = new JButton(new ImageIcon(imgPath2));
-		jbTrdImg = new JButton(new ImageIcon(imgPath3));
-		System.out.println(imgPath3);
 
 		// 검색조건
 		JLabel jlSearch = new JLabel("검색 조건");
@@ -74,11 +61,48 @@ public class MainForm extends JFrame{
 		chkThree.setOpaque(false);
 		chkFour.setOpaque(false);
 		
+
 		// 아래 레시피 추가버튼, 마이페이지버튼, 닫기 버튼
 		JPanel jpFootBtns = new JPanel();
 		jbAddRecipe = new JButton("메뉴 요청");
 		jbMypage = new JButton("마이페이지");
 		jbClose = new JButton("닫기");
+		
+		// 테이블
+		String[] columnName = {"메뉴이름", "이미지", "메뉴타입", "간단소개","가격"};
+		String[][] rowData = {{"메뉴를 검색해주세요","","", "", ""}};
+		// 테이블 수정 막기
+		dtmRecipe = new DefaultTableModel(rowData, columnName){
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		
+		
+		jtRecipe = new JTable(dtmRecipe);
+		jtRecipe.getTableHeader().setReorderingAllowed(false);
+		JScrollPane jspTab = new JScrollPane(jtRecipe);
+		// 테이블 설정 
+		// 컬럼의 높이설정
+		jtRecipe.setRowHeight(100);
+		// 컬럼의 넓이 설정
+		jtRecipe.getColumnModel().getColumn(0).setPreferredWidth(40);
+		
+		// 이벤트 선언
+		MainFormEvt mfe= new MainFormEvt(this);
+		// 최신 이미지 등록 뷰
+		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/workspace/group_prj/src/kr/co/sist/recipe/img/background_image.png"));
+		setContentPane(jlImg);
+		// 등록된 레시피 이미지
+		JLabel jlRecent = new JLabel("최근 레시피");
+		jlRecent.setFont(new Font("", Font.BOLD, 15));
+		
+		JPanel jpRcntRecipe = new JPanel();
+		jpRcntRecipe.setBackground(new Color(255, 255, 255, 130));
+		jbFstImg = new JButton(new ImageIcon(imgPath1));
+		jbSecImg = new JButton(new ImageIcon(imgPath2));
+		jbTrdImg = new JButton(new ImageIcon(imgPath3));
 		
 		// 이미지 버튼 배치
 		jpRcntRecipe.setLayout(null);
@@ -106,20 +130,6 @@ public class MainForm extends JFrame{
 		jbAddRecipe.setBounds(0, 10, 100, 30);
 		jbMypage.setBounds(620, 10, 100, 30);
 		jbClose.setBounds(730, 10, 100, 30);
-		
-		// 테이블
-		String[] columnName = {"메뉴이름", "이미지", "메뉴타입", "간단소개","가격"};
-		String[][] rowData = {{"딘나맛있","jpg","분식류", "맛나", "4000"}};
-		// 테이블 수정 막기
-		dtmRecipe = new DefaultTableModel(rowData, columnName){
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
-		jtRecipe = new JTable(dtmRecipe);
-		jtRecipe.getTableHeader().setReorderingAllowed(false);
-		JScrollPane jspTab = new JScrollPane(jtRecipe);
 		
 		// 최근 메뉴 패널 배치
 		jpRcntRecipe.setBounds(20, 130, 830, 260);
@@ -157,15 +167,15 @@ public class MainForm extends JFrame{
 		add(jpFootBtns);
 		
 		// 이벤트 적용
-//		chkOne.addItemListener(mfe);
-//		chkTwo.addItemListener(mfe);
-//		chkThree.addItemListener(mfe);
-//		chkFour.addItemListener(mfe);
 		jbSearch.addActionListener(mfe);
-	
-		
+		jtRecipe.addMouseListener(mfe);
+		jbFstImg.addActionListener(mfe);
+		jbSecImg.addActionListener(mfe);
+		jbTrdImg.addActionListener(mfe);
+		jbMypage.addActionListener(mfe);
+		jbClose.addActionListener(mfe);
 		// 부모창
-		setBounds(10, 10, 880, 770);
+		setBounds(10, 10, 880, 1000);
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

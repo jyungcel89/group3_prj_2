@@ -16,9 +16,11 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.recipe.dao.RecipeDAO;
+import kr.co.sist.recipe.view.ItemPreviewForm;
 import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MenuTypeVO;
@@ -35,8 +37,17 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    public MainFormEvt(MainForm mainFrm) {
       this.mainFrm = mainFrm;
       rcp_dao = RecipeDAO.getInstance();
-
+      
       newRecipe();
+      
+      mtv = new MenuTypeVO();
+      
+      mtv.setAnju("");
+      mtv.setMeal("");
+      mtv.setDessert("");
+      mtv.setBunsik("");
+      mainFrm.getJtfSearch().setText("");
+      searchList();
    }// MainFormEvt
 
    // 최근 등록된 레시피 이미지 띄우기
@@ -60,6 +71,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    // 선택된 레시피 검색조건 가져오기
    public void searchCondition() {
       mtv = new MenuTypeVO();
+      
       mtv.setAnju("");
       mtv.setMeal("");
       mtv.setDessert("");
@@ -84,10 +96,12 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    // 검색조건으로 리스트 조회
    public void searchList() {
 
+	   String searchText = mainFrm.getJtfSearch().getText();
+	   String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/";
       try {
          // 검색조건 메소드 실행하여 조건을 걸러줌
          searchCondition();
-         List<MainRecipeVO> list = rcp_dao.selectAllRecipe(mtv, "ㅇㅇ");
+         List<MainRecipeVO> list = rcp_dao.selectAllRecipe(mtv, searchText);
          Object[] rowMenu = new Object[5];
          DefaultTableModel dtmMenu = mainFrm.getDtmRecipe();
 
@@ -98,7 +112,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
          for (int i = 0; i < list.size(); i++) {
             mrv = list.get(i);
             rowMenu[0] = mrv.getMenuName();
-            rowMenu[1] = mrv.getMenuImg();
+            rowMenu[1] = new ImageIcon(path+mrv.getMenuImg());
             rowMenu[2] = mrv.getMenuType();
             rowMenu[3] = mrv.getMenuInfo();
             rowMenu[4] = mrv.getMenuPrice();
@@ -127,15 +141,37 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    public void actionPerformed(ActionEvent ae) {
       if (ae.getSource() == mainFrm.getJbSearch()) {
          searchList();
-      }
+      }//end if //검색버튼
+      
+      if(ae.getSource() == mainFrm.getJbClose()){
+    	  int selectNum = JOptionPane.showConfirmDialog(mainFrm, "창을 닫으시겠습니까?");
+    	  switch (selectNum) {
+		case JOptionPane.OK_OPTION:
+			mainFrm.dispose();
+		}//end switch
+      }//end if //닫기버튼
+      
+      
+      
    }// actionPerformed
 
    @Override
    public void mouseClicked(MouseEvent me) {
       if (me.getClickCount() == 2) {
-
-      }
-   }
+    	  JTable jtTmp = mainFrm.getJtRecipe();
+    	  int selecedRow = jtTmp.getSelectedRow();
+    	  MainRecipeVO mrv = new MainRecipeVO();
+    	  
+    	  // 클릭시 경로
+    	  mrv.setMenuName((String)jtTmp.getValueAt(selecedRow, 0));
+    	  mrv.setMenuImg(((ImageIcon)jtTmp.getValueAt(selecedRow, 1)).toString());
+    	  mrv.setMenuType((String)jtTmp.getValueAt(selecedRow, 2));
+    	  mrv.setMenuInfo((String)jtTmp.getValueAt(selecedRow, 3));
+    	  mrv.setMenuPrice((String)jtTmp.getValueAt(selecedRow, 4));
+    	  
+    	  new ItemPreviewForm(mainFrm, mrv);
+      }//end if
+   }//
 
    @Override
    public void itemStateChanged(ItemEvent ie) {

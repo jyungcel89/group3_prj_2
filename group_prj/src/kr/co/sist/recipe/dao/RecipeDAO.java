@@ -130,27 +130,29 @@ public class RecipeDAO {
 		try{ 
 			con= getConnection();
 			
-			// 검색조건(식사류, 안주류, 디저트, 분식)이 비어있지 않으면 검색조건으로 검색
-			// 검색조건이 비어있으면 전체 검색
+			// 검색조건(식사류, 안주류, 디저트, 분식)이 체크되어 있거나 검색어가 있으면 조건을 걸러 검색
+			// 검색조건이 없으면 전체 검색
 			StringBuilder sbSelectRecipe = new StringBuilder();
 			sbSelectRecipe.append("select menu_name, img, food_type, info, totalprice from reciperegister");
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			
 			if(mtv.getAnju().equals("") && mtv.getBunsik().equals("") && mtv.getDessert().equals("") && mtv.getMeal().equals("")){
-				// 검색창에 입력한 값이 비어있지 않다면 값을 포함하여 검색
+				// 메뉴타입이 체크되어있지않은 경우
 				if(!srchText.equals("")){
-					sbSelectRecipe.append(" where like '%'||?||'%'");
+					// 메뉴타입이 체크되어 있지 않고 검색어를 갖는 경우
+					sbSelectRecipe.append(" where menu_name like '%'||?||'%'");
 					pstmt= con.prepareStatement(sbSelectRecipe.toString());
 					pstmt.setString(1, srchText);
 					rs=pstmt.executeQuery();
 				}else{
+					// 메뉴타입이 체크되어 있지 않고 검색어를 갖지 않는 경우
 					pstmt= con.prepareStatement(sbSelectRecipe.toString());
 					rs=pstmt.executeQuery();
 				}//end else
 			}else{
-				//검색조건이 있으면 타입을 체크한거만 검색
+				// 메뉴타입이 체크되어 있을 때
 				if(!srchText.equals("")){
-					// 타입이 체크되어있고 검색창이 비어있지 않을때 
-					sbSelectRecipe.append(" where like '%'||?||'%' and food_type in(?,?,?,?)");
+					// 타입이 체크되어있고 검색어를 갖는 경우
+					sbSelectRecipe.append(" where menu_name like '%'||?||'%' and food_type in(?,?,?,?)");
 					pstmt= con.prepareStatement(sbSelectRecipe.toString());
 					pstmt.setString(1, srchText);
 					
@@ -161,7 +163,7 @@ public class RecipeDAO {
 					
 					rs=pstmt.executeQuery();
 				}else{
-					
+					// 메뉴타입이 체크되어 있고 검색어를 갖지 않는 경우
 					sbSelectRecipe.append(" where food_type in(?,?,?,?)");
 					pstmt= con.prepareStatement(sbSelectRecipe.toString());
 					
@@ -174,7 +176,6 @@ public class RecipeDAO {
 					rs=pstmt.executeQuery();
 				}//end else
 			}//end else
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			
 			MainRecipeVO mrv = null;
 			while(rs.next()){

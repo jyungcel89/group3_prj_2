@@ -16,6 +16,8 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
+import kr.co.sist.recipe.vo.MainRecipeVO;
+
 @SuppressWarnings("serial")
 public class ItemPreviewForm extends JDialog {
 	
@@ -29,8 +31,8 @@ public class ItemPreviewForm extends JDialog {
 	private JComboBox<Integer> jcScore;
 	private JCheckBox jchBookmark;
 	private JScrollPane jspTextArea;
-	public ItemPreviewForm(){
 	
+	public ItemPreviewForm(MainForm mf, MainRecipeVO mrv){
 		setLayout(null);
 		
 		//region 상품명,재료,별점,북마크,만드는법,이미지 라벨및 이미지 아이콘 구역
@@ -82,7 +84,6 @@ public class ItemPreviewForm extends JDialog {
 		
 		
 		
-		
 		//endregion 재료테이블영역 끝
 		
 		//region 별점 콤보박스 영역
@@ -123,10 +124,137 @@ public class ItemPreviewForm extends JDialog {
 		setBounds(0,0,800,700);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-	}
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new ItemPreviewForm();
+	}//ItemPreviewForm
+
+	public JTable getJtIngrednt() {
+		return jtIngrednt;
 	}
 
-}
+	public void setJtIngrednt(JTable jtIngrednt) {
+		this.jtIngrednt = jtIngrednt;
+	}
+
+	public JTextArea getJtaInfo() {
+		return jtaInfo;
+	}
+
+	public void setJtaInfo(JTextArea jtaInfo) {
+		this.jtaInfo = jtaInfo;
+	}
+
+	public JButton getJbClose() {
+		return jbClose;
+	}
+
+	public void setJbClose(JButton jbClose) {
+		this.jbClose = jbClose;
+	}
+
+	public JButton getJbSubmit() {
+		return jbSubmit;
+	}
+
+	public void setJbSubmit(JButton jbSubmit) {
+		this.jbSubmit = jbSubmit;
+	}
+
+	public JLabel getJlRecipeName() {
+		return jlRecipeName;
+	}
+
+	public void setJlRecipeName(JLabel jlRecipeName) {
+		this.jlRecipeName = jlRecipeName;
+	}
+
+	public JLabel getJlIngrednt() {
+		return jlIngrednt;
+	}
+
+	public void setJlIngrednt(JLabel jlIngrednt) {
+		this.jlIngrednt = jlIngrednt;
+	}
+
+	public JLabel getJlScore() {
+		return jlScore;
+	}
+
+	public void setJlScore(JLabel jlScore) {
+		this.jlScore = jlScore;
+	}
+
+	public JLabel getJlBookmark() {
+		return jlBookmark;
+	}
+
+	public void setJlBookmark(JLabel jlBookmark) {
+		this.jlBookmark = jlBookmark;
+	}
+
+	public JLabel getJlMakeMethod() {
+		return jlMakeMethod;
+	}
+
+	public void setJlMakeMethod(JLabel jlMakeMethod) {
+		this.jlMakeMethod = jlMakeMethod;
+	}
+
+	public JLabel getImgLabel() {
+		return imgLabel;
+	}
+
+	public void setImgLabel(JLabel imgLabel) {
+		this.imgLabel = imgLabel;
+	}
+
+	public ImageIcon getImgIcon() {
+		return imgIcon;
+	}
+
+	public void setImgIcon(ImageIcon imgIcon) {
+		this.imgIcon = imgIcon;
+	}
+
+	public DefaultTableModel getDtmIngrednt() {
+		return dtmIngrednt;
+	}
+
+	public void setDtmIngrednt(DefaultTableModel dtmIngrednt) {
+		this.dtmIngrednt = dtmIngrednt;
+	}
+
+	public JScrollPane getJspIngrednt() {
+		return jspIngrednt;
+	}
+
+	public void setJspIngrednt(JScrollPane jspIngrednt) {
+		this.jspIngrednt = jspIngrednt;
+	}
+
+	public JComboBox<Integer> getJcScore() {
+		return jcScore;
+	}
+
+	public void setJcScore(JComboBox<Integer> jcScore) {
+		this.jcScore = jcScore;
+	}
+
+	public JCheckBox getJchBookmark() {
+		return jchBookmark;
+	}
+
+	public void setJchBookmark(JCheckBox jchBookmark) {
+		this.jchBookmark = jchBookmark;
+	}
+
+	public JScrollPane getJspTextArea() {
+		return jspTextArea;
+	}
+
+	public void setJspTextArea(JScrollPane jspTextArea) {
+		this.jspTextArea = jspTextArea;
+	}
+	
+	
+	
+
+}//class
