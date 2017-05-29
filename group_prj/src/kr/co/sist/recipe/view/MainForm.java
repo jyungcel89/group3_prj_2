@@ -92,7 +92,7 @@ public class MainForm extends JFrame{
 		// 이벤트 선언
 		MainFormEvt mfe= new MainFormEvt(this);
 		// 최신 이미지 등록 뷰
-		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/workspace/group_prj/src/kr/co/sist/recipe/img/background_image.png"));
+		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/background_image.png"));
 		setContentPane(jlImg);
 		// 등록된 레시피 이미지
 		JLabel jlRecent = new JLabel("최근 레시피");
@@ -136,9 +136,9 @@ public class MainForm extends JFrame{
 		// 검색조건 패널 배치
 		jpSrchOption.setBounds(20, 400, 830, 50);
 		// 테이블 배치
-		jspTab.setBounds(20, 450, 830, 200);
+		jspTab.setBounds(20, 450, 830, 450);
 		// 하단 버튼패널 배치
-		jpFootBtns.setBounds(20, 660, 830, 50);
+		jpFootBtns.setBounds(20, 910, 830, 50);
 		
 		// 최근메뉴 이미지 버튼 붙이기
 		jpRcntRecipe.add(jlRecent);
@@ -175,7 +175,7 @@ public class MainForm extends JFrame{
 		jbMypage.addActionListener(mfe);
 		jbClose.addActionListener(mfe);
 		// 부모창
-		setBounds(10, 10, 880, 1000);
+		setBounds(10, 10, 880, 1010);
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -133,7 +133,7 @@ public class RecipeDAO {
 			// 검색조건(식사류, 안주류, 디저트, 분식)이 체크되어 있거나 검색어가 있으면 조건을 걸러 검색
 			// 검색조건이 없으면 전체 검색
 			StringBuilder sbSelectRecipe = new StringBuilder();
-			sbSelectRecipe.append("select menu_name, img, food_type, info, totalprice from reciperegister");
+			sbSelectRecipe.append("select menu_name, img, food_type, info, recipe_info, totalprice from reciperegister");
 			
 			if(mtv.getAnju().equals("") && mtv.getBunsik().equals("") && mtv.getDessert().equals("") && mtv.getMeal().equals("")){
 				// 메뉴타입이 체크되어있지않은 경우
@@ -183,8 +183,9 @@ public class RecipeDAO {
 				mrv.setMenuName(rs.getString("menu_name"));
 				mrv.setMenuImg(rs.getString("img"));
 				mrv.setMenuType(rs.getString("food_type"));
-				mrv.setMenuInfo(rs.getString("info"));
+				mrv.setMenuSimpeInfo(rs.getString("info"));
 				mrv.setMenuPrice(rs.getString("totalprice"));
+				mrv.setMenuDetailInfo(rs.getString("recipe_info"));
 				
 				recpList.add(mrv);
 			}//end while
@@ -203,8 +204,40 @@ public class RecipeDAO {
 	 * @return List<ShowRecipeVO>
 	 * @throws SQLException
 	 */
-	public List<ShowRecipeVO> showNewRecipe() throws SQLException{
-		List<ShowRecipeVO> recntImgList = new ArrayList<ShowRecipeVO>();
+//	public List<ShowRecipeVO> showNewRecipe() throws SQLException{
+//		List<ShowRecipeVO> recntImgList = new ArrayList<ShowRecipeVO>();
+//		Connection con= null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//
+//		try{
+//			con = getConnection();
+//			
+//			// 등록날짜 기준으로 정렬
+//			String query="select menu_name, img from reciperegister order by inputdate";
+//			pstmt = con.prepareStatement(query);
+//			
+//			rs = pstmt.executeQuery();
+//			
+//			ShowRecipeVO srv = null;
+//			while(rs.next()){
+//				srv = new ShowRecipeVO();
+//				srv.setMenuName(rs.getString("menu_name"));
+//				srv.setMenuImg(rs.getString("img"));
+//				
+//				recntImgList.add(srv);
+//			}
+//		}finally {
+//			if(rs!= null){ rs.close(); }
+//			if(pstmt!= null){ pstmt.close(); }
+//			if(con!= null){ con.close(); }
+//		}//finally
+//		
+//		return recntImgList;
+//	}//showNewRecipe
+	
+	public List<MainRecipeVO> showNewRecipe() throws SQLException{
+		List<MainRecipeVO> recntImgList = new ArrayList<MainRecipeVO>();
 		Connection con= null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -213,18 +246,22 @@ public class RecipeDAO {
 			con = getConnection();
 			
 			// 등록날짜 기준으로 정렬
-			String query="select menu_name, img from reciperegister order by inputdate";
+			String query="select menu_name, img, totalprice, food_type, info, recipe_info from reciperegister order by inputdate";
 			pstmt = con.prepareStatement(query);
 			
 			rs = pstmt.executeQuery();
 			
-			ShowRecipeVO srv = null;
+			MainRecipeVO mrv = null;
 			while(rs.next()){
-				srv = new ShowRecipeVO();
-				srv.setMenuName(rs.getString("menu_name"));
-				srv.setMenuImg(rs.getString("img"));
+				mrv = new MainRecipeVO();
+				mrv.setMenuName(rs.getString("menu_name"));
+				mrv.setMenuImg(rs.getString("img"));
+				mrv.setMenuPrice(rs.getString("totalprice"));
+				mrv.setMenuType(rs.getString("food_type"));
+				mrv.setMenuSimpeInfo(rs.getString("info"));
+				mrv.setMenuDetailInfo(rs.getString("recipe_info"));
 				
-				recntImgList.add(srv);
+				recntImgList.add(mrv);
 			}
 		}finally {
 			if(rs!= null){ rs.close(); }
@@ -250,10 +287,8 @@ public class RecipeDAO {
 		try{
 			con = getConnection();
 			
-//			String selectQuery=
-//					"select menu_name, img, totalprice, food_type, info from reciperegister where recipe_flag=?";
 			String selectQuery=
-					"select menu_name, img, food_type, info, totalprice from reciperegister where recipe_flag=?";
+					"select menu_name, img, food_type, info, recipe_info, totalprice from reciperegister where recipe_flag=?";
 			pstmt = con.prepareStatement(selectQuery);
 			
 			// 바인드 변수 flag조건에 따라서 이벤트 처리
@@ -266,10 +301,10 @@ public class RecipeDAO {
 				
 				mrv.setMenuName(rs.getString("menu_name"));
 				mrv.setMenuImg(rs.getString("img"));
-//				mrv.setMenuPrice(rs.getString("totalprice"));
 				mrv.setMenuType(rs.getString("food_type"));
-				mrv.setMenuInfo(rs.getString("info"));
+				mrv.setMenuSimpeInfo(rs.getString("info"));
 				mrv.setMenuPrice(rs.getString("totalprice"));
+				mrv.setMenuDetailInfo(rs.getString("recipe_info"));
 				
 				list.add(mrv);
 			}//end while

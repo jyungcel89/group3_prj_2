@@ -1,16 +1,18 @@
 package kr.co.sist.recipe.vo;
 
 public class MainRecipeVO {
-	String menuName, menuPrice, menuInfo, menuType, menuImg;
+	String menuName, menuPrice, menuSimpeInfo, menuDetailInfo, menuType, menuImg;
 
 	public MainRecipeVO() {
 	}
 
-	public MainRecipeVO(String menuName, String menuPrice, String menuInfo, String menuType, String menuImg) {
+	public MainRecipeVO(String menuName, String menuPrice, String menuSimpeInfo, String menuDetailInfo, String menuType,
+			String menuImg) {
 		super();
 		this.menuName = menuName;
 		this.menuPrice = menuPrice;
-		this.menuInfo = menuInfo;
+		this.menuSimpeInfo = menuSimpeInfo;
+		this.menuDetailInfo = menuDetailInfo;
 		this.menuType = menuType;
 		this.menuImg = menuImg;
 	}
@@ -31,12 +33,20 @@ public class MainRecipeVO {
 		this.menuPrice = menuPrice;
 	}
 
-	public String getMenuInfo() {
-		return menuInfo;
+	public String getMenuSimpeInfo() {
+		return menuSimpeInfo;
 	}
 
-	public void setMenuInfo(String menuInfo) {
-		this.menuInfo = menuInfo;
+	public void setMenuSimpeInfo(String menuSimpeInfo) {
+		this.menuSimpeInfo = menuSimpeInfo;
+	}
+
+	public String getMenuDetailInfo() {
+		return menuDetailInfo;
+	}
+
+	public void setMenuDetailInfo(String menuDetailInfo) {
+		this.menuDetailInfo = menuDetailInfo;
 	}
 
 	public String getMenuType() {
@@ -55,11 +65,6 @@ public class MainRecipeVO {
 		this.menuImg = menuImg;
 	}
 
-	@Override
-	public String toString() {
-		return "MainRecipeVO [menuName=" + menuName + ", menuPrice=" + menuPrice + ", menuInfo=" + menuInfo
-				+ ", menuType=" + menuType + ", menuImg=" + menuImg + "]\n";
-	}
 	
 	
 }//class

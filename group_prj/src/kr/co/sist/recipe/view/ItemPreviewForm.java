@@ -17,6 +17,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.recipe.vo.MainRecipeVO;
+import kr.co.sist.recipe.vo.SelectRecipeInfoVO;
 
 @SuppressWarnings("serial")
 public class ItemPreviewForm extends JDialog {
@@ -32,7 +33,7 @@ public class ItemPreviewForm extends JDialog {
 	private JCheckBox jchBookmark;
 	private JScrollPane jspTextArea;
 	
-	public ItemPreviewForm(MainForm mf, MainRecipeVO mrv){
+	public ItemPreviewForm(MainForm mf, SelectRecipeInfoVO sriv){
 		setLayout(null);
 		
 		//region 상품명,재료,별점,북마크,만드는법,이미지 라벨및 이미지 아이콘 구역
