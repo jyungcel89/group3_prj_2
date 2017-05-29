@@ -36,7 +36,7 @@ public class ItemPreviewForm extends JDialog {
 	
 	public ItemPreviewForm(MainForm mf, MainRecipeVO mrv){
 		setLayout(null);
-		
+		 
 		//region 상품명,재료,별점,북마크,만드는법,이미지 라벨및 이미지 아이콘 구역
 		Font defaultFont=new Font("맑은고딕",Font.BOLD,13);
 		

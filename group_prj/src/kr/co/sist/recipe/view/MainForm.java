@@ -98,7 +98,7 @@ public class MainForm extends JFrame{
 		
 		// 이벤트 선언
 		MainFormEvt mfe= new MainFormEvt(this);
-		
+		 
 		// 최신 이미지 등록 뷰, 이미지 가져와서 등록
 		JPanel jpRcntRecipe = new JPanel();
 		jpRcntRecipe.setBackground(new Color(255, 255, 255, 130));
