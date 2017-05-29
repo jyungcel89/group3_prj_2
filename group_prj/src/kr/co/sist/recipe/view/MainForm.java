@@ -32,7 +32,7 @@ public class MainForm extends JFrame{
 	private JLabel menuName1, menuName2, menuName3;
 	
 	public MainForm() {
-		super("È«È«È«ÀÇ ÆíÀÇÁ¡ ·¹½ÃÇÇ");
+		super("È«È«È«ÀÇ ÆíÀÇÁ¡ ·¹½ÃÇÇ"); 
 		setLayout(null);
 		
 

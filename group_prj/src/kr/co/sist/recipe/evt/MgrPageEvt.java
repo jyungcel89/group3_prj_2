@@ -26,7 +26,7 @@ import kr.co.sist.recipe.vo.MgrMemberVO;
  * flag에 대한 재분류 고려중
  * @author JiYong
  *
- */
+ */ 
 public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseListener {
 
 	private MgrPageForm mpf;

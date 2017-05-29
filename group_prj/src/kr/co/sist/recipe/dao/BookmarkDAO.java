@@ -147,7 +147,7 @@ public class BookmarkDAO {
 	// 마이페이지 북마크리스트의 메뉴 > 메뉴 정보창에 정보들 넣기
 	public ShowRecipeVO showBookmarkMenu(String menuName){
 		return null;
-		
+		 
 	}//showBookmarkMenu
 	
 	
