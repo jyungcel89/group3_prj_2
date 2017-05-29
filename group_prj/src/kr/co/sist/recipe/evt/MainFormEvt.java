@@ -146,6 +146,8 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
     		  ae.getSource()==mainFrm.getJbTrdImg()){
     	  
     	  MainRecipeVO mrv = new MainRecipeVO();
+    	  
+//    	  mrv.setMenuName(mrv);
     	  new ItemPreviewForm(mainFrm, mrv);
     	  
       }//end if
@@ -167,17 +169,17 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
       if (me.getClickCount() == 2) {
     	  JTable jtTmp = mainFrm.getJtRecipe();
     	  int selecedRow = jtTmp.getSelectedRow();
-    	  MainRecipeVO mrv = new MainRecipeVO();
+    	  MainRecipeVO mrv;
+		try {
+			mrv = rcp_dao.selectOneRecipe((String)jtTmp.getValueAt(selecedRow, 0));
+
+			/// 자세한 정보도 같이 가져와야함
+			new ItemPreviewForm(mainFrm, mrv);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	  
-    	  // 클릭시 경로
-    	  mrv.setMenuName((String)jtTmp.getValueAt(selecedRow, 0));
-    	  mrv.setMenuImg(((ImageIcon)jtTmp.getValueAt(selecedRow, 1)).toString());
-    	  mrv.setMenuType((String)jtTmp.getValueAt(selecedRow, 2));
-    	  mrv.setMenuSimpeInfo((String)jtTmp.getValueAt(selecedRow, 3));
-    	  mrv.setMenuPrice((String)jtTmp.getValueAt(selecedRow, 4));
-//    	  sriv.setRecipeInfo(recipeInfo);
-    	  /// 자세한 정보도 같이 가져와야함
-    	  new ItemPreviewForm(mainFrm, mrv);
       }//end if
    }//
 

@@ -8,7 +8,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import kr.co.sist.recipe.view.ItemPreviewForm;
+import kr.co.sist.recipe.view.MainForm;
+
 public class ItemPreviewEvt extends WindowAdapter implements ActionListener, ItemListener {
+
+	private ItemPreviewForm previewFrm;
+	
+	
+	public ItemPreviewEvt(ItemPreviewForm previewFrm) {
+		this.previewFrm=previewFrm;
+	}//ItemPreviewEvt
 
 	// 메뉴정보 가져와서 보여줌
 	public void showRcpInfo(){
@@ -35,5 +45,6 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		
 	}
 	
+
 
 }//class

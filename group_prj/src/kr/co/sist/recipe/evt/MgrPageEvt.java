@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import kr.co.sist.recipe.dao.MemberDAO;
 import kr.co.sist.recipe.dao.RecipeDAO;
 import kr.co.sist.recipe.view.AddRecipeForm;
+import kr.co.sist.recipe.view.ItemPreviewForm;
 import kr.co.sist.recipe.view.MgrPageForm;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MgrMemberVO;
@@ -342,7 +343,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 	public void mouseClicked(MouseEvent me) {
 		if( me.getSource()==mpf.getJtMenuRequest() ){
 			if( me.getClickCount()==2 ){
-				new ItemPreviewEvt();
+//				new ItemPreviewEvt();
 			}
 		}
 			if( me.getSource()==mpf.getJtMenuList() ){

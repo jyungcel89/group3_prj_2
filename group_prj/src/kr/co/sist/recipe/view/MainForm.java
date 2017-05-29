@@ -117,7 +117,6 @@ public class MainForm extends JFrame{
 //		jpSrchOption.setOpaque(false);
 		jlSearch.setBounds(10, 10, 100, 30);
 		chkOne.setBounds(110, 10, 70, 30);
-		chkOne.setBackground(new Color(255, 0, 0, 0));
 		chkTwo.setBounds(180, 10, 70, 30);
 		chkThree.setBounds(260, 10, 70, 30);
 		chkFour.setBounds(340, 10, 70, 30);
