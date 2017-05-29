@@ -187,7 +187,9 @@ public class MainForm extends JFrame{
 		jbSecImg.addActionListener(mfe);
 		jbTrdImg.addActionListener(mfe);
 		jbMypage.addActionListener(mfe);
+		jbAddRecipe.addActionListener(mfe);
 		jbClose.addActionListener(mfe);
+		
 		// ºÎ¸ðÃ¢
 		setBounds(10, 10, 880, 1010);
 		setVisible(true);

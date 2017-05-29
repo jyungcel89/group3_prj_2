@@ -34,7 +34,8 @@ public class ItemPreviewForm extends JDialog {
 	private JCheckBox jchBookmark;
 	private JScrollPane jspTextArea;
 	
-	public ItemPreviewForm(MainForm mf, MainRecipeVO mrv){
+	public ItemPreviewForm(MainRecipeVO mrv){
+//		super(mf,"메뉴정보",false);
 		setLayout(null);
 		
 		//region 상품명,재료,별점,북마크,만드는법,이미지 라벨및 이미지 아이콘 구역

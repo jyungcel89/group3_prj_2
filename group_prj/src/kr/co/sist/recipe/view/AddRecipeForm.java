@@ -207,8 +207,8 @@ public class AddRecipeForm extends JDialog {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
-	
-	public static void main(String[] args){
-		new AddRecipeForm();
-	}
+//	
+//	public static void main(String[] args){
+//		new AddRecipeForm();
+//	}
 }
