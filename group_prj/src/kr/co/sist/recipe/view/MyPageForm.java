@@ -28,7 +28,7 @@ public class MyPageForm extends JDialog {
         jbEditMyInfo=new JButton("내 정보 수정");
         jbRmvFavorMenu=new JButton("북마크 삭제");
         jbClose=new JButton("닫기");
-
+ 
         //테이블
         String[] menuColumnNames={"이름","이미지","타입","간단소개","가격","등록상태"};
         String[][] menuData={};
