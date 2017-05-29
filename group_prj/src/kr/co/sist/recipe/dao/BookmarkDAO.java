@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 import org.w3c.dom.ls.LSInput;
 
 import kr.co.sist.recipe.vo.BookmarkVO;
-import kr.co.sist.recipe.vo.ShowRecipeVO;
+import kr.co.sist.recipe.vo.MainRecipeVO;
  
 /**
  * 2017-05-28 추가 및 수정
@@ -145,7 +145,7 @@ public class BookmarkDAO {
 	}//rmvBookmark
 	
 	// 마이페이지 북마크리스트의 메뉴 > 메뉴 정보창에 정보들 넣기
-	public ShowRecipeVO showBookmarkMenu(String menuName){
+	public MainRecipeVO showBookmarkMenu(String menuName){
 		return null;
 		 
 	}//showBookmarkMenu

@@ -15,14 +15,11 @@ import java.util.Properties;
 
 import javax.swing.JOptionPane;
 
-import kr.co.sist.recipe.vo.AddRecipeVO;
 import kr.co.sist.recipe.vo.IngredientOfRecipeVO;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MenuTypeVO;
 import kr.co.sist.recipe.vo.MgrRcpInfoListVO;
 import kr.co.sist.recipe.vo.RecipeInfoUpdateVO;
-import kr.co.sist.recipe.vo.SelectRecipeInfoVO;
-import kr.co.sist.recipe.vo.ShowRecipeVO;
 
 public class RecipeDAO {
 
@@ -79,8 +76,8 @@ public class RecipeDAO {
 	 * @param menuCode
 	 * @return
 	 */
-	public SelectRecipeInfoVO selectOneRecipe(String menuName) throws SQLException{
-		SelectRecipeInfoVO srv = new SelectRecipeInfoVO();
+	public MainRecipeVO selectOneRecipe(String menuName) throws SQLException{
+		MainRecipeVO mrv = new MainRecipeVO();
 		Connection con = null;
 		PreparedStatement pstmt= null;
 		ResultSet rs= null;
@@ -97,12 +94,12 @@ public class RecipeDAO {
 			
 			// 선택된 한가지 메뉴에대한 정보를 RecipeVO에 저장
 			while(rs.next()){
-				srv.setMenuName(menuName);
-				srv.setMenuImg(rs.getString("img"));
-				srv.setMenuPrice(rs.getString("totalprice"));
-				srv.setMenuType(rs.getString("food_type"));
-				srv.setMenuSimpleInfo(rs.getString("info"));
-				srv.setRecipeInfo(rs.getString("recipe_info"));
+				mrv.setMenuName(menuName);
+				mrv.setMenuImg(rs.getString("img"));
+				mrv.setMenuPrice(rs.getString("totalprice"));
+				mrv.setMenuType(rs.getString("food_type"));
+				mrv.setMenuSimpeInfo(rs.getString("info"));
+				mrv.setMenuDetailInfo(rs.getString("recipe_info"));
 			}//end while
 			
 		}finally {
@@ -111,7 +108,7 @@ public class RecipeDAO {
 			if(con!= null){ con.close(); }
 		}//end finally
 		
-		return srv;
+		return mrv;
 		
 	}//selectOneRecipe
 	
@@ -204,38 +201,6 @@ public class RecipeDAO {
 	 * @return List<ShowRecipeVO>
 	 * @throws SQLException
 	 */
-//	public List<ShowRecipeVO> showNewRecipe() throws SQLException{
-//		List<ShowRecipeVO> recntImgList = new ArrayList<ShowRecipeVO>();
-//		Connection con= null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//
-//		try{
-//			con = getConnection();
-//			
-//			// 등록날짜 기준으로 정렬
-//			String query="select menu_name, img from reciperegister order by inputdate";
-//			pstmt = con.prepareStatement(query);
-//			
-//			rs = pstmt.executeQuery();
-//			
-//			ShowRecipeVO srv = null;
-//			while(rs.next()){
-//				srv = new ShowRecipeVO();
-//				srv.setMenuName(rs.getString("menu_name"));
-//				srv.setMenuImg(rs.getString("img"));
-//				
-//				recntImgList.add(srv);
-//			}
-//		}finally {
-//			if(rs!= null){ rs.close(); }
-//			if(pstmt!= null){ pstmt.close(); }
-//			if(con!= null){ con.close(); }
-//		}//finally
-//		
-//		return recntImgList;
-//	}//showNewRecipe
-	
 	public List<MainRecipeVO> showNewRecipe() throws SQLException{
 		List<MainRecipeVO> recntImgList = new ArrayList<MainRecipeVO>();
 		Connection con= null;
@@ -354,7 +319,7 @@ public class RecipeDAO {
 	 * 						  					 Date inputDate
 	 * @return boolean
 	 */
-	public boolean insertRecipe(AddRecipeVO addVo, String id) throws SQLException{
+	public boolean insertRecipe(MainRecipeVO mrv, String id) throws SQLException{
 		Connection con=null;
 		PreparedStatement pstmt = null;
 		
@@ -364,12 +329,12 @@ public class RecipeDAO {
 			String query="insert into reciperegister values(?, ?, ?, ?, ?, ?, ?, sysdate, 'N')";
 			pstmt = con.prepareStatement(query);
 			
-			pstmt.setString(1, addVo.getMenuName());
-			pstmt.setString(2, addVo.getMenuImg());
-			pstmt.setString(3, addVo.getMenuType());
-			pstmt.setString(4, addVo.getMenuSimpleInfo());
-			pstmt.setString(5, addVo.getMenuDetailInfo());
-			pstmt.setString(6, addVo.getMenuPrice());
+			pstmt.setString(1, mrv.getMenuName());
+			pstmt.setString(2, mrv.getMenuImg());
+			pstmt.setString(3, mrv.getMenuType());
+			pstmt.setString(4, mrv.getMenuSimpeInfo());
+			pstmt.setString(5, mrv.getMenuDetailInfo());
+			pstmt.setString(6, mrv.getMenuPrice());
 			pstmt.setString(7, id);	//id는 mainForm에서 로그인한 id를 가져옴
 			
 			pstmt.executeUpdate();

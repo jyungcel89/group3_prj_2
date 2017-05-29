@@ -24,8 +24,6 @@ import kr.co.sist.recipe.view.ItemPreviewForm;
 import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MenuTypeVO;
-import kr.co.sist.recipe.vo.SelectRecipeInfoVO;
-import kr.co.sist.recipe.vo.ShowRecipeVO;
 
 public class MainFormEvt implements MouseListener, ItemListener, ActionListener {
    private MainForm mainFrm;
@@ -71,7 +69,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    // 선택된 레시피 검색조건 가져오기
    public void searchCondition() {
       mtv = new MenuTypeVO();
-      
+       
       mtv.setAnju("");
       mtv.setMeal("");
       mtv.setDessert("");
@@ -147,8 +145,8 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
     		  ae.getSource()==mainFrm.getJbSecImg() || 
     		  ae.getSource()==mainFrm.getJbTrdImg()){
     	  
-    	  SelectRecipeInfoVO sriv = new SelectRecipeInfoVO();
-    	  new ItemPreviewForm(mainFrm, sriv);
+    	  MainRecipeVO mrv = new MainRecipeVO();
+    	  new ItemPreviewForm(mainFrm, mrv);
     	  
       }//end if
       
@@ -169,17 +167,17 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
       if (me.getClickCount() == 2) {
     	  JTable jtTmp = mainFrm.getJtRecipe();
     	  int selecedRow = jtTmp.getSelectedRow();
-    	  SelectRecipeInfoVO sriv = new SelectRecipeInfoVO();
+    	  MainRecipeVO mrv = new MainRecipeVO();
     	  
     	  // 클릭시 경로
-    	  sriv.setMenuName((String)jtTmp.getValueAt(selecedRow, 0));
-    	  sriv.setMenuImg(((ImageIcon)jtTmp.getValueAt(selecedRow, 1)).toString());
-    	  sriv.setMenuType((String)jtTmp.getValueAt(selecedRow, 2));
-    	  sriv.setMenuSimpleInfo((String)jtTmp.getValueAt(selecedRow, 3));
-    	  sriv.setMenuPrice((String)jtTmp.getValueAt(selecedRow, 4));
+    	  mrv.setMenuName((String)jtTmp.getValueAt(selecedRow, 0));
+    	  mrv.setMenuImg(((ImageIcon)jtTmp.getValueAt(selecedRow, 1)).toString());
+    	  mrv.setMenuType((String)jtTmp.getValueAt(selecedRow, 2));
+    	  mrv.setMenuSimpeInfo((String)jtTmp.getValueAt(selecedRow, 3));
+    	  mrv.setMenuPrice((String)jtTmp.getValueAt(selecedRow, 4));
 //    	  sriv.setRecipeInfo(recipeInfo);
     	  /// 자세한 정보도 같이 가져와야함
-    	  new ItemPreviewForm(mainFrm, sriv);
+    	  new ItemPreviewForm(mainFrm, mrv);
       }//end if
    }//
 
