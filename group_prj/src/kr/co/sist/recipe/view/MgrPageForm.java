@@ -27,8 +27,8 @@ public class MgrPageForm extends JDialog {
 //		this.mf=mf;
 		setLayout(null);
 		
-		jlbMenuList=new JLabel("메뉴리스트");
-		jlbMenuRequest=new JLabel("메뉴요청리스트");
+		jlbMenuList=new JLabel("메뉴 리스트");
+		jlbMenuRequest=new JLabel("메뉴 요청대기 리스트");
 		jlbMember=new JLabel("전체 회원 리스트");
 		
 		jbRmvMenu=new JButton("삭제");
@@ -127,8 +127,8 @@ public class MgrPageForm extends JDialog {
 		//탭 위치
 		jtpTab.setBounds(10, 100, 900, 640);
 		//메뉴관리탭 위치
-		jlbMenuList.setBounds(10, 10, 100, 30);
-		jlbMenuRequest.setBounds(10, 310, 100, 30);
+		jlbMenuList.setBounds(10, 10, 130, 30);
+		jlbMenuRequest.setBounds(10, 310, 130, 30);
 		jbRmvMenu.setBounds(790, 10, 100, 30);
 		jbSmitRqust.setBounds(790, 310, 100, 30);
 		jbRmvRqust.setBounds(680, 310, 100, 30);

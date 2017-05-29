@@ -46,8 +46,9 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 	//--------------------------전체메뉴관리 탭------------------------
 		/**
 		 * 전체 메뉴리스트 조회
+		 *  recipe_flag='Y'
 		 * 승인된 레시피 전체 리스트를 조회
-		 * RecipeDAO - recipeList("N") method 를 실행
+		 * RecipeDAO - recipeList("Y") method 를 실행
 		 * menu_flag='Y' 
 		 */
 		public void allRecipeList(){
@@ -85,14 +86,14 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 		
 		/**
 		 * 레시피 요청 리스트 조회
-		 * 승인처리되지 않은 레시피 전체 리스트를 조회
-		 * RecipeDAO - recipeList("N") method 를 실행
-		 * menu_flag='N'
+		 * - recipe_flag='S'
+		 * - 승인처리되지 않은 승인대기 레시피 전체 리스트를 조회
+		 * - RecipeDAO - recipeList("S") method 를 실행
 		 */
 		public void requestList(){
 			
 			try {
-				String flag="N";
+				String flag="S";
 				List<MainRecipeVO> listReqRcp = rcp_dao.recipeList(flag);
 				Object[] rowMenu = new Object[5];
 				DefaultTableModel dtmMenu = mpf.getDtmMenuRequest();
@@ -163,7 +164,10 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 		
 		/**
 		 * 요청레시피 거절 : 하위remove버튼
-		 * 
+		 * recipe_flag S > N
+		 * - 승인대기 상태인 레시피를 요청거절 상태로 처리해주는 method
+		 * - 선택된 레시피의 menuName값을 가져와서 
+		 * - RecipeDAO - updateFlagY(menuName) method 를 실행
 		 */
 		public void rmvReqRecipe(){
 			
@@ -181,7 +185,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				switch (flag) {
 				case JOptionPane.OK_OPTION:
 					// 가져온 menuName 값 > 삭제
-					rcp_dao.deleteRecipe(value);
+					rcp_dao.updateFlagN(value);
 				}//end catch
 				// 삭제 후 갱신
 				requestList();
@@ -200,10 +204,10 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 		
 		/**
 		 * 요청레시피 승인 : submit버튼
-		 * 요청된 레시피를 승인 처리해주는 method
-		 * 선택된 레시피의 menuName값을 가져와서 
-		 * RecipeDAO - updateFlag(menuName) method 를 실행
-		 * recipeFlag 'N' > 'Y'
+		 * - recipeFlag 'S' > 'Y'
+		 * - 승인대기 상태인 레시피를 승인 처리해주는 method
+		 * - 선택된 레시피의 menuName값을 가져와서 
+		 * - RecipeDAO - updateFlagY(menuName) method 를 실행
 		 */
 		public void confirmReqRecipe(){
 			
@@ -221,7 +225,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				switch (flag) {
 				case JOptionPane.OK_OPTION:
 					// 가져온 menuName 값 > 삭제
-					rcp_dao.updateFlag(value);
+					rcp_dao.updateFlagY(value);
 				}//end catch
 				// 삭제 후 갱신
 				requestList();
