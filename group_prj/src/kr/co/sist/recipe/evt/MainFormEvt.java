@@ -22,6 +22,8 @@ import javax.swing.table.DefaultTableModel;
 import kr.co.sist.recipe.dao.RecipeDAO;
 import kr.co.sist.recipe.view.ItemPreviewForm;
 import kr.co.sist.recipe.view.MainForm;
+import kr.co.sist.recipe.view.MgrPageForm;
+import kr.co.sist.recipe.view.MyPageForm;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MenuTypeVO;
 
@@ -29,12 +31,15 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    private MainForm mainFrm;
    private RecipeDAO rcp_dao;
    private MenuTypeVO mtv;
-
+   public static String logId;
+   
+   
    public MainFormEvt() {
-   }
+   }//MainFormEvt
 
-   public MainFormEvt(MainForm mainFrm) {
+   public MainFormEvt(MainForm mainFrm, String logId) {
       this.mainFrm = mainFrm;
+      this.logId = logId;
       rcp_dao = RecipeDAO.getInstance();
       
       newRecipe();
@@ -130,11 +135,21 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
 
    }// searchList
 
-   // 마이페이지(관리자 페이지)로 이동 버튼
    public void addRecipe() {
 	   
    }// addRecipe
 
+   //05-29-2017 추가
+   // 마이페이지(관리자 페이지)로 이동 버튼
+   public void movePage() {
+	   System.out.println("메인 > 관리자"+logId);
+	   if( logId.equals("mgr") ){
+		   new MgrPageForm();
+	   }else{
+		   new MyPageForm();
+	   }//end if
+   }//movePage
+   
    // 닫기
    public void close() {
 
@@ -174,6 +189,11 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
     	  }//end catch
       }//end if
       
+      //05-29-2017 추가
+      if(ae.getSource()==mainFrm.getJbMypage()){
+    	  movePage();
+      }//end if
+      
       if(ae.getSource() == mainFrm.getJbClose()){
     	  int selectNum = JOptionPane.showConfirmDialog(mainFrm, "창을 닫으시겠습니까?");
     	  switch (selectNum) {
@@ -196,8 +216,10 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
 			mrv = rcp_dao.selectOneRecipe((String)jtTmp.getValueAt(selecedRow, 0));
 			/// 자세한 정보도 같이 가져와야함
 			new ItemPreviewForm(mainFrm, mrv);
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException se) {
+			JOptionPane.showMessageDialog(mainFrm, 
+					"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
+			se.printStackTrace();
 		}//end catch
       }//end if
    }//mouseClicked

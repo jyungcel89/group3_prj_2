@@ -13,11 +13,10 @@ import kr.co.sist.recipe.view.MainForm;
 
 public class ItemPreviewEvt extends WindowAdapter implements ActionListener, ItemListener {
 
-	private ItemPreviewForm previewFrm;
+	private ItemPreviewForm ipf;
 	
-	
-	public ItemPreviewEvt(ItemPreviewForm previewFrm) {
-		this.previewFrm=previewFrm;
+	public ItemPreviewEvt(ItemPreviewForm ipf) {
+		this.ipf=ipf;
 	}//ItemPreviewEvt
 
 	// 메뉴정보 가져와서 보여줌
@@ -35,16 +34,25 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		
 	}//chkBookmark
 
+	// 닫기
+	public void checkCancel(){
+		ipf.dispose();
+	}//checkCancel
 	@Override
-	public void itemStateChanged(ItemEvent e) {
+	public void itemStateChanged(ItemEvent ie) {
 		
-	}
+	}//itemStateChanged
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent ae) {
+		if(ae.getSource()==ipf.getJbSubmit()){
+			
+		}//end if
+		if(ae.getSource()==ipf.getJbClose()){
+			checkCancel();
+		}//end if
 		
-	}
-	
+	}//actionPerformed
 
 
 }//class

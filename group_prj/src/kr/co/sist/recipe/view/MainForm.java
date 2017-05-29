@@ -30,11 +30,11 @@ public class MainForm extends JFrame{
 	private JTextField jtfSearch;	
 	private String imgPath1, imgPath2, imgPath3;
 	private String imgName1, imgName2, imgName3;
-	
 
-	public MainForm() { 
+	public MainForm(String logId) { 
 		super("홍홍홍의 편의점 레시피");
 		setLayout(null);
+		System.out.println("메인"+logId);
 		
 		JLabel jlRecent = new JLabel("◑ 최근 레시피");
 		jlRecent.setFont(new Font("", Font.BOLD, 15));
@@ -82,7 +82,6 @@ public class MainForm extends JFrame{
 			}
 		};
 		
-		
 		jtRecipe = new JTable(dtmRecipe);
 		jtRecipe.getTableHeader().setReorderingAllowed(false);
 		JScrollPane jspTab = new JScrollPane(jtRecipe);
@@ -97,7 +96,7 @@ public class MainForm extends JFrame{
 		setContentPane(jlImg);
 		
 		// 이벤트 선언
-		MainFormEvt mfe= new MainFormEvt(this);
+		MainFormEvt mfe= new MainFormEvt(this, logId);
 		 
 		// 최신 이미지 등록 뷰, 이미지 가져와서 등록
 		JPanel jpRcntRecipe = new JPanel();
@@ -469,8 +468,8 @@ public class MainForm extends JFrame{
 
 
 
-	public static void main(String[] args) {
-		new MainForm();
-	}//main
+//	public static void main(String[] args) {
+//		new MainForm(String logId);
+//	}//main
 
 }//class

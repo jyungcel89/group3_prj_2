@@ -18,13 +18,13 @@ import kr.co.sist.recipe.dao.MemberDAO;
 import kr.co.sist.recipe.dao.RecipeDAO;
 import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.view.ItemPreviewForm;
+import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.view.MgrPageForm;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MgrMemberVO;
 
 /**
  * 관리자페이지 이벤트 클래스
- * flag에 대한 재분류 고려중
  * @author JiYong
  *
  */ 
@@ -33,6 +33,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 	private MgrPageForm mpf;
 	private MemberDAO mem_dao;
 	private RecipeDAO rcp_dao;
+	private MainForm mf;
 	
 	public MgrPageEvt( MgrPageForm mpf ) {
 		this.mpf=mpf;
@@ -345,16 +346,40 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 
 	@Override
 	public void mouseClicked(MouseEvent me) {
-		if( me.getSource()==mpf.getJtMenuRequest() ){
-			if( me.getClickCount()==2 ){
-//				new ItemPreviewEvt();
-			}
-		}
+		if( me.getClickCount()==2 ){
+			// 메뉴리스트 더블클릭
 			if( me.getSource()==mpf.getJtMenuList() ){
-				if( me.getClickCount()==2 ){
+				JTable jtSmtRcp=mpf.getJtMenuList();
+				int row=jtSmtRcp.getSelectedRow();
+				String value=(String)jtSmtRcp.getValueAt(row, 0);
+				MainRecipeVO mrv;
+				try {
+					mrv=rcp_dao.selectOneRecipe(value);
+					//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
 					new AddRecipeForm();
+				} catch (SQLException se) {
+					JOptionPane.showMessageDialog(mpf, 
+							"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
+					se.printStackTrace();
 				}
-			}
+			}//end if
+			// 메뉴요청리스트 더블클릭
+			if( me.getSource()==mpf.getJtMenuRequest() ){
+				try {
+					JTable jtReqRcp=mpf.getJtMenuRequest();
+					int row=jtReqRcp.getSelectedRow();
+					String value=(String)jtReqRcp.getValueAt(row, 0);
+					MainRecipeVO mrv;
+					mrv=rcp_dao.selectOneRecipe(value);
+					//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
+					new ItemPreviewForm(mf, mrv);
+				} catch (SQLException se) {
+					JOptionPane.showMessageDialog(mpf, 
+							"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
+					se.printStackTrace();
+				}//end catch
+			}//end if
+		}//end if
 	}//mouseClicked
 
 	@Override

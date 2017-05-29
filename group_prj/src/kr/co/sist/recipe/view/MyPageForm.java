@@ -11,13 +11,20 @@ import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.recipe.evt.MyPageEvt;
 
+/**
+ * 마이페이지폼
+ * <수정사항>
+ * 1. MyPageEvt 객체명 변경 : mype > mype
+ * @author JiYong
+ *
+ */
 @SuppressWarnings("serial")
 public class MyPageForm extends JDialog {
 
     private JLabel jlbMyMenu, jlbFavorMenu;
     private JTable jtMyMenu, jtFavorMenu;
     private DefaultTableModel dtmMyMenu, dtmFavorMenu;
-    private JButton jbRmvFavorMenu, jbEditMyInfo, jbClose;
+    private JButton jbRmvMyMenu, jbRmvFavorMenu, jbEditMyInfo, jbClose;
 
     public MyPageForm() {
         setLayout(null);
@@ -26,6 +33,7 @@ public class MyPageForm extends JDialog {
         jlbFavorMenu=new JLabel("북마크 리스트");
 
         jbEditMyInfo=new JButton("내 정보 수정");
+        jbRmvMyMenu=new JButton("요청거절 삭제");
         jbRmvFavorMenu=new JButton("북마크 삭제");
         jbClose=new JButton("닫기");
  
@@ -68,19 +76,23 @@ public class MyPageForm extends JDialog {
         jpMyMenu.add(jlbFavorMenu);
         jpMyMenu.add(jspMenuList);
         jpMyMenu.add(jspRequest);
+        jpMyMenu.add(jbRmvMyMenu);
         jpMyMenu.add(jbRmvFavorMenu);
 
         //이벤트
-        MyPageEvt mpe = new MyPageEvt(this);
-        jbRmvFavorMenu.addActionListener(mpe);
-        jbEditMyInfo.addActionListener(mpe);
-        jbClose.addActionListener(mpe);
+        MyPageEvt mype = new MyPageEvt(this);
+        jtMyMenu.addMouseListener(mype);
+        jbRmvMyMenu.addActionListener(mype);
+        jbRmvFavorMenu.addActionListener(mype);
+        jbEditMyInfo.addActionListener(mype);
+        jbClose.addActionListener(mype);
 
         //패널 위치
         jpMyMenu.setBounds(10, 100, 900, 640);
         //패널 위치
         jlbMyMenu.setBounds(10, 30, 100, 30);
         jlbFavorMenu.setBounds(10, 330, 100, 30);
+        jbRmvMyMenu.setBounds(780, 30, 110, 30);
         jbRmvFavorMenu.setBounds(780, 330, 110, 30);
         jspMenuList.setBounds(10, 70, 880, 250);
         jspRequest.setBounds(10, 370, 880, 250);
@@ -182,9 +194,22 @@ public class MyPageForm extends JDialog {
         this.jbClose = jbClose;
     }
 
+    
 
 
-    ///////////////////////////////////////////////차후 삭제요망////////////////////////////////////
+	public JButton getJbRmvMyMenu() {
+		return jbRmvMyMenu;
+	}
+
+
+
+	public void setJbRmvMyMenu(JButton jbRmvMyMenu) {
+		this.jbRmvMyMenu = jbRmvMyMenu;
+	}
+
+
+
+	///////////////////////////////////////////////차후 삭제요망////////////////////////////////////
     public static void main(String[] args) {
         new MyPageForm();
     }//main

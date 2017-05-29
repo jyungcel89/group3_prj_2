@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
+import kr.co.sist.recipe.evt.ItemPreviewEvt;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 
 @SuppressWarnings("serial")
@@ -141,6 +142,12 @@ public class ItemPreviewForm extends JDialog {
 			com[i].setFont(defaultFont);
 			add(com[i]);
 		}
+		
+		//이벤트 추가
+		ItemPreviewEvt ipe=new ItemPreviewEvt(this);
+		jbSubmit.addActionListener(ipe);
+		jbClose.addActionListener(ipe);
+		
 		setVisible(true);
 		setBounds(0,0,800,700);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
