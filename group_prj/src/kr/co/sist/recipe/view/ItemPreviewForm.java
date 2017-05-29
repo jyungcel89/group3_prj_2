@@ -30,7 +30,7 @@ public class ItemPreviewForm extends JDialog {
 	private JLabel jlRecipeName, jlIngrednt;
 	private DefaultTableModel dtmIngrednt;
 	private JScrollPane jspIngrednt;
-	private JComboBox<Integer> jcScore;
+	private JComboBox<String> jcScore;
 	private JCheckBox jchBookmark;
 	private JScrollPane jspTextArea;
 	
@@ -48,10 +48,10 @@ public class ItemPreviewForm extends JDialog {
 		jlIngrednt.setBounds(400,70,100,30);
 		
 		JLabel jlScore=new JLabel("별점");
-		jlScore.setBounds(520,320,100,30);
+		jlScore.setBounds(570,320,100,30);
 		
 		JLabel jlBookmark=new JLabel("북마크");
-		jlBookmark.setBounds(405,320,50,30);
+		jlBookmark.setBounds(435,320,50,30);
 		
 		JLabel jlMakeMethod=new JLabel("◑ 레시피");
 		jlMakeMethod.setBounds(400,380,70,30);
@@ -94,12 +94,18 @@ public class ItemPreviewForm extends JDialog {
 		
 		//region 좋아요 체크박스 영역
 		jchBookmark=new JCheckBox();
-		jchBookmark.setBounds(450,320,20,30);
+		jchBookmark.setBounds(480,320,20,30);
 		//endregion 좋아요 체크박스 영역 끝
 	
 		//region 별점 콤보박스 영역
-		jcScore=new JComboBox<Integer>();
-		jcScore.setBounds(560,325,100,20);
+		jcScore=new JComboBox<String>();
+		jcScore.addItem("--");
+		jcScore.addItem("1");
+		jcScore.addItem("2");
+		jcScore.addItem("3");
+		jcScore.addItem("4");
+		jcScore.addItem("5");
+		jcScore.setBounds(610,325,50,20);
 		//endregion 별점 콤보박스 영역 끝
 		
 		//region 닫기,제출 버튼 영역
@@ -205,11 +211,11 @@ public class ItemPreviewForm extends JDialog {
 		this.jspIngrednt = jspIngrednt;
 	}
 
-	public JComboBox<Integer> getJcScore() {
+	public JComboBox<String> getJcScore() {
 		return jcScore;
 	}
 
-	public void setJcScore(JComboBox<Integer> jcScore) {
+	public void setJcScore(JComboBox<String> jcScore) {
 		this.jcScore = jcScore;
 	}
 

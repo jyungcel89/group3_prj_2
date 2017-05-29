@@ -29,16 +29,18 @@ public class MainForm extends JFrame{
 	private JCheckBox chkOne, chkTwo, chkThree, chkFour;
 	private JTextField jtfSearch;	
 	private String imgPath1, imgPath2, imgPath3;
-	private JLabel menuName1, menuName2, menuName3;
+	private String imgName1, imgName2, imgName3;
 	
 
 	public MainForm() { 
 		super("홍홍홍의 편의점 레시피");
 		setLayout(null);
 		
+		JLabel jlRecent = new JLabel("◑ 최근 레시피");
+		jlRecent.setFont(new Font("", Font.BOLD, 15));
 
 		// 검색조건
-		JLabel jlSearch = new JLabel("검색 조건");
+		JLabel jlSearch = new JLabel("◑ 검색 조건");
 		jlSearch.setFont(new Font("맑은고딕", Font.BOLD, 15));
 		
 		JPanel jpSrchOption = new JPanel(){
@@ -89,21 +91,25 @@ public class MainForm extends JFrame{
 		jtRecipe.setRowHeight(100);
 		// 컬럼의 넓이 설정
 		jtRecipe.getColumnModel().getColumn(0).setPreferredWidth(40);
+
+		// 백그라운드 설정
+		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/background_image.png"));
+		setContentPane(jlImg);
 		
 		// 이벤트 선언
 		MainFormEvt mfe= new MainFormEvt(this);
-		// 최신 이미지 등록 뷰
-		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/background_image.png"));
-		setContentPane(jlImg);
-		// 등록된 레시피 이미지
-		JLabel jlRecent = new JLabel("최근 레시피");
-		jlRecent.setFont(new Font("", Font.BOLD, 15));
 		
+		// 최신 이미지 등록 뷰, 이미지 가져와서 등록
 		JPanel jpRcntRecipe = new JPanel();
 		jpRcntRecipe.setBackground(new Color(255, 255, 255, 130));
 		jbFstImg = new JButton(new ImageIcon(imgPath1));
 		jbSecImg = new JButton(new ImageIcon(imgPath2));
 		jbTrdImg = new JButton(new ImageIcon(imgPath3));
+		
+		// 이미지 이름 등록
+		JLabel jlMenuName1=new JLabel(" ▷ "+imgName1);
+		JLabel jlMenuName2=new JLabel(" ▷ "+imgName2);
+		JLabel jlMenuName3=new JLabel(" ▷ "+imgName3);
 		
 		// 이미지 버튼 배치
 		jpRcntRecipe.setLayout(null);
@@ -112,6 +118,10 @@ public class MainForm extends JFrame{
 		jbSecImg.setBounds(285, 50, 260, 200);
 		jbTrdImg.setBounds(560, 50, 260, 200);
 		
+		// 이미지 이름 배치
+		jlMenuName1.setBounds(10, 250, 200, 30);
+		jlMenuName2.setBounds(285, 250, 200, 30);
+		jlMenuName3.setBounds(560, 250, 200, 30);
 		
 		// 검색 조건(체크박스) , 검색 버튼 배치
 		jpSrchOption.setLayout(null);
@@ -132,11 +142,11 @@ public class MainForm extends JFrame{
 		jbClose.setBounds(730, 10, 100, 30);
 		
 		// 최근 메뉴 패널 배치
-		jpRcntRecipe.setBounds(20, 130, 830, 260);
+		jpRcntRecipe.setBounds(20, 130, 830, 290);
 		// 검색조건 패널 배치
-		jpSrchOption.setBounds(20, 400, 830, 50);
+		jpSrchOption.setBounds(20, 430, 830, 50);
 		// 테이블 배치
-		jspTab.setBounds(20, 450, 830, 450);
+		jspTab.setBounds(20, 480, 830, 420);
 		// 하단 버튼패널 배치
 		jpFootBtns.setBounds(20, 910, 830, 50);
 		
@@ -145,6 +155,10 @@ public class MainForm extends JFrame{
 		jpRcntRecipe.add(jbFstImg);
 		jpRcntRecipe.add(jbSecImg);
 		jpRcntRecipe.add(jbTrdImg);
+		
+		jpRcntRecipe.add(jlMenuName1);
+		jpRcntRecipe.add(jlMenuName2);
+		jpRcntRecipe.add(jlMenuName3);
 		
 		// 검색조건, 검색버튼 붙이기
 		jpSrchOption.add(jlSearch);
@@ -414,6 +428,43 @@ public class MainForm extends JFrame{
 
 	public void setImgPath3(String imgPath3) {
 		this.imgPath3 = imgPath3;
+	}
+	
+	
+
+
+	public String getImgName1() {
+		return imgName1;
+	}
+
+
+
+	public void setImgName1(String imgName1) {
+		this.imgName1 = imgName1;
+	}
+
+
+
+	public String getImgName2() {
+		return imgName2;
+	}
+
+
+
+	public void setImgName2(String imgName2) {
+		this.imgName2 = imgName2;
+	}
+
+
+
+	public String getImgName3() {
+		return imgName3;
+	}
+
+
+
+	public void setImgName3(String imgName3) {
+		this.imgName3 = imgName3;
 	}
 
 
