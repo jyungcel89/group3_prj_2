@@ -1,6 +1,11 @@
 package kr.co.sist.recipe.view;
 
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+
+import javax.swing.ImageIcon;
 import java.awt.Font;
 
 import javax.swing.JButton;
@@ -10,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.recipe.evt.MgrPageEvt;
@@ -22,19 +28,29 @@ public class MgrPageForm extends JDialog {
 	private DefaultTableModel dtmMenuList, dtmMenuRequest, dtmMember;
 	private JTabbedPane jtpTab;
 	private JButton jbRmvMenu, jbRmvRqust, jbSmitRqust, jbRmvMember, jbClose;
-//	private MainForm mf;
 	
 	public MgrPageForm(String logId/*MainForm mf*/) {
 //		super(mf,"Manager Page",true);
 //		this.mf=mf;
 		setLayout(null);
+		JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/mgrpageBack.png"));
+	    setContentPane(jlBackImg);
+		Font defaultFont=new Font("맑은 고딕",Font.BOLD,14);
+		
+		jlbMenuList=new JLabel("◑ 메뉴 리스트");
+		jlbMenuRequest=new JLabel("◑ 메뉴 요청대기 리스트");
+		jlbMember=new JLabel("◑ 전체 회원 리스트");
+		jlbMenuList.setFont(defaultFont);
+		jlbMenuRequest.setFont(defaultFont);
+		jlbMember.setFont(defaultFont);
 		System.out.println("MgrPage : "+logId);
 		jlbMenuList=new JLabel("메뉴 리스트");
 		jlbMenuRequest=new JLabel("메뉴 요청대기 리스트");
 		jlbMember=new JLabel("전체 회원 리스트");
 		
-		JLabel jlUserName=new JLabel(" [ "+logId+" ]님 환영합니다.");
-		jlUserName.setFont(new Font("", Font.BOLD, 15));
+		JLabel jlUserName=new JLabel(" [ "+logId+" ] 님 환영합니다.");
+		jlUserName.setFont(defaultFont);
+		jlUserName.setForeground(Color.white);
 		
 		jbRmvMenu=new JButton("삭제");
 		jbSmitRqust=new JButton("요청 승인");
@@ -107,17 +123,33 @@ public class MgrPageForm extends JDialog {
 		jpMgrMenu.add(jbRmvMenu);
 		jpMgrMenu.add(jbRmvRqust);
 		jpMgrMenu.add(jbSmitRqust);
+		jpMgrMenu.setOpaque(false);
+		
 		//회원관리 패널
 		JPanel jpMgrMember=new JPanel();
 		jpMgrMember.setLayout(null);
 		jpMgrMember.add(jlbMember);
 		jpMgrMember.add(jspMember);
 		jpMgrMember.add(jbRmvMember);
-		
+		jpMgrMember.setOpaque(false);
+
+		// 탭 투명하게 바꾸기
+		Color bgColor = new Color(255, 255, 255, 130);
+		UIManager.put("TabbedPane.contentAreaColor", bgColor);
+
 		//탭 생성
 		jtpTab=new JTabbedPane();
 		jtpTab.add("메뉴 관리",jpMgrMenu);
 		jtpTab.add("회원 관리", jpMgrMember);
+//		jtpTab.setForeground(Color.BLACK);
+		jtpTab.setBackgroundAt(0,new Color(255, 255, 255, 130));
+		jtpTab.setBackgroundAt(1,new Color(255, 255, 255, 130));
+		
+		jtpTab.setOpaque(false);
+		jtpTab.putClientProperty("TabbedPane.contentOpaque", Boolean.FALSE);
+		jtpTab.putClientProperty("TabbedPane.tabsOpaque", Boolean.FALSE);
+		
+
 		
 		//이벤트
 		MgrPageEvt mpe=new MgrPageEvt(this);
@@ -132,8 +164,8 @@ public class MgrPageForm extends JDialog {
 		//탭 위치
 		jtpTab.setBounds(10, 100, 900, 640);
 		//메뉴관리탭 위치
-		jlbMenuList.setBounds(10, 10, 130, 30);
-		jlbMenuRequest.setBounds(10, 310, 130, 30);
+		jlbMenuList.setBounds(10, 10, 130, 40);
+		jlbMenuRequest.setBounds(10, 310, 170, 40);
 		jbRmvMenu.setBounds(790, 10, 100, 30);
 		jbSmitRqust.setBounds(790, 310, 100, 30);
 		jbRmvRqust.setBounds(680, 310, 100, 30);
@@ -141,12 +173,12 @@ public class MgrPageForm extends JDialog {
 		jspRequest.setBounds(10, 350, 880, 250);
 		
 		//회원관리탭 위치
-		jlbMember.setBounds(10, 10, 100, 30);
+		jlbMember.setBounds(10, 10, 130, 40);
 		jbRmvMember.setBounds(790, 10, 100, 30);
 		jspMember.setBounds(10, 50, 880, 550);
 		
 		// 사용자 아이디 라벨 배치
-		jlUserName.setBounds(20, 10, 170, 30);
+		jlUserName.setBounds(10, 10, 170, 30);
 		
 		jbClose.setBounds(810, 750, 100, 30);
 		setBounds(50, 50, 940, 840);

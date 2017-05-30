@@ -342,6 +342,15 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 		if( ae.getSource() == mpf.getJbClose() ){
 			checkCancel();
 		}//end if
+		
+		if (ae.getSource() == mpf.getJbClose()) {
+			int selectNum = JOptionPane.showConfirmDialog(mpf, "창을 닫으시겠습니까?");
+			switch (selectNum) {
+			case JOptionPane.OK_OPTION:
+				mpf.dispose();
+			}// end switch
+		}//end if
+		
 	}//actionPerformed
 
 	@Override
@@ -372,7 +381,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 					MainRecipeVO mrv;
 					mrv=rcp_dao.selectOneRecipe(value);
 					//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
-					new ItemPreviewForm(mf, mrv);
+					new ItemPreviewForm(mrv);
 				} catch (SQLException se) {
 					JOptionPane.showMessageDialog(mpf, 
 							"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
