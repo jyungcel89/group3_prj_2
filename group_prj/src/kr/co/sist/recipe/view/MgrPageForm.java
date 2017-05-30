@@ -48,8 +48,9 @@ public class MgrPageForm extends JDialog {
 		jlbMenuRequest=new JLabel("메뉴 요청대기 리스트");
 		jlbMember=new JLabel("전체 회원 리스트");
 		
-		JLabel jlUserName=new JLabel(" [ "+logId+" ]님 환영합니다.");
-		jlUserName.setFont(new Font("", Font.BOLD, 15));
+		JLabel jlUserName=new JLabel(" [ "+logId+" ] 님 환영합니다.");
+		jlUserName.setFont(defaultFont);
+		jlUserName.setForeground(Color.white);
 		
 		jbRmvMenu=new JButton("삭제");
 		jbSmitRqust=new JButton("요청 승인");
@@ -177,7 +178,7 @@ public class MgrPageForm extends JDialog {
 		jspMember.setBounds(10, 50, 880, 550);
 		
 		// 사용자 아이디 라벨 배치
-		jlUserName.setBounds(20, 10, 170, 30);
+		jlUserName.setBounds(10, 10, 170, 30);
 		
 		jbClose.setBounds(810, 750, 100, 30);
 		setBounds(50, 50, 940, 840);
