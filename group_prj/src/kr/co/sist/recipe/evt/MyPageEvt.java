@@ -153,7 +153,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        }//showBookmark
        
        // 북마크한 메뉴 삭제
-       public void rmvBookmark() throws SQLException{
+       public void rmvBookmark() {
               String id="duck";
               BookmarkUpdateVO bmuvo= new BookmarkUpdateVO();
               try {
@@ -234,11 +234,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
             	  rmvRecipe();
               }//end if
               if(ae.getSource()==mypf.getJbRmvFavorMenu()){
-	                try {
 	                       rmvBookmark();
-	                 } catch (SQLException e) {
-	                       e.printStackTrace();
-	                 }//end catch 
               }//end if
               if(ae.getSource()==mypf.getJbClose()){
                      checkCancel();
