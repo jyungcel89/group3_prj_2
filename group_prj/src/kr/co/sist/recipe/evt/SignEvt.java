@@ -107,7 +107,7 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 	 * 정윤호 추가  \n 마이페이지에서 정보수정으로 들어갔을시 수정버튼 이벤트 
 	 */
 	
-	
+	 
 	// 자신의 정보 수정
 	public void editMember(){ 
 		mem_dao=MemberDAO.getInstance();
