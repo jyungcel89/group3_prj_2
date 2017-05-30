@@ -62,6 +62,7 @@ public class LogInEvt extends WindowAdapter implements  ActionListener {
 						logId+"님 환영합니다.");
 				flag=true;
 				new MainForm(logId);
+				lf.dispose();
 			} else {
 				// 일치하는 회원정보가 없을때
 				JOptionPane.showMessageDialog(lf, 
