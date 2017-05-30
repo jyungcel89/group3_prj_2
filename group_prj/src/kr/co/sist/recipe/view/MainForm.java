@@ -190,7 +190,7 @@ public class MainForm extends JFrame{
 		jpFootBtns.add(jbMypage);
 		jpFootBtns.add(jbClose);
 		
-		// 패널 붙이기
+		// 패널 붙이기 
 		add(jpSrchOption);
 		add(jpRcntRecipe);
 		add(jspTab);
