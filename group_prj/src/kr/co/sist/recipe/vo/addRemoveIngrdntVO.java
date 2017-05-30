@@ -1,17 +1,17 @@
 package kr.co.sist.recipe.vo;
 
 public class addRemoveIngrdntVO {
-	private String ingrdntName,menuName,ingrdntCode;
-	
+	private String menuName,ingrdntCode;
+	private String[] ingrdntName;
 	public addRemoveIngrdntVO(){
 		
 	} 
-	public addRemoveIngrdntVO(String ingrdntName,String menuName){
+	public addRemoveIngrdntVO(String[] ingrdntName,String menuName){
 		super();
 		this.ingrdntName=ingrdntName;
 		this.menuName=menuName;
 	}
-	public String getIngrdntName() {
+	public String[] getIngrdntName() {
 		return ingrdntName;
 	}
 	public String getMenuName() {
@@ -20,7 +20,7 @@ public class addRemoveIngrdntVO {
 	public String getIngrdntCode() {
 		return ingrdntCode;
 	}
-	public void setIngrdntName(String ingrdntName) {
+	public void setIngrdntName(String[] ingrdntName) {
 		this.ingrdntName = ingrdntName;
 	}
 	public void setMenuName(String menuName) {

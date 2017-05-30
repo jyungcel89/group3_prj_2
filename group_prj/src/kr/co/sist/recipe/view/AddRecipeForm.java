@@ -1,8 +1,12 @@
 package kr.co.sist.recipe.view;
 
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -16,9 +20,11 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
-@SuppressWarnings("serial")
-public class AddRecipeForm extends JDialog {
+import kr.co.sist.recipe.evt.AddRecipeEvt;
 
+@SuppressWarnings("serial")
+public class AddRecipeForm extends JDialog{
+	
 	private JComboBox<String> jcbStore,jcbCateg,jcbIngrdntSort;
 	private JTable jtIngrednt,jtaddedIngrednt;
 	private JTextArea jtaInfo,jtaWriteRecipe;
@@ -62,6 +68,10 @@ public class AddRecipeForm extends JDialog {
 //		region 레시피 요리분류 콤보박스 영역
 		jcbCateg=new JComboBox<String>();
 		jcbCateg.setBounds(492,75,100,20);
+		jcbCateg.addItem("안주류");
+		jcbCateg.addItem("디저트");
+		jcbCateg.addItem("분식류");
+		jcbCateg.addItem("식사류");
 //		endregion 레시피 요리분류 콤보박스 영역끝
 		
 //		region 레시피 간단설명 텍스트에어리어
@@ -71,7 +81,7 @@ public class AddRecipeForm extends JDialog {
 //		endregion 레시피 간단설명 텍스트에어리어끝
 		
 //		region 재료선택,편의점,재료분류 라벨 추가 영역
-		Font ingredntChoice=new Font("맑은 고딕",Font.BOLD,15);
+		Font ingredntChoice=new Font("돋음",Font.BOLD,20);
 		lblIngredntChoice=new JLabel("재료선택");
 		lblIngredntChoice.setFont(ingredntChoice);
 		lblIngredntChoice.setBounds(50,290,100,30);
@@ -84,8 +94,16 @@ public class AddRecipeForm extends JDialog {
 //		region 편의점,재료분류 콤보박스 영역
 		jcbStore=new JComboBox<String>();
 		jcbStore.setBounds(110,330,120,30);
+		jcbStore.addItem("GS25");
+		jcbStore.addItem("7-eleven");
+		jcbStore.addItem("CU");
 		jcbIngrdntSort=new JComboBox<String>();
 		jcbIngrdntSort.setBounds(470,330,120,30);
+		jcbIngrdntSort.addItem("과자");
+		jcbIngrdntSort.addItem("기타");
+		jcbIngrdntSort.addItem("아이스크림");
+		jcbIngrdntSort.addItem("라면");
+		jcbIngrdntSort.addItem("즉석요리");
 //		endregion 편의점,재료분류 콤보박스 영역 끝
 		
 //		region 검색버튼
@@ -110,11 +128,12 @@ public class AddRecipeForm extends JDialog {
 		//컬럼을 선택하여 움직이지 못하도록 설정
 		jtIngrednt.getTableHeader().setReorderingAllowed(false);
 		//컬럼의 높이 설정
-		jtIngrednt.setRowHeight(100);
+		jtIngrednt.setRowHeight(20);
 		//컬럼의 넒이 설정
 		//"번호","이미지","메뉴코드","설명","가격"
-		jtIngrednt.getColumnModel().getColumn(0).setPreferredWidth(140);
-		jtIngrednt.getColumnModel().getColumn(1).setPreferredWidth(50);
+		jtIngrednt.getColumnModel().getColumn(0).setPreferredWidth(30);
+		jtIngrednt.getColumnModel().getColumn(1).setPreferredWidth(60);
+		
 		jspIngrednt=new JScrollPane(jtIngrednt);
 		jspIngrednt.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		jspIngrednt.setBounds(20,380,580,80);
@@ -136,11 +155,11 @@ public class AddRecipeForm extends JDialog {
 				//컬럼을 선택하여 움직이지 못하도록 설정
 				jtaddedIngrednt.getTableHeader().setReorderingAllowed(false);
 				//컬럼의 높이 설정
-				jtaddedIngrednt.setRowHeight(100);
+				jtaddedIngrednt.setRowHeight(20);
 				//컬럼의 넒이 설정
 				//"번호","이미지","메뉴코드","설명","가격"
-				jtaddedIngrednt.getColumnModel().getColumn(0).setPreferredWidth(140);
-				jtaddedIngrednt.getColumnModel().getColumn(1).setPreferredWidth(50);
+				jtaddedIngrednt.getColumnModel().getColumn(0).setPreferredWidth(30);
+				jtaddedIngrednt.getColumnModel().getColumn(1).setPreferredWidth(60);
 				jspAddedIngrednt=new JScrollPane(jtaddedIngrednt);
 				jspAddedIngrednt.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 				jspAddedIngrednt.setBounds(20,480,580,80);
@@ -158,7 +177,7 @@ public class AddRecipeForm extends JDialog {
 //		endregion 재료의 삭제 및 추가 버튼 끝
 		
 //		region 재료의 총가격 라벨과 실제로 값을 보여줄 라벨
-		Font priceResult=new Font("맑은 고딕",Font.BOLD,15);
+		Font priceResult=new Font("돋음",Font.BOLD,20);
 		
 		lblTotalPrice=new JLabel("7000원");
 		lblTotalPrice.setFont(priceResult);
@@ -170,7 +189,7 @@ public class AddRecipeForm extends JDialog {
 //		endregion 재료의 총가격 라벨과 실제로 값을 보여줄 라벨 끝
 		
 //		region 레시피 작성 라벨
-		Font design=new Font("맑은 고딕",Font.BOLD,15);
+		Font design=new Font("굴림",Font.BOLD,22);
 		lblWriteRecipe=new JLabel("레시피 작성");
 		lblWriteRecipe.setBounds(310, 585,150,40);
 		lblWriteRecipe.setFont(design);
@@ -195,6 +214,15 @@ public class AddRecipeForm extends JDialog {
 		jbMgr.setBounds(15,750,100,40);
 //		endregion 요청,닫기,관리자 버튼 구역 끝
 		
+		AddRecipeEvt are = new AddRecipeEvt(this);
+		jbSearch.addActionListener(are);
+		jcbCateg.addActionListener(are);
+		jcbStore.addActionListener(are);
+		jbAddImg.addActionListener(are);
+		jbAddIngrednt.addActionListener(are);
+		jbRequest.addActionListener(are);
+		jbClose.addActionListener(are);
+		jbRmvIngrednt.addActionListener(are);
 		Component[] com={jtaInfo,jcbCateg,jtfRecipeName,lblRecipeInfo,lblRecipeSort,lblRecipeName
 				,lblImg,jbAddImg,lblTotalPriceView,lblTotalPrice,jbRmvIngrednt,jbAddIngrednt
 				,jspAddedIngrednt,jspIngrednt,jbSearch,jcbStore,lblConvenienceStore,lblIngredntChoice
@@ -211,4 +239,74 @@ public class AddRecipeForm extends JDialog {
 	public static void main(String[] args){
 		new AddRecipeForm();
 	}
+
+	public JButton getJbSearch() {
+		return jbSearch;
+	}
+
+	public JComboBox<String> getJcbStore() {
+		return jcbStore;
+	}
+
+	public JComboBox<String> getJcbCateg() {
+		return jcbCateg;
+	}
+
+	public DefaultTableModel getDtmIngrednt() {
+		return dtmIngrednt;
+	}
+
+	public DefaultTableModel getDtmAddedIngrednt() {
+		return dtmAddedIngrednt;
+	}
+
+	public JTextField getJtfRecipeName() {
+		return jtfRecipeName;
+	}
+
+	public JTable getJtIngrednt() {
+		return jtIngrednt;
+	}
+
+	public JButton getJbRequest() {
+		return jbRequest;
+	}
+
+	public JTable getJtaddedIngrednt() {
+		return jtaddedIngrednt;
+	}
+
+	public JLabel getLblImg() {
+		return lblImg;
+	}
+
+	public JButton getJbAddImg() {
+		return jbAddImg;
+	}
+
+	public JComboBox<String> getJcbIngrdntSort() {
+		return jcbIngrdntSort;
+	}
+	public JButton getJbAddIngrednt() {
+		return jbAddIngrednt;
+	}
+	public JButton getJbClose() {
+		return jbClose;
+	}
+	public JButton getJbRmvIngrednt() {
+		return jbRmvIngrednt;
+	}
+	public JTextArea getJtaInfo() {
+		return jtaInfo;
+	}
+
+	public JTextArea getJtaWriteRecipe() {
+		return jtaWriteRecipe;
+	}
+
+	public JLabel getLblTotalPrice() {
+		return lblTotalPrice;
+	}
+	
 }
+
