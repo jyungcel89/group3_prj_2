@@ -61,7 +61,9 @@ public class LogInEvt extends WindowAdapter implements  ActionListener {
 				JOptionPane.showMessageDialog(lf, 
 						logId+"님 환영합니다.");
 				flag=true;
+				// 메인창 띄우고 로그인 창 끄기
 				new MainForm(logId);
+				lf.dispose();
 			} else {
 				// 일치하는 회원정보가 없을때
 				JOptionPane.showMessageDialog(lf, 
@@ -78,6 +80,7 @@ public class LogInEvt extends WindowAdapter implements  ActionListener {
 	 */
 	public void moveSignin(){
 		new SignInForm();
+		lf.dispose();
 	}//moveSignin
 	
 	@Override
