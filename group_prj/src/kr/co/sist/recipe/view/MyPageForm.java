@@ -1,5 +1,7 @@
 package kr.co.sist.recipe.view;
 
+import java.awt.Font;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -26,12 +28,15 @@ public class MyPageForm extends JDialog {
     private DefaultTableModel dtmMyMenu, dtmFavorMenu;
     private JButton jbRmvMyMenu, jbRmvFavorMenu, jbEditMyInfo, jbClose;
 
-    public MyPageForm() {
+    public MyPageForm(String logId) {
         setLayout(null);
-
+        System.out.println("MyPage : "+logId);
         jlbMyMenu=new JLabel("내가 등록한 메뉴");
         jlbFavorMenu=new JLabel("북마크 리스트");
-
+        
+		JLabel jlUserName=new JLabel(" [ "+logId+" ]님 환영합니다.");
+		jlUserName.setFont(new Font("", Font.BOLD, 15));
+        
         jbEditMyInfo=new JButton("내 정보 수정");
         jbRmvMyMenu=new JButton("요청거절 삭제");
         jbRmvFavorMenu=new JButton("북마크 삭제");
@@ -80,7 +85,7 @@ public class MyPageForm extends JDialog {
         jpMyMenu.add(jbRmvFavorMenu);
 
         //이벤트
-        MyPageEvt mype = new MyPageEvt(this);
+        MyPageEvt mype = new MyPageEvt(this, logId);
         jtMyMenu.addMouseListener(mype);
         jbRmvMyMenu.addActionListener(mype);
         jbRmvFavorMenu.addActionListener(mype);
@@ -97,6 +102,9 @@ public class MyPageForm extends JDialog {
         jspMenuList.setBounds(10, 70, 880, 250);
         jspRequest.setBounds(10, 370, 880, 250);
 
+		// 사용자 아이디 라벨 배치
+		jlUserName.setBounds(20, 10, 170, 30);
+        
         jbEditMyInfo.setBounds(10, 750, 110, 30);
         jbClose.setBounds(810, 750, 100, 30);
         setBounds(50, 50, 940, 840);
@@ -104,7 +112,9 @@ public class MyPageForm extends JDialog {
         add(jpMyMenu);
         add(jbEditMyInfo);
         add(jbClose);
-
+		// 사용자 아이디 라벨 붙이기
+		add(jlUserName);
+        
         setVisible(true);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }//MgrPageForm
@@ -210,9 +220,9 @@ public class MyPageForm extends JDialog {
 
 
 	///////////////////////////////////////////////차후 삭제요망////////////////////////////////////
-    public static void main(String[] args) {
-        new MyPageForm();
-    }//main
+//    public static void main(String[] args) {
+//        new MyPageForm(String logId);
+//    }//main
 
 }//class
 

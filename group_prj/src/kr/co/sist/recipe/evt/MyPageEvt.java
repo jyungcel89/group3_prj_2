@@ -29,6 +29,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        private RecipeDAO rdao;
        private BookmarkVO bv;
        private MemberDAO mdao;
+       public static String logId;
        
 	    /**
 	     * 마이페이지 이벤트
@@ -36,19 +37,20 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
 	     * 1. MyPageForm 객체명 변경 : mpf > mypf
 	     * @param mypf
 	     */
-       public MyPageEvt(MyPageForm mypf){
+       public MyPageEvt(MyPageForm mypf, String logId){
               this.mypf=mypf;
+              this.logId=logId;
               bdao=BookmarkDAO.getInstance();
               rdao=RecipeDAO.getInstance();
               mdao=MemberDAO.getInstance();
-              showMyRecipe("mgr");////////////////////////////////회원 아이디 들어가야함
+              showMyRecipe();////////////////////////////////회원 아이디 들어가야함
               showBookmark();//////////////////////////////회원 아이디 들어가야함
        }//MyPageEvt
        
        // 내가 등록한 메뉴 리스트
-       public void showMyRecipe(String id){
+       public void showMyRecipe(){
               try {
-                     List<MyRecipeVO> listMyRcp = rdao.myRecipe(id);
+                     List<MyRecipeVO> listMyRcp = rdao.myRecipe(logId);
                      Object[] rowMenu = new Object[6];
                      DefaultTableModel dtmMenu = mypf.getDtmMyMenu();
                      
@@ -109,7 +111,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
 				}//end catch
 				
 				// 삭제 후 갱신
-				showMyRecipe("mgr");//회원아이디 들어가야됨
+				showMyRecipe();//회원아이디 들어가야됨
 			} catch (ArrayIndexOutOfBoundsException aioobe) {
 				JOptionPane.showMessageDialog(mypf, 
 						"레시피를 선택해주세요.");
@@ -123,9 +125,8 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        
        // 북마크한 메뉴 리스트
        public void showBookmark(){
-              String id="duck";
               try {
-                     List<BookmarkVO> bklist = bdao.searchAll(id);
+                     List<BookmarkVO> bklist = bdao.searchAll(logId);
                      Object[] rowMenu = new Object[5];
                      DefaultTableModel dtmMenu = mypf.getDtmFavorMenu();
                      
