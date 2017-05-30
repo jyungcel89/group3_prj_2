@@ -104,7 +104,7 @@ public class BookmarkDAO {
               
        }//searchAll
        
-       // 마이페이지 상품보기팝업에서 북마크 체크
+       ///////////////////////////////////////////// 마이페이지 상품보기팝업에서 북마크 체크
        public boolean insertBookmark(BookmarkUpdateVO bmuvo) throws SQLException{
               boolean result=false;
               int flag=0;
@@ -181,8 +181,46 @@ public class BookmarkDAO {
 //           
 //     }//showBookmarkMenu
        
+       public boolean popUpChkBookmark( BookmarkUpdateVO  bmuvo) throws SQLException{
+    	   boolean result=false;
+    	   Connection con=null;
+           PreparedStatement pstmt= null;
+           ResultSet rs = null;
+           try {
+                  con= getConnection();
+                  
+                  String chkBmQuery=
+                               "select * from bookmark where id=? and menu_name=?";
+                  
+                  pstmt = con.prepareStatement(chkBmQuery);
+                  pstmt.setString(1, bmuvo.getId());
+                  pstmt.setString(2, bmuvo.getMenuName());
+                  rs = pstmt.executeQuery();
+                  
+                  if(rs.next()){
+                	  result=true;
+                  }
+                  
+           }finally {
+                  if(rs!= null){ rs.close(); }
+                  if(pstmt!= null){ pstmt.close(); }
+                  if(con!= null){ con.close(); }
+           }//end finally
+    	   
+    	   
+    	   return result;
+       }
+       
+       
+       
+       
+       
+       
        ///////////////////////////////////////////차후 삭제 요망
-       public static void main(String[] args){
+       /**
+     * @param args
+     */
+    public static void main(String[] args){
               BookmarkDAO bd= BookmarkDAO.getInstance();
 //           List<BookmarkVO> list = null;
 //           try {
