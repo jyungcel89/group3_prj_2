@@ -152,7 +152,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        }//showBookmark
        
        // 북마크한 메뉴 삭제
-       public void rmvBookmark() {
+       public void rmvBookmark() { 
               String id="duck";
               BookmarkUpdateVO bmuvo= new BookmarkUpdateVO();
               try {
