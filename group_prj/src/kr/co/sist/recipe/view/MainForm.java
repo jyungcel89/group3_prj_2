@@ -88,10 +88,14 @@ public class MainForm extends JFrame{
 		JScrollPane jspTab = new JScrollPane(jtRecipe);
 		// 테이블 설정 
 		// 컬럼의 높이설정
-		jtRecipe.setRowHeight(100);
+		jtRecipe.setRowHeight(120);
 		// 컬럼의 넓이 설정
-		jtRecipe.getColumnModel().getColumn(0).setPreferredWidth(40);
-
+		jtRecipe.getColumnModel().getColumn(0).setPreferredWidth(100);
+		jtRecipe.getColumnModel().getColumn(1).setPreferredWidth(120);
+		jtRecipe.getColumnModel().getColumn(2).setPreferredWidth(50);
+		jtRecipe.getColumnModel().getColumn(3).setPreferredWidth(450);
+		jtRecipe.getColumnModel().getColumn(4).setPreferredWidth(30);
+ 
 		// 백그라운드 설정
 		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/background_image.png"));
 		setContentPane(jlImg);

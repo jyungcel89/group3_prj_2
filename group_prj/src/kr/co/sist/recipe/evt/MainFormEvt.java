@@ -102,14 +102,14 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    // 검색조건으로 리스트 조회
    public void searchList() {
 
-	   String searchText = mainFrm.getJtfSearch().getText();
-	   String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/";
       try {
          // 검색조건 메소드 실행하여 조건을 걸러줌
+    	 String searchText = mainFrm.getJtfSearch().getText();
          searchCondition();
          List<MainRecipeVO> list = rcp_dao.selectAllRecipe(mtv, searchText);
          Object[] rowMenu = new Object[5];
          DefaultTableModel dtmMenu = mainFrm.getDtmRecipe();
+         String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
 
          // 메뉴종류가 저장된 VO에
          MainRecipeVO mrv = null;
@@ -140,8 +140,8 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    
    public void showMyPage() {
 	   // 로그인 // 매니저일 때, 회원일 때
-//	   new MyPageForm();
-	   new MgrPageForm();
+	   new MyPageForm();
+//	   new MgrPageForm();
    }// addRecipe
 
 
