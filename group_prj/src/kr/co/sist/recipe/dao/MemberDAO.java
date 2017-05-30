@@ -268,7 +268,7 @@ public class MemberDAO {
 		}//end finally
 		return flag;
 	}//deleteMember
-	 
+	  
 	/**
 	 * 회원정보 수정<br>
 	 * 해당 회원정보(pw, email)의 값을 받아 >(id, pw, email)의 값을 받아 
