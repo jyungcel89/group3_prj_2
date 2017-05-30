@@ -32,12 +32,15 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    private MainForm mainFrm;
    private RecipeDAO rcp_dao;
    private MenuTypeVO mtv;
-
+   public static String logId;
+   
+   
    public MainFormEvt() {
-   }
+   }//MainFormEvt
 
-   public MainFormEvt(MainForm mainFrm) {
+   public MainFormEvt(MainForm mainFrm, String logId) {
       this.mainFrm = mainFrm;
+      this.logId = logId;
       rcp_dao = RecipeDAO.getInstance();
       
       newRecipe();
@@ -138,12 +141,26 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
 	   new AddRecipeForm();
    }// addRecipe
    
-   public void showMyPage() {
-	   // 로그인 // 매니저일 때, 회원일 때
-	   new MyPageForm();
-//	   new MgrPageForm();
+   public void addRecipe() {
+	   
    }// addRecipe
 
+   //05-29-2017 추가
+   // 마이페이지(관리자 페이지)로 이동 버튼
+   // member_flag 추가되면 그 조건으로 추가
+   public void movePage() {
+	   System.out.println("메인 > 관리자"+logId);
+	   if( logId.equals("mgr") ){
+		   new MgrPageForm(logId);
+	   }else{
+		   new MyPageForm(logId);
+	   }//end if
+   }//movePage
+   
+   // 닫기
+   public void close() {
+
+   }// close
 
    @Override 
    public void actionPerformed(ActionEvent ae) {
@@ -179,6 +196,11 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
     	  }//end catch
       }//end if
       
+      //05-29-2017 추가
+      if(ae.getSource()==mainFrm.getJbMypage()){
+    	  movePage();
+      }//end if
+      
       if(ae.getSource() == mainFrm.getJbClose()){
     	  int selectNum = JOptionPane.showConfirmDialog(mainFrm, "창을 닫으시겠습니까?");
     	  switch (selectNum) {
@@ -188,7 +210,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
       }//end if //닫기버튼
       
       if(ae.getSource() == mainFrm.getJbMypage()){
-    	  showMyPage();
+    	  
       }//end if
       
       if(ae.getSource() == mainFrm.getJbAddRecipe()){
@@ -208,8 +230,10 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
 			mrv = rcp_dao.selectOneRecipe((String)jtTmp.getValueAt(selecedRow, 0));
 			/// 자세한 정보도 같이 가져와야함
 			new ItemPreviewForm(mrv);
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException se) {
+			JOptionPane.showMessageDialog(mainFrm, 
+					"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
+			se.printStackTrace();
 		}//end catch
       }//end if
    }//mouseClicked

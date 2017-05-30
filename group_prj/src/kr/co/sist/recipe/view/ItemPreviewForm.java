@@ -146,8 +146,9 @@ public class ItemPreviewForm extends JDialog {
 			add(com[i]);
 		}
 		
-		//이벤트 적용
-		ItemPreviewEvt ipe = new ItemPreviewEvt(this);
+		//이벤트 추가
+		ItemPreviewEvt ipe=new ItemPreviewEvt(this);
+		jbSubmit.addActionListener(ipe);
 		jbClose.addActionListener(ipe);
 		
 		setVisible(true);

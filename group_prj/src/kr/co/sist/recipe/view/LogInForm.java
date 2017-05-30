@@ -23,7 +23,7 @@ public class LogInForm extends JFrame {
 	private JLabel jlblLogo;
 	private boolean flag;
 	private int cnt;
-	
+	 
 	public LogInForm() {
 		setLayout(null);
 		JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/loginBack.png"));
@@ -54,6 +54,7 @@ public class LogInForm extends JFrame {
 		
 		//이벤트 추가
 		LogInEvt le=new LogInEvt(this);
+		
 		jbtLogIn.addActionListener(le);
 		jbtSignIn.addActionListener(le);
 		

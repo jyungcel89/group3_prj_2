@@ -9,15 +9,25 @@ package kr.co.sist.recipe.vo;
  */
 public class MemberVO {
 
-	private String pw, mail;
+	private String id, pw, mail;
 	
 	public MemberVO() {
 	}//MemberVO
 
-	public MemberVO(String pw, String mail) {
+	public MemberVO(String id, String pw, String mail) {
 		super();
+		this.id=id;
 		this.pw = pw;
 		this.mail = mail;
+	}
+
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getPw() {

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
+import java.awt.Font;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -15,15 +17,22 @@ import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.recipe.evt.MyPageEvt;
 
+/**
+ * 마이페이지폼
+ * <수정사항>
+ * 1. MyPageEvt 객체명 변경 : mype > mype
+ * @author JiYong
+ *
+ */
 @SuppressWarnings("serial")
 public class MyPageForm extends JDialog {
 
     private JLabel jlbMyMenu, jlbFavorMenu;
     private JTable jtMyMenu, jtFavorMenu;
     private DefaultTableModel dtmMyMenu, dtmFavorMenu;
-    private JButton jbRmvFavorMenu, jbEditMyInfo, jbClose;
+    private JButton jbRmvMyMenu, jbRmvFavorMenu, jbEditMyInfo, jbClose;
 
-    public MyPageForm() {
+    public MyPageForm(String logId) {
         setLayout(null);
         JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/mypageBack.png"));
 	    setContentPane(jlBackImg);
@@ -33,7 +42,15 @@ public class MyPageForm extends JDialog {
         jlbMyMenu.setFont(new Font("맑은 고딕", Font.BOLD, 14));
         jlbFavorMenu.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 
+        System.out.println("MyPage : "+logId);
+        jlbMyMenu=new JLabel("내가 등록한 메뉴");
+        jlbFavorMenu=new JLabel("북마크 리스트");
+        
+		JLabel jlUserName=new JLabel(" [ "+logId+" ]님 환영합니다.");
+		jlUserName.setFont(new Font("", Font.BOLD, 15));
+        
         jbEditMyInfo=new JButton("내 정보 수정");
+        jbRmvMyMenu=new JButton("요청거절 삭제");
         jbRmvFavorMenu=new JButton("북마크 삭제");
         jbClose=new JButton("닫기");
  
@@ -76,13 +93,16 @@ public class MyPageForm extends JDialog {
         jpMyMenu.add(jlbFavorMenu);
         jpMyMenu.add(jspMenuList);
         jpMyMenu.add(jspRequest);
+        jpMyMenu.add(jbRmvMyMenu);
         jpMyMenu.add(jbRmvFavorMenu);
 
         //이벤트
-        MyPageEvt mpe = new MyPageEvt(this);
-        jbRmvFavorMenu.addActionListener(mpe);
-        jbEditMyInfo.addActionListener(mpe);
-        jbClose.addActionListener(mpe);
+        MyPageEvt mype = new MyPageEvt(this, logId);
+        jtMyMenu.addMouseListener(mype);
+        jbRmvMyMenu.addActionListener(mype);
+        jbRmvFavorMenu.addActionListener(mype);
+        jbEditMyInfo.addActionListener(mype);
+        jbClose.addActionListener(mype);
 
         //패널 위치
         jpMyMenu.setBounds(10, 100, 900, 640);
@@ -90,10 +110,14 @@ public class MyPageForm extends JDialog {
         //패널 위치
         jlbMyMenu.setBounds(10, 30, 120, 30);
         jlbFavorMenu.setBounds(10, 330, 100, 30);
+        jbRmvMyMenu.setBounds(780, 30, 110, 30);
         jbRmvFavorMenu.setBounds(780, 330, 110, 30);
         jspMenuList.setBounds(10, 70, 880, 250);
         jspRequest.setBounds(10, 370, 880, 250);
 
+		// 사용자 아이디 라벨 배치
+		jlUserName.setBounds(20, 10, 170, 30);
+        
         jbEditMyInfo.setBounds(10, 750, 110, 30);
         jbClose.setBounds(810, 750, 100, 30);
         setBounds(50, 50, 940, 840);
@@ -101,7 +125,9 @@ public class MyPageForm extends JDialog {
         add(jpMyMenu);
         add(jbEditMyInfo);
         add(jbClose);
-
+		// 사용자 아이디 라벨 붙이기
+		add(jlUserName);
+        
         setVisible(true);
     }//MgrPageForm
 
@@ -190,12 +216,27 @@ public class MyPageForm extends JDialog {
         this.jbClose = jbClose;
     }
 
+    
 
 
 	///////////////////////////////////////////////차후 삭제요망////////////////////////////////////
-    public static void main(String[] args) {
-        new MyPageForm();
-    }//main
+    
+	public JButton getJbRmvMyMenu() {
+		return jbRmvMyMenu;
+	}
+
+
+
+	public void setJbRmvMyMenu(JButton jbRmvMyMenu) {
+		this.jbRmvMyMenu = jbRmvMyMenu;
+	}
+
+
+
+	///////////////////////////////////////////////차후 삭제요망////////////////////////////////////
+//    public static void main(String[] args) {
+//        new MyPageForm(String logId);
+//    }//main
 
 }//class
 

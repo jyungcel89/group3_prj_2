@@ -27,6 +27,7 @@ import kr.co.sist.recipe.vo.RecipeInfoUpdateVO;
  * @author user
  *
  */
+@SuppressWarnings("serial")
 public class RecipeDAO {
        private static RecipeDAO rcp_dao;
        
@@ -117,12 +118,11 @@ public class RecipeDAO {
        }//selectOneRecipe
        
        /**
-        * 마이페이지폼 - 내가올린 레시피 조회
+        * 마이페이지폼 - 내가 올린 레시피 조회
         * 메소드명 myRecipe
         * @return
         * @throws SQLException
         */
-       
        public List<MyRecipeVO> myRecipe(String id) throws SQLException{
               List<MyRecipeVO> myRecipelist = new ArrayList<MyRecipeVO>();
               Connection con=null;
@@ -166,7 +166,6 @@ public class RecipeDAO {
               
               return myRecipelist;
        }//myRecipe
-       
        
        
        /**
@@ -275,12 +274,12 @@ public class RecipeDAO {
                      MainRecipeVO mrv = null;
                      while(rs.next()){
                            mrv = new MainRecipeVO();
-                            mrv.setMenuName(rs.getString("menu_name"));
+                           mrv.setMenuName(rs.getString("menu_name"));
                            mrv.setMenuImg(rs.getString("img"));
                            mrv.setMenuPrice(rs.getString("totalprice"));
                            mrv.setMenuType(rs.getString("food_type"));
                            mrv.setMenuSimpeInfo(rs.getString("info"));
-                            mrv.setMenuDetailInfo(rs.getString("recipe_info"));
+                           mrv.setMenuDetailInfo(rs.getString("recipe_info"));
                            
                            recntImgList.add(mrv);
                      }
@@ -341,19 +340,19 @@ public class RecipeDAO {
        }//recipeList
        
        /**
-        * 관리자
-        *  - 기존메뉴 삭제
+        * 회원
+        *  - 요청거절 메뉴 삭제
         * @param menuName
         * @return boolean
         */
-       public boolean deleteRecipe(String menuName) throws SQLException{
+       public boolean deleteRecipeUser(String menuName) throws SQLException{
               Connection con=null;
               PreparedStatement pstmt = null;
               
               try{
                      con = getConnection();
                      
-                     String query="delete from reciperegister where menu_name=?";
+                     String query="delete from reciperegister where menu_name=? and recipe_flag='N'";
                      pstmt = con.prepareStatement(query);
                      
                      pstmt.setString(1, menuName);
@@ -365,6 +364,32 @@ public class RecipeDAO {
               }//end finally
               
               return true;
+       }//deleteRecipe
+       /**
+        * 관리자
+        *  - 기존메뉴 삭제
+        * @param menuName
+        * @return boolean
+        */
+       public boolean deleteRecipe(String menuName) throws SQLException{
+    	   Connection con=null;
+    	   PreparedStatement pstmt = null;
+    	   
+    	   try{
+    		   con = getConnection();
+    		   
+    		   String query="delete from reciperegister where menu_name=?";
+    		   pstmt = con.prepareStatement(query);
+    		   
+    		   pstmt.setString(1, menuName);
+    		   
+    		   pstmt.executeUpdate();
+    	   }finally {
+    		   if(pstmt!= null){ pstmt.close(); }
+    		   if(con!= null){ con.close(); }
+    	   }//end finally
+    	   
+    	   return true;
        }//deleteRecipe
        
        /**

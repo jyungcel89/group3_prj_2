@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
+import java.awt.Font;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -27,7 +29,9 @@ public class MgrPageForm extends JDialog {
 	private JTabbedPane jtpTab;
 	private JButton jbRmvMenu, jbRmvRqust, jbSmitRqust, jbRmvMember, jbClose;
 	
-	public MgrPageForm(/*MainForm mf*/) {
+	public MgrPageForm(String logId/*MainForm mf*/) {
+//		super(mf,"Manager Page",true);
+//		this.mf=mf;
 		setLayout(null);
 		JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/mgrpageBack.png"));
 	    setContentPane(jlBackImg);
@@ -39,6 +43,13 @@ public class MgrPageForm extends JDialog {
 		jlbMenuList.setFont(defaultFont);
 		jlbMenuRequest.setFont(defaultFont);
 		jlbMember.setFont(defaultFont);
+		System.out.println("MgrPage : "+logId);
+		jlbMenuList=new JLabel("메뉴 리스트");
+		jlbMenuRequest=new JLabel("메뉴 요청대기 리스트");
+		jlbMember=new JLabel("전체 회원 리스트");
+		
+		JLabel jlUserName=new JLabel(" [ "+logId+" ]님 환영합니다.");
+		jlUserName.setFont(new Font("", Font.BOLD, 15));
 		
 		jbRmvMenu=new JButton("삭제");
 		jbSmitRqust=new JButton("요청 승인");
@@ -165,19 +176,24 @@ public class MgrPageForm extends JDialog {
 		jbRmvMember.setBounds(790, 10, 100, 30);
 		jspMember.setBounds(10, 50, 880, 550);
 		
+		// 사용자 아이디 라벨 배치
+		jlUserName.setBounds(20, 10, 170, 30);
+		
 		jbClose.setBounds(810, 750, 100, 30);
 		setBounds(50, 50, 940, 840);
 		//배치
 		add(jtpTab);
 		add(jbClose);
+		// 사용자 아이디 라벨 붙이기
+		add(jlUserName);
 		
 		setVisible(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}//MgrPageForm
 	
-	public static void main(String[] args) {
-		new MgrPageForm();
-	}//main
+//	public static void main(String[] args) {
+//		new MgrPageForm();
+//	}//main
 
 	public JLabel getJlbMenuList() {
 		return jlbMenuList;

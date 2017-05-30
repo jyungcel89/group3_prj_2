@@ -17,8 +17,8 @@ public class SignInForm extends JDialog {
 	private JLabel jlbId, jlbPw, jlbChkPw, jlbName, jlbMail;
 	public JTextField jtfId, jtfName, jtfMail;
 	private JPasswordField jpfPw, jpfChkPw;
-	private JButton jbtChkId, jbtSubmit, jbtCancel;
 	private String backgroundPath;
+	private JButton jbtChkId, jbtSubmit, jbtCancel, jbtUpdate;
 	
 	public SignInForm() {
 		setLayout(null);
@@ -40,6 +40,9 @@ public class SignInForm extends JDialog {
 		jbtChkId=new JButton("중복확인");
 		jbtSubmit=new JButton("가입");
 		jbtCancel=new JButton("취소");
+		//////////////////////수정 버튼 추가///////////////////
+		jbtUpdate=new JButton("수정");
+		////////////////////////////////////////////////////////
 		
 		//Font
 		Font font=new Font("Helvetica",	Font.BOLD, 13);
@@ -56,6 +59,9 @@ public class SignInForm extends JDialog {
 		jbtChkId.setFont(font);
 		jbtSubmit.setFont(font);
 		jbtCancel.setFont(font);
+		//////////////////////수정 버튼 추가///////////////////
+		jbtUpdate.setFont(font);
+		////////////////////////////////////////////////////////
 		
 		//위치설정 간격 10
 		jlbId.setBounds(50, 100, 100, 30);
@@ -74,12 +80,19 @@ public class SignInForm extends JDialog {
 		jbtSubmit.setBounds(270, 320, 80, 40);
 		jbtCancel.setBounds(360, 320, 80, 40);
 		setBounds(50, 50, 470, 420);
+		jbtSubmit.setBounds(240, 320, 80, 50);
+		jbtCancel.setBounds(330, 320, 80, 50);
+		//////////////////////수정 버튼 추가///////////////////
+		jbtUpdate.setBounds(330,320,80,50);
+		////////////////////////////////////////////////////////
+		setBounds(50, 50, 470, 440);
 		
 		//이벤트 추가
 		SignEvt se=new SignEvt(this);
 		jbtChkId.addActionListener(se);
 		jbtSubmit.addActionListener(se);
 		jbtCancel.addActionListener(se);
+		jbtUpdate.addActionListener(se);
 		
 		//배치
 		add(jlbId);
@@ -97,7 +110,10 @@ public class SignInForm extends JDialog {
 		add(jbtChkId);
 		add(jbtSubmit);
 		add(jbtCancel);
-		
+		//////////////////////수정 버튼 추가///////////////////
+		add(jbtUpdate);
+		jbtUpdate.setVisible(false);
+		////////////////////////////////////////////////////////
 		//
 		setVisible(true);
 		setResizable(false);
@@ -175,6 +191,13 @@ public class SignInForm extends JDialog {
 
 	public void setBackgroundPath(String backgroundPath) {
 		this.backgroundPath = backgroundPath;
+	}
+	public JButton getJbtUpdate() {
+		return jbtUpdate;
+	}
+
+	public void setJbtUpdate(JButton jbtUpdate) {
+		this.jbtUpdate = jbtUpdate;
 	}
 
 	

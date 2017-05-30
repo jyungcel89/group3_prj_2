@@ -113,6 +113,45 @@ public class MemberDAO {
 	}//selectOneMember
 	
 	/**
+	 * 회원 - 마이페이지에서 내정보 수정 시 데이터 입력 값
+	 * @param 05-30 정윤호
+	 * @throws SQLException 
+	 */
+	public String selectMyInfo(String id) throws SQLException{
+		String result=""; 
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		try{
+		//1.드라이버로딩
+		//2.Connection 얻기
+			con=getConnection();
+		//3.쿼리 생성객체 얻기
+			String selectMy=
+					"select name from members where id=?";
+			pstmt=con.prepareStatement(selectMy);
+			pstmt.setString(1, id);
+		//4.쿼리수행 후 결과 얻기
+			rs=pstmt.executeQuery();
+			while( rs.next() ){
+				result=rs.getString("name").toString();
+			}//end while
+		}finally{
+			//5.연결끊기
+			if( rs != null ){ rs.close(); };//end if
+			if( pstmt !=null ){ pstmt.close(); };//end if
+			if( con != null ){ con.close(); };//end if
+		}//end finally
+		
+		
+		return result;
+	}//selectMyInfo
+	
+	
+	
+	
+	/**
 	 * 관리자 - 전체 회원 목록 조회<br>
 	 * id,name,email을 조회하여
 	 * MgrMemberVO에 저장하고 List에 추가하여 반환하는 일
@@ -229,18 +268,20 @@ public class MemberDAO {
 		}//end finally
 		return flag;
 	}//deleteMember
-	
+	  
 	/**
 	 * 회원정보 수정<br>
-	 * 해당 회원정보(pw, email)의 값을 받아 
+	 * 해당 회원정보(pw, email)의 값을 받아 >(id, pw, email)의 값을 받아 
 	 * db의 members 테이블의 값을 수정<br>
 	 * <수정사항><br>
-	 * 1.boolean > void<br>
-	 * 2.MemberVO 항목 수정 > pw, email 있는 VO<br>
+	 * 1.boolean > void > boolean 값으로 수정 <br>
+	 * 2.MemberVO 항목 수정 > pw, email 있는 VO// > 수정 id 포함 VO<br>
 	 * @param memVo
 	 * @throws SQLException
 	 */
-	public void updateMember(MemberVO memVo, String id) throws SQLException{
+	public boolean updateMember(MemberVO memVo) throws SQLException{
+		boolean result=false;
+		int flag=0;
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		try{
@@ -255,14 +296,20 @@ public class MemberDAO {
 		//4.쿼리문 수행 후 결과 얻기
 			pstmt.setString(1, memVo.getPw());
 			pstmt.setString(2, memVo.getMail());
-			pstmt.setString(3, id);
+			pstmt.setString(3, memVo.getId());
 			
-			pstmt.executeUpdate(); 
+			flag=pstmt.executeUpdate(); 
+			   if(flag!=0){ // flag가 0일시 insert된 결과가 없다는 것을 뜻함으로  오류 창을 띄워줘야한다 - 경우의 수 없을듯 (중복 입력되는 경우를 막아한다)
+                   result=true;
+			   }else{
+				   result=false;
+			   }//end if
 		}finally{
 		//5.연결끊기
 			if( pstmt != null ){ pstmt.close(); };//end if
 			if( con != null ){ con.close(); };//end if
 		}//end finally
+		return result;
 	}//updateMember
 	
 	/**

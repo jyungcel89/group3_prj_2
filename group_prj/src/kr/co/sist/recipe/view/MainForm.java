@@ -23,18 +23,21 @@ import kr.co.sist.recipe.evt.MainFormEvt;
 @SuppressWarnings("serial")
 public class MainForm extends JFrame{
 
-	private JButton jbSearch, jbFstImg, jbSecImg, jbTrdImg, jbMypage, jbClose, jbAddRecipe;
+	private JButton jbSearch, jbFstImg, jbSecImg, jbTrdImg, jbMypage, jbClose, jbAddRecipe, jbLogOut;
 	private JTable jtRecipe;
 	private DefaultTableModel dtmRecipe;
 	private JCheckBox chkOne, chkTwo, chkThree, chkFour;
 	private JTextField jtfSearch;	
 	private String imgPath1, imgPath2, imgPath3;
 	private String imgName1, imgName2, imgName3;
-	
 
-	public MainForm() { 
+	public MainForm(String logId) { 
 		super("홍홍홍의 편의점 레시피");
-		setLayout(null);
+		setLayout(null); 
+		System.out.println("메인"+logId);
+		
+		JLabel jlUserName=new JLabel(" [ "+logId+" ]님 환영합니다.");
+		jlUserName.setFont(new Font("", Font.BOLD, 15));
 		
 		JLabel jlRecent = new JLabel("◑ 최신 레시피");
 		jlRecent.setFont(new Font("맑은 고딕", Font.BOLD, 14));
@@ -68,8 +71,15 @@ public class MainForm extends JFrame{
 		// 아래 레시피 추가버튼, 마이페이지버튼, 닫기 버튼
 		JPanel jpFootBtns = new JPanel();
 		jbAddRecipe = new JButton("메뉴 요청");
-		jbMypage = new JButton("마이페이지");
+		// 관리자 - 회원 구분하여 버튼 사용
+		// 임시, 바꿀겁니다~
+		if( logId.equals("mgr") ){
+			jbMypage = new JButton("관리자페이지");
+		}else{
+			jbMypage = new JButton("마이페이지");
+		}
 		jbClose = new JButton("닫기");
+		jbLogOut = new JButton("로그아웃");
 		
 		// 테이블
 		String[] columnName = {"메뉴이름", "이미지", "메뉴타입", "간단소개","가격"};
@@ -81,7 +91,6 @@ public class MainForm extends JFrame{
 				return false;
 			}
 		};
-		
 		
 		jtRecipe = new JTable(dtmRecipe){
 			//컬럼에 이미지를 넣기 위한 method Override
@@ -107,7 +116,7 @@ public class MainForm extends JFrame{
 		setContentPane(jlImg);
 		
 		// 이벤트 선언
-		MainFormEvt mfe= new MainFormEvt(this);
+		MainFormEvt mfe= new MainFormEvt(this, logId);
 		 
 		// 최신 이미지 등록 뷰, 이미지 가져와서 등록
 		JPanel jpRcntRecipe = new JPanel();
@@ -120,6 +129,9 @@ public class MainForm extends JFrame{
 		JLabel jlMenuName1=new JLabel(" ▷ "+imgName1);
 		JLabel jlMenuName2=new JLabel(" ▷ "+imgName2);
 		JLabel jlMenuName3=new JLabel(" ▷ "+imgName3);
+		
+		// 사용자 아이디 라벨 배치
+		jlUserName.setBounds(20, 10, 170, 30);
 		
 		// 이미지 버튼 배치
 		jpRcntRecipe.setLayout(null);
@@ -143,6 +155,7 @@ public class MainForm extends JFrame{
 		chkFour.setBounds(340, 10, 70, 30);
 		jtfSearch.setBounds(420, 13, 280, 25);
 		jbSearch.setBounds(720, 11, 100, 28);
+		jbLogOut.setBounds(180, 10, 100, 30);
 		
 		// 하단버튼 > 레시피 추가버튼, 마이페이지버튼, 닫기 버튼 배치
 		jpFootBtns.setLayout(null);
@@ -159,6 +172,9 @@ public class MainForm extends JFrame{
 		jspTab.setBounds(20, 480, 830, 420);
 		// 하단 버튼패널 배치
 		jpFootBtns.setBounds(20, 910, 830, 50);
+		
+		// 사용자 아이디 라벨 붙이기
+		add(jlUserName);
 		
 		// 최근메뉴 이미지 버튼 붙이기
 		jpRcntRecipe.add(jlRecent);
@@ -184,11 +200,13 @@ public class MainForm extends JFrame{
 		jpFootBtns.add(jbMypage);
 		jpFootBtns.add(jbClose);
 		
-		// 패널 붙이기
+		// 패널 붙이기 
 		add(jpSrchOption);
 		add(jpRcntRecipe);
 		add(jspTab);
 		add(jpFootBtns);
+		add(jbLogOut);
+		jbLogOut.setOpaque(false);
 		
 		// 이벤트 적용
 		jbSearch.addActionListener(mfe);
@@ -200,6 +218,7 @@ public class MainForm extends JFrame{
 		jbAddRecipe.addActionListener(mfe);
 		jbClose.addActionListener(mfe);
 		
+		jbLogOut.addActionListener(mfe);
 		// 부모창
 		setBounds(10, 10, 880, 1010);
 		setVisible(true);
@@ -481,8 +500,20 @@ public class MainForm extends JFrame{
 
 
 
-	public static void main(String[] args) {
-		new MainForm();
-	}//main
+	public JButton getJbLogOut() {
+		return jbLogOut;
+	}
+
+
+
+	public void setJbLogOut(JButton jbLogOut) {
+		this.jbLogOut = jbLogOut;
+	}
+
+
+
+//	public static void main(String[] args) {
+//		new MainForm(String logId);
+//	}//main
 
 }//class
