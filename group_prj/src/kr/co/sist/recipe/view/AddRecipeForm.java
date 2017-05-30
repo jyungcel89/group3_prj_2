@@ -1,12 +1,8 @@
 package kr.co.sist.recipe.view;
 
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,8 +19,8 @@ import javax.swing.table.DefaultTableModel;
 import kr.co.sist.recipe.evt.AddRecipeEvt;
 
 @SuppressWarnings("serial")
-public class AddRecipeForm extends JDialog{
-	
+public class AddRecipeForm extends JDialog {
+
 	private JComboBox<String> jcbStore,jcbCateg,jcbIngrdntSort;
 	private JTable jtIngrednt,jtaddedIngrednt;
 	private JTextArea jtaInfo,jtaWriteRecipe;
@@ -36,9 +32,13 @@ public class AddRecipeForm extends JDialog{
 	private JScrollPane jspIngrednt,jspAddedIngrednt,jspTextArea;
 	private DefaultTableModel dtmIngrednt,dtmAddedIngrednt;
 	private ImageIcon imgIcon;
+	private MgrPageForm mpf;
 	public AddRecipeForm(){
-		setLayout(null);
 		
+	}
+	public AddRecipeForm(String menuName){
+		setLayout(null);
+	
 //		region 레시피 이미지 추가하는 라벨 및 이미지 아이콘
 		imgIcon=new ImageIcon("C:/dev/workspace/group_prj/src/kr/co/sist/recipe/view/FI_0031.JPG");
 		lblImg = new JLabel(imgIcon);
@@ -61,17 +61,13 @@ public class AddRecipeForm extends JDialog{
 //		endregion 상품명,요리분류,간단소개 라벨 추가 영역끝
 		
 //		region 레시피명 입력하는 JTextField
-		jtfRecipeName=new JTextField();
+		jtfRecipeName=new JTextField(menuName);
 		jtfRecipeName.setBounds(492,35,100,20);
 //		endregion 레시피명 입력하는 JTextField끝
 		
 //		region 레시피 요리분류 콤보박스 영역
 		jcbCateg=new JComboBox<String>();
 		jcbCateg.setBounds(492,75,100,20);
-		jcbCateg.addItem("안주류");
-		jcbCateg.addItem("디저트");
-		jcbCateg.addItem("분식류");
-		jcbCateg.addItem("식사류");
 //		endregion 레시피 요리분류 콤보박스 영역끝
 		
 //		region 레시피 간단설명 텍스트에어리어
@@ -81,7 +77,7 @@ public class AddRecipeForm extends JDialog{
 //		endregion 레시피 간단설명 텍스트에어리어끝
 		
 //		region 재료선택,편의점,재료분류 라벨 추가 영역
-		Font ingredntChoice=new Font("돋음",Font.BOLD,20);
+		Font ingredntChoice=new Font("맑은 고딕",Font.BOLD,15);
 		lblIngredntChoice=new JLabel("재료선택");
 		lblIngredntChoice.setFont(ingredntChoice);
 		lblIngredntChoice.setBounds(50,290,100,30);
@@ -94,16 +90,8 @@ public class AddRecipeForm extends JDialog{
 //		region 편의점,재료분류 콤보박스 영역
 		jcbStore=new JComboBox<String>();
 		jcbStore.setBounds(110,330,120,30);
-		jcbStore.addItem("GS25");
-		jcbStore.addItem("7-eleven");
-		jcbStore.addItem("CU");
 		jcbIngrdntSort=new JComboBox<String>();
 		jcbIngrdntSort.setBounds(470,330,120,30);
-		jcbIngrdntSort.addItem("과자");
-		jcbIngrdntSort.addItem("기타");
-		jcbIngrdntSort.addItem("아이스크림");
-		jcbIngrdntSort.addItem("라면");
-		jcbIngrdntSort.addItem("즉석요리");
 //		endregion 편의점,재료분류 콤보박스 영역 끝
 		
 //		region 검색버튼
@@ -131,9 +119,8 @@ public class AddRecipeForm extends JDialog{
 		jtIngrednt.setRowHeight(20);
 		//컬럼의 넒이 설정
 		//"번호","이미지","메뉴코드","설명","가격"
-		jtIngrednt.getColumnModel().getColumn(0).setPreferredWidth(30);
-		jtIngrednt.getColumnModel().getColumn(1).setPreferredWidth(60);
-		
+		jtIngrednt.getColumnModel().getColumn(0).setPreferredWidth(140);
+		jtIngrednt.getColumnModel().getColumn(1).setPreferredWidth(50);
 		jspIngrednt=new JScrollPane(jtIngrednt);
 		jspIngrednt.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		jspIngrednt.setBounds(20,380,580,80);
@@ -158,8 +145,8 @@ public class AddRecipeForm extends JDialog{
 				jtaddedIngrednt.setRowHeight(20);
 				//컬럼의 넒이 설정
 				//"번호","이미지","메뉴코드","설명","가격"
-				jtaddedIngrednt.getColumnModel().getColumn(0).setPreferredWidth(30);
-				jtaddedIngrednt.getColumnModel().getColumn(1).setPreferredWidth(60);
+				jtaddedIngrednt.getColumnModel().getColumn(0).setPreferredWidth(140);
+				jtaddedIngrednt.getColumnModel().getColumn(1).setPreferredWidth(50);
 				jspAddedIngrednt=new JScrollPane(jtaddedIngrednt);
 				jspAddedIngrednt.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 				jspAddedIngrednt.setBounds(20,480,580,80);
@@ -177,7 +164,7 @@ public class AddRecipeForm extends JDialog{
 //		endregion 재료의 삭제 및 추가 버튼 끝
 		
 //		region 재료의 총가격 라벨과 실제로 값을 보여줄 라벨
-		Font priceResult=new Font("돋음",Font.BOLD,20);
+		Font priceResult=new Font("맑은 고딕",Font.BOLD,15);
 		
 		lblTotalPrice=new JLabel("7000원");
 		lblTotalPrice.setFont(priceResult);
@@ -189,7 +176,7 @@ public class AddRecipeForm extends JDialog{
 //		endregion 재료의 총가격 라벨과 실제로 값을 보여줄 라벨 끝
 		
 //		region 레시피 작성 라벨
-		Font design=new Font("굴림",Font.BOLD,22);
+		Font design=new Font("맑은 고딕",Font.BOLD,15);
 		lblWriteRecipe=new JLabel("레시피 작성");
 		lblWriteRecipe.setBounds(310, 585,150,40);
 		lblWriteRecipe.setFont(design);
@@ -212,8 +199,23 @@ public class AddRecipeForm extends JDialog{
 		jbRequest.setBounds(495,750,100,40);
 		jbMgr=new JButton("MGR Modify");
 		jbMgr.setBounds(15,750,100,40);
-//		endregion 요청,닫기,관리자 버튼 구역 끝
+//		endregion 요청,닫기,관리자 버튼 구역 끝s
+		jcbCateg.addItem("안주류");
+		jcbCateg.addItem("디저트");
+		jcbCateg.addItem("분식류");
+		jcbCateg.addItem("식사류");
+
 		
+
+		jcbStore.addItem("GS25");
+		jcbStore.addItem("7-eleven");
+		jcbStore.addItem("CU");
+
+		jcbIngrdntSort.addItem("과자");
+		jcbIngrdntSort.addItem("기타");
+		jcbIngrdntSort.addItem("아이스크림");
+		jcbIngrdntSort.addItem("라면");
+		jcbIngrdntSort.addItem("즉석요리");
 		AddRecipeEvt are = new AddRecipeEvt(this);
 		jbSearch.addActionListener(are);
 		jcbCateg.addActionListener(are);
@@ -236,9 +238,6 @@ public class AddRecipeForm extends JDialog{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	
-	public static void main(String[] args){
-		new AddRecipeForm();
-	}
 
 	public JButton getJbSearch() {
 		return jbSearch;

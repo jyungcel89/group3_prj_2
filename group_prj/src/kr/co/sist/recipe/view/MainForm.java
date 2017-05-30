@@ -509,7 +509,7 @@ public class MainForm extends JFrame{
 	public void setJbLogOut(JButton jbLogOut) {
 		this.jbLogOut = jbLogOut;
 	}
-
+	
 
 
 //	public static void main(String[] args) {

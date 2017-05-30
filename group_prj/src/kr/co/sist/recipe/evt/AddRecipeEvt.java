@@ -17,9 +17,14 @@ import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.recipe.dao.IngdntDAO;
 import kr.co.sist.recipe.view.AddRecipeForm;
+import kr.co.sist.recipe.view.MainForm;
+import kr.co.sist.recipe.view.MgrPageForm;
+import kr.co.sist.recipe.view.MyPageForm;
 import kr.co.sist.recipe.vo.AddRecipeVO;
 import kr.co.sist.recipe.vo.IngdntVO;
 import kr.co.sist.recipe.vo.IngrdntCategVO;
+import kr.co.sist.recipe.vo.LoginVO;
+import kr.co.sist.recipe.vo.MgrRecipeVO;
 import kr.co.sist.recipe.vo.ShowIngdntVO;
 import kr.co.sist.recipe.vo.addRemoveIngrdntVO;
 
@@ -28,12 +33,26 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	private AddRecipeForm arf;
 	private IngrdntCategVO icv;
 	private addRemoveIngrdntVO arv;
+	private MainFormEvt mfe;
 	private String file;
+	private int totalPrice;
+	private MainForm mf;
+	public static String logId;
+	public MgrPageForm mpf;
+	public MgrPageEvt mpe;
 	public AddRecipeEvt(AddRecipeForm arf){
 		this.arf=arf;
 		ida=IngdntDAO.getInstance();
+		selectMgrRecipeInfo();
 	}
 	////////////////////////////////////////// AddRecipeForm
+	
+	//관리자 모드에서 버튼을 관리자 전용버튼 보여줄때
+	
+	public void showHideButton(String logId){
+		this.logId=logId;
+	}
+	
 	// 재료추가 수행 (add버튼)
 	public void addIngdnt(){
 		
@@ -46,12 +65,30 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			rowData[1]=table.getValueAt(select,1);
 			dtmIngrdnt.addRow(rowData);
 			
+			JTable table2=arf.getJtaddedIngrednt();
+			int[] priceArr=new int[table2.getRowCount()];
+			 totalPrice=0;
+				for(int i=0; i<table2.getRowCount();i++){
+						priceArr[i]=Integer.parseInt(table2.getValueAt(i,1).toString());
+						totalPrice=priceArr[i]+totalPrice;
+				}
+				arf.getLblTotalPrice().setText(Integer.toString(totalPrice));
 	}//addIngdnt
 	
 	// 재료삭제 수행 (del버튼)
 	public void rmvIngdnt(){
 		DefaultTableModel dtm=(DefaultTableModel)arf.getJtaddedIngrednt().getModel();
 		dtm.removeRow(arf.getJtaddedIngrednt().getSelectedRow());
+//		
+//		JTable table2=arf.getJtaddedIngrednt();
+//		int[] priceArr=new int[table2.getRowCount()];
+//		 totalPrice=Integer.parseInt(arf.getLblTotalPrice().getText());
+//			for(int i=table2.getRowCount(); i<table2.getRowCount();i--){
+//					priceArr[i]=Integer.parseInt(table2.getValueAt(i,1).toString());
+//					totalPrice=totalPrice-priceArr[i];
+//			}
+//			arf.getLblTotalPrice().setText(Integer.toString(totalPrice));
+		
 	}//rmvIngdnt
 	
 	// 이미지추가 수행 (add버튼)
@@ -74,21 +111,16 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	}//addImg
 	public void reqRecipe(){
 		
+		
 		String menuName=arf.getJtfRecipeName().getText();
 		String img=file;
 		String foodType=arf.getJcbCateg().getSelectedItem().toString();
 		String info=arf.getJtaInfo().getText();
 		String recipe_make=arf.getJtaWriteRecipe().getText();
-		String id="mgr";
+		
 		JTable table=arf.getJtaddedIngrednt();
-		int[] priceArr=new int[table.getRowCount()];
-		int totalPrice=0;
-			for(int i=0; i<table.getRowCount();i++){
-					priceArr[i]=Integer.parseInt(table.getValueAt(i,1).toString());
-					totalPrice=priceArr[i]+totalPrice;
-			}
-			arf.getLblTotalPrice().setText(Integer.toString(totalPrice));
-		AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,id);
+	
+		AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,logId);
 		if(arv!=null){
 		try {
 			ida.insertRecipe(arv);
@@ -153,6 +185,42 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		}
 	}//searchIngdnt
 	
+	public void selectMgrRecipeInfo(){
+			
+		try {
+			MgrRecipeVO mrv=ida.selectMgrRecipe(arf.getJtfRecipeName().getText());
+			ImageIcon icon=new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/"+mrv.getImg());
+			arf.getJtfRecipeName().setText(mrv.getMenu_name());
+			arf.getJtfRecipeName().setEditable(false);
+			arf.getJcbCateg().setSelectedItem(mrv.getFoodType());
+			arf.getJtaInfo().setText(mrv.getInfo());
+			arf.getLblImg().setIcon(icon);
+			arf.getJtaWriteRecipe().setText(mrv.getRecipe_info());
+			
+			DefaultTableModel dtm =(DefaultTableModel)arf.getJtaddedIngrednt().getModel();
+			Object[] rowMenu=new Object[2];
+			
+			//번호,이미지,메뉴코드","메뉴","설명","가격,
+			for( int i=0; i<ida.index; i++){
+				rowMenu[0]=mrv.getIngrdntName();
+				rowMenu[1]=mrv.getIngrdntPrice();
+				dtm.addRow(rowMenu);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	/////////////////////////////////////////// MgrForm
 	//관리자가 레시피 수정 수행 (edit버튼)
 	public void editMgr(){
@@ -177,7 +245,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		}
 		if(e.getSource()==arf.getJbRequest()){
 						reqRecipe();
-			//			reqRecipeIngrdnt();
+						reqRecipeIngrdnt();
 		}
 		if(e.getSource()==arf.getJbClose()){
 			close();
