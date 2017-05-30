@@ -46,7 +46,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		
 	}//itemStateChanged
 
-	@Override
+	@Override 
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == ipf.getJbClose()) {
 			int selectNum = JOptionPane.showConfirmDialog(ipf, "창을 닫으시겠습니까?");
