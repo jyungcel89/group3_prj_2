@@ -34,17 +34,18 @@ public class MainForm extends JFrame{
 	public MainForm(String logId) { 
 		super("홍홍홍의 편의점 레시피");
 		setLayout(null); 
-		System.out.println("메인"+logId);
+		Font defaultFont =new Font("맑은 고딕", Font.BOLD, 14);
 		
 		JLabel jlUserName=new JLabel(" [ "+logId+" ]님 환영합니다.");
-		jlUserName.setFont(new Font("", Font.BOLD, 15));
+		jlUserName.setFont(defaultFont);
+		jlUserName.setForeground(Color.white);
 		
-		JLabel jlRecent = new JLabel("◑ 최근 레시피");
-		jlRecent.setFont(new Font("", Font.BOLD, 15));
+		JLabel jlRecent = new JLabel("◑ 최신 레시피");
+		jlRecent.setFont(defaultFont);
 
 		// 검색조건
 		JLabel jlSearch = new JLabel("◑ 검색 조건");
-		jlSearch.setFont(new Font("맑은고딕", Font.BOLD, 15));
+		jlSearch.setFont(defaultFont);
 		
 		JPanel jpSrchOption = new JPanel(){
 		    protected void paintComponent(Graphics g)
@@ -80,6 +81,9 @@ public class MainForm extends JFrame{
 		}
 		jbClose = new JButton("닫기");
 		jbLogOut = new JButton("로그아웃");
+		jbLogOut.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+		jbLogOut.setForeground(Color.white);
+		jbLogOut.setBackground(new Color(0, 0, 0, 130));
 		
 		// 테이블
 		String[] columnName = {"메뉴이름", "이미지", "메뉴타입", "간단소개","가격"};
@@ -92,15 +96,25 @@ public class MainForm extends JFrame{
 			}
 		};
 		
-		jtRecipe = new JTable(dtmRecipe);
+		jtRecipe = new JTable(dtmRecipe){
+			//컬럼에 이미지를 넣기 위한 method Override
+			@Override
+			public Class<?> getColumnClass(int column) {
+				return getValueAt(0, column).getClass();
+			}//getColumnClass
+		};
 		jtRecipe.getTableHeader().setReorderingAllowed(false);
 		JScrollPane jspTab = new JScrollPane(jtRecipe);
 		// 테이블 설정 
 		// 컬럼의 높이설정
-		jtRecipe.setRowHeight(100);
+		jtRecipe.setRowHeight(120);
 		// 컬럼의 넓이 설정
-		jtRecipe.getColumnModel().getColumn(0).setPreferredWidth(40);
-
+		jtRecipe.getColumnModel().getColumn(0).setPreferredWidth(100);
+		jtRecipe.getColumnModel().getColumn(1).setPreferredWidth(120);
+		jtRecipe.getColumnModel().getColumn(2).setPreferredWidth(50);
+		jtRecipe.getColumnModel().getColumn(3).setPreferredWidth(450);
+		jtRecipe.getColumnModel().getColumn(4).setPreferredWidth(30);
+ 
 		// 백그라운드 설정
 		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/background_image.png"));
 		setContentPane(jlImg);
@@ -121,11 +135,11 @@ public class MainForm extends JFrame{
 		JLabel jlMenuName3=new JLabel(" ▷ "+imgName3);
 		
 		// 사용자 아이디 라벨 배치
-		jlUserName.setBounds(20, 10, 170, 30);
+		jlUserName.setBounds(120, 10, 170, 30);
 		
 		// 이미지 버튼 배치
 		jpRcntRecipe.setLayout(null);
-		jlRecent.setBounds(10, 10, 200, 30);
+		jlRecent.setBounds(10, 10, 200, 25);
 		jbFstImg.setBounds(10, 50, 260, 200);
 		jbSecImg.setBounds(285, 50, 260, 200);
 		jbTrdImg.setBounds(560, 50, 260, 200);
@@ -138,20 +152,20 @@ public class MainForm extends JFrame{
 		// 검색 조건(체크박스) , 검색 버튼 배치
 		jpSrchOption.setLayout(null);
 //		jpSrchOption.setOpaque(false);
-		jlSearch.setBounds(10, 10, 100, 30);
+		jlSearch.setBounds(10, 10, 100, 25);
 		chkOne.setBounds(110, 10, 70, 30);
 		chkTwo.setBounds(180, 10, 70, 30);
 		chkThree.setBounds(260, 10, 70, 30);
 		chkFour.setBounds(340, 10, 70, 30);
 		jtfSearch.setBounds(420, 13, 280, 25);
 		jbSearch.setBounds(720, 11, 100, 28);
-		jbLogOut.setBounds(180, 10, 100, 30);
+		jbLogOut.setBounds(20, 17, 95, 20);
 		
 		// 하단버튼 > 레시피 추가버튼, 마이페이지버튼, 닫기 버튼 배치
 		jpFootBtns.setLayout(null);
 		jpFootBtns.setOpaque(false);
 		jbAddRecipe.setBounds(0, 10, 100, 30);
-		jbMypage.setBounds(620, 10, 100, 30);
+		jbMypage.setBounds(600, 10, 120, 30);
 		jbClose.setBounds(730, 10, 100, 30);
 		
 		// 최근 메뉴 패널 배치
@@ -196,7 +210,6 @@ public class MainForm extends JFrame{
 		add(jspTab);
 		add(jpFootBtns);
 		add(jbLogOut);
-		jbLogOut.setOpaque(false);
 		
 		// 이벤트 적용
 		jbSearch.addActionListener(mfe);
@@ -205,7 +218,9 @@ public class MainForm extends JFrame{
 		jbSecImg.addActionListener(mfe);
 		jbTrdImg.addActionListener(mfe);
 		jbMypage.addActionListener(mfe);
+		jbAddRecipe.addActionListener(mfe);
 		jbClose.addActionListener(mfe);
+		
 		jbLogOut.addActionListener(mfe);
 		// 부모창
 		setBounds(10, 10, 880, 1010);

@@ -3,7 +3,7 @@ package kr.co.sist.recipe.vo;
 public class ScoreVO {
 	private String id, menuName;
 	private int value;
-	
+	 
 	public ScoreVO() {
 	}
 	

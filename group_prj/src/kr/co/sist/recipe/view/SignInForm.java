@@ -3,6 +3,7 @@ package kr.co.sist.recipe.view;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -16,11 +17,16 @@ public class SignInForm extends JDialog {
 	private JLabel jlbId, jlbPw, jlbChkPw, jlbName, jlbMail;
 	public JTextField jtfId, jtfName, jtfMail;
 	private JPasswordField jpfPw, jpfChkPw;
+	private String backgroundPath;
 	private JButton jbtChkId, jbtSubmit, jbtCancel, jbtUpdate;
 	
 	public SignInForm() {
 		setLayout(null);
-		
+		backgroundPath = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/signinBack.png";
+		ImageIcon background = new ImageIcon(backgroundPath);
+		JLabel jlBackImg = new JLabel(background);
+	    setContentPane(jlBackImg);
+	    
 		jlbId=new JLabel("아이디");
 		jlbPw=new JLabel("비밀번호");
 		jlbChkPw=new JLabel("비밀번호 확인");
@@ -39,7 +45,7 @@ public class SignInForm extends JDialog {
 		////////////////////////////////////////////////////////
 		
 		//Font
-		Font font=new Font("Helvetica",	Font.BOLD, 15);
+		Font font=new Font("Helvetica",	Font.BOLD, 13);
 		jlbId.setFont(font);
 		jlbPw.setFont(font);
 		jlbChkPw.setFont(font);
@@ -71,12 +77,15 @@ public class SignInForm extends JDialog {
 		jtfMail.setBounds(160, 260, 250, 30);
 		
 		jbtChkId.setBounds(300, 100, 110, 30);
+		jbtSubmit.setBounds(270, 320, 80, 40);
+		jbtCancel.setBounds(360, 320, 80, 40);
+		setBounds(50, 50, 470, 420);
 		jbtSubmit.setBounds(240, 320, 80, 50);
 		jbtCancel.setBounds(330, 320, 80, 50);
 		//////////////////////수정 버튼 추가///////////////////
 		jbtUpdate.setBounds(330,320,80,50);
 		////////////////////////////////////////////////////////
-		setBounds(50, 50, 470, 440);
+		setBounds(50, 50, 470, 420);
 		
 		//이벤트 추가
 		SignEvt se=new SignEvt(this);
@@ -176,6 +185,13 @@ public class SignInForm extends JDialog {
 		this.jbtCancel = jbtCancel;
 	}
 
+	public String getBackgroundPath() {
+		return backgroundPath;
+	}
+
+	public void setBackgroundPath(String backgroundPath) {
+		this.backgroundPath = backgroundPath;
+	}
 	public JButton getJbtUpdate() {
 		return jbtUpdate;
 	}

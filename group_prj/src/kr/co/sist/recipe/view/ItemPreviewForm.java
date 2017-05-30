@@ -35,14 +35,16 @@ public class ItemPreviewForm extends JDialog {
 	private JCheckBox jchBookmark;
 	private JScrollPane jspTextArea;
 	
-	public ItemPreviewForm(MainForm mf, MainRecipeVO mrv){
+	public ItemPreviewForm(MainRecipeVO mrv){
 		setLayout(null);
-		 
+		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/previewBack.png"));
+	     setContentPane(jlImg);
+	     
 		//region 상품명,재료,별점,북마크,만드는법,이미지 라벨및 이미지 아이콘 구역
-		Font defaultFont=new Font("맑은고딕",Font.BOLD,13);
+		Font defaultFont=new Font("맑은 고딕",Font.BOLD,14);
 		
 		jlRecipeName=new JLabel("▧ "+mrv.getMenuName()+" ▧");
-		jlRecipeName.setFont(new Font("맑은고딕", Font.BOLD, 17));
+		jlRecipeName.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 		jlRecipeName.setBounds(30,70,300,30);
 		
 		jlIngrednt=new JLabel("◑ 재료");
@@ -55,17 +57,17 @@ public class ItemPreviewForm extends JDialog {
 		jlBookmark.setBounds(435,320,50,30);
 		
 		JLabel jlMakeMethod=new JLabel("◑ 레시피");
-		jlMakeMethod.setBounds(400,380,70,30);
+		jlMakeMethod.setBounds(400,380,70,40);
 		
 		// 이미지 경로
-		String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/";
+		String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/b_";
 		// 이미지 넣어주기
 		ImageIcon imgIcon=new ImageIcon(path+mrv.getMenuImg());
 		JLabel imgLabel=new JLabel(imgIcon);
 		imgLabel.setBounds(30,100,330,270);
 	
 		JLabel jlSimpleInfo = new JLabel("◑ 간단 설명");
-		jlSimpleInfo.setBounds(30, 380, 100, 30);
+		jlSimpleInfo.setBounds(30, 380, 100, 40);
 		
 		//region 재료테이블 영역
 		String[] columnNames={"재료명","가격"};
@@ -95,6 +97,7 @@ public class ItemPreviewForm extends JDialog {
 		
 		//region 좋아요 체크박스 영역
 		jchBookmark=new JCheckBox();
+		jchBookmark.setOpaque(false);
 		jchBookmark.setBounds(480,320,20,30);
 		//endregion 좋아요 체크박스 영역 끝
 	
@@ -110,17 +113,17 @@ public class ItemPreviewForm extends JDialog {
 		//endregion 별점 콤보박스 영역 끝
 		
 		//region 닫기,제출 버튼 영역
-		jbSubmit=new JButton("제출!");
-		jbSubmit.setBounds(670,325,70,20);
+		jbSubmit=new JButton("제출");
+		jbSubmit.setBounds(670,323,70,23);
 		
 		jbClose=new JButton("확인");
-		jbClose.setBounds(650,610,100,25);
+		jbClose.setBounds(670,610,100,30);
 		//endregion 닫기,제출버튼 영역 끝
 		
 		//region 만드는법 TextArea
 		
 		jtaSimple=new JTextArea(mrv.getMenuSimpeInfo());
-		jtaSimple.setFont(new Font("맑은고딕", Font.PLAIN, 12));
+		jtaSimple.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		jtaSimple.setLineWrap(true);
 		jtaSimple.setBounds(30, 420, 330, 70);
 		jtaSimple.setEditable(false);
@@ -147,6 +150,7 @@ public class ItemPreviewForm extends JDialog {
 		ItemPreviewEvt ipe=new ItemPreviewEvt(this);
 		jbSubmit.addActionListener(ipe);
 		jbClose.addActionListener(ipe);
+		jchBookmark.addActionListener(ipe);
 		
 		setVisible(true);
 		setBounds(0,0,800,700);
@@ -241,8 +245,6 @@ public class ItemPreviewForm extends JDialog {
 	public void setJspTextArea(JScrollPane jspTextArea) {
 		this.jspTextArea = jspTextArea;
 	}
-	
-	
 	
 
 }//class

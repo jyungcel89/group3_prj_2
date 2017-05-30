@@ -70,7 +70,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
                      }//end for
                      
               } catch (SQLException se) {
-                     JOptionPane.showMessageDialog(mypf,
+                     JOptionPane.showMessageDialog(null,
                                   "죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
                      se.printStackTrace();
               }//end catch
@@ -98,11 +98,11 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
 				
 				// valueFlag값이 "요청거절"이 아니면 return
 				if( !valueFlag.equals("요청거절") ){
-					JOptionPane.showMessageDialog(mypf, 
+					JOptionPane.showMessageDialog(null, 
 							"[ 요청거절 ] 상태인 레시피만 삭제 가능합니다.");
 					return;
 				}//end if
-				int flag=JOptionPane.showConfirmDialog(mypf, 
+				int flag=JOptionPane.showConfirmDialog(null, 
 						"[ "+value+" ] 선택하신 메뉴를 정말 삭제하시겠습니까?");
 				switch (flag) {
 				case JOptionPane.OK_OPTION:
@@ -113,11 +113,10 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
 				// 삭제 후 갱신
 				showMyRecipe();//회원아이디 들어가야됨
 			} catch (ArrayIndexOutOfBoundsException aioobe) {
-				JOptionPane.showMessageDialog(mypf, 
-						"레시피를 선택해주세요.");
-				aioobe.printStackTrace();
+				JOptionPane.showMessageDialog(null, "레시피를 선택해주세요.");
+//				aioobe.printStackTrace();
 			} catch (SQLException se) {
-				JOptionPane.showMessageDialog(mypf, 
+				JOptionPane.showMessageDialog(null, 
 						"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
 				se.printStackTrace();
 			}//end catch
@@ -145,7 +144,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
                      }//end for
                      
               } catch (SQLException se) {
-                     JOptionPane.showMessageDialog(mypf,
+                     JOptionPane.showMessageDialog(null,
                                   "죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
                      se.printStackTrace();
               }//end catch
@@ -161,7 +160,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
                      JTable jtRcp=mypf.getJtFavorMenu();
                      int row=jtRcp.getSelectedRow();
                      String value = (String) jtRcp.getValueAt(row, 0);
-                     int flag=JOptionPane.showConfirmDialog(mypf,
+                     int flag=JOptionPane.showConfirmDialog(null,
                                   "[ "+value+" ] 선택하신 메뉴를 정말 삭제하시겠습니까?");
                      switch (flag) {
                      case JOptionPane.OK_OPTION:
@@ -173,11 +172,11 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
                      // 삭제 후 갱신
                      showBookmark();
               } catch (ArrayIndexOutOfBoundsException aioobe) {
-                     JOptionPane.showMessageDialog(mypf,
+                     JOptionPane.showMessageDialog(null,
                                   "레시피를 선택해주세요.");
                      aioobe.printStackTrace();
               } catch (SQLException se) {
-                     JOptionPane.showMessageDialog(mypf,
+                     JOptionPane.showMessageDialog(null,
                                   "죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
                      se.printStackTrace();
               }//end catch
@@ -200,6 +199,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
               //////// 필요 없는 버튼들 안보이게 //////
               sif.getJbtChkId().setVisible(false);
               sif.getJbtSubmit().setVisible(false);
+              sif.setBackgroundPath("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/edit_signinBack.png");
               sif.getJbtCancel().setVisible(false);
               ////////////////////////////////////////////
               ///////////////////취소 버튼 수정 버튼으로 변경////////////////
@@ -224,21 +224,30 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
 			mypf.dispose();
 		}//checkCancel
        
-       @Override
+       @Override 
        public void actionPerformed(ActionEvent ae) {
               if(ae.getSource()==mypf.getJbEditMyInfo()){
                      goMyInfo();
               }//end if
-              //05-29-2017
+              
+              if(ae.getSource()==mypf.getJbRmvFavorMenu()){
+                   rmvBookmark();
+              }//end if
+              
               if(ae.getSource()==mypf.getJbRmvMyMenu()){
             	  rmvRecipe();
-              }//end if
-              if(ae.getSource()==mypf.getJbRmvFavorMenu()){
-	                       rmvBookmark();
               }//end if
               if(ae.getSource()==mypf.getJbClose()){
                      checkCancel();
               }//end if
+              
+              if (ae.getSource() == mypf.getJbClose()) {
+      			int selectNum = JOptionPane.showConfirmDialog(null, "창을 닫으시겠습니까?");
+      			switch (selectNum) {
+      			case JOptionPane.OK_OPTION:
+      				mypf.dispose();
+      			}// end switch
+      		}//end if
               
        }//actionPerformed
        
@@ -256,9 +265,9 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
     				try {
     					mrv=rdao.selectOneRecipe(value);
     					//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
-    					new ItemPreviewForm(mf, mrv);
+    					new ItemPreviewForm(mrv);
     				} catch (SQLException se) {
-    					JOptionPane.showMessageDialog(mypf, 
+    					JOptionPane.showMessageDialog(null, 
     							"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
     					se.printStackTrace();
     				}// end catch
@@ -272,9 +281,9 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
     				try {
     					mrv=rdao.selectOneRecipe(value);
     					//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
-    					new ItemPreviewForm(mf, mrv);
+    					new ItemPreviewForm(mrv);
     				} catch (SQLException se) {
-    					JOptionPane.showMessageDialog(mypf, 
+    					JOptionPane.showMessageDialog(null, 
     							"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
     					se.printStackTrace();
     				}// end catch
