@@ -224,7 +224,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
 			mypf.dispose();
 		}//checkCancel
        
-       @Override
+       @Override 
        public void actionPerformed(ActionEvent ae) {
               if(ae.getSource()==mypf.getJbEditMyInfo()){
                      goMyInfo();
