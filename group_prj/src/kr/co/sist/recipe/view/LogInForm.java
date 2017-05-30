@@ -22,7 +22,7 @@ public class LogInForm extends JFrame {
 	private JLabel jlblLogo;
 	private boolean flag;
 	private int cnt;
-	
+	 
 	public LogInForm() {
 		setLayout(null);
 //		String path="";
