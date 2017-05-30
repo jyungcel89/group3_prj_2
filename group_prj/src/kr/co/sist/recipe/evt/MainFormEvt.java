@@ -34,7 +34,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    private MenuTypeVO mtv;
    public static String logId;
    
-   
+    
    public MainFormEvt() {
    }//MainFormEvt
 
