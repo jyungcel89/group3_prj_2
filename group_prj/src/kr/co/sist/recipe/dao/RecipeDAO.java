@@ -266,7 +266,7 @@ public class RecipeDAO {
                      con = getConnection();
                      
                      // 등록날짜 기준으로 정렬
-                     String query="select menu_name, img, totalprice, food_type, info, recipe_info from reciperegister where recipe_flag='Y' order by inputdate";
+                     String query="select menu_name, img, totalprice, food_type, info, recipe_info from reciperegister order by inputdate";
                      pstmt = con.prepareStatement(query);
                      
                      rs = pstmt.executeQuery();
