@@ -71,7 +71,7 @@ public class AddRecipeForm extends JDialog {
 //		endregion 레시피 간단설명 텍스트에어리어끝
 		
 //		region 재료선택,편의점,재료분류 라벨 추가 영역
-		Font ingredntChoice=new Font("돋음",Font.BOLD,20);
+		Font ingredntChoice=new Font("맑은 고딕",Font.BOLD,15);
 		lblIngredntChoice=new JLabel("재료선택");
 		lblIngredntChoice.setFont(ingredntChoice);
 		lblIngredntChoice.setBounds(50,290,100,30);
@@ -158,7 +158,7 @@ public class AddRecipeForm extends JDialog {
 //		endregion 재료의 삭제 및 추가 버튼 끝
 		
 //		region 재료의 총가격 라벨과 실제로 값을 보여줄 라벨
-		Font priceResult=new Font("돋음",Font.BOLD,20);
+		Font priceResult=new Font("맑은 고딕",Font.BOLD,15);
 		
 		lblTotalPrice=new JLabel("7000원");
 		lblTotalPrice.setFont(priceResult);
@@ -170,7 +170,7 @@ public class AddRecipeForm extends JDialog {
 //		endregion 재료의 총가격 라벨과 실제로 값을 보여줄 라벨 끝
 		
 //		region 레시피 작성 라벨
-		Font design=new Font("굴림",Font.BOLD,22);
+		Font design=new Font("맑은 고딕",Font.BOLD,15);
 		lblWriteRecipe=new JLabel("레시피 작성");
 		lblWriteRecipe.setBounds(310, 585,150,40);
 		lblWriteRecipe.setFont(design);
@@ -207,8 +207,8 @@ public class AddRecipeForm extends JDialog {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
-//	
-//	public static void main(String[] args){
-//		new AddRecipeForm();
-//	}
+	
+	public static void main(String[] args){
+		new AddRecipeForm();
+	}
 }

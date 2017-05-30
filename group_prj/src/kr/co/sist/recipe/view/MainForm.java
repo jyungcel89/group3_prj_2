@@ -36,12 +36,12 @@ public class MainForm extends JFrame{
 		super("홍홍홍의 편의점 레시피");
 		setLayout(null);
 		
-		JLabel jlRecent = new JLabel("◑ 최근 레시피");
-		jlRecent.setFont(new Font("", Font.BOLD, 15));
+		JLabel jlRecent = new JLabel("◑ 최신 레시피");
+		jlRecent.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 
 		// 검색조건
 		JLabel jlSearch = new JLabel("◑ 검색 조건");
-		jlSearch.setFont(new Font("맑은고딕", Font.BOLD, 15));
+		jlSearch.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 		
 		JPanel jpSrchOption = new JPanel(){
 		    protected void paintComponent(Graphics g)
@@ -83,7 +83,13 @@ public class MainForm extends JFrame{
 		};
 		
 		
-		jtRecipe = new JTable(dtmRecipe);
+		jtRecipe = new JTable(dtmRecipe){
+			//컬럼에 이미지를 넣기 위한 method Override
+			@Override
+			public Class<?> getColumnClass(int column) {
+				return getValueAt(0, column).getClass();
+			}//getColumnClass
+		};
 		jtRecipe.getTableHeader().setReorderingAllowed(false);
 		JScrollPane jspTab = new JScrollPane(jtRecipe);
 		// 테이블 설정 
@@ -117,7 +123,7 @@ public class MainForm extends JFrame{
 		
 		// 이미지 버튼 배치
 		jpRcntRecipe.setLayout(null);
-		jlRecent.setBounds(10, 10, 200, 30);
+		jlRecent.setBounds(10, 10, 200, 25);
 		jbFstImg.setBounds(10, 50, 260, 200);
 		jbSecImg.setBounds(285, 50, 260, 200);
 		jbTrdImg.setBounds(560, 50, 260, 200);
@@ -130,7 +136,7 @@ public class MainForm extends JFrame{
 		// 검색 조건(체크박스) , 검색 버튼 배치
 		jpSrchOption.setLayout(null);
 //		jpSrchOption.setOpaque(false);
-		jlSearch.setBounds(10, 10, 100, 30);
+		jlSearch.setBounds(10, 10, 100, 25);
 		chkOne.setBounds(110, 10, 70, 30);
 		chkTwo.setBounds(180, 10, 70, 30);
 		chkThree.setBounds(260, 10, 70, 30);

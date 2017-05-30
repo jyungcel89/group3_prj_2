@@ -132,6 +132,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
               //////// 필요 없는 버튼들 안보이게 //////
               sif.getJbtChkId().setVisible(false);
               sif.getJbtSubmit().setVisible(false);
+              sif.setBackgroundPath("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/edit_signinBack.png");
               ////////////////////////////////////////////
               ///////////////////취소 버튼 수정 버튼으로 변경////////////////
               //변경할래 아니면 버튼하나 더만들어두고 켰다 껐다 할래 //
@@ -161,15 +162,20 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
                      try {
                            rmvBookmark();
                      } catch (SQLException e) {
-                           
                            e.printStackTrace();
                      }
               }//end if
-              if(ae.getSource()==mpf.getJbClose()){
-                     mpf.dispose();
-              }//end if
               
-       }
+              if (ae.getSource() == mpf.getJbClose()) {
+      			int selectNum = JOptionPane.showConfirmDialog(mpf, "창을 닫으시겠습니까?");
+      			switch (selectNum) {
+      			case JOptionPane.OK_OPTION:
+      				mpf.dispose();
+      			}// end switch
+      		}//end if
+              
+       }//actionPerformed
+       
        @Override
        public void mouseClicked(MouseEvent me) {
               if( me.getSource()==mpf.getJtFavorMenu() ){

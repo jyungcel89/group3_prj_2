@@ -1,5 +1,9 @@
 package kr.co.sist.recipe.view;
 
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -21,9 +25,13 @@ public class MyPageForm extends JDialog {
 
     public MyPageForm() {
         setLayout(null);
+        JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/mypageBack.png"));
+	    setContentPane(jlBackImg);
 
-        jlbMyMenu=new JLabel("내가 등록한 메뉴");
-        jlbFavorMenu=new JLabel("북마크 리스트");
+        jlbMyMenu=new JLabel("◑ 등록한 메뉴");
+        jlbFavorMenu=new JLabel("◑ 내 북마크");
+        jlbMyMenu.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+        jlbFavorMenu.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 
         jbEditMyInfo=new JButton("내 정보 수정");
         jbRmvFavorMenu=new JButton("북마크 삭제");
@@ -78,8 +86,9 @@ public class MyPageForm extends JDialog {
 
         //패널 위치
         jpMyMenu.setBounds(10, 100, 900, 640);
+        jpMyMenu.setBackground(new Color(255, 255, 255, 130));
         //패널 위치
-        jlbMyMenu.setBounds(10, 30, 100, 30);
+        jlbMyMenu.setBounds(10, 30, 120, 30);
         jlbFavorMenu.setBounds(10, 330, 100, 30);
         jbRmvFavorMenu.setBounds(780, 330, 110, 30);
         jspMenuList.setBounds(10, 70, 880, 250);
@@ -94,7 +103,6 @@ public class MyPageForm extends JDialog {
         add(jbClose);
 
         setVisible(true);
-        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }//MgrPageForm
 
 
@@ -184,7 +192,7 @@ public class MyPageForm extends JDialog {
 
 
 
-    ///////////////////////////////////////////////차후 삭제요망////////////////////////////////////
+	///////////////////////////////////////////////차후 삭제요망////////////////////////////////////
     public static void main(String[] args) {
         new MyPageForm();
     }//main

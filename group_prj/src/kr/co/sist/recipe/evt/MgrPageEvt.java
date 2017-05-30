@@ -341,6 +341,15 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 		if( ae.getSource() == mpf.getJbClose() ){
 			checkCancel();
 		}//end if
+		
+		if (ae.getSource() == mpf.getJbClose()) {
+			int selectNum = JOptionPane.showConfirmDialog(mpf, "창을 닫으시겠습니까?");
+			switch (selectNum) {
+			case JOptionPane.OK_OPTION:
+				mpf.dispose();
+			}// end switch
+		}//end if
+		
 	}//actionPerformed
 
 	@Override

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.security.auth.login.LoginException;
+import javax.swing.ImageIcon;
 //import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,9 +26,9 @@ public class LogInForm extends JFrame {
 	
 	public LogInForm() {
 		setLayout(null);
-//		String path="";
-//		ImageIcon logo=new ImageIcon();
-		jlblLogo=new JLabel("LOGO");
+		JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/loginBack.png"));
+	    setContentPane(jlBackImg);
+		jlblLogo=new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/logo.png"));
 		
 		jtfId=new JTextField();
 		jtfId.setBorder(new TitledBorder("ID"));
@@ -41,16 +42,15 @@ public class LogInForm extends JFrame {
 		jpfPass.setFont(font);
 		
 		//색
-		jlblLogo.setOpaque(true);
-		jlblLogo.setBackground(Color.LIGHT_GRAY);
+		jlblLogo.setOpaque(false);
 		
 		//위치설정
-		jlblLogo.setBounds(30, 30, 140, 120);
+		jlblLogo.setBounds(30, 20, 140, 140);
 		jtfId.setBounds(180, 35, 250, 50);
 		jpfPass.setBounds(180, 90, 250, 50);
 		jbtLogIn.setBounds(440, 30, 100, 85);
 		jbtSignIn.setBounds(440, 120, 100, 30);
-		setBounds(50, 50, 580, 220);
+		setBounds(50, 50, 580, 210);
 		
 		//이벤트 추가
 		LogInEvt le=new LogInEvt(this);
