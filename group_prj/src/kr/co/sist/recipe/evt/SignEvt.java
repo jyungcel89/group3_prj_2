@@ -102,11 +102,50 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 		}//end if
 	}//addMember
 	
+	/**
+	 * 2017-05-30
+	 * 정윤호 추가  \n 마이페이지에서 정보수정으로 들어갔을시 수정버튼 이벤트 
+	 */
+	
+	
 	// 자신의 정보 수정
 	public void editMember(){ 
-		
 		mem_dao=MemberDAO.getInstance();
 		MemberVO mem_vo=new MemberVO();
+		
+
+			
+			
+			
+			
+		mem_vo.setId("duck");///////////////////////////아이디 연결해야함 
+		mem_vo.setPw(new String(sf.getJpfPw().getPassword()));
+		mem_vo.setMail(sf.getJtfMail().getText().toString());
+		
+			int updateFlag=JOptionPane.showConfirmDialog(sf, 
+					"수정 하시겠습니까?");
+			switch (updateFlag) {
+			case JOptionPane.OK_OPTION:
+				try {
+					if(mem_dao.updateMember(mem_vo)){
+						JOptionPane.showMessageDialog(sf, "정상적으로 수정되었습니다.");
+					}else{
+						JOptionPane.showMessageDialog(sf, "죄송합니다. 잠시후에 다시시도해 주세요");
+					}
+				} catch (SQLException e) {
+					JOptionPane.showMessageDialog(sf, "죄송합니다. 잠시후에 다시시도해 주세요");
+					e.printStackTrace();
+				}
+				sf.dispose();
+				break;
+			case JOptionPane.NO_OPTION : 
+				sf.dispose();
+				break;
+			case JOptionPane.CANCEL_OPTION : 
+				sf.dispose();
+				break;
+			}//end switch
+			
 		
 	}//editMember
 	
@@ -155,6 +194,10 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 		}//end switch
 	}//checkCancel
 	
+
+	
+
+	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource()==sf.getJbtChkId()){
@@ -165,6 +208,9 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 		}//end if
 		if(ae.getSource()==sf.getJbtCancel()){
 			checkCancel();
+		}//end if
+		if(ae.getSource()==sf.getJbtUpdate()){
+			editMember();
 		}//end if
 	}//actionPerformed
 

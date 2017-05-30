@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import kr.co.sist.recipe.dao.BookmarkDAO;
+import kr.co.sist.recipe.dao.MemberDAO;
 import kr.co.sist.recipe.dao.RecipeDAO;
 import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.view.ItemPreviewForm;
@@ -27,6 +28,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        private BookmarkDAO bdao;
        private RecipeDAO rdao;
        private BookmarkVO bv;
+       private MemberDAO mdao;
        
 	    /**
 	     * 마이페이지 이벤트
@@ -38,6 +40,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
               this.mypf=mypf;
               bdao=BookmarkDAO.getInstance();
               rdao=RecipeDAO.getInstance();
+              mdao=MemberDAO.getInstance();
               showMyRecipe("mgr");////////////////////////////////회원 아이디 들어가야함
               showBookmark();//////////////////////////////회원 아이디 들어가야함
        }//MyPageEvt
@@ -181,15 +184,28 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        
        // 내 정보창으로 이동 > 내정보 값 가져와서 SignInForm에 setter값을 설정
        public void goMyInfo(){
-              SignInForm sif=new SignInForm();
+    	   	  SignInForm sif=new SignInForm();
+    	   	  String mail="";
+    	   	  String id="duck"; /////////////////////////////아이디 연결 해야됨 
+
+              try {
+            	  mail=mdao.selectMyInfo(id).toString();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+              sif.getJtfId().setText(id);
+              sif.getJtfName().setText(mail);
+              
               //////// 필요 없는 버튼들 안보이게 //////
               sif.getJbtChkId().setVisible(false);
               sif.getJbtSubmit().setVisible(false);
+              sif.getJbtCancel().setVisible(false);
               ////////////////////////////////////////////
               ///////////////////취소 버튼 수정 버튼으로 변경////////////////
-              //변경할래 아니면 버튼하나 더만들어두고 켰다 껐다 할래 //
+              sif.getJbtUpdate().setVisible(true);
               ////////////////////////////////////////////////////////////////////
-              ////////////////아이디 이름 부분 정보 입력/////
+              ////////////////아이디 이름 부분 정보 입력//////////////////////////////////아이디 연결 부분 !!!!!!!!!!!!!!!!!!!!!!!!!
+              
               ////////////////////////////////////////////////////
               
               //////////////수정 불가 부분 설정///////////////
