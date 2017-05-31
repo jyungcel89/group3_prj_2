@@ -34,6 +34,7 @@ public class ItemPreviewForm extends JDialog {
 	private JComboBox<String> jcScore;
 	private JCheckBox jchBookmark;
 	private JScrollPane jspTextArea;
+	private ItemPreviewEvt ipe;
 	
 	public ItemPreviewForm(MainRecipeVO mrv){
 		setLayout(null);
@@ -84,7 +85,7 @@ public class ItemPreviewForm extends JDialog {
 		//컬럼을 선택하여 움직이지 못하도록 설정
 		jtIngrednt.getTableHeader().setReorderingAllowed(false);
 		//컬럼의 높이 설정
-		jtIngrednt.setRowHeight(100);
+		jtIngrednt.setRowHeight(20);
 		//컬럼의 넒이 설정 
 		//"번호","이미지","메뉴코드","설명","가격"
 		jtIngrednt.getColumnModel().getColumn(0).setPreferredWidth(140);
@@ -151,6 +152,7 @@ public class ItemPreviewForm extends JDialog {
 		jbSubmit.addActionListener(ipe);
 		jbClose.addActionListener(ipe);
 		jchBookmark.addActionListener(ipe);
+		
 		
 		setVisible(true);
 		setBounds(0,0,800,700);

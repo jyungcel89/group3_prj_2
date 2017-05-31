@@ -1,6 +1,7 @@
 package kr.co.sist.recipe.dao;
 
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,16 +22,21 @@ import javax.swing.JOptionPane;
 
 import org.omg.Messaging.SyncScopeHelper;
 
+import kr.co.sist.recipe.view.AddRecipeForm;
+import kr.co.sist.recipe.vo.AddRecipeVO;
 import kr.co.sist.recipe.vo.IngdntVO;
 import kr.co.sist.recipe.vo.IngrdntCategVO;
 import kr.co.sist.recipe.vo.ShowIngdntVO;
 import kr.co.sist.recipe.vo.addRemoveIngrdntVO;
-
+import kr.co.sist.recipe.vo.MgrRecipeVO;
+import kr.co.sist.recipe.vo.LoginVO;
+import kr.co.sist.recipe.vo.MgrRecipeInfoVO;
 public class IngdntDAO {
 	
 	private static IngdntDAO ing_dao;
-	
-	static IngdntDAO getInstance(){
+	private AddRecipeForm arf;
+	private List<ShowIngdntVO> ingrdntList;
+	public static IngdntDAO getInstance(){
 		if(ing_dao==null){
 			ing_dao = new IngdntDAO();
 		}
@@ -40,6 +46,7 @@ public class IngdntDAO {
 	//*********************getConnection()추가(원래 없었음)*********************************
 	private Connection getConnection() throws SQLException {
 		Connection con = null;
+		//지용이인 내가 수정 하였다!!!!!!! merge 하였음
 		Properties prop = new Properties();
 		try {
 			File file = new File("C:/dev/group3_prj_2/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
@@ -132,16 +139,18 @@ public class IngdntDAO {
 	 * 기존의 VO에선 menuName을 받아오는VO가 없어 addIngVo를 만들어 매개변수로 넣어줌
 	 */
 	public boolean insertIngdntOfRecp(addRemoveIngrdntVO addIngVo)throws SQLException{
-		 
 			Connection con = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			boolean flag=false;
 			try {
 				con=getConnection();
+					
+					for(int i=0;i<addIngVo.getIngrdntName().length;i++){
 					String selectIngrdntCode ="select distinct ingredients_code "
 							+ "from RECIPE_INGREDIENTS "
-							+ "where INGREDIENT_NAME='"+addIngVo.getIngrdntName()+"'"; 
+							+ "where INGREDIENT_NAME='"+addIngVo.getIngrdntName()[i]+"'";
+					
 					pstmt = con.prepareStatement(selectIngrdntCode);
 					rs = pstmt.executeQuery();
 					String result="";
@@ -158,11 +167,13 @@ public class IngdntDAO {
 						+ " values(?,?,?)";
 				pstmt=con.prepareStatement(insertIngrdnt);
 			// 4.
-				pstmt.setString(1, addIngVo.getIngrdntCode());
-				pstmt.setString(2, addIngVo.getIngrdntName());
-				pstmt.setString(3, addIngVo.getMenuName());
 				
+				pstmt.setString(1, addIngVo.getIngrdntCode());
+				pstmt.setString(2, addIngVo.getIngrdntName()[i]);
+				pstmt.setString(3, addIngVo.getMenuName());
 				pstmt.executeUpdate();
+				}
+				
 				flag=true;
 			} finally {
 			// 5.
@@ -182,27 +193,9 @@ public class IngdntDAO {
 	 }//insertIngdntOfRecp
 	 
 	 // 관리자 : 레시피 추가 창에서 재료 수정
-//	 public boolean updateIngdntOfRecp(IngdntVO ingVo){
-//		
-//			Connection con=null;
-//			PreparedStatement pstmt = null;
-//			try{
-//				con = getConnection();
-//				String query="update reciperegister set img=?, food_type=?, info=?, recipe_info=? where menu_name=?";
-//				pstmt = con.prepareStatement(query);
-//				pstmt.setString(1, updateVo.getMenuImg());
-//				pstmt.setString(2, updateVo.getMenuType());
-//				pstmt.setString(3, updateVo.getMenuSimpleInfo());
-//				pstmt.setString(4, updateVo.getMenuDetailInfo());
-//				pstmt.setString(5, menuName);
-//				
-//				pstmt.executeUpdate();
-//			}finally {
-//				if(pstmt!= null){ pstmt.close(); }
-//				if(con!= null){ con.close(); }
-//			}//end finally
-//		 return false;
-//	 }//updateIngdntOfRecp
+	 public boolean updateIngdntOfRecp(IngdntVO ingVo){
+		return false;
+	 }//updateIngdntOfRecp
 	 
 	 
 	 // 관리자 : 레시피 추가 창에서 재료 수정
@@ -236,6 +229,70 @@ public class IngdntDAO {
 		 return flag;
 	 }//updateIngdntOfRecp
 	 
+	
+	public MgrRecipeInfoVO selectMgrRecipe(String menuName)throws SQLException{
+		 	ingrdntList=new ArrayList<ShowIngdntVO>();
+			Connection con = null; 
+			PreparedStatement pstmt = null;
+			PreparedStatement pstmt2 = null;
+			ResultSet rs = null;
+			ResultSet rs2= null;
+			MgrRecipeVO mrv=null;
+			MgrRecipeInfoVO mriv=null;
+			ShowIngdntVO si=null;
+			try {
+				
+				con = getConnection();
+				String selectMgrRecipeInfo ="select MENU_NAME,IMG, FOOD_TYPE, INFO, RECIPE_INFO, TOTALPRICE,ID "
+						+ "from RECIPEREGISTER "
+						+ "where menu_name='"+menuName+"'";
+				String selectMgrRecipeInfo2 ="select ri.INGREDIENT_NAME,i.PRICE "
+						+ "from INGREDIENTS i,RECIPE_INGREDIENTS ri "
+						+ "where(ri.INGREDIENT_NAME=i.INGREDIENT_NAME) "
+						+ "and ri.MENU_NAME='"+menuName+"'";
+				pstmt = con.prepareStatement(selectMgrRecipeInfo);
+				pstmt2 = con.prepareStatement(selectMgrRecipeInfo2);
+				rs = pstmt.executeQuery();
+				rs2=pstmt2.executeQuery();
+				List<ShowIngdntVO>list=new ArrayList<ShowIngdntVO>();
+				mrv= new MgrRecipeVO();
+				mriv=new MgrRecipeInfoVO(list,mrv);
+				while (rs.next()) {
+					mriv.getMrv().setMenu_name(rs.getString("menu_name"));
+					mriv.getMrv().setImg(rs.getString("img"));
+					mriv.getMrv().setFoodType(rs.getString("food_type"));
+					mriv.getMrv().setInfo(rs.getString("info"));
+					mriv.getMrv().setRecipe_info(rs.getString("recipe_info"));
+					mriv.getMrv().setTotalPrice(rs.getString("totalprice"));
+					mriv.getMrv().setId(rs.getString("id"));
+				} // end while
+				while(rs2.next()){
+					si=new ShowIngdntVO();
+					si.setIngrdntName(rs2.getString("ingredient_name"));
+					si.setIngrdntPrice(rs2.getString("price"));
+					list.add(si);
+				}
+				mriv.setSiv(list);
+			} finally {
+				// 5.
+				if (rs != null&&rs2!=null) {
+					rs.close();
+					rs2.close();
+				} // end if
+
+				if (pstmt != null&&pstmt2!=null) {
+					pstmt.close();
+					pstmt2.close();
+				} // end if
+
+				if (con != null) {
+					con.close();
+				} // end if
+			}
+			return mriv;
+	 }//selectIngdnt
+	
+	
 	 // 레시피 추가 창에서 카테고리별 재료 조회
 	 /**
 	  *	작성자:홍승환
@@ -245,12 +302,12 @@ public class IngdntDAO {
 	  */
 	public List<ShowIngdntVO> selectIngdnt(IngrdntCategVO icv)throws SQLException{
 		 List<ShowIngdntVO> list = new ArrayList<ShowIngdntVO>();
-
+		 
 			Connection con = null; 
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
-
 			try {
+				
 				con = getConnection();
 				String selectIngrdnt ="select price,ingredient_name "
 						+ "from ingredients "
@@ -285,21 +342,37 @@ public class IngdntDAO {
 
 			return list;
 	 }//selectIngdnt
-	 public static void main(String[] args){
-		 //			System.out.println(IngdntDAO.getInstance().selectIngdntOfRecp("하태짝태").toString());
-		//			 IngrdntCategVO icv=new IngrdntCategVO("GS25","과자");
-		//			System.out.println(IngdntDAO.getInstance().selectIngdnt(icv));
-		 //					System.out.println(IngdntDAO.getInstance().deleteIngdntOfRecp(iv));
-					 try {
-						 addRemoveIngrdntVO iv= new addRemoveIngrdntVO("김치","하태짝태");
-						System.out.println(IngdntDAO.getInstance().deleteIngdntOfRecp(iv));
-//						 System.out.println(IngdntDAO.getInstance().insertIngdntOfRecp(iv));
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						JOptionPane.showMessageDialog(null, "안댐;");
-						e.printStackTrace();
-					
-					}
-					
-	 }
+	
+	
+	public boolean insertRecipe(AddRecipeVO arv)throws SQLException{
+		boolean flag=false;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con=getConnection();
+			String insertRecipe="insert into RECIPEREGISTER(MENU_NAME, IMG, FOOD_TYPE, INFO, "
+					+ "RECIPE_INFO, TOTALPRICE, ID, INPUTDATE, RECIPE_FLAG)"
+					+ " values(?,?,?,?,?,?,?,to_char(sysdate,'yyyy-mm-dd'),'S')";
+			pstmt=con.prepareStatement(insertRecipe);
+			pstmt.setString(1, arv.getMenuName());
+			pstmt.setString(2, arv.getMenuImg());
+			pstmt.setString(3, arv.getMenuType());
+			pstmt.setString(4, arv.getMenuSimpleInfo());
+			pstmt.setString(5, arv.getMenuDetailInfo());
+			pstmt.setInt(6, arv.getMenuPrice());
+			pstmt.setString(7, arv.getId());
+			pstmt.executeUpdate();
+			flag=true;
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+			} // end if
+
+			if (con != null) {
+				con.close();
+			} // end if
+		}
+	return flag;
+	}
 }//class
+

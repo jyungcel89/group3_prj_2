@@ -162,7 +162,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    
    // 마이페이지(관리자 페이지)로 이동 버튼
    public void showAddRecipe() {
-	   new AddRecipeForm(mainFrm);
+	   new AddRecipeForm(mainFrm,"");
    }// addRecipe
    
    public void addRecipe() {
@@ -240,7 +240,6 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
       if(ae.getSource() == mainFrm.getJbAddRecipe()){
     	  showAddRecipe();
       }//end if
-      
        
    }// actionPerformed
 

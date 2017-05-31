@@ -18,6 +18,7 @@ import kr.co.sist.recipe.dao.MemberDAO;
 import kr.co.sist.recipe.dao.RecipeDAO;
 import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.view.ItemPreviewForm;
+import kr.co.sist.recipe.view.LogInForm;
 import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.view.MgrPageForm;
 import kr.co.sist.recipe.vo.MainRecipeVO;
@@ -34,7 +35,6 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 	private MemberDAO mem_dao;
 	private RecipeDAO rcp_dao;
 	private MainForm mf;
-	
 	public MgrPageEvt( MgrPageForm mpf ) {
 		this.mpf=mpf;
 		mem_dao=MemberDAO.getInstance();
@@ -365,7 +365,8 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				try {
 					mrv=rcp_dao.selectOneRecipe(value);
 					//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
-					new AddRecipeForm(mf);
+					new AddRecipeForm(mf, value);
+					
 				} catch (SQLException se) {
 					JOptionPane.showMessageDialog(mpf, 
 							"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
@@ -414,5 +415,5 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 }//class
