@@ -22,7 +22,7 @@ import kr.co.sist.recipe.vo.MainRecipeVO;
  * 2017-05-28 추가 및 수정
  * @author JiYong
  *
- */
+ */ 
 public class BookmarkDAO {
        private static BookmarkDAO book_dao;
        
