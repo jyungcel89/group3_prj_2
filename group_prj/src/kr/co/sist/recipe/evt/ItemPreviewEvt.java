@@ -29,7 +29,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	private MainForm mf;
 	private BookmarkDAO bmdao;
 	private ScoreDAO sdao;
-	private int scoreFlag; 
+	private int scoreFlag;  
 	
 	
 	
