@@ -22,7 +22,7 @@ import kr.co.sist.recipe.vo.MemberVO;
  * <수정사항>
  * 1. parameter 제거
  * @author JiYong
- *
+ * 
  */
 public class SignEvt extends WindowAdapter implements ActionListener {
 	
