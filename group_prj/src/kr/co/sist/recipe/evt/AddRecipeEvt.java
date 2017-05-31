@@ -42,7 +42,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	private MainForm mf;
 	public static String logId;
 	public MgrPageForm mpf;
-	public MgrPageEvt mpe;
+//	public MgrPageEvt mpe;
 	public AddRecipeEvt(AddRecipeForm arf){
 		this.arf=arf;
 		ida=IngdntDAO.getInstance();
