@@ -151,6 +151,7 @@ public class ItemPreviewForm extends JDialog {
 		ItemPreviewEvt ipe=new ItemPreviewEvt(this);
 		jbSubmit.addActionListener(ipe);
 		jbClose.addActionListener(ipe);
+		jchBookmark.addActionListener(ipe);
 		
 		
 		setVisible(true);
@@ -246,8 +247,6 @@ public class ItemPreviewForm extends JDialog {
 	public void setJspTextArea(JScrollPane jspTextArea) {
 		this.jspTextArea = jspTextArea;
 	}
-	
-	
 	
 
 }//class

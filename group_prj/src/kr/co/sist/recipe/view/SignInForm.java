@@ -85,7 +85,7 @@ public class SignInForm extends JDialog {
 		//////////////////////수정 버튼 추가///////////////////
 		jbtUpdate.setBounds(330,320,80,50);
 		////////////////////////////////////////////////////////
-		setBounds(50, 50, 470, 440);
+		setBounds(50, 50, 470, 420);
 		
 		//이벤트 추가
 		SignEvt se=new SignEvt(this);

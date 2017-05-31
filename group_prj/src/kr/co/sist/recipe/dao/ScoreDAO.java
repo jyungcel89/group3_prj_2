@@ -14,13 +14,14 @@ import java.util.Properties;
 
 import javax.swing.JOptionPane;
 
+import kr.co.sist.recipe.vo.BookmarkUpdateVO;
 import kr.co.sist.recipe.vo.ScoreVO;
  
 public class ScoreDAO {
 
 	private static ScoreDAO score_dao;
 	
-	static ScoreDAO getInstance(){
+	public static ScoreDAO getInstance(){
 		if(score_dao==null){
 			score_dao = new ScoreDAO();
 		}
@@ -179,6 +180,46 @@ public class ScoreDAO {
 		}//end finally
 		return result;
 	}//getAvg
+	
+	public int popUpChkScore(BookmarkUpdateVO buvo) throws SQLException{
+		int result=0;
+ 	   Connection con=null;
+        PreparedStatement pstmt= null;
+        ResultSet rs = null;
+        try {
+               con= getConnection();
+               
+               String chkBmQuery=
+                            "select value from score where id=? and menu_name=?";
+               
+               pstmt = con.prepareStatement(chkBmQuery);
+               pstmt.setString(1, buvo.getId());
+               pstmt.setString(2, buvo.getMenuName());
+               rs = pstmt.executeQuery();
+               
+               if(rs.next()){
+             	  result=rs.getInt("VALUE");
+               }
+               
+        }finally {
+               if(rs!= null){ rs.close(); }
+               if(pstmt!= null){ pstmt.close(); }
+               if(con!= null){ con.close(); }
+        }//end finally
+ 	   
+ 	   
+ 	   return result;
+		
+	}//popUpChkScore
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 //////////////////////////////////////////////////// 메인폼 - 전체평점계산///////////////////////////////////////////////////////////////
 ////////////////////단위테스트///////////////////////////////////////////	

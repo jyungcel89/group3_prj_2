@@ -34,17 +34,18 @@ public class MainForm extends JFrame{
 	public MainForm(String logId) { 
 		super("홍홍홍의 편의점 레시피");
 		setLayout(null); 
-		System.out.println("메인"+logId);
+		Font defaultFont =new Font("맑은 고딕", Font.BOLD, 14);
 		
 		JLabel jlUserName=new JLabel(" [ "+logId+" ]님 환영합니다.");
-		jlUserName.setFont(new Font("", Font.BOLD, 15));
+		jlUserName.setFont(defaultFont);
+		jlUserName.setForeground(Color.white);
 		
 		JLabel jlRecent = new JLabel("◑ 최신 레시피");
-		jlRecent.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+		jlRecent.setFont(defaultFont);
 
 		// 검색조건
 		JLabel jlSearch = new JLabel("◑ 검색 조건");
-		jlSearch.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+		jlSearch.setFont(defaultFont);
 		
 		JPanel jpSrchOption = new JPanel(){
 		    protected void paintComponent(Graphics g)
@@ -80,6 +81,9 @@ public class MainForm extends JFrame{
 		}
 		jbClose = new JButton("닫기");
 		jbLogOut = new JButton("로그아웃");
+		jbLogOut.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+		jbLogOut.setForeground(Color.white);
+		jbLogOut.setBackground(new Color(0, 0, 0, 130));
 		
 		// 테이블
 		String[] columnName = {"메뉴이름", "이미지", "메뉴타입", "간단소개","가격"};
@@ -131,7 +135,7 @@ public class MainForm extends JFrame{
 		JLabel jlMenuName3=new JLabel(" ▷ "+imgName3);
 		
 		// 사용자 아이디 라벨 배치
-		jlUserName.setBounds(20, 10, 170, 30);
+		jlUserName.setBounds(120, 10, 170, 30);
 		
 		// 이미지 버튼 배치
 		jpRcntRecipe.setLayout(null);
@@ -155,13 +159,13 @@ public class MainForm extends JFrame{
 		chkFour.setBounds(340, 10, 70, 30);
 		jtfSearch.setBounds(420, 13, 280, 25);
 		jbSearch.setBounds(720, 11, 100, 28);
-		jbLogOut.setBounds(180, 10, 100, 30);
+		jbLogOut.setBounds(20, 17, 95, 20);
 		
 		// 하단버튼 > 레시피 추가버튼, 마이페이지버튼, 닫기 버튼 배치
 		jpFootBtns.setLayout(null);
 		jpFootBtns.setOpaque(false);
 		jbAddRecipe.setBounds(0, 10, 100, 30);
-		jbMypage.setBounds(620, 10, 100, 30);
+		jbMypage.setBounds(600, 10, 120, 30);
 		jbClose.setBounds(730, 10, 100, 30);
 		
 		// 최근 메뉴 패널 배치
@@ -206,7 +210,6 @@ public class MainForm extends JFrame{
 		add(jspTab);
 		add(jpFootBtns);
 		add(jbLogOut);
-		jbLogOut.setOpaque(false);
 		
 		// 이벤트 적용
 		jbSearch.addActionListener(mfe);

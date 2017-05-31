@@ -213,7 +213,7 @@ public class MemberDAO {
 		//3.쿼리문 생성객체 얻기
 			//회원가입시 정보를 members 테이블에 추가하는 쿼리문  
 			String insertMember=
-					"insert into members(id,pw,name,mail) values (?,?,?,?)";
+					"insert into members(id,pw,name,mail,member_flag) values (?,?,?,?,'U')";
 			pstmt=con.prepareStatement(insertMember);
 		//4.쿼리문 수행 후 결과 얻기
 			//바인딩.set자료형(컬럼, 들어갈 데이터)
