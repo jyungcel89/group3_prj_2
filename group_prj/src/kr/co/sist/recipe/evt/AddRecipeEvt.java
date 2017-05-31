@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.nio.channels.ShutdownChannelGroupException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,6 +26,7 @@ import kr.co.sist.recipe.vo.AddRecipeVO;
 import kr.co.sist.recipe.vo.IngdntVO;
 import kr.co.sist.recipe.vo.IngrdntCategVO;
 import kr.co.sist.recipe.vo.LoginVO;
+import kr.co.sist.recipe.vo.MgrRecipeInfoVO;
 import kr.co.sist.recipe.vo.MgrRecipeVO;
 import kr.co.sist.recipe.vo.ShowIngdntVO;
 import kr.co.sist.recipe.vo.addRemoveIngrdntVO;
@@ -73,23 +75,21 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 						priceArr[i]=Integer.parseInt(table2.getValueAt(i,1).toString());
 						totalPrice=priceArr[i]+totalPrice;
 				}
-				arf.getLblTotalPrice().setText(Integer.toString(totalPrice));
+				arf.getLblTotalPrice().setText(Integer.toString(totalPrice)+"원");
 	}//addIngdnt
 	
 	// 재료삭제 수행 (del버튼)
 	public void rmvIngdnt(){
 		DefaultTableModel dtm=(DefaultTableModel)arf.getJtaddedIngrednt().getModel();
 		dtm.removeRow(arf.getJtaddedIngrednt().getSelectedRow());
-//		
-//		JTable table2=arf.getJtaddedIngrednt();
-//		int[] priceArr=new int[table2.getRowCount()];
-//		 totalPrice=Integer.parseInt(arf.getLblTotalPrice().getText());
-//			for(int i=table2.getRowCount(); i<table2.getRowCount();i--){
-//					priceArr[i]=Integer.parseInt(table2.getValueAt(i,1).toString());
-//					totalPrice=totalPrice-priceArr[i];
-//			}
-//			arf.getLblTotalPrice().setText(Integer.toString(totalPrice));
 		
+		int totalPrice=Integer.parseInt(arf.getLblTotalPrice().toString());
+		int minusPrice=Integer.parseInt(arf.getJtaddedIngrednt().getValueAt(arf.getJtaddedIngrednt().getSelectedRow(),1).toString());
+		int resultPrice=0;
+		if(!arf.getLblTotalPrice().getText().equals("")){
+			resultPrice=totalPrice-minusPrice;
+			arf.getLblTotalPrice().setText(Integer.toString(resultPrice)+"원");
+		}
 	}//rmvIngdnt
 	
 	// 이미지추가 수행 (add버튼)
@@ -178,7 +178,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			si=lstMenu.get(i);
 			rowMenu[0]=si.getIngrdntName();
 			rowMenu[1]=si.getIngrdntPrice();
-			
 			dtmMenu.addRow(rowMenu);
 		}
 		}catch(SQLException se){
@@ -187,40 +186,41 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	}//searchIngdnt
 	
 	public void selectMgrRecipeInfo(){
-			
 		try {
-			MgrRecipeVO mrv=ida.selectMgrRecipe(arf.getJtfRecipeName().getText());
-			ImageIcon icon=new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/"+mrv.getImg());
-			arf.getJtfRecipeName().setText(mrv.getMenu_name());
+			MgrRecipeInfoVO mriv=ida.selectMgrRecipe(arf.getJtfRecipeName().getText());
+			ImageIcon icon=new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/"+mriv.getMrv().getImg());
+			arf.getJtfRecipeName().setText(mriv.getMrv().getMenu_name());
 			arf.getJtfRecipeName().setEditable(false);
-			arf.getJcbCateg().setSelectedItem(mrv.getFoodType());
-			arf.getJtaInfo().setText(mrv.getInfo());
+			arf.getJcbCateg().setSelectedItem(mriv.getMrv().getFoodType());
+			arf.getJtaInfo().setText(mriv.getMrv().getInfo());
 			arf.getLblImg().setIcon(icon);
-			arf.getJtaWriteRecipe().setText(mrv.getRecipe_info());
+			arf.getJtaWriteRecipe().setText(mriv.getMrv().getRecipe_info());
 			
-			DefaultTableModel dtm =(DefaultTableModel)arf.getJtaddedIngrednt().getModel();
+			DefaultTableModel dtmMenu=arf.getDtmAddedIngrednt();
 			Object[] rowMenu=new Object[2];
-			
+			List<ShowIngdntVO> list=mriv.getSiv();
+			ShowIngdntVO siv=null;
 			//번호,이미지,메뉴코드","메뉴","설명","가격,
-			for( int i=0; i<ida.index; i++){
-				rowMenu[0]=mrv.getIngrdntName();
-				rowMenu[1]=mrv.getIngrdntPrice();
-				dtm.addRow(rowMenu);
+			System.out.println(list.size());
+			for( int i=0; i<list.size(); i++){
+				siv=list.get(i);
+				rowMenu[0]=siv.getIngrdntName();
+				rowMenu[1]=siv.getIngrdntPrice();
+				System.out.println(siv.getIngrdntName());
+				dtmMenu.addRow(rowMenu);
 			}
-			
+			int totalPrice=0;
+			int[] priceArr=new int[dtmMenu.getRowCount()];
+			for(int i=0; i<dtmMenu.getRowCount();i++){
+				priceArr[i]=Integer.parseInt(dtmMenu.getValueAt(i,1).toString());
+				totalPrice=priceArr[i]+totalPrice;
+		}
+		arf.getLblTotalPrice().setText(Integer.toString(totalPrice)+"원");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
-	
-	
-	
-	
-	
-	
 	
 	/////////////////////////////////////////// MgrForm
 	//관리자가 레시피 수정 수행 (edit버튼)

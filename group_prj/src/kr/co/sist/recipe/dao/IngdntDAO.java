@@ -30,12 +30,12 @@ import kr.co.sist.recipe.vo.ShowIngdntVO;
 import kr.co.sist.recipe.vo.addRemoveIngrdntVO;
 import kr.co.sist.recipe.vo.MgrRecipeVO;
 import kr.co.sist.recipe.vo.LoginVO;
+import kr.co.sist.recipe.vo.MgrRecipeInfoVO;
 public class IngdntDAO {
 	
 	private static IngdntDAO ing_dao;
 	private AddRecipeForm arf;
 	private List<ShowIngdntVO> ingrdntList;
-	public int index;
 	public static IngdntDAO getInstance(){
 		if(ing_dao==null){
 			ing_dao = new IngdntDAO();
@@ -230,7 +230,7 @@ public class IngdntDAO {
 	 }//updateIngdntOfRecp
 	 
 	
-	public MgrRecipeVO selectMgrRecipe(String menuName)throws SQLException{
+	public MgrRecipeInfoVO selectMgrRecipe(String menuName)throws SQLException{
 		 	ingrdntList=new ArrayList<ShowIngdntVO>();
 			Connection con = null; 
 			PreparedStatement pstmt = null;
@@ -238,6 +238,8 @@ public class IngdntDAO {
 			ResultSet rs = null;
 			ResultSet rs2= null;
 			MgrRecipeVO mrv=null;
+			MgrRecipeInfoVO mriv=null;
+			ShowIngdntVO si=null;
 			try {
 				
 				con = getConnection();
@@ -248,35 +250,37 @@ public class IngdntDAO {
 						+ "from INGREDIENTS i,RECIPE_INGREDIENTS ri "
 						+ "where(ri.INGREDIENT_NAME=i.INGREDIENT_NAME) "
 						+ "and ri.MENU_NAME='"+menuName+"'";
-				
 				pstmt = con.prepareStatement(selectMgrRecipeInfo);
 				pstmt2 = con.prepareStatement(selectMgrRecipeInfo2);
 				rs = pstmt.executeQuery();
 				rs2=pstmt2.executeQuery();
+				List<ShowIngdntVO>list=new ArrayList<ShowIngdntVO>();
 				mrv= new MgrRecipeVO();
-				
-				index=1;
-				while (rs.next()&&rs2.next()) {
-					mrv.setMenu_name(rs.getString("menu_name"));
-					mrv.setImg(rs.getString("img"));
-					mrv.setFoodType(rs.getString("food_type"));
-					mrv.setInfo(rs.getString("info"));
-					mrv.setRecipe_info(rs.getString("recipe_info"));
-					mrv.setTotalPrice(rs.getString("totalprice"));
-					mrv.setId(rs.getString("id"));
-					mrv.setIngrdntPrice(rs2.getString("price"));
-					mrv.setIngrdntName(rs2.getString("INGREDIENT_NAME"));
-					index++;
+				mriv=new MgrRecipeInfoVO(list,mrv);
+				while (rs.next()) {
+					mriv.getMrv().setMenu_name(rs.getString("menu_name"));
+					mriv.getMrv().setImg(rs.getString("img"));
+					mriv.getMrv().setFoodType(rs.getString("food_type"));
+					mriv.getMrv().setInfo(rs.getString("info"));
+					mriv.getMrv().setRecipe_info(rs.getString("recipe_info"));
+					mriv.getMrv().setTotalPrice(rs.getString("totalprice"));
+					mriv.getMrv().setId(rs.getString("id"));
 				} // end while
-
+				while(rs2.next()){
+					si=new ShowIngdntVO();
+					si.setIngrdntName(rs2.getString("ingredient_name"));
+					si.setIngrdntPrice(rs2.getString("price"));
+					list.add(si);
+				}
+				mriv.setSiv(list);
 			} finally {
 				// 5.
-				if (rs != null) {
+				if (rs != null&&rs2!=null) {
 					rs.close();
 					rs2.close();
 				} // end if
 
-				if (pstmt != null) {
+				if (pstmt != null&&pstmt2!=null) {
 					pstmt.close();
 					pstmt2.close();
 				} // end if
@@ -285,8 +289,7 @@ public class IngdntDAO {
 					con.close();
 				} // end if
 			}
-			index=0;
-			return mrv;
+			return mriv;
 	 }//selectIngdnt
 	
 	
@@ -345,7 +348,6 @@ public class IngdntDAO {
 		boolean flag=false;
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		LoginVO lv= new LoginVO();
 		try {
 			con=getConnection();
 			String insertRecipe="insert into RECIPEREGISTER(MENU_NAME, IMG, FOOD_TYPE, INFO, "
@@ -372,27 +374,5 @@ public class IngdntDAO {
 		}
 	return flag;
 	}
-	
-	
-		/* public static void main(String[] args){
-//		 			System.out.println(IngdntDAO.getInstance().selectIngdntOfRecp("ÇÏÅÂÂ¦ÅÂ").toString());
-//					 IngrdntCategVO icv=new IngrdntCategVO("GS25","°úÀÚ");
-//					
-//		 					System.out.println(IngdntDAO.getInstance().deleteIngdntOfRecp(iv));
-					 try {
-						 System.out.println(IngdntDAO.getInstance().selectMgrRecipe("»§ÆÄ°ÔÆ¼"));
-//						 String[] arr={"±èÄ¡"};
-						 
-//						 addRemoveIngrdntVO iv= new addRemoveIngrdntVO(arr,"ÇÏÅÂÂ¦ÅÂ");
-//						System.out.println(IngdntDAO.getInstance().deleteIngdntOfRecp(iv));
-//						 System.out.println(IngdntDAO.getInstance().insertIngdntOfRecp(iv));
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						JOptionPane.showMessageDialog(null, "¾È´ï;");
-						e.printStackTrace();
-					
-					}
-					
-	 }*/
 }//class
 

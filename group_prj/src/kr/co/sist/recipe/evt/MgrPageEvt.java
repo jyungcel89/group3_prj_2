@@ -365,8 +365,8 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				try {
 					mrv=rcp_dao.selectOneRecipe(value);
 					//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
-					
 					new AddRecipeForm(value);
+					
 				} catch (SQLException se) {
 					JOptionPane.showMessageDialog(mpf, 
 							"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");

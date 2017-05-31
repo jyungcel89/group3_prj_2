@@ -216,7 +216,6 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
       if(ae.getSource() == mainFrm.getJbAddRecipe()){
     	  showAddRecipe();
       }//end if
-      
        
    }// actionPerformed
 

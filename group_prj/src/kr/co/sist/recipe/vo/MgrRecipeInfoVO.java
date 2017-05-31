@@ -1,16 +1,20 @@
 package kr.co.sist.recipe.vo;
 
+import java.util.List;
+
 public class MgrRecipeInfoVO {
-	private ShowIngdntVO siv;
+	private List<ShowIngdntVO> siv;
 	private MgrRecipeVO mrv;
 	
-	public MgrRecipeInfoVO(ShowIngdntVO siv,MgrRecipeVO mrv){
+	public MgrRecipeInfoVO(List<ShowIngdntVO> siv,MgrRecipeVO mrv){
 		super();
 		this.siv=siv;
 		this.mrv=mrv;
 	}
-
-	public ShowIngdntVO getSiv() {
+	public MgrRecipeInfoVO(){
+		
+	}
+	public List<ShowIngdntVO> getSiv() {
 		return siv;
 	}
 
@@ -18,7 +22,7 @@ public class MgrRecipeInfoVO {
 		return mrv;
 	}
 
-	public void setSiv(ShowIngdntVO siv) {
+	public void setSiv(List<ShowIngdntVO> siv) {
 		this.siv = siv;
 	}
 

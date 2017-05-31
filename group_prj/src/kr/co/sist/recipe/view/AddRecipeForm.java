@@ -166,7 +166,7 @@ public class AddRecipeForm extends JDialog {
 //		region 재료의 총가격 라벨과 실제로 값을 보여줄 라벨
 		Font priceResult=new Font("맑은 고딕",Font.BOLD,15);
 		
-		lblTotalPrice=new JLabel("7000원");
+		lblTotalPrice=new JLabel();
 		lblTotalPrice.setFont(priceResult);
 		lblTotalPrice.setForeground(Color.red);
 		lblTotalPrice.setBounds(540,555,100,50);
