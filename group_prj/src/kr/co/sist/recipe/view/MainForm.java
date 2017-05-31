@@ -179,7 +179,7 @@ public class MainForm extends JFrame{
 		jspTab.setBounds(20, 480, 830, 420);
 		// 하단 버튼패널 배치
 		jpFootBtns.setBounds(20, 910, 830, 50);
-		
+		 
 		// 사용자 아이디 라벨 붙이기
 		add(jlUserName);
 		
