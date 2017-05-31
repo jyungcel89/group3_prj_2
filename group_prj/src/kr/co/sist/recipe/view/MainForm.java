@@ -75,9 +75,9 @@ public class MainForm extends JFrame{
 	
 		
 		// 관리자 - 회원 구분하여 버튼 사용
-		// 임시, 바꿀겁니다~
 		if( logId.equals("mgr") ){
 			jbMypage = new JButton("관리자페이지");
+			jbAddRecipe.setVisible(false);
 		}else{
 			jbMypage = new JButton("마이페이지");
 		}
@@ -233,6 +233,12 @@ public class MainForm extends JFrame{
 		jbMypage.addActionListener(mfe);
 		jbAddRecipe.addActionListener(mfe);
 		jbClose.addActionListener(mfe);
+		
+		jtfSearch.addActionListener(mfe);
+		chkOne.addActionListener(mfe);
+		chkTwo.addActionListener(mfe);
+		chkThree.addActionListener(mfe);
+		chkFour.addActionListener(mfe);
 		
 		jbLogOut.addActionListener(mfe);
 		// 부모창

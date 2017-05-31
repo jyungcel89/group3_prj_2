@@ -2,6 +2,8 @@ package kr.co.sist.recipe.evt;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -25,7 +27,7 @@ import kr.co.sist.recipe.vo.MemberVO;
  * @author JiYong
  *
  */
-public class LogInEvt extends WindowAdapter implements  ActionListener {
+public class LogInEvt extends WindowAdapter implements  ActionListener{
 
 	private LogInForm lf;
 	private LoginVO log_vo;
@@ -87,13 +89,12 @@ public class LogInEvt extends WindowAdapter implements  ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		if(ae.getSource()==lf.getJbtLogIn()){
+		if(ae.getSource()==lf.getJbtLogIn() || ae.getSource()==lf.getJtfId() || ae.getSource()==lf.getJpfPass()){
 			loginChk();
 		}//end if
 		if(ae.getSource()==lf.getJbtSignIn()){
 			moveSignin();
 		}//end if
 	}//actionPerformed
-	
 
 }//class

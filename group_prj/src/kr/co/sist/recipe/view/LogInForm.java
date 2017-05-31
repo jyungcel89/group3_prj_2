@@ -54,7 +54,8 @@ public class LogInForm extends JFrame {
 		
 		//이벤트 추가
 		LogInEvt le=new LogInEvt(this);
-		
+		jtfId.addActionListener(le);
+		jpfPass.addActionListener(le);
 		jbtLogIn.addActionListener(le);
 		jbtSignIn.addActionListener(le);
 		
