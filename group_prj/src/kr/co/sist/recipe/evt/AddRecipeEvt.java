@@ -182,7 +182,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			MgrRecipeInfoVO mriv=ida.selectMgrRecipe(arf.getJtfRecipeName().getText());
 			ImageIcon icon=new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/"+mriv.getMrv().getImg());
 			arf.getJtfRecipeName().setText(mriv.getMrv().getMenu_name());
-			arf.getJtfRecipeName().setEditable(false);
 			arf.getJcbCateg().setSelectedItem(mriv.getMrv().getFoodType());
 			arf.getJtaInfo().setText(mriv.getMrv().getInfo());
 			arf.getLblImg().setIcon(icon);
@@ -211,7 +210,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			e.printStackTrace();
 		}
 	}
-	
 	/////////////////////////////////////////// MgrForm
 	//관리자가 레시피 수정 수행 (edit버튼)
 	public void editMgr(){
