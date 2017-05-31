@@ -365,7 +365,6 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				try {
 					mrv=rcp_dao.selectOneRecipe(value);
 					//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
-					new AddRecipeForm(value,mf);
 					new AddRecipeForm(mf, value);
 					
 				} catch (SQLException se) {
