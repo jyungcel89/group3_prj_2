@@ -28,7 +28,7 @@ public class AddRecipeForm extends JDialog {
 	private JTextField jtfRecipeName;
 	private JLabel lblImg,lblRecipeName,lblRecipeSort,lblRecipeInfo,
 	lblIngredntChoice,lblConvenienceStore,lblIngredntSort,lblTotalPrice,lblTotalPriceView
-	,lblWriteRecipe;
+	,lblWriteRecipe; 
 	private JScrollPane jspIngrednt,jspAddedIngrednt,jspTextArea;
 	private DefaultTableModel dtmIngrednt,dtmAddedIngrednt;
 	private ImageIcon imgIcon;
