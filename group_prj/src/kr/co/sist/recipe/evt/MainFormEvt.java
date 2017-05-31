@@ -20,6 +20,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.recipe.dao.RecipeDAO;
+import kr.co.sist.recipe.dao.ScoreDAO;
 import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.view.ItemPreviewForm;
 import kr.co.sist.recipe.view.MainForm;
@@ -31,6 +32,7 @@ import kr.co.sist.recipe.vo.MenuTypeVO;
 public class MainFormEvt implements MouseListener, ItemListener, ActionListener {
    private MainForm mainFrm;
    private RecipeDAO rcp_dao;
+   private ScoreDAO score_dao;
    private MenuTypeVO mtv;
    public static String logId;
    
@@ -42,6 +44,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
       this.mainFrm = mainFrm;
       this.logId = logId;
       rcp_dao = RecipeDAO.getInstance();
+      score_dao = ScoreDAO.getInstance();
       
       newRecipe();
       
@@ -127,7 +130,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
          searchCondition();
          
         	 List<MainRecipeVO> list = rcp_dao.selectAllRecipe(mtv, searchText);
-        	 Object[] rowMenu = new Object[5];
+        	 Object[] rowMenu = new Object[6];
         	 DefaultTableModel dtmMenu = mainFrm.getDtmRecipe();
         	 String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
         	 
@@ -140,8 +143,9 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
         		 rowMenu[0] = mrv.getMenuName();
         		 rowMenu[1] = new ImageIcon(path+mrv.getMenuImg());
         		 rowMenu[2] = mrv.getMenuType();
-        		 rowMenu[3] = mrv.getMenuSimpeInfo();
-        		 rowMenu[4] = mrv.getMenuPrice();
+        		 rowMenu[3] = score_dao.getAvg(mrv.getMenuName());
+        		 rowMenu[4] = mrv.getMenuSimpeInfo();
+        		 rowMenu[5] = mrv.getMenuPrice();
         		 
         		 dtmMenu.addRow(rowMenu);
         	 } // end for

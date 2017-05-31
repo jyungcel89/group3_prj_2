@@ -86,8 +86,8 @@ public class MainForm extends JFrame{
 		jbLogOut.setBackground(new Color(0, 0, 0, 130));
 		
 		// 테이블
-		String[] columnName = {"메뉴이름", "이미지", "메뉴타입", "간단소개","가격"};
-		String[][] rowData = {{"메뉴를 검색해주세요","","", "", ""}};
+		String[] columnName = {"메뉴이름", "이미지", "메뉴타입", "별점", "간단소개","가격"};
+		String[][] rowData = {{"메뉴를 검색해주세요","","", "", "",""}};
 		// 테이블 수정 막기
 		dtmRecipe = new DefaultTableModel(rowData, columnName){
 			@Override
@@ -112,8 +112,9 @@ public class MainForm extends JFrame{
 		jtRecipe.getColumnModel().getColumn(0).setPreferredWidth(100);
 		jtRecipe.getColumnModel().getColumn(1).setPreferredWidth(120);
 		jtRecipe.getColumnModel().getColumn(2).setPreferredWidth(50);
-		jtRecipe.getColumnModel().getColumn(3).setPreferredWidth(450);
-		jtRecipe.getColumnModel().getColumn(4).setPreferredWidth(30);
+		jtRecipe.getColumnModel().getColumn(3).setPreferredWidth(30);
+		jtRecipe.getColumnModel().getColumn(4).setPreferredWidth(420);
+		jtRecipe.getColumnModel().getColumn(5).setPreferredWidth(30);
  
 		// 백그라운드 설정
 		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/background_image.png"));
