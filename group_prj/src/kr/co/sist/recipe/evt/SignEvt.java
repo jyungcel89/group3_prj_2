@@ -208,10 +208,12 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		if(ae.getSource()==sf.getJbtChkId()){
+		if(ae.getSource()==sf.getJbtChkId() || ae.getSource() == sf.getJtfId()){
 			checkId();
 		}//end if
-		if(ae.getSource()==sf.getJbtSubmit()){
+		if(ae.getSource()==sf.getJbtSubmit() || ae.getSource() == sf.getJtfMail() || 
+				ae.getSource() == sf.getJtfName() || ae.getSource() == sf.getJpfPw() ||
+				ae.getSource() == sf.getJpfChkPw() ){
 			addMember();
 		}//end if
 		if(ae.getSource()==sf.getJbtCancel()){

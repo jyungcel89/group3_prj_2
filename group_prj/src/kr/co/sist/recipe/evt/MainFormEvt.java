@@ -182,7 +182,9 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
 
    @Override 
    public void actionPerformed(ActionEvent ae) {
-      if (ae.getSource() == mainFrm.getJbSearch()) {
+      if (ae.getSource() == mainFrm.getJbSearch() || ae.getSource() == mainFrm.getJtfSearch() || 
+    		  ae.getSource() == mainFrm.getChkOne() || ae.getSource() == mainFrm.getChkTwo() || 
+    		  ae.getSource() == mainFrm.getChkThree() || ae.getSource() == mainFrm.getChkFour() ) {
          searchList();
       }//end if //검색버튼
       
