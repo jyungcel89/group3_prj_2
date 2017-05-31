@@ -1,4 +1,5 @@
 package kr.co.sist.recipe.evt;
+
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -254,6 +255,5 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			rmvIngdnt();
 		}
 	}
+}
 	
-
-}//class
