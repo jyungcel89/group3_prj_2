@@ -14,6 +14,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.recipe.evt.AddRecipeEvt;
@@ -48,8 +49,12 @@ public class AddRecipeForm extends JDialog {
 		imgIcon=new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/default.jpg");
 		lblImg = new JLabel(imgIcon);
 		lblImg.setBounds(40,40,300,220);
+		add(lblImg);
 		
-//		endregion 레시피 이미지 추가하는 라벨 및 이미지 아이콘끝
+		//기본이미지
+		JLabel img = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/default.jpg"));
+		img.setBounds(40,40,300,220);
+		add(img);
 		
 //		region 레시피이미지 추가버튼
 		jbAddImg=new JButton("사진 올리기");
@@ -66,10 +71,8 @@ public class AddRecipeForm extends JDialog {
 //		endregion 상품명,요리분류,간단소개 라벨 추가 영역끝
 		
 //		region 레시피명 입력하는 JTextField
-		jtfRecipeName=new JTextField();
-		jtfRecipeName.setBounds(442,45,250,25);
 		jtfRecipeName=new JTextField(menuName);
-		jtfRecipeName.setBounds(492,35,100,20);
+		jtfRecipeName.setBounds(442,45,250,25);
 //		endregion 레시피명 입력하는 JTextField끝
 		
 //		region 레시피 요리분류 콤보박스 영역
@@ -200,19 +203,13 @@ public class AddRecipeForm extends JDialog {
 //		endregion 레피시 작성 TextArea 끝
 		
 //		region 요청,닫기,관리자 버튼 구역
-		jbMgr=new JButton("메뉴 수정");
-		jbMgr.setBounds(40,750,100,40);
-		jbRequest=new JButton("메뉴 요청");
-		jbRequest.setBounds(485,750,100,40);
-		jbClose=new JButton("닫기");
-		jbClose.setBounds(600, 750,100,40);
 //		endregion 요청,닫기,관리자 버튼 구역 끝
-		jbClose=new JButton("Close");
-		jbClose.setBounds(615, 750,100,40);
-		jbRequest=new JButton("Request");
+		jbClose=new JButton("닫기");
+		jbClose.setBounds(617, 750,100,40);
+		jbRequest=new JButton("메뉴 요청");
 		jbRequest.setBounds(495,750,100,40);
-		jbMgr=new JButton("MGR Modify");
-		jbMgr.setBounds(15,750,100,40);
+		jbMgr=new JButton("메뉴 수정");
+		jbMgr.setBounds(20,750,100,40);
 //		endregion 요청,닫기,관리자 버튼 구역 끝s
 		jcbCateg.addItem("안주류");
 		jcbCateg.addItem("디저트");
@@ -239,17 +236,17 @@ public class AddRecipeForm extends JDialog {
 		jbRequest.addActionListener(are);
 		jbClose.addActionListener(are);
 		jbRmvIngrednt.addActionListener(are);
+		
 		Component[] com={jtaInfo,jcbCateg,jtfRecipeName,lblRecipeInfo,lblRecipeSort,lblRecipeName
-				,lblImg,jbAddImg,lblTotalPriceView,lblTotalPrice,jbRmvIngrednt,jbAddIngrednt
+				,jbAddImg,lblTotalPriceView,lblTotalPrice,jbRmvIngrednt,jbAddIngrednt
 				,jspAddedIngrednt,jspIngrednt,jbSearch,jcbStore,lblConvenienceStore,lblIngredntChoice
 				,lblIngredntSort,jcbIngrdntSort,jbRequest,jbClose,jspTextArea,lblWriteRecipe,jbMgr};
 		
 		for(int i=0; i<com.length;i++){
 			add(com[i]);
 		}
-		setBounds(mf.getX()+100,mf.getY()+100,750,850);
+		setBounds(50,50,750,850);
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 	public JButton getJbSearch() {

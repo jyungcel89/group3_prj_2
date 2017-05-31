@@ -72,6 +72,8 @@ public class MainForm extends JFrame{
 		// 아래 레시피 추가버튼, 마이페이지버튼, 닫기 버튼
 		JPanel jpFootBtns = new JPanel();
 		jbAddRecipe = new JButton("메뉴 요청");
+	
+		
 		// 관리자 - 회원 구분하여 버튼 사용
 		// 임시, 바꿀겁니다~
 		if( logId.equals("mgr") ){
@@ -181,6 +183,10 @@ public class MainForm extends JFrame{
 		// 사용자 아이디 라벨 붙이기
 		add(jlUserName);
 		
+		if(logId.equals("mgr")){
+			jbAddRecipe.setVisible(false);
+		}//end if
+		
 		// 최근메뉴 이미지 버튼 붙이기
 		jpRcntRecipe.add(jlRecent);
 		jpRcntRecipe.add(jbFstImg);
@@ -204,7 +210,7 @@ public class MainForm extends JFrame{
 		jpFootBtns.add(jbAddRecipe);
 		jpFootBtns.add(jbMypage);
 		jpFootBtns.add(jbClose);
-
+		
 		
 		// 패널 붙이기 
 		add(jpSrchOption);

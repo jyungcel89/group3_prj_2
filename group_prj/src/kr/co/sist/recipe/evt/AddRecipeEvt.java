@@ -42,7 +42,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	private MainForm mf;
 	public static String logId;
 	public MgrPageForm mpf;
-	public MgrPageEvt mpe;
 	public AddRecipeEvt(AddRecipeForm arf){
 		this.arf=arf;
 		ida=IngdntDAO.getInstance();
@@ -95,8 +94,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	// 이미지추가 수행 (add버튼)
 	public void addImg(){
 		FileDialog fdImg=new FileDialog(arf,"레시피 이미지선택!", FileDialog.LOAD);
-		System.out.println("ㅎㅎ");
-		
 		fdImg.setVisible(true);
 		String path=fdImg.getDirectory();
 		file=fdImg.getFile();
@@ -119,8 +116,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		String info=arf.getJtaInfo().getText();
 		String recipe_make=arf.getJtaWriteRecipe().getText();
 		
-		JTable table=arf.getJtaddedIngrednt();
-	
 		AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,logId);
 		if(arv!=null){
 		try {
@@ -133,7 +128,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		}else{
 			JOptionPane.showMessageDialog(arf,"제대로 입력해...");
 		}
-	}
+	}//reqRecipe
 	// 관리자에게 요청 수행 (request버튼)
 	public void reqRecipeIngrdnt(){
 		
@@ -201,12 +196,10 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			List<ShowIngdntVO> list=mriv.getSiv();
 			ShowIngdntVO siv=null;
 			//번호,이미지,메뉴코드","메뉴","설명","가격,
-			System.out.println(list.size());
 			for( int i=0; i<list.size(); i++){
 				siv=list.get(i);
 				rowMenu[0]=siv.getIngrdntName();
 				rowMenu[1]=siv.getIngrdntPrice();
-				System.out.println(siv.getIngrdntName());
 				dtmMenu.addRow(rowMenu);
 			}
 			int totalPrice=0;
@@ -227,10 +220,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	public void editMgr(){
 		 
 	}//
-	// 닫기
-	public void close(){
-		arf.dispose();
-	}//
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -248,12 +237,17 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 						reqRecipe();
 						reqRecipeIngrdnt();
 		}
-		if(e.getSource()==arf.getJbClose()){
-			close();
-		}
 		if(e.getSource()==arf.getJbRmvIngrednt()){
 			rmvIngdnt();
 		}
-	}
-}
+		
+		 if(e.getSource() == arf.getJbClose()){
+	    	  int selectNum = JOptionPane.showConfirmDialog(arf, "창을 닫으시겠습니까?");
+	    	  switch (selectNum) {
+			case JOptionPane.OK_OPTION:
+				arf.dispose();
+			}//end switch
+	      }//end if //닫기버튼
+	}//actionPerformed
+}//class
 	

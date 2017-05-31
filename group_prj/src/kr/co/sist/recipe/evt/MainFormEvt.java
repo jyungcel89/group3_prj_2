@@ -173,7 +173,6 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    // 마이페이지(관리자 페이지)로 이동 버튼
    // member_flag 추가되면 그 조건으로 추가
    public void movePage() {
-	   System.out.println("메인 > 관리자"+logId);
 	   if( logId.equals("mgr") ){
 		   new MgrPageForm(logId);
 	   }else{
