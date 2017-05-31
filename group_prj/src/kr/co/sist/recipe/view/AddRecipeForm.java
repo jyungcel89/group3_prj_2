@@ -33,10 +33,12 @@ public class AddRecipeForm extends JDialog {
 	private DefaultTableModel dtmIngrednt,dtmAddedIngrednt;
 	private ImageIcon imgIcon;
 	private MgrPageForm mpf;
+	private MainForm mf;
 	public AddRecipeForm(){
 		
 	}
-	public AddRecipeForm(String menuName){
+	public AddRecipeForm(String menuName,MainForm mf){
+		this.mf = mf;
 		setLayout(null);
 	
 //		region 레시피 이미지 추가하는 라벨 및 이미지 아이콘
