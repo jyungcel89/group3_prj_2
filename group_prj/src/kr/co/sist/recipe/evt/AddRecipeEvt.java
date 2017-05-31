@@ -21,13 +21,9 @@ import kr.co.sist.recipe.dao.IngdntDAO;
 import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.view.MgrPageForm;
-import kr.co.sist.recipe.view.MyPageForm;
 import kr.co.sist.recipe.vo.AddRecipeVO;
-import kr.co.sist.recipe.vo.IngdntVO;
 import kr.co.sist.recipe.vo.IngrdntCategVO;
-import kr.co.sist.recipe.vo.LoginVO;
 import kr.co.sist.recipe.vo.MgrRecipeInfoVO;
-import kr.co.sist.recipe.vo.MgrRecipeVO;
 import kr.co.sist.recipe.vo.ShowIngdntVO;
 import kr.co.sist.recipe.vo.addRemoveIngrdntVO;
 
@@ -36,13 +32,11 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	private AddRecipeForm arf;
 	private IngrdntCategVO icv;
 	private addRemoveIngrdntVO arv;
-	private MainFormEvt mfe;
 	private String file;
 	private int totalPrice;
 	private MainForm mf;
-	public static String logId;
+	private MainFormEvt mfe;
 	public MgrPageForm mpf;
-//	public MgrPageEvt mpe;
 	public AddRecipeEvt(AddRecipeForm arf){
 		this.arf=arf;
 		ida=IngdntDAO.getInstance();
@@ -52,9 +46,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	
 	//관리자 모드에서 버튼을 관리자 전용버튼 보여줄때
 	
-	public void showHideButton(String logId){
-		this.logId=logId;
-	}
 	
 	// 재료추가 수행 (add버튼)
 	public void addIngdnt(){
@@ -75,20 +66,24 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 						priceArr[i]=Integer.parseInt(table2.getValueAt(i,1).toString());
 						totalPrice=priceArr[i]+totalPrice;
 				}
-				arf.getLblTotalPrice().setText(Integer.toString(totalPrice)+"원");
+				arf.getLblTotalPrice().setText(Integer.toString(totalPrice));
 	}//addIngdnt
 	
 	// 재료삭제 수행 (del버튼)
 	public void rmvIngdnt(){
 		DefaultTableModel dtm=(DefaultTableModel)arf.getJtaddedIngrednt().getModel();
-		dtm.removeRow(arf.getJtaddedIngrednt().getSelectedRow());
-		
-		int totalPrice=Integer.parseInt(arf.getLblTotalPrice().toString());
 		int minusPrice=Integer.parseInt(arf.getJtaddedIngrednt().getValueAt(arf.getJtaddedIngrednt().getSelectedRow(),1).toString());
-		int resultPrice=0;
-		if(!arf.getLblTotalPrice().getText().equals("")){
+		dtm.removeRow(arf.getJtaddedIngrednt().getSelectedRow());
+		int labelPrice=Integer.parseInt(arf.getLblTotalPrice().getText());
+		if(labelPrice>0){
+			int totalPrice=Integer.parseInt(arf.getLblTotalPrice().getText().toString());
+			int resultPrice=0;
 			resultPrice=totalPrice-minusPrice;
-			arf.getLblTotalPrice().setText(Integer.toString(resultPrice)+"원");
+			System.out.println(resultPrice);
+			arf.getLblTotalPrice().setText(Integer.toString(resultPrice));
+		}else{
+			JOptionPane.showMessageDialog(null,"0원이하는 말이안되...");
+			return;
 		}
 	}//rmvIngdnt
 	
@@ -112,16 +107,14 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	}//addImg
 	public void reqRecipe(){
 		
-		
 		String menuName=arf.getJtfRecipeName().getText();
 		String img=file;
 		String foodType=arf.getJcbCateg().getSelectedItem().toString();
 		String info=arf.getJtaInfo().getText();
 		String recipe_make=arf.getJtaWriteRecipe().getText();
-		
-		JTable table=arf.getJtaddedIngrednt();
-	
-		AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,logId);
+		String mgr="mgr";
+		int totalPrice=Integer.parseInt(arf.getLblTotalPrice().getText());
+		AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,mgr);
 		if(arv!=null){
 		try {
 			ida.insertRecipe(arv);
@@ -215,7 +208,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				priceArr[i]=Integer.parseInt(dtmMenu.getValueAt(i,1).toString());
 				totalPrice=priceArr[i]+totalPrice;
 		}
-		arf.getLblTotalPrice().setText(Integer.toString(totalPrice)+"원");
+		arf.getLblTotalPrice().setText(Integer.toString(totalPrice));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

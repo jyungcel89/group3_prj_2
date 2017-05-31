@@ -204,13 +204,9 @@ public class AddRecipeForm extends JDialog {
 		jcbCateg.addItem("디저트");
 		jcbCateg.addItem("분식류");
 		jcbCateg.addItem("식사류");
-
-		
-
 		jcbStore.addItem("GS25");
 		jcbStore.addItem("7-eleven");
 		jcbStore.addItem("CU");
-
 		jcbIngrdntSort.addItem("과자");
 		jcbIngrdntSort.addItem("기타");
 		jcbIngrdntSort.addItem("아이스크림");

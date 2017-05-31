@@ -1,27 +1,18 @@
 package kr.co.sist.recipe.dao;
 
-
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
 import javax.swing.JOptionPane;
-
-import org.omg.Messaging.SyncScopeHelper;
-
 import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.vo.AddRecipeVO;
 import kr.co.sist.recipe.vo.IngdntVO;
@@ -34,15 +25,12 @@ import kr.co.sist.recipe.vo.MgrRecipeInfoVO;
 public class IngdntDAO {
 	
 	private static IngdntDAO ing_dao;
-	private AddRecipeForm arf;
-	private List<ShowIngdntVO> ingrdntList;
 	public static IngdntDAO getInstance(){
 		if(ing_dao==null){
 			ing_dao = new IngdntDAO();
 		}
 		return ing_dao;
 	}//getInstance
-	
 	//*********************getConnection()추가(원래 없었음)*********************************
 	private Connection getConnection() throws SQLException {
 		Connection con = null;
@@ -195,6 +183,29 @@ public class IngdntDAO {
 	 // 관리자 : 레시피 추가 창에서 재료 수정
 	 public boolean updateIngdntOfRecp(IngdntVO ingVo){
 		return false;
+//		 boolean result=false;
+//			int flag=0;
+//			Connection con=null;
+//			PreparedStatement pstmt=null;
+//			try{
+//				con=getConnection();
+//				String updateMember="update members set pw=?, mail=? where id=?";
+//				pstmt=con.prepareStatement(updateMember);
+//				pstmt.setString(1, memVo.getPw());
+//				pstmt.setString(2, memVo.getMail());
+//				pstmt.setString(3, memVo.getId());
+//				
+//				flag=pstmt.executeUpdate(); 
+//				   if(flag!=0){ 
+//	                   result=true;
+//				   }else{
+//					   result=false;
+//				   }//end if
+//			}finally{
+//				if( pstmt != null ){ pstmt.close(); };//end if
+//				if( con != null ){ con.close(); };//end if
+//			}//end finally
+//			return result;
 	 }//updateIngdntOfRecp
 	 
 	 
@@ -231,7 +242,6 @@ public class IngdntDAO {
 	 
 	
 	public MgrRecipeInfoVO selectMgrRecipe(String menuName)throws SQLException{
-		 	ingrdntList=new ArrayList<ShowIngdntVO>();
 			Connection con = null; 
 			PreparedStatement pstmt = null;
 			PreparedStatement pstmt2 = null;
