@@ -204,6 +204,7 @@ public class MainForm extends JFrame{
 		jpFootBtns.add(jbAddRecipe);
 		jpFootBtns.add(jbMypage);
 		jpFootBtns.add(jbClose);
+
 		
 		// 패널 붙이기 
 		add(jpSrchOption);
@@ -211,6 +212,11 @@ public class MainForm extends JFrame{
 		add(jspTab);
 		add(jpFootBtns);
 		add(jbLogOut);
+
+		//로고
+		JLabel mainLogo=new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/mainHong.png"));
+		mainLogo.setBounds(450, 15, 85, 125);
+		add(mainLogo);
 		
 		// 이벤트 적용
 		jbSearch.addActionListener(mfe);

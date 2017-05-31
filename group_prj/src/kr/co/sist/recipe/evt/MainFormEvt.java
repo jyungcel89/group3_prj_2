@@ -49,7 +49,6 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
       newRecipe();
       
       mtv = new MenuTypeVO();
-      
       // 검색조건 초기화
       mtv.setAnju("");
       mtv.setMeal("");
@@ -150,6 +149,9 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
         		 dtmMenu.addRow(rowMenu);
         	 } // end for
         	 
+        	 if(list.size()==0){
+        		 JOptionPane.showMessageDialog(null, "조회된 메뉴가 없습니다.");
+        	 }//end if
          
       } catch (SQLException e) {
          JOptionPane.showMessageDialog(mainFrm, "죄송합니다. 메뉴를 불러올 수 없습니다.");
@@ -157,10 +159,10 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
       } // end catch
 
    }// searchList
-
+   
    // 마이페이지(관리자 페이지)로 이동 버튼
    public void showAddRecipe() {
-	   new AddRecipeForm();
+	   new AddRecipeForm(mainFrm);
    }// addRecipe
    
    public void addRecipe() {
