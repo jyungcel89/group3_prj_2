@@ -186,7 +186,7 @@ public class RecipeDAO {
                      // 검색조건(식사류, 안주류, 디저트, 분식)이 체크되어 있거나 검색어가 있으면 조건을 걸러 검색
                      // 검색조건이 없으면 전체 검색
                      StringBuilder sbSelectRecipe = new StringBuilder();
-                     sbSelectRecipe.append("select menu_name, img, food_type, info, recipe_info, totalprice from reciperegister");
+                     sbSelectRecipe.append("select menu_name, img, food_type, info, recipe_info, totalprice from reciperegister where recipe_flag='Y'");
                      
                      if(mtv.getAnju().equals("") && mtv.getBunsik().equals("") && mtv.getDessert().equals("") && mtv.getMeal().equals("")){
                            // 메뉴타입이 체크되어있지않은 경우

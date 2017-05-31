@@ -29,7 +29,7 @@ public class LogInForm extends JFrame {
 		JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/loginBack.png"));
 	    setContentPane(jlBackImg);
 		jlblLogo=new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/logo.png"));
-		
+
 		jtfId=new JTextField();
 		jtfId.setBorder(new TitledBorder("ID"));
 		jpfPass=new JPasswordField();
@@ -54,7 +54,8 @@ public class LogInForm extends JFrame {
 		
 		//이벤트 추가
 		LogInEvt le=new LogInEvt(this);
-		
+		jtfId.addActionListener(le);
+		jpfPass.addActionListener(le);
 		jbtLogIn.addActionListener(le);
 		jbtSignIn.addActionListener(le);
 		

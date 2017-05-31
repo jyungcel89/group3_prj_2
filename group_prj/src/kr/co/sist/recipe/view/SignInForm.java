@@ -93,6 +93,11 @@ public class SignInForm extends JDialog {
 		jbtSubmit.addActionListener(se);
 		jbtCancel.addActionListener(se);
 		jbtUpdate.addActionListener(se);
+		jtfId.addActionListener(se);
+		jtfMail.addActionListener(se);
+		jtfName.addActionListener(se);
+		jpfPw.addActionListener(se);
+		jpfChkPw.addActionListener(se);
 		
 		//¹èÄ¡
 		add(jlbId);

@@ -20,6 +20,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.recipe.dao.RecipeDAO;
+import kr.co.sist.recipe.dao.ScoreDAO;
 import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.view.ItemPreviewForm;
 import kr.co.sist.recipe.view.MainForm;
@@ -31,6 +32,7 @@ import kr.co.sist.recipe.vo.MenuTypeVO;
 public class MainFormEvt implements MouseListener, ItemListener, ActionListener {
    private MainForm mainFrm;
    private RecipeDAO rcp_dao;
+   private ScoreDAO score_dao;
    private MenuTypeVO mtv;
    public static String logId;
    
@@ -42,11 +44,11 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
       this.mainFrm = mainFrm;
       this.logId = logId;
       rcp_dao = RecipeDAO.getInstance();
+      score_dao = ScoreDAO.getInstance();
       
       newRecipe();
       
       mtv = new MenuTypeVO();
-      
       // 검색조건 초기화
       mtv.setAnju("");
       mtv.setMeal("");
@@ -127,7 +129,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
          searchCondition();
          
         	 List<MainRecipeVO> list = rcp_dao.selectAllRecipe(mtv, searchText);
-        	 Object[] rowMenu = new Object[5];
+        	 Object[] rowMenu = new Object[6];
         	 DefaultTableModel dtmMenu = mainFrm.getDtmRecipe();
         	 String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
         	 
@@ -140,12 +142,16 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
         		 rowMenu[0] = mrv.getMenuName();
         		 rowMenu[1] = new ImageIcon(path+mrv.getMenuImg());
         		 rowMenu[2] = mrv.getMenuType();
-        		 rowMenu[3] = mrv.getMenuSimpeInfo();
-        		 rowMenu[4] = mrv.getMenuPrice();
+        		 rowMenu[3] = score_dao.getAvg(mrv.getMenuName());
+        		 rowMenu[4] = mrv.getMenuSimpeInfo();
+        		 rowMenu[5] = mrv.getMenuPrice();
         		 
         		 dtmMenu.addRow(rowMenu);
         	 } // end for
         	 
+        	 if(list.size()==0){
+        		 JOptionPane.showMessageDialog(null, "조회된 메뉴가 없습니다.");
+        	 }//end if
          
       } catch (SQLException e) {
          JOptionPane.showMessageDialog(mainFrm, "죄송합니다. 메뉴를 불러올 수 없습니다.");
@@ -153,10 +159,10 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
       } // end catch
 
    }// searchList
-
+   
    // 마이페이지(관리자 페이지)로 이동 버튼
    public void showAddRecipe() {
-	   new AddRecipeForm();
+	   new AddRecipeForm(mainFrm,"");
    }// addRecipe
    
    public void addRecipe() {
@@ -167,7 +173,6 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    // 마이페이지(관리자 페이지)로 이동 버튼
    // member_flag 추가되면 그 조건으로 추가
    public void movePage() {
-	   System.out.println("메인 > 관리자"+logId);
 	   if( logId.equals("mgr") ){
 		   new MgrPageForm(logId);
 	   }else{
@@ -182,7 +187,9 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
 
    @Override 
    public void actionPerformed(ActionEvent ae) {
-      if (ae.getSource() == mainFrm.getJbSearch()) {
+      if (ae.getSource() == mainFrm.getJbSearch() || ae.getSource() == mainFrm.getJtfSearch() || 
+    		  ae.getSource() == mainFrm.getChkOne() || ae.getSource() == mainFrm.getChkTwo() || 
+    		  ae.getSource() == mainFrm.getChkThree() || ae.getSource() == mainFrm.getChkFour() ) {
          searchList();
       }//end if //검색버튼
       

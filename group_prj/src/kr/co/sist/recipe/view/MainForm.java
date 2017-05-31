@@ -72,10 +72,12 @@ public class MainForm extends JFrame{
 		// 아래 레시피 추가버튼, 마이페이지버튼, 닫기 버튼
 		JPanel jpFootBtns = new JPanel();
 		jbAddRecipe = new JButton("메뉴 요청");
+	
+		
 		// 관리자 - 회원 구분하여 버튼 사용
-		// 임시, 바꿀겁니다~
 		if( logId.equals("mgr") ){
 			jbMypage = new JButton("관리자페이지");
+			jbAddRecipe.setVisible(false);
 		}else{
 			jbMypage = new JButton("마이페이지");
 		}
@@ -86,8 +88,8 @@ public class MainForm extends JFrame{
 		jbLogOut.setBackground(new Color(0, 0, 0, 130));
 		
 		// 테이블
-		String[] columnName = {"메뉴이름", "이미지", "메뉴타입", "간단소개","가격"};
-		String[][] rowData = {{"메뉴를 검색해주세요","","", "", ""}};
+		String[] columnName = {"메뉴이름", "이미지", "메뉴타입", "별점", "간단소개","가격"};
+		String[][] rowData = {{"메뉴를 검색해주세요","","", "", "",""}};
 		// 테이블 수정 막기
 		dtmRecipe = new DefaultTableModel(rowData, columnName){
 			@Override
@@ -112,8 +114,9 @@ public class MainForm extends JFrame{
 		jtRecipe.getColumnModel().getColumn(0).setPreferredWidth(100);
 		jtRecipe.getColumnModel().getColumn(1).setPreferredWidth(120);
 		jtRecipe.getColumnModel().getColumn(2).setPreferredWidth(50);
-		jtRecipe.getColumnModel().getColumn(3).setPreferredWidth(450);
-		jtRecipe.getColumnModel().getColumn(4).setPreferredWidth(30);
+		jtRecipe.getColumnModel().getColumn(3).setPreferredWidth(30);
+		jtRecipe.getColumnModel().getColumn(4).setPreferredWidth(420);
+		jtRecipe.getColumnModel().getColumn(5).setPreferredWidth(30);
  
 		// 백그라운드 설정
 		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/background_image.png"));
@@ -176,9 +179,13 @@ public class MainForm extends JFrame{
 		jspTab.setBounds(20, 480, 830, 420);
 		// 하단 버튼패널 배치
 		jpFootBtns.setBounds(20, 910, 830, 50);
-		
+		 
 		// 사용자 아이디 라벨 붙이기
 		add(jlUserName);
+		
+		if(logId.equals("mgr")){
+			jbAddRecipe.setVisible(false);
+		}//end if
 		
 		// 최근메뉴 이미지 버튼 붙이기
 		jpRcntRecipe.add(jlRecent);
@@ -204,12 +211,18 @@ public class MainForm extends JFrame{
 		jpFootBtns.add(jbMypage);
 		jpFootBtns.add(jbClose);
 		
+		
 		// 패널 붙이기 
 		add(jpSrchOption);
 		add(jpRcntRecipe);
 		add(jspTab);
 		add(jpFootBtns);
 		add(jbLogOut);
+
+		//로고
+		JLabel mainLogo=new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/mainHong.png"));
+		mainLogo.setBounds(450, 15, 85, 125);
+		add(mainLogo);
 		
 		// 이벤트 적용
 		jbSearch.addActionListener(mfe);
@@ -220,6 +233,12 @@ public class MainForm extends JFrame{
 		jbMypage.addActionListener(mfe);
 		jbAddRecipe.addActionListener(mfe);
 		jbClose.addActionListener(mfe);
+		
+		jtfSearch.addActionListener(mfe);
+		chkOne.addActionListener(mfe);
+		chkTwo.addActionListener(mfe);
+		chkThree.addActionListener(mfe);
+		chkFour.addActionListener(mfe);
 		
 		jbLogOut.addActionListener(mfe);
 		// 부모창
