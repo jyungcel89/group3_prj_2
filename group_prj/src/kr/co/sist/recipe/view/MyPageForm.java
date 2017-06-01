@@ -76,13 +76,42 @@ public class MyPageForm extends JDialog {
                 return false;
             }
         };
-
-        jtMyMenu=new JTable(dtmMyMenu);
-        jtFavorMenu=new JTable(dtmFavorMenu);
-
+        jtMyMenu=new JTable(dtmMyMenu){
+        	//컬럼에 이미지를 넣기 위한 method Override
+			@Override
+			public Class<?> getColumnClass(int column) {
+				return getValueAt(0, column).getClass();
+			}//getColumnClass
+        };
+        jtFavorMenu=new JTable(dtmFavorMenu){
+        	//컬럼에 이미지를 넣기 위한 method Override
+			@Override
+			public Class<?> getColumnClass(int column) {
+				return getValueAt(0, column).getClass();
+			}//getColumnClass
+        };
+        // 컬럼고정
         jtMyMenu.getTableHeader().setReorderingAllowed(false);
         jtFavorMenu.getTableHeader().setReorderingAllowed(false);
+        
+        // 컬럼 높이, 넓이 설정
+        jtMyMenu.setRowHeight(120);
+        jtFavorMenu.setRowHeight(120);
+        
+        jtMyMenu.getColumnModel().getColumn(0).setPreferredWidth(100);
+        jtMyMenu.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jtMyMenu.getColumnModel().getColumn(2).setPreferredWidth(10);
+        jtMyMenu.getColumnModel().getColumn(3).setPreferredWidth(440);
+        jtMyMenu.getColumnModel().getColumn(4).setPreferredWidth(5);
+        jtMyMenu.getColumnModel().getColumn(5).setPreferredWidth(10);
 
+        jtFavorMenu.getColumnModel().getColumn(0).setPreferredWidth(100);
+        jtFavorMenu.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jtFavorMenu.getColumnModel().getColumn(2).setPreferredWidth(10);
+        jtFavorMenu.getColumnModel().getColumn(3).setPreferredWidth(450);
+        jtFavorMenu.getColumnModel().getColumn(4).setPreferredWidth(5);
+        
+        // 스크롤 생성
         JScrollPane jspMenuList=new JScrollPane(jtMyMenu);
         JScrollPane jspRequest=new JScrollPane(jtFavorMenu);
 
@@ -101,6 +130,7 @@ public class MyPageForm extends JDialog {
         //이벤트
         MyPageEvt mype = new MyPageEvt(this);
         jtMyMenu.addMouseListener(mype);
+        jtFavorMenu.addMouseListener(mype);
         jbRmvMyMenu.addActionListener(mype);
         jbRmvFavorMenu.addActionListener(mype);
         jbEditMyInfo.addActionListener(mype);

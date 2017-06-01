@@ -90,8 +90,9 @@ public class IngdntDAO {
 				String selectIngrdnt ="select ri.INGREDIENT_NAME,i.PRICE "
 						+ "from INGREDIENTS i,RECIPE_INGREDIENTS ri "
 						+ "where(ri.INGREDIENT_NAME=i.INGREDIENT_NAME) "
-						+ "and ri.MENU_NAME='"+recipeName+"'"; 
+						+ "and ri.MENU_NAME=?";
 				pstmt = con.prepareStatement(selectIngrdnt);
+				pstmt.setString(1,recipeName);
 				rs = pstmt.executeQuery();
 				
 				ShowIngdntVO siv= null;
@@ -144,10 +145,10 @@ public class IngdntDAO {
 					pstmt = con.prepareStatement(selectIngrdntCode);
 					rs = pstmt.executeQuery();
 					String result="";
-						if(rs.next()) {
+					if(rs.next()) {
 						result=rs.getString("ingredients_code");
 						addIngVo.setIngrdntCode(result);
-						} // end while
+					} // end while
 			  System.out.println(addIngVo.getIngrdntCode());
 			  if (pstmt != null) {
 					pstmt.close();
@@ -191,7 +192,7 @@ public class IngdntDAO {
 				con=getConnection();
 				String updateRecipe="update RECIPEREGISTER "
 						+ "set IMG=?, FOOD_TYPE=?,INFO=?,RECIPE_INFO=?,TOTALPRICE=?,INPUTDATE=to_char(sysdate,'yyyy-mm-dd')"
-						+ "where MENU_NAME='"+menuName+"'";
+						+ " where MENU_NAME='"+menuName+"'";
 				pstmt=con.prepareStatement(updateRecipe);
 				pstmt.setString(1, muiv.getImg());
 				pstmt.setString(2, muiv.getFoodType());
