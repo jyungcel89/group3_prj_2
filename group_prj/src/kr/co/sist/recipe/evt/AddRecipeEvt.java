@@ -1,5 +1,7 @@
 package kr.co.sist.recipe.evt;
 
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
@@ -17,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.JTextComponent;
 
 import kr.co.sist.recipe.dao.IngdntDAO;
 import kr.co.sist.recipe.view.AddRecipeForm;
@@ -72,7 +75,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			
 			JTable table2=arf.getJtaddedIngrednt();
 			int[] priceArr=new int[table2.getRowCount()];
-			 totalPrice=0;
+			 int totalPrice=0;
 				for(int i=0; i<table2.getRowCount();i++){
 						priceArr[i]=Integer.parseInt(table2.getValueAt(i,1).toString());
 						totalPrice=priceArr[i]+totalPrice;
@@ -126,26 +129,47 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	}//addImg
 	public void reqRecipe(){
 		
-		if(arv!=null){
+		
+		
+		 String menuName=null;
+		 String img=null;
+		 String foodType=null;
+		 String info=null;
+		 String recipe_make=null;
+		 String id=null;
+		 int totalPrice=0;
+		
 			try {
-				String menuName=arf.getJtfRecipeName().getText();
-				String img=file;
-				String foodType=arf.getJcbCateg().getSelectedItem().toString();
-				String info=arf.getJtaInfo().getText();
-				String recipe_make=arf.getJtaWriteRecipe().getText();
-				String id=mfe.logId;
-				int totalPrice=Integer.parseInt(arf.getLblTotalPrice().getText());
+				 menuName=arf.getJtfRecipeName().getText();
+				  img=file;
+				  foodType=arf.getJcbCateg().getSelectedItem().toString();
+				  info=arf.getJtaInfo().getText();
+				  recipe_make=arf.getJtaWriteRecipe().getText();
+				  id=mfe.logId;
 				AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,id);
-				
 				ida.insertRecipe(arv);
 				JOptionPane.showMessageDialog(null, "성공적으로 레시피가 추가되었습니다.");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		}else{
-			JOptionPane.showMessageDialog(arf,"제대로 입력해...");
-		}
+				} catch (SQLException e) {
+					
+				e.printStackTrace();
+				}catch(NullPointerException npe){
+					String[] element2={"메뉴이름","간단정보","레시피정보"};
+					JTextComponent[] jtc={arf.getJtfRecipeName(),arf.getJtaInfo(),arf.getJtaWriteRecipe()};
+					for(int i=0; i<jtc.length;i++){
+						if(jtc[i].getText().equals("")){
+						JOptionPane.showMessageDialog(null,element2[i]+"을(를) 추가해주세요;");
+						jtc[i].requestFocus();
+						}
+					}
+					if(img.equals("")){
+						JOptionPane.showMessageDialog(null, "이미지를 다시 확인해주세요");
+					}else if(foodType.equals("")){
+						JOptionPane.showMessageDialog(null,"음식타입을 다시 확인해주세요");
+					}
+				}
+		
+		
+		
 	}//reqRecipe
 	// 관리자에게 요청 수행 (request버튼)
 	public void reqRecipeIngrdnt(){
@@ -252,14 +276,12 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		 muiv.setInfo(arf.getJtaInfo().getText());
 		 muiv.setRecipeInfo(arf.getJtaWriteRecipe().getText());
 		 muiv.setTotalPrice(Integer.parseInt(arf.getLblTotalPrice().getText()));
-		 arv=new addRemoveIngrdntVO();
 		 
 		 try {
 			 int index=JOptionPane.showConfirmDialog(null, "정말로 수정하시겠습니까?");
 			 switch (index) {
 			case JOptionPane.OK_OPTION:
 				ida.updateIngdntOfRecp(muiv,menuName);
-				ida.insertIngdntOfRecp(arv);
 				JOptionPane.showMessageDialog(null,"성공적으로 수행되었습니다.");
 				break;
 			case JOptionPane.NO_OPTION:
@@ -286,8 +308,10 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				addImg();
 		}
 		if(e.getSource()==arf.getJbRequest()){
+			
 						reqRecipe();
-						reqRecipeIngrdnt();
+						
+//						reqRecipeIngrdnt();
 		}
 		if(e.getSource()==arf.getJbRmvIngrednt()){
 			rmvIngdnt();
