@@ -18,6 +18,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.recipe.evt.ItemPreviewEvt;
+import kr.co.sist.recipe.evt.MainFormEvt;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 
 @SuppressWarnings("serial")
@@ -32,8 +33,10 @@ public class ItemPreviewForm extends JDialog {
 	private JComboBox<String> jcScore;
 	private JCheckBox jchBookmark;
 	private JScrollPane jspTextArea;
+	private MainForm mf;
+	private MainFormEvt mfe;
 	
-	public ItemPreviewForm(MainRecipeVO mrv){
+	public ItemPreviewForm(MainRecipeVO mrv, MainFormEvt mfe){
 		setTitle("È«È«È« ·¹½ÃÇÇ - "+mrv.getMenuName());
 		
 		setLayout(null);
@@ -149,7 +152,7 @@ public class ItemPreviewForm extends JDialog {
 		}
 		
 		//ÀÌº¥Æ® Ãß°¡
-		ItemPreviewEvt ipe=new ItemPreviewEvt(this);
+		ItemPreviewEvt ipe=new ItemPreviewEvt(mf,this,mfe);
 		jbSubmit.addActionListener(ipe);
 		jbClose.addActionListener(ipe);
 		jchBookmark.addActionListener(ipe);

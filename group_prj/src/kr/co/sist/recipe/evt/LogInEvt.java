@@ -55,7 +55,7 @@ public class LogInEvt extends WindowAdapter implements  ActionListener, KeyListe
 		
 		log_vo.setId(logId);
 		log_vo.setPw(logPw);
-		
+		 
 		try {
 			boolean logChk=mem_dao.loginCheck(log_vo);
 			if( logChk ){

@@ -8,6 +8,7 @@ import java.awt.event.WindowAdapter;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -30,9 +31,11 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 	private MgrPageForm mpf;
 	private MemberDAO mem_dao;
 	private RecipeDAO rcp_dao;
+	MainFormEvt mfe;
 	
-	public MgrPageEvt( MgrPageForm mpf ) {
+	public MgrPageEvt( MgrPageForm mpf, MainFormEvt mfe ) {
 		this.mpf=mpf;
+		this.mfe=mfe;
 		mem_dao=MemberDAO.getInstance();
 		rcp_dao=RecipeDAO.getInstance();
 		allRecipeList();
@@ -55,6 +58,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				List<MainRecipeVO> listAllRcp = rcp_dao.recipeList(flag);
 				Object[] rowMenu = new Object[5];
 				DefaultTableModel dtmMenu = mpf.getDtmMenuList();
+				String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
 				
 				MainRecipeVO mrv=null; 
 				dtmMenu.setRowCount(0);
@@ -62,7 +66,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				for( int i=0; i < listAllRcp.size(); i++ ){
 					mrv=listAllRcp.get(i);
 					rowMenu[0]=mrv.getMenuName();
-					rowMenu[1]=mrv.getMenuImg();
+					rowMenu[1]=new ImageIcon(path+mrv.getMenuImg());
 					rowMenu[2]=mrv.getMenuType();
 					rowMenu[3]=mrv.getMenuSimpeInfo();
 					rowMenu[4]=mrv.getMenuPrice();
@@ -94,6 +98,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				List<MainRecipeVO> listReqRcp = rcp_dao.recipeList(flag);
 				Object[] rowMenu = new Object[5];
 				DefaultTableModel dtmMenu = mpf.getDtmMenuRequest();
+				String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
 				
 				MainRecipeVO mrv=null;
 				dtmMenu.setRowCount(0);
@@ -101,7 +106,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				for( int i=0; i < listReqRcp.size(); i++ ){
 					mrv=listReqRcp.get(i);
 					rowMenu[0]=mrv.getMenuName();
-					rowMenu[1]=mrv.getMenuImg();
+					rowMenu[1]= new ImageIcon(path+mrv.getMenuImg());
 					rowMenu[2]=mrv.getMenuType();
 					rowMenu[3]=mrv.getMenuSimpeInfo();
 					rowMenu[4]=mrv.getMenuPrice();
@@ -361,7 +366,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 					MainRecipeVO mrv;
 					mrv=rcp_dao.selectOneRecipe(value);
 					//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
-					new ItemPreviewForm(mrv);
+					new ItemPreviewForm(mrv,mfe);
 				} catch (SQLException se) {
 					JOptionPane.showMessageDialog(mpf, 
 							"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");

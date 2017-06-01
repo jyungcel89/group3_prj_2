@@ -28,6 +28,8 @@ public class MainForm extends JFrame{
 	private String imgPath1, imgPath2, imgPath3;
 	private String imgName1, imgName2, imgName3;
 	private String logId;
+	
+	
 	public MainForm(String logId) { 
 		super("홍홍홍의 편의점 레시피"); 
 		setLayout(null); 
@@ -64,7 +66,7 @@ public class MainForm extends JFrame{
 		chkTwo.setOpaque(false);
 		chkThree.setOpaque(false);
 		chkFour.setOpaque(false);
-		
+		jtfSearch.setText("");
 
 		// 아래 레시피 추가버튼, 마이페이지버튼, 닫기 버튼
 		JPanel jpFootBtns = new JPanel();
@@ -96,7 +98,7 @@ public class MainForm extends JFrame{
 		};
 		
 		jtRecipe = new JTable(dtmRecipe){
-			//컬럼에 이미지를 넣기 위한 method Override
+		//컬럼에 이미지를 넣기 위한 method Override
 			@Override
 			public Class<?> getColumnClass(int column) {
 				return getValueAt(0, column).getClass();
