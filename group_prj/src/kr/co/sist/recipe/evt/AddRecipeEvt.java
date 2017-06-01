@@ -287,7 +287,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		}
 		if(e.getSource()==arf.getJbMgr()){
 			 int index=JOptionPane.showConfirmDialog(null, "정말로 수정하시겠습니까?");
-			switch (index) {
+			 switch (index) {
 		case JOptionPane.OK_OPTION:
 				editMgr();
 				deleteIngrdnt();
