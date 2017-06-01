@@ -254,7 +254,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==arf.getJbSearch()){
 			
-			searchIngdnt(icv);
+						searchIngdnt(icv);
 		}
 		if(e.getSource()==arf.getJbAddIngrednt()){
 				addIngdnt();
