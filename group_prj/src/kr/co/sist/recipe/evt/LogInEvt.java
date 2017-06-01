@@ -15,8 +15,6 @@ import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.view.SignInForm;
 import kr.co.sist.recipe.vo.LoginVO;
 
-
-
 /**
  * 로그인 창 이벤트
  * <수정사항>
@@ -40,10 +38,10 @@ public class LogInEvt extends WindowAdapter implements  ActionListener, KeyListe
 	 * 입력한 아이디와 비밀번호가 유효한지 판단하는 method
 	 */
 	public void loginChk(){
-		logId=lf.getJtfId().getText();
-//		logId="duck";
-		String logPw=new String(lf.getJpfPass().getPassword());
-//		String logPw=new String("1111");
+//		logId=lf.getJtfId().getText();
+		logId="duck";
+//		String logPw=new String(lf.getJpfPass().getPassword());
+		String logPw=new String("1111");
 		
 		//LogInForm에서 id, pw가 비었을때
 		if( logId.equals("") || logPw.equals("") ){

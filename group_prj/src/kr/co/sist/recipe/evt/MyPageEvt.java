@@ -26,6 +26,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        private BookmarkDAO bdao;
        private RecipeDAO rdao;
        private MemberDAO mdao;
+       private MainForm mf;
        
 	    /**
 	     * 마이페이지 이벤트
@@ -35,7 +36,6 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
 	     */
        public MyPageEvt(MyPageForm mypf){
               this.mypf=mypf;
-        
               bdao=BookmarkDAO.getInstance();
               rdao=RecipeDAO.getInstance();
               mdao=MemberDAO.getInstance();
@@ -117,7 +117,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
 				se.printStackTrace();
 			}//end catch
        }//rmvRecipe
-       
+	    
        // 북마크한 메뉴 리스트
        public void showBookmark(){
               try {
@@ -233,6 +233,10 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
       			switch (selectNum) {
       			case JOptionPane.OK_OPTION:
       				mypf.dispose();
+      				
+//      				mf.getJbSearch();
+//      				mfe.searchCondition();
+//      				mfe.searchList();
       			}// end switch
       		}//end if
               
@@ -240,8 +244,6 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        
        @Override
        public void mouseClicked(MouseEvent me) {
-    	   //05-29-2017
-    	   //나중에 북마크테이블로 변경할것!
      		if( me.getClickCount()==2 ){
     			// 메뉴리스트 더블클릭
     			if( me.getSource()==mypf.getJtMyMenu() ){
@@ -280,7 +282,6 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
     					se.printStackTrace();
     				}// end catch
     			}//end if
-    			
          	}//end if
               
        }//mouseClicked

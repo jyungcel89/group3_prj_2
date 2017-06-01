@@ -15,6 +15,7 @@ import kr.co.sist.recipe.dao.IngdntDAO;
 import kr.co.sist.recipe.dao.BookmarkDAO;
 import kr.co.sist.recipe.dao.ScoreDAO;
 import kr.co.sist.recipe.view.ItemPreviewForm;
+import kr.co.sist.recipe.view.MyPageForm;
 import kr.co.sist.recipe.vo.ShowIngdntVO;
 import kr.co.sist.recipe.vo.BookmarkUpdateVO;
 import kr.co.sist.recipe.vo.ScoreVO;
@@ -25,11 +26,14 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	private BookmarkDAO bmdao;
 	private ScoreDAO sdao;
 	private int scoreFlag;  
+	private MyPageForm mypf;
+	private MyPageEvt mype;
 	
 	
 	
-	public ItemPreviewEvt(ItemPreviewForm ipf) {
+	public ItemPreviewEvt(ItemPreviewForm ipf/*, MyPageEvt mype*/) {
 		this.ipf=ipf;
+//		this.mype=mype;
 		ida=IngdntDAO.getInstance();
 		showRcpInfo();
 		//////////////////복사 ///////////////////////
@@ -54,8 +58,10 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		ShowIngdntVO si=null;
 		for( int i=0; i<lstMenu.size(); i++ ){
 			si=lstMenu.get(i);
-			rowMenu[0]=si.getIngrdntName();
-			rowMenu[1]=si.getIngrdntPrice();
+			System.out.println(si.getBrand());
+			rowMenu[0]=si.getBrand();
+			rowMenu[1]=si.getIngrdntName();
+			rowMenu[2]=si.getIngrdntPrice();
 			dtmMenu.addRow(rowMenu);
 		}
 		}catch(SQLException se){
@@ -198,7 +204,11 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 			int selectNum = JOptionPane.showConfirmDialog(ipf, "창을 닫으시겠습니까?");
 			switch (selectNum) {
 			case JOptionPane.OK_OPTION:
+				mype.showBookmark();
 				ipf.dispose();
+				
+//				mypf.dispose();
+//				new MyPageEvt(mypf);
 			}// end switch
 		}//end if
 		

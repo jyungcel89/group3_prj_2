@@ -71,7 +71,7 @@ public class ItemPreviewForm extends JDialog {
 		jlSimpleInfo.setBounds(30, 380, 100, 40);
 		
 		//region 재료테이블 영역
-		String[] columnNames={"재료명","가격"};
+		String[] columnNames={"편의점","재료명","가격"};
 		String[][] data={};
 		dtmIngrednt=new DefaultTableModel(data, columnNames);
 		jtIngrednt=new JTable(dtmIngrednt){
@@ -88,8 +88,9 @@ public class ItemPreviewForm extends JDialog {
 		jtIngrednt.setRowHeight(20);
 		//컬럼의 넒이 설정 
 		//"번호","이미지","메뉴코드","설명","가격"
-		jtIngrednt.getColumnModel().getColumn(0).setPreferredWidth(140);
-		jtIngrednt.getColumnModel().getColumn(1).setPreferredWidth(50);
+		jtIngrednt.getColumnModel().getColumn(0).setPreferredWidth(50);
+		jtIngrednt.getColumnModel().getColumn(1).setPreferredWidth(140);
+		jtIngrednt.getColumnModel().getColumn(2).setPreferredWidth(50);
 		jspIngrednt=new JScrollPane(jtIngrednt);
 		jspIngrednt.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		jspIngrednt.setBounds(400,100,350,180);

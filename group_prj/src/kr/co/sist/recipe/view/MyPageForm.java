@@ -101,6 +101,7 @@ public class MyPageForm extends JDialog {
         //¿Ã∫•∆Æ
         MyPageEvt mype = new MyPageEvt(this);
         jtMyMenu.addMouseListener(mype);
+        jtFavorMenu.addMouseListener(mype);
         jbRmvMyMenu.addActionListener(mype);
         jbRmvFavorMenu.addActionListener(mype);
         jbEditMyInfo.addActionListener(mype);
