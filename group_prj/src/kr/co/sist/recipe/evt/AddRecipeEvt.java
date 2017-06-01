@@ -128,17 +128,13 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		}//end if
 	}//addImg
 	public void reqRecipe(){
-		
-		
-		
 		 String menuName=null;
 		 String img=null;
 		 String foodType=null;
 		 String info=null;
 		 String recipe_make=null;
 		 String id=null;
-		 int totalPrice=0;
-		
+	
 			try {
 				 menuName=arf.getJtfRecipeName().getText();
 				  img=file;
@@ -146,28 +142,16 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				  info=arf.getJtaInfo().getText();
 				  recipe_make=arf.getJtaWriteRecipe().getText();
 				  id=mfe.logId;
-				AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,id);
+				  int totalPrice=Integer.parseInt(arf.getLblTotalPrice().getText());
+				  AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,id);
 				ida.insertRecipe(arv);
-				JOptionPane.showMessageDialog(null, "성공적으로 레시피가 추가되었습니다.");
+				JOptionPane.showMessageDialog(null, "성공적으로 레시피가 추가되었습니다.");	
 				} catch (SQLException e) {
-					
 				e.printStackTrace();
 				}catch(NullPointerException npe){
-					String[] element2={"메뉴이름","간단정보","레시피정보"};
-					JTextComponent[] jtc={arf.getJtfRecipeName(),arf.getJtaInfo(),arf.getJtaWriteRecipe()};
-					for(int i=0; i<jtc.length;i++){
-						if(jtc[i].getText().equals("")){
-						JOptionPane.showMessageDialog(null,element2[i]+"을(를) 추가해주세요;");
-						jtc[i].requestFocus();
-						}
-					}
-					if(img.equals("")){
-						JOptionPane.showMessageDialog(null, "이미지를 다시 확인해주세요");
-					}else if(foodType.equals("")){
-						JOptionPane.showMessageDialog(null,"음식타입을 다시 확인해주세요");
-					}
+					JOptionPane.showMessageDialog(null,"기입사항을 다시 확인해주세요");
 				}
-		
+
 		
 		
 	}//reqRecipe
@@ -184,13 +168,13 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				for(int i=0; i<table.getRowCount();i++){
 					ingrdntName[i]=table.getValueAt(i,0).toString();
 				}
-				arv=new addRemoveIngrdntVO(ingrdntName, menuName);
+				addRemoveIngrdntVO arv=new addRemoveIngrdntVO(ingrdntName, menuName);
 				ida.insertIngdntOfRecp(arv);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}else{
-			JOptionPane.showMessageDialog(arf, "재료명을 입력하거나 재료를 추가해주세요");
+			JOptionPane.showMessageDialog(arf, "재료를 추가해주세요");
 			return;
 		}
 	}//reqRecipe
@@ -259,37 +243,24 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	public void deleteIngrdnt(){
 		String menuName=arf.getJtfRecipeName().getText();
 		System.out.println(menuName);
-//		try {
-//			ida.deleteIngdntOfRecp(menuName);
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			ida.deleteIngdntOfRecp(menuName);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void editMgr(){
-		
-		String menuName=arf.getJtfRecipeName().getText();
 		MgrUpdateIngrdntVO muiv=new MgrUpdateIngrdntVO();
+		String menuName=arf.getJtfRecipeName().getText();
 		 muiv.setFoodType(arf.getJcbCateg().getSelectedItem().toString());
 		 muiv.setImg(arf.getLblImg().getIcon().toString().substring(arf.getLblImg().getIcon().toString().indexOf("F")));
 		 muiv.setInfo(arf.getJtaInfo().getText());
 		 muiv.setRecipeInfo(arf.getJtaWriteRecipe().getText());
 		 muiv.setTotalPrice(Integer.parseInt(arf.getLblTotalPrice().getText()));
-		 
-		 try {
-			 int index=JOptionPane.showConfirmDialog(null, "정말로 수정하시겠습니까?");
-			 switch (index) {
-			case JOptionPane.OK_OPTION:
-				ida.updateIngdntOfRecp(muiv,menuName);
-				JOptionPane.showMessageDialog(null,"성공적으로 수행되었습니다.");
-				break;
-			case JOptionPane.NO_OPTION:
-				return;
-			default:
-				break;
-			}
-			
+		try {
+			ida.updateIngdntOfRecp(muiv,menuName);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -308,26 +279,32 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				addImg();
 		}
 		if(e.getSource()==arf.getJbRequest()){
-			
 						reqRecipe();
-						
-//						reqRecipeIngrdnt();
+						reqRecipeIngrdnt();
 		}
 		if(e.getSource()==arf.getJbRmvIngrednt()){
 			rmvIngdnt();
 		}
 		if(e.getSource()==arf.getJbMgr()){
-			editMgr();
-			deleteIngrdnt();
-			reqRecipeIngrdnt();
+			 int index=JOptionPane.showConfirmDialog(null, "정말로 수정하시겠습니까?");
+			switch (index) {
+			case JOptionPane.OK_OPTION:
+				editMgr();
+				deleteIngrdnt();
+				reqRecipeIngrdnt();
+				JOptionPane.showMessageDialog(null, "성공적으로 수행되었습니다.");
+				break;
+			case JOptionPane.NO_OPTION:
+				JOptionPane.showMessageDialog(null, "감사합니다.");
+				return;
+			}
 		}
-	
-		 if(e.getSource() == arf.getJbClose()){
+			if(e.getSource() == arf.getJbClose()){
 	    	  int selectNum = JOptionPane.showConfirmDialog(arf, "창을 닫으시겠습니까?");
 	    	  switch (selectNum) {
 			case JOptionPane.OK_OPTION:
 				arf.dispose();
 			}//end switch
-	      }//end if //닫기버튼
-	}//actionPerformed
-}//class
+		}
+	}
+}
