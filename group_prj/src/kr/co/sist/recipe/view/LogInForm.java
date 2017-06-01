@@ -58,6 +58,9 @@ public class LogInForm extends JFrame {
 		jpfPass.addActionListener(le);
 		jbtLogIn.addActionListener(le);
 		jbtSignIn.addActionListener(le);
+		jtfId.addKeyListener(le);
+		jtfId.setFocusTraversalKeysEnabled(false);
+		jpfPass.addKeyListener(le);
 		
 		//¹èÄ¡
 		add(jlblLogo);

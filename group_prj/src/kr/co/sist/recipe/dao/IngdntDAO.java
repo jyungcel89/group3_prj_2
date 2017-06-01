@@ -42,7 +42,8 @@ public class IngdntDAO {
 		Connection con = null;
 		Properties prop = new Properties();
 		try {
-			File file = new File("C:/dev/group3_prj_2/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
+//			File file = new File("C:/dev/group3_prj_2/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
+			File file=new File(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/dao/recipe_db.properties");
 			
 			if (file.exists()) {
 				prop.load(new FileInputStream(file));

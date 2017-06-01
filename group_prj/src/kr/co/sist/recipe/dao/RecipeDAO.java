@@ -27,7 +27,6 @@ import kr.co.sist.recipe.vo.RecipeInfoUpdateVO;
  * @author user
  *
  */
-@SuppressWarnings("serial")
 public class RecipeDAO {
        private static RecipeDAO rcp_dao;
        
@@ -47,7 +46,9 @@ public class RecipeDAO {
               
               Properties prop = new Properties();
               try {
-                     File file=new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
+//                     File file=new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
+            	  File file=new File(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/dao/recipe_db.properties");
+                     
                      if(file.exists()){
                            prop.load(new FileInputStream(file));
                            String driver= prop.getProperty("driver");
@@ -192,12 +193,13 @@ public class RecipeDAO {
                            // 메뉴타입이 체크되어있지않은 경우
                            if(!srchText.equals("")){
                                   // 메뉴타입이 체크되어 있지 않고 검색어를 갖는 경우
-                                  sbSelectRecipe.append(" where menu_name like '%'||?||'%'");
+                                  sbSelectRecipe.append(" where menu_name like '%'||?||'%' and recipe_flag='Y'");
                                   pstmt= con.prepareStatement(sbSelectRecipe.toString());
                                   pstmt.setString(1, srchText);
                                   rs=pstmt.executeQuery();
                            }else{
                                   // 메뉴타입이 체크되어 있지 않고 검색어를 갖지 않는 경우
+                                 sbSelectRecipe.append(" where recipe_flag='Y'");
                                   pstmt= con.prepareStatement(sbSelectRecipe.toString());
                                   rs=pstmt.executeQuery();
                            }//end else
@@ -205,7 +207,7 @@ public class RecipeDAO {
                            // 메뉴타입이 체크되어 있을 때
                            if(!srchText.equals("")){
                                   // 타입이 체크되어있고 검색어를 갖는 경우
-                                  sbSelectRecipe.append(" where menu_name like '%'||?||'%' and food_type in(?,?,?,?)");
+                                  sbSelectRecipe.append(" where menu_name like '%'||?||'%' and food_type in(?,?,?,?)  and recipe_flag='Y'");
                                   pstmt= con.prepareStatement(sbSelectRecipe.toString());
                                   pstmt.setString(1, srchText);
                                   
@@ -217,7 +219,7 @@ public class RecipeDAO {
                                   rs=pstmt.executeQuery();
                            }else{
                                   // 메뉴타입이 체크되어 있고 검색어를 갖지 않는 경우
-                                  sbSelectRecipe.append(" where food_type in(?,?,?,?)");
+                                  sbSelectRecipe.append(" where food_type in(?,?,?,?) and recipe_flag='Y'");
                                   pstmt= con.prepareStatement(sbSelectRecipe.toString());
                                   
                                   // 조건이 있을 때
@@ -372,24 +374,24 @@ public class RecipeDAO {
         * @return boolean
         */
        public boolean deleteRecipe(String menuName) throws SQLException{
-    	   Connection con=null;
-    	   PreparedStatement pstmt = null;
-    	   
-    	   try{
-    		   con = getConnection();
-    		   
-    		   String query="delete from reciperegister where menu_name=?";
-    		   pstmt = con.prepareStatement(query);
-    		   
-    		   pstmt.setString(1, menuName);
-    		   
-    		   pstmt.executeUpdate();
-    	   }finally {
-    		   if(pstmt!= null){ pstmt.close(); }
-    		   if(con!= null){ con.close(); }
-    	   }//end finally
-    	   
-    	   return true;
+          Connection con=null;
+          PreparedStatement pstmt = null;
+          
+          try{
+             con = getConnection();
+             
+             String query="delete from reciperegister where menu_name=?";
+             pstmt = con.prepareStatement(query);
+             
+             pstmt.setString(1, menuName);
+             
+             pstmt.executeUpdate();
+          }finally {
+             if(pstmt!= null){ pstmt.close(); }
+             if(con!= null){ con.close(); }
+          }//end finally
+          
+          return true;
        }//deleteRecipe
        
        /**
