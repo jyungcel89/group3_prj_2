@@ -28,7 +28,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        private BookmarkDAO bdao;
        private RecipeDAO rdao;
        private MemberDAO mdao;
-        
+         
 	    /**
 	     * 마이페이지 이벤트
 	     * <수정사항>
