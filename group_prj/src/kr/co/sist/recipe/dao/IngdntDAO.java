@@ -13,15 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import javax.swing.JOptionPane;
-import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.vo.AddRecipeVO;
-import kr.co.sist.recipe.vo.IngdntVO;
 import kr.co.sist.recipe.vo.IngrdntCategVO;
 import kr.co.sist.recipe.vo.ShowIngdntVO;
 import kr.co.sist.recipe.vo.addRemoveIngrdntVO;
 import kr.co.sist.recipe.vo.MgrRecipeVO;
 import kr.co.sist.recipe.vo.MgrUpdateIngrdntVO;
-import kr.co.sist.recipe.vo.LoginVO;
 import kr.co.sist.recipe.vo.MgrRecipeInfoVO;
 public class IngdntDAO {
 	
@@ -90,8 +87,10 @@ public class IngdntDAO {
 				String selectIngrdnt ="select ri.INGREDIENT_NAME,i.PRICE "
 						+ "from INGREDIENTS i,RECIPE_INGREDIENTS ri "
 						+ "where(ri.INGREDIENT_NAME=i.INGREDIENT_NAME) "
-						+ "and ri.MENU_NAME='"+recipeName+"'"; 
+						+ "and ri.MENU_NAME=?"; 
+				
 				pstmt = con.prepareStatement(selectIngrdnt);
+				pstmt.setString(1,recipeName);
 				rs = pstmt.executeQuery();
 				
 				ShowIngdntVO siv= null;
@@ -148,7 +147,6 @@ public class IngdntDAO {
 						result=rs.getString("ingredients_code");
 						addIngVo.setIngrdntCode(result);
 						} // end while
-			  System.out.println(addIngVo.getIngrdntCode());
 			  if (pstmt != null) {
 					pstmt.close();
 				} // end if
@@ -157,7 +155,6 @@ public class IngdntDAO {
 						+ " values(?,?,?)";
 				pstmt=con.prepareStatement(insertIngrdnt);
 			// 4.
-				
 				pstmt.setString(1, addIngVo.getIngrdntCode());
 				pstmt.setString(2, addIngVo.getIngrdntName()[i]);
 				pstmt.setString(3, addIngVo.getMenuName());
@@ -191,13 +188,14 @@ public class IngdntDAO {
 				con=getConnection();
 				String updateRecipe="update RECIPEREGISTER "
 						+ "set IMG=?, FOOD_TYPE=?,INFO=?,RECIPE_INFO=?,TOTALPRICE=?,INPUTDATE=to_char(sysdate,'yyyy-mm-dd')"
-						+ "where MENU_NAME='"+menuName+"'";
+						+ "where MENU_NAME=?";
 				pstmt=con.prepareStatement(updateRecipe);
 				pstmt.setString(1, muiv.getImg());
 				pstmt.setString(2, muiv.getFoodType());
 				pstmt.setString(3, muiv.getInfo());
 				pstmt.setString(4, muiv.getRecipeInfo());
 				pstmt.setInt(5, muiv.getTotalPrice());
+				pstmt.setString(6,menuName);
 				pstmt.executeUpdate(); 
 				result=true;
 			}finally{
@@ -221,8 +219,9 @@ public class IngdntDAO {
 		      boolean flag=false;
 		      try {
 		         con = getConnection();
-		         String deleteIngrdnt="delete from RECIPE_INGREDIENTS where MENU_NAME='"+menuName+"'";
+		         String deleteIngrdnt="delete from RECIPE_INGREDIENTS where MENU_NAME=?";
 		         pstmt=con.prepareStatement(deleteIngrdnt);
+		         pstmt.setString(1,menuName);
 		         pstmt.executeUpdate(); 
 		         flag=true;
 		      } finally {
@@ -318,9 +317,11 @@ public class IngdntDAO {
 				con = getConnection();
 				String selectIngrdnt ="select price,ingredient_name "
 						+ "from ingredients "
-						+ "where brand='"+icv.getBrand()+"' and type='"+icv.getIngrdntSort()+"'";
+						+ "where brand=? and type=?";
 
 				pstmt = con.prepareStatement(selectIngrdnt);
+				pstmt.setString(1,icv.getBrand());
+				pstmt.setString(2,icv.getIngrdntSort());
 				rs = pstmt.executeQuery();
 				
 				ShowIngdntVO siv= null;
@@ -374,7 +375,6 @@ public class IngdntDAO {
 			if (pstmt != null) {
 				pstmt.close();
 			} // end if
-
 			if (con != null) {
 				con.close();
 			} // end if
