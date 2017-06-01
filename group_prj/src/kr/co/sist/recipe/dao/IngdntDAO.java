@@ -181,31 +181,35 @@ public class IngdntDAO {
 	 }//insertIngdntOfRecp
 	 
 	 // 관리자 : 레시피 추가 창에서 재료 수정
-	 public boolean updateIngdntOfRecp(IngdntVO ingVo){
-		return false;
-//		 boolean result=false;
-//			int flag=0;
-//			Connection con=null;
-//			PreparedStatement pstmt=null;
-//			try{
-//				con=getConnection();
-//				String updateMember="update members set pw=?, mail=? where id=?";
-//				pstmt=con.prepareStatement(updateMember);
-//				pstmt.setString(1, memVo.getPw());
-//				pstmt.setString(2, memVo.getMail());
-//				pstmt.setString(3, memVo.getId());
-//				
-//				flag=pstmt.executeUpdate(); 
-//				   if(flag!=0){ 
-//	                   result=true;
-//				   }else{
-//					   result=false;
-//				   }//end if
-//			}finally{
-//				if( pstmt != null ){ pstmt.close(); };//end if
-//				if( con != null ){ con.close(); };//end if
-//			}//end finally
-//			return result;
+	 public boolean updateIngdntOfRecp(MgrRecipeInfoVO mriv)throws SQLException{
+		 boolean result=false;
+			int flag=0;
+			Connection con=null;
+			PreparedStatement pstmt=null;
+			try{
+				con=getConnection();
+				String updateRecipe="update RECIPEREGISTER "
+						+ "set IMG=?, FOOD_TYPE=?,INFO=?,RECIPE_INFO=?,TOTALPRICE=?,INPUTDATE=to_char(sysdate,'yyyy-mm-dd')"
+						+ "where MENU_NAME=?";
+				
+				pstmt=con.prepareStatement(updateRecipe);
+				pstmt.setString(1, mriv.getMrv().getImg());
+				pstmt.setString(2, mriv.getMrv().getFoodType());
+				pstmt.setString(3, mriv.getMrv().getInfo());
+				pstmt.setString(4, mriv.getMrv().getRecipe_info());
+				pstmt.setString(5, mriv.getMrv().getTotalPrice());
+				
+				flag=pstmt.executeUpdate(); 
+				   if(flag!=0){ 
+	                   result=true;
+				   }else{
+					   result=false;
+				   }//end if
+			}finally{
+				if( pstmt != null ){ pstmt.close(); };//end if
+				if( con != null ){ con.close(); };//end if
+			}//end finally
+			return result;
 	 }//updateIngdntOfRecp
 	 
 	 

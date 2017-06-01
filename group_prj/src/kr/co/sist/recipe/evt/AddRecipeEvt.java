@@ -245,4 +245,3 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	      }//end if //´Ý±â¹öÆ°
 	}//actionPerformed
 }//class
-	
