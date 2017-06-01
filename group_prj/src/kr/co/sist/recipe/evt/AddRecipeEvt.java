@@ -51,6 +51,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		if(id.equals("mgr")){
 			arf.getJbRequest().setVisible(false);
 			arf.getJbMgr().setVisible(true);
+			arf.getJtfRecipeName().setEditable(false);
 		}
 	}
 	////////////////////////////////////////// AddRecipeForm
