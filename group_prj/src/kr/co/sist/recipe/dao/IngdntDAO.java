@@ -1,27 +1,18 @@
 package kr.co.sist.recipe.dao;
 
-
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
 import javax.swing.JOptionPane;
-
-import org.omg.Messaging.SyncScopeHelper;
-
 import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.vo.AddRecipeVO;
 import kr.co.sist.recipe.vo.IngdntVO;
@@ -29,27 +20,26 @@ import kr.co.sist.recipe.vo.IngrdntCategVO;
 import kr.co.sist.recipe.vo.ShowIngdntVO;
 import kr.co.sist.recipe.vo.addRemoveIngrdntVO;
 import kr.co.sist.recipe.vo.MgrRecipeVO;
+import kr.co.sist.recipe.vo.MgrUpdateIngrdntVO;
 import kr.co.sist.recipe.vo.LoginVO;
 import kr.co.sist.recipe.vo.MgrRecipeInfoVO;
 public class IngdntDAO {
 	
 	private static IngdntDAO ing_dao;
-	private AddRecipeForm arf;
-	private List<ShowIngdntVO> ingrdntList;
 	public static IngdntDAO getInstance(){
 		if(ing_dao==null){
 			ing_dao = new IngdntDAO();
 		}
 		return ing_dao;
 	}//getInstance
-	
 	//*********************getConnection()추가(원래 없었음)*********************************
 	private Connection getConnection() throws SQLException {
 		Connection con = null;
 		//지용이인 내가 수정 하였다!!!!!!! merge 하였음
 		Properties prop = new Properties();
 		try {
-			File file = new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
+//			File file = new File("C:/dev/group3_prj_2/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
+			File file=new File(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/dao/recipe_db.properties");
 			
 			if (file.exists()) {
 				prop.load(new FileInputStream(file));
@@ -193,8 +183,28 @@ public class IngdntDAO {
 	 }//insertIngdntOfRecp
 	 
 	 // 관리자 : 레시피 추가 창에서 재료 수정
-	 public boolean updateIngdntOfRecp(IngdntVO ingVo){
-		return false;
+	 public boolean updateIngdntOfRecp(MgrUpdateIngrdntVO muiv,String menuName)throws SQLException{
+		 boolean result=false;
+			Connection con=null;
+			PreparedStatement pstmt=null;
+			try{
+				con=getConnection();
+				String updateRecipe="update RECIPEREGISTER "
+						+ "set IMG=?, FOOD_TYPE=?,INFO=?,RECIPE_INFO=?,TOTALPRICE=?,INPUTDATE=to_char(sysdate,'yyyy-mm-dd')"
+						+ "where MENU_NAME='"+menuName+"'";
+				pstmt=con.prepareStatement(updateRecipe);
+				pstmt.setString(1, muiv.getImg());
+				pstmt.setString(2, muiv.getFoodType());
+				pstmt.setString(3, muiv.getInfo());
+				pstmt.setString(4, muiv.getRecipeInfo());
+				pstmt.setInt(5, muiv.getTotalPrice());
+				pstmt.executeUpdate(); 
+				result=true;
+			}finally{
+				if( pstmt != null ){ pstmt.close(); };//end if
+				if( con != null ){ con.close(); };//end if
+			}//end finally
+			return result;
 	 }//updateIngdntOfRecp
 	 
 	 
@@ -231,7 +241,6 @@ public class IngdntDAO {
 	 
 	
 	public MgrRecipeInfoVO selectMgrRecipe(String menuName)throws SQLException{
-		 	ingrdntList=new ArrayList<ShowIngdntVO>();
 			Connection con = null; 
 			PreparedStatement pstmt = null;
 			PreparedStatement pstmt2 = null;

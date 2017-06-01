@@ -205,19 +205,16 @@ public class AddRecipeForm extends JDialog {
 		jbRequest=new JButton("메뉴 요청");
 		jbRequest.setBounds(495,750,100,40);
 		jbMgr=new JButton("메뉴 수정");
+		jbMgr.setVisible(false);
 		jbMgr.setBounds(20,750,100,40);
 //		endregion 요청,닫기,관리자 버튼 구역 끝s
 		jcbCateg.addItem("안주류");
 		jcbCateg.addItem("디저트");
 		jcbCateg.addItem("분식류");
 		jcbCateg.addItem("식사류");
-
-		
-
 		jcbStore.addItem("GS25");
 		jcbStore.addItem("7-eleven");
 		jcbStore.addItem("CU");
-
 		jcbIngrdntSort.addItem("과자");
 		jcbIngrdntSort.addItem("기타");
 		jcbIngrdntSort.addItem("아이스크림");
@@ -232,7 +229,7 @@ public class AddRecipeForm extends JDialog {
 		jbRequest.addActionListener(are);
 		jbClose.addActionListener(are);
 		jbRmvIngrednt.addActionListener(are);
-		
+		jbMgr.addActionListener(are);
 		Component[] com={jtaInfo,jcbCateg,jtfRecipeName,lblRecipeInfo,lblRecipeSort,lblRecipeName
 				,jbAddImg,lblTotalPriceView,lblTotalPrice,jbRmvIngrednt,jbAddIngrednt
 				,jspAddedIngrednt,jspIngrednt,jbSearch,jcbStore,lblConvenienceStore,lblIngredntChoice
@@ -312,6 +309,10 @@ public class AddRecipeForm extends JDialog {
 
 	public JLabel getLblTotalPrice() {
 		return lblTotalPrice;
+	}
+
+	public JButton getJbMgr() {
+		return jbMgr;
 	}
 	
 }

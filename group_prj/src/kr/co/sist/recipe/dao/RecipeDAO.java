@@ -1,5 +1,5 @@
 package kr.co.sist.recipe.dao;
- 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,7 +27,6 @@ import kr.co.sist.recipe.vo.RecipeInfoUpdateVO;
  * @author user
  *
  */
-@SuppressWarnings("serial")
 public class RecipeDAO {
        private static RecipeDAO rcp_dao;
        
@@ -47,7 +46,9 @@ public class RecipeDAO {
               
               Properties prop = new Properties();
               try {
-                     File file=new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
+//                     File file=new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
+            	  File file=new File(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/dao/recipe_db.properties");
+                     
                      if(file.exists()){
                            prop.load(new FileInputStream(file));
                            String driver= prop.getProperty("driver");
@@ -198,7 +199,7 @@ public class RecipeDAO {
                                   rs=pstmt.executeQuery();
                            }else{
                                   // 메뉴타입이 체크되어 있지 않고 검색어를 갖지 않는 경우
-                        	   	sbSelectRecipe.append(" where recipe_flag='Y'");
+                        	   	  sbSelectRecipe.append(" where recipe_flag='Y'");
                                   pstmt= con.prepareStatement(sbSelectRecipe.toString());
                                   rs=pstmt.executeQuery();
                            }//end else
@@ -373,24 +374,24 @@ public class RecipeDAO {
         * @return boolean
         */
        public boolean deleteRecipe(String menuName) throws SQLException{
-    	   Connection con=null;
-    	   PreparedStatement pstmt = null;
-    	   
-    	   try{
-    		   con = getConnection();
-    		   
-    		   String query="delete from reciperegister where menu_name=?";
-    		   pstmt = con.prepareStatement(query);
-    		   
-    		   pstmt.setString(1, menuName);
-    		   
-    		   pstmt.executeUpdate();
-    	   }finally {
-    		   if(pstmt!= null){ pstmt.close(); }
-    		   if(con!= null){ con.close(); }
-    	   }//end finally
-    	   
-    	   return true;
+          Connection con=null;
+          PreparedStatement pstmt = null;
+          
+          try{
+             con = getConnection();
+             
+             String query="delete from reciperegister where menu_name=?";
+             pstmt = con.prepareStatement(query);
+             
+             pstmt.setString(1, menuName);
+             
+             pstmt.executeUpdate();
+          }finally {
+             if(pstmt!= null){ pstmt.close(); }
+             if(con!= null){ con.close(); }
+          }//end finally
+          
+          return true;
        }//deleteRecipe
        
        /**

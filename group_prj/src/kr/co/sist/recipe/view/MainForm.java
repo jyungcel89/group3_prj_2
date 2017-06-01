@@ -27,12 +27,12 @@ public class MainForm extends JFrame{
 	private JTextField jtfSearch;	
 	private String imgPath1, imgPath2, imgPath3;
 	private String imgName1, imgName2, imgName3;
-
+	private String logId;
 	public MainForm(String logId) { 
 		super("È«È«È«ÀÇ ÆíÀÇÁ¡ ·¹½ÃÇÇ"); 
 		setLayout(null); 
 		Font defaultFont =new Font("¸¼Àº °íµñ", Font.BOLD, 14);
-		
+		this.logId=logId;
 		JLabel jlUserName=new JLabel(" [ "+logId+" ]´Ô È¯¿µÇÕ´Ï´Ù.");
 		jlUserName.setFont(defaultFont);
 		jlUserName.setForeground(Color.white);
@@ -527,6 +527,12 @@ public class MainForm extends JFrame{
 
 	public void setJbLogOut(JButton jbLogOut) {
 		this.jbLogOut = jbLogOut;
+	}
+
+
+
+	public String getLogId() {
+		return logId;
 	}
 	
 
