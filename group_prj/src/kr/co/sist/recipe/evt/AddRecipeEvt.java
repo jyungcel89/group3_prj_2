@@ -127,6 +127,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	public void reqRecipe(){
 		
 		if(arv!=null){
+<<<<<<< HEAD
 			try {
 				String menuName=arf.getJtfRecipeName().getText();
 				String img=file;
@@ -141,6 +142,15 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+=======
+		try {
+			ida.insertRecipe(arv);
+			JOptionPane.showMessageDialog(null, "성공적으로 레시피가 추가되었습니다.");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+>>>>>>> refs/heads/Hong
 		}else{
 			JOptionPane.showMessageDialog(arf,"제대로 입력해...");
 		}
@@ -229,6 +239,18 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	}
 	/////////////////////////////////////////// MgrForm
 	//관리자가 레시피 수정 수행 (edit버튼)
+	
+	public void deleteIngrdnt(){
+		String menuName=arf.getJtfRecipeName().getText();
+		System.out.println(menuName);
+//		try {
+//			ida.deleteIngdntOfRecp(menuName);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+	}
+	
 	public void editMgr(){
 		
 		String menuName=arf.getJtfRecipeName().getText();
@@ -263,8 +285,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==arf.getJbSearch()){
-			
-						searchIngdnt(icv);
+			searchIngdnt(icv);
 		}
 		if(e.getSource()==arf.getJbAddIngrednt()){
 				addIngdnt();
@@ -281,6 +302,8 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		}
 		if(e.getSource()==arf.getJbMgr()){
 			editMgr();
+			deleteIngrdnt();
+			reqRecipeIngrdnt();
 		}
 	
 		 if(e.getSource() == arf.getJbClose()){
