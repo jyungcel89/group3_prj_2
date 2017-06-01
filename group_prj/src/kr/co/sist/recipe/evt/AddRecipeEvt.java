@@ -24,6 +24,7 @@ import kr.co.sist.recipe.view.MgrPageForm;
 import kr.co.sist.recipe.vo.AddRecipeVO;
 import kr.co.sist.recipe.vo.IngrdntCategVO;
 import kr.co.sist.recipe.vo.MgrRecipeInfoVO;
+import kr.co.sist.recipe.vo.MgrUpdateIngrdntVO;
 import kr.co.sist.recipe.vo.ShowIngdntVO;
 import kr.co.sist.recipe.vo.addRemoveIngrdntVO;
 
@@ -41,6 +42,12 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		this.arf=arf;
 		ida=IngdntDAO.getInstance();
 		selectMgrRecipeInfo();
+		System.out.println();
+		String id=mfe.logId;
+		if(id.equals("mgr")){
+			arf.getJbRequest().setVisible(false);
+			arf.getJbMgr().setVisible(true);
+		}
 	}
 	////////////////////////////////////////// AddRecipeForm
 	
@@ -110,9 +117,9 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		String foodType=arf.getJcbCateg().getSelectedItem().toString();
 		String info=arf.getJtaInfo().getText();
 		String recipe_make=arf.getJtaWriteRecipe().getText();
-		String mgr="mgr";
+		String id=mfe.logId;
 		int totalPrice=Integer.parseInt(arf.getLblTotalPrice().getText());
-		AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,mgr);
+		AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,id);
 		
 		if(arv!=null){
 		try {
@@ -213,7 +220,34 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	/////////////////////////////////////////// MgrForm
 	//관리자가 레시피 수정 수행 (edit버튼)
 	public void editMgr(){
+		
+		String menuName=arf.getJtfRecipeName().getText();
+		MgrUpdateIngrdntVO muiv=new MgrUpdateIngrdntVO();
+		 muiv.setFoodType(arf.getJcbCateg().getSelectedItem().toString());
+		 muiv.setImg(arf.getLblImg().getIcon().toString().substring(arf.getLblImg().getIcon().toString().indexOf("F")));
+		 muiv.setInfo(arf.getJtaInfo().getText());
+		 muiv.setRecipeInfo(arf.getJtaWriteRecipe().getText());
+		 muiv.setTotalPrice(Integer.parseInt(arf.getLblTotalPrice().getText()));
+		 arv=new addRemoveIngrdntVO();
 		 
+		 try {
+			 int index=JOptionPane.showConfirmDialog(null, "정말로 수정하시겠습니까?");
+			 switch (index) {
+			case JOptionPane.OK_OPTION:
+				ida.updateIngdntOfRecp(muiv,menuName);
+				ida.insertIngdntOfRecp(arv);
+				JOptionPane.showMessageDialog(null,"성공적으로 수행되었습니다.");
+				break;
+			case JOptionPane.NO_OPTION:
+				return;
+			default:
+				break;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}//
 
 	@Override
@@ -235,7 +269,10 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		if(e.getSource()==arf.getJbRmvIngrednt()){
 			rmvIngdnt();
 		}
-		
+		if(e.getSource()==arf.getJbMgr()){
+			editMgr();
+		}
+	
 		 if(e.getSource() == arf.getJbClose()){
 	    	  int selectNum = JOptionPane.showConfirmDialog(arf, "창을 닫으시겠습니까?");
 	    	  switch (selectNum) {

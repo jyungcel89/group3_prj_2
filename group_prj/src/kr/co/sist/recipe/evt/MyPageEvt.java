@@ -265,7 +265,12 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
     				try {
     					mrv=rdao.selectOneRecipe(value);
     					//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
-    					new ItemPreviewForm(mrv);
+    			        ItemPreviewForm ipf = new ItemPreviewForm(mrv);
+    	                   ipf.getJchBookmark().setVisible(false);
+    	                   ipf.getJcScore().setVisible(false);
+    	                   ipf.getJbSubmit().setVisible(false);
+    	                   ipf.getJlBookmark().setVisible(false);
+    	                   ipf.getJlScore().setVisible(false);
     				} catch (SQLException se) {
     					JOptionPane.showMessageDialog(null, 
     							"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");

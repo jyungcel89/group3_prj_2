@@ -28,7 +28,7 @@ public class ItemPreviewForm extends JDialog {
 	private JTable jtIngrednt;
 	private JTextArea jtaDetail, jtaSimple;
 	private JButton jbClose,jbSubmit;
-	private JLabel jlRecipeName, jlIngrednt;
+	private JLabel jlRecipeName, jlIngrednt,jlScore,jlBookmark;
 	private DefaultTableModel dtmIngrednt;
 	private JScrollPane jspIngrednt;
 	private JComboBox<String> jcScore;
@@ -51,10 +51,10 @@ public class ItemPreviewForm extends JDialog {
 		jlIngrednt=new JLabel("◑ 재료");
 		jlIngrednt.setBounds(400,70,100,30);
 		
-		JLabel jlScore=new JLabel("별점");
+		jlScore=new JLabel("별점");
 		jlScore.setBounds(570,320,100,30);
 		
-		JLabel jlBookmark=new JLabel("북마크");
+		 jlBookmark=new JLabel("북마크");
 		jlBookmark.setBounds(435,320,50,30);
 		
 		JLabel jlMakeMethod=new JLabel("◑ 레시피");
@@ -246,6 +246,22 @@ public class ItemPreviewForm extends JDialog {
 
 	public void setJspTextArea(JScrollPane jspTextArea) {
 		this.jspTextArea = jspTextArea;
+	}
+
+	public JLabel getJlScore() {
+		return jlScore;
+	}
+
+	public JLabel getJlBookmark() {
+		return jlBookmark;
+	}
+
+	public void setJlScore(JLabel jlScore) {
+		this.jlScore = jlScore;
+	}
+
+	public void setJlBookmark(JLabel jlBookmark) {
+		this.jlBookmark = jlBookmark;
 	}
 	
 
