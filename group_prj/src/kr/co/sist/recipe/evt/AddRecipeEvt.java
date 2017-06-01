@@ -115,7 +115,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			ImageIcon temp=new ImageIcon(path+file);
 			int width = temp.getIconWidth();
 			int height = temp.getIconHeight();
-			if(width==260 && height==20){
+			if(width==260 && height==200){
 				arf.getLblImg().setIcon(temp);
 			}else{
 				JOptionPane.showMessageDialog(null, "이미지 파일의 크기는\n가로 : 260px / 세로 : 200px 로 맞춰 등록해주세요.");

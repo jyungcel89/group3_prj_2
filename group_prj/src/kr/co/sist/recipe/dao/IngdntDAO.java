@@ -87,16 +87,18 @@ public class IngdntDAO {
 
 			try {
 				con = getConnection();
-				String selectIngrdnt ="select ri.INGREDIENT_NAME,i.PRICE "
+				String selectIngrdnt ="select i.BRAND,ri.INGREDIENT_NAME,i.PRICE "
 						+ "from INGREDIENTS i,RECIPE_INGREDIENTS ri "
 						+ "where(ri.INGREDIENT_NAME=i.INGREDIENT_NAME) "
-						+ "and ri.MENU_NAME='"+recipeName+"'"; 
+						+ "and ri.MENU_NAME=?";
 				pstmt = con.prepareStatement(selectIngrdnt);
+				pstmt.setString(1, recipeName);
 				rs = pstmt.executeQuery();
 				
 				ShowIngdntVO siv= null;
 				while (rs.next()) {
 					siv =new ShowIngdntVO();
+					siv.setBrand(rs.getString("brand"));
 					siv.setIngrdntName(rs.getString("ingredient_name"));
 					siv.setIngrdntPrice(rs.getString("price"));
 					
@@ -135,7 +137,7 @@ public class IngdntDAO {
 			boolean flag=false;
 			try {
 				con=getConnection();
-					
+				
 					for(int i=0;i<addIngVo.getIngrdntName().length;i++){
 					String selectIngrdntCode ="select distinct ingredients_code "
 							+ "from RECIPE_INGREDIENTS "

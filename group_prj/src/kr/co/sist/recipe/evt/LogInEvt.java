@@ -15,8 +15,6 @@ import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.view.SignInForm;
 import kr.co.sist.recipe.vo.LoginVO;
 
-
-
 /**
  * 로그인 창 이벤트
  * <수정사항>
@@ -42,8 +40,10 @@ public class LogInEvt extends WindowAdapter implements  ActionListener, KeyListe
 	public void loginChk(){
 //		logId=lf.getJtfId().getText();
 		logId="duck";
+//		logId="mgr";
 //		String logPw=new String(lf.getJpfPass().getPassword());
 		String logPw=new String("1111");
+//		String logPw=new String("1234");
 		
 		//LogInForm에서 id, pw가 비었을때
 		if( logId.equals("") || logPw.equals("") ){
