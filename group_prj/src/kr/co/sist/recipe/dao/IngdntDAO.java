@@ -214,15 +214,13 @@ public class IngdntDAO {
 	 *  했지만 그렇게 하지 않고 재료명,메뉴이름이 들어 있는 addRemoveIngrdntVO를 만들어 매개변수로 받게함
 	 *  재료명,메뉴명이 2개가 묶이면 식별이 가능하기 때문에 잠을잤음...zzzzzzzzzz
 	 */
-	public boolean deleteIngdntOfRecp(addRemoveIngrdntVO removeIngVo)throws SQLException{
+	public boolean deleteIngdntOfRecp(String menuName)throws SQLException{
 		      Connection con = null;
 		      PreparedStatement pstmt = null;
 		      boolean flag=false;
 		      try {
 		         con = getConnection();
-		         String deleteIngrdnt="delete from RECIPE_INGREDIENTS "
-		         		+ " where INGREDIENT_NAME='"+removeIngVo.getIngrdntName()+"' "
-		         		+ " and MENU_NAME='"+removeIngVo.getMenuName()+"'";
+		         String deleteIngrdnt="delete from RECIPE_INGREDIENTS where MENU_NAME='"+menuName+"'";
 		         pstmt=con.prepareStatement(deleteIngrdnt);
 		         pstmt.executeUpdate(); 
 		         flag=true;
