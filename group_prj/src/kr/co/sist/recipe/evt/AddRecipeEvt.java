@@ -127,7 +127,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	public void reqRecipe(){
 		
 		if(arv!=null){
-<<<<<<< HEAD
 			try {
 				String menuName=arf.getJtfRecipeName().getText();
 				String img=file;
@@ -139,18 +138,11 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,id);
 				
 				ida.insertRecipe(arv);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-=======
-		try {
-			ida.insertRecipe(arv);
-			JOptionPane.showMessageDialog(null, "성공적으로 레시피가 추가되었습니다.");
+				JOptionPane.showMessageDialog(null, "성공적으로 레시피가 추가되었습니다.");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
->>>>>>> refs/heads/Hong
 		}else{
 			JOptionPane.showMessageDialog(arf,"제대로 입력해...");
 		}
