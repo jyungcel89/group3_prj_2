@@ -50,7 +50,7 @@ public class AddRecipeForm extends JDialog {
 		//기본이미지
 		JLabel img = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/default.jpg"));
 		img.setBounds(80,50,260,200);
-		add(img);
+		add(img); 
 		
 //		region 레시피이미지 추가버튼
 		jbAddImg=new JButton("사진 올리기");
