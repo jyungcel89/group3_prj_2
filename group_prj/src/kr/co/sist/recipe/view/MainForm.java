@@ -32,7 +32,7 @@ public class MainForm extends JFrame{
 	private String imgName1, imgName2, imgName3;
 
 	public MainForm(String logId) { 
-		super("È«È«È«ÀÇ ÆíÀÇÁ¡ ·¹½ÃÇÇ");
+		super("È«È«È«ÀÇ ÆíÀÇÁ¡ ·¹½ÃÇÇ"); 
 		setLayout(null); 
 		Font defaultFont =new Font("¸¼Àº °íµñ", Font.BOLD, 14);
 		
