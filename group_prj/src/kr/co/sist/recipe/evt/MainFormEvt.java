@@ -244,7 +244,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
 		case JOptionPane.OK_OPTION:
 			mainFrm.dispose();
 		}//end switch
-      }//end if //´Ý±â¹öÆ°
+      }//end if //´Ý±â¹öÆ° 
       
       if(ae.getSource() == mainFrm.getJbMypage()){
     	  
