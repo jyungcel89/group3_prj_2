@@ -44,7 +44,8 @@ public class MemberDAO {
 		try{
 			//파일 경로 확인하고 수정할 것!
 //			File file=new File("C:/dev/git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
-			File file=new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
+//			File file=new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
+			File file=new File(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/dao/recipe_db.properties");
 			
 			if( file.exists() ){
 				prop.load(new FileInputStream(file));

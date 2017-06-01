@@ -27,7 +27,7 @@ import kr.co.sist.recipe.vo.MemberVO;
  * @author JiYong
  *
  */
-public class LogInEvt extends WindowAdapter implements  ActionListener{
+public class LogInEvt extends WindowAdapter implements  ActionListener, KeyListener{
 
 	private LogInForm lf;
 	private LoginVO log_vo;
@@ -96,5 +96,25 @@ public class LogInEvt extends WindowAdapter implements  ActionListener{
 			moveSignin();
 		}//end if
 	}//actionPerformed
+	
+	@Override
+	public void keyPressed(KeyEvent ke) {
+		if(ke.getKeyCode() == KeyEvent.VK_TAB && ke.getSource() == lf.getJtfId()){
+			lf.getJpfPass().requestFocus();
+		}
+		if(ke.getKeyCode() == KeyEvent.VK_TAB && ke.getSource() == lf.getJpfPass()){
+			lf.getJbtLogIn().requestFocus();
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent ke) {
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent ke) {
+		
+	}
 
 }//class
