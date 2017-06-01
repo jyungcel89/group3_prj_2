@@ -12,7 +12,6 @@ import javax.swing.table.DefaultTableModel;
 import kr.co.sist.recipe.dao.BookmarkDAO;
 import kr.co.sist.recipe.dao.MemberDAO;
 import kr.co.sist.recipe.dao.RecipeDAO;
-import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.view.ItemPreviewForm;
 import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.view.MyPageForm;
@@ -21,15 +20,12 @@ import kr.co.sist.recipe.vo.BookmarkUpdateVO;
 import kr.co.sist.recipe.vo.BookmarkVO;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MyRecipeVO;
-@SuppressWarnings("serial")
 public class MyPageEvt extends WindowAdapter implements ActionListener, MouseListener {
-		private MainForm mf;
        private MyPageForm mypf;
+       private MainFormEvt mfe;
        private BookmarkDAO bdao;
        private RecipeDAO rdao;
-       private BookmarkVO bv;
        private MemberDAO mdao;
-       public static String logId;
        
 	    /**
 	     * 마이페이지 이벤트
@@ -37,9 +33,9 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
 	     * 1. MyPageForm 객체명 변경 : mpf > mypf
 	     * @param mypf
 	     */
-       public MyPageEvt(MyPageForm mypf, String logId){
+       public MyPageEvt(MyPageForm mypf){
               this.mypf=mypf;
-              this.logId=logId;
+        
               bdao=BookmarkDAO.getInstance();
               rdao=RecipeDAO.getInstance();
               mdao=MemberDAO.getInstance();
@@ -50,7 +46,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        // 내가 등록한 메뉴 리스트
        public void showMyRecipe(){
               try {
-                     List<MyRecipeVO> listMyRcp = rdao.myRecipe(logId);
+                     List<MyRecipeVO> listMyRcp = rdao.myRecipe(mfe.logId);
                      Object[] rowMenu = new Object[6];
                      DefaultTableModel dtmMenu = mypf.getDtmMyMenu();
                      
@@ -125,7 +121,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        // 북마크한 메뉴 리스트
        public void showBookmark(){
               try {
-                     List<BookmarkVO> bklist = bdao.searchAll(logId);
+                     List<BookmarkVO> bklist = bdao.searchAll(mfe.logId);
                      Object[] rowMenu = new Object[5];
                      DefaultTableModel dtmMenu = mypf.getDtmFavorMenu();
                      
@@ -184,9 +180,9 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        
        // 내 정보창으로 이동 > 내정보 값 가져와서 SignInForm에 setter값을 설정
        public void goMyInfo(){
-    	   	  SignInForm sif=new SignInForm();
+    	   	  String id=mfe.logId; 
+    	   	  SignInForm sif=new SignInForm(id);
     	   	  String mail="";
-    	   	  String id="duck"; /////////////////////////////아이디 연결 해야됨 
 
               try {
             	  mail=mdao.selectMyInfo(id).toString();
@@ -199,7 +195,6 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
               //////// 필요 없는 버튼들 안보이게 //////
               sif.getJbtChkId().setVisible(false);
               sif.getJbtSubmit().setVisible(false);
-              sif.setBackgroundPath("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/edit_signinBack.png");
               sif.getJbtCancel().setVisible(false);
               ////////////////////////////////////////////
               ///////////////////취소 버튼 수정 버튼으로 변경////////////////
@@ -219,11 +214,6 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
               /////////버튼 이름 변경함과 동시에 sigevt부분에 메소드 추가되어야함 (이벤트)//
        }//goMyInfo
        
-   	// 닫기버튼
-		public void checkCancel(){
-			mypf.dispose();
-		}//checkCancel
-       
        @Override 
        public void actionPerformed(ActionEvent ae) {
               if(ae.getSource()==mypf.getJbEditMyInfo()){
@@ -236,9 +226,6 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
               
               if(ae.getSource()==mypf.getJbRmvMyMenu()){
             	  rmvRecipe();
-              }//end if
-              if(ae.getSource()==mypf.getJbClose()){
-                     checkCancel();
               }//end if
               
               if (ae.getSource() == mypf.getJbClose()) {

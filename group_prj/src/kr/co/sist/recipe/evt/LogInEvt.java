@@ -2,11 +2,7 @@ package kr.co.sist.recipe.evt;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
@@ -16,7 +12,6 @@ import kr.co.sist.recipe.view.LogInForm;
 import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.view.SignInForm;
 import kr.co.sist.recipe.vo.LoginVO;
-import kr.co.sist.recipe.vo.MemberVO;
 
 
 
@@ -32,6 +27,7 @@ public class LogInEvt extends WindowAdapter implements  ActionListener{
 	private LogInForm lf;
 	private LoginVO log_vo;
 	private MemberDAO mem_dao;
+	private static String logId;
 	
 	public LogInEvt(LogInForm lf) {
 		this.lf=lf;
@@ -42,8 +38,11 @@ public class LogInEvt extends WindowAdapter implements  ActionListener{
 	 * 입력한 아이디와 비밀번호가 유효한지 판단하는 method
 	 */
 	public void loginChk(){
-		String logId=lf.getJtfId().getText();
-		String logPw=new String(lf.getJpfPass().getPassword());
+//		logId=lf.getJtfId().getText();
+		logId="duck";
+//		String logPw=new String(lf.getJpfPass().getPassword());
+		String logPw=new String("1111");
+		
 		//LogInForm에서 id, pw가 비었을때
 		if( logId.equals("") || logPw.equals("") ){
 			JOptionPane.showMessageDialog(lf, 
@@ -51,7 +50,6 @@ public class LogInEvt extends WindowAdapter implements  ActionListener{
 			return;
 		}//end if
 		
-		boolean flag=false;
 		log_vo=new LoginVO();
 		mem_dao=MemberDAO.getInstance();
 		
@@ -64,7 +62,6 @@ public class LogInEvt extends WindowAdapter implements  ActionListener{
 				// 로그인 성공 > MainForm으로 이동
 				JOptionPane.showMessageDialog(lf, 
 						logId+"님 환영합니다.");
-				flag=true;
 				// 메인창 띄우고 로그인 창 끄기
 				new MainForm(logId);
 				lf.dispose();
@@ -83,7 +80,7 @@ public class LogInEvt extends WindowAdapter implements  ActionListener{
 	 * 회원가입창으로 이동
 	 */
 	public void moveSignin(){
-		new SignInForm();
+		new SignInForm(logId);
 		lf.dispose();
 	}//moveSignin
 	

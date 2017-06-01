@@ -3,10 +3,8 @@ package kr.co.sist.recipe.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
-import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -29,9 +27,8 @@ public class MgrPageForm extends JDialog {
 	private JTabbedPane jtpTab;
 	private JButton jbRmvMenu, jbRmvRqust, jbSmitRqust, jbRmvMember, jbClose;
 	
-	public MgrPageForm(String logId/*MainForm mf*/) {
-//		super(mf,"Manager Page",true);
-//		this.mf=mf;
+	public MgrPageForm(String logId) {
+		setTitle("홍홍홍 레시피 관리자");
 		setLayout(null);
 		JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/mgrpageBack.png"));
 	    setContentPane(jlBackImg);
@@ -181,13 +178,15 @@ public class MgrPageForm extends JDialog {
 		jlUserName.setBounds(10, 10, 170, 30);
 		
 		jbClose.setBounds(810, 750, 100, 30);
-		setBounds(50, 50, 940, 840);
 		//배치
 		add(jtpTab);
 		add(jbClose);
 		// 사용자 아이디 라벨 붙이기
 		add(jlUserName);
 		
+		setBounds(50, 50, 940, 840);
+		setModalityType(DEFAULT_MODALITY_TYPE);
+		setResizable(false);
 		setVisible(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}//MgrPageForm

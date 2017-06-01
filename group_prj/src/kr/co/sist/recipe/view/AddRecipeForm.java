@@ -7,14 +7,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.recipe.evt.AddRecipeEvt;
@@ -33,12 +31,10 @@ public class AddRecipeForm extends JDialog {
 	private JScrollPane jspIngrednt,jspAddedIngrednt,jspTextArea;
 	private DefaultTableModel dtmIngrednt,dtmAddedIngrednt;
 	private ImageIcon imgIcon;
-	private MgrPageForm mpf;
-	private MainForm mf;
 	
-	public AddRecipeForm(MainForm mf, String menuName){
-		super(mf, "홍홍홍 레시피 메뉴 추가", true);
-		this.mf = mf;
+	public AddRecipeForm(String menuName){
+		this.setTitle("홍홍홍 레시피 메뉴 추가");
+		this.setModal(true);
 		setLayout(null);
 		// 백그라운드
 		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/addrcpBack.png"));
@@ -53,7 +49,7 @@ public class AddRecipeForm extends JDialog {
 		
 		//기본이미지
 		JLabel img = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/default.jpg"));
-		img.setBounds(40,40,300,220);
+		img.setBounds(80,50,260,200);
 		add(img);
 		
 //		region 레시피이미지 추가버튼
@@ -245,6 +241,7 @@ public class AddRecipeForm extends JDialog {
 		for(int i=0; i<com.length;i++){
 			add(com[i]);
 		}
+		setResizable(false);
 		setBounds(50,50,750,850);
 		setVisible(true);
 	}

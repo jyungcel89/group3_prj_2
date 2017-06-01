@@ -186,18 +186,19 @@ public class RecipeDAO {
                      // 검색조건(식사류, 안주류, 디저트, 분식)이 체크되어 있거나 검색어가 있으면 조건을 걸러 검색
                      // 검색조건이 없으면 전체 검색
                      StringBuilder sbSelectRecipe = new StringBuilder();
-                     sbSelectRecipe.append("select menu_name, img, food_type, info, recipe_info, totalprice from reciperegister where recipe_flag='Y'");
+                     sbSelectRecipe.append("select menu_name, img, food_type, info, recipe_info, totalprice from reciperegister");
                      
                      if(mtv.getAnju().equals("") && mtv.getBunsik().equals("") && mtv.getDessert().equals("") && mtv.getMeal().equals("")){
                            // 메뉴타입이 체크되어있지않은 경우
                            if(!srchText.equals("")){
                                   // 메뉴타입이 체크되어 있지 않고 검색어를 갖는 경우
-                                  sbSelectRecipe.append(" where menu_name like '%'||?||'%'");
+                                  sbSelectRecipe.append(" where menu_name like '%'||?||'%' and recipe_flag='Y'");
                                   pstmt= con.prepareStatement(sbSelectRecipe.toString());
                                   pstmt.setString(1, srchText);
                                   rs=pstmt.executeQuery();
                            }else{
                                   // 메뉴타입이 체크되어 있지 않고 검색어를 갖지 않는 경우
+                        	   	sbSelectRecipe.append(" where recipe_flag='Y'");
                                   pstmt= con.prepareStatement(sbSelectRecipe.toString());
                                   rs=pstmt.executeQuery();
                            }//end else
@@ -205,7 +206,7 @@ public class RecipeDAO {
                            // 메뉴타입이 체크되어 있을 때
                            if(!srchText.equals("")){
                                   // 타입이 체크되어있고 검색어를 갖는 경우
-                                  sbSelectRecipe.append(" where menu_name like '%'||?||'%' and food_type in(?,?,?,?)");
+                                  sbSelectRecipe.append(" where menu_name like '%'||?||'%' and food_type in(?,?,?,?)  and recipe_flag='Y'");
                                   pstmt= con.prepareStatement(sbSelectRecipe.toString());
                                   pstmt.setString(1, srchText);
                                   
@@ -217,7 +218,7 @@ public class RecipeDAO {
                                   rs=pstmt.executeQuery();
                            }else{
                                   // 메뉴타입이 체크되어 있고 검색어를 갖지 않는 경우
-                                  sbSelectRecipe.append(" where food_type in(?,?,?,?)");
+                                  sbSelectRecipe.append(" where food_type in(?,?,?,?) and recipe_flag='Y'");
                                   pstmt= con.prepareStatement(sbSelectRecipe.toString());
                                   
                                   // 조건이 있을 때

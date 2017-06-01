@@ -1,5 +1,6 @@
 package kr.co.sist.recipe.evt;
 
+import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,8 +40,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	private MainFormEvt mfe;
 	private String file;
 	private int totalPrice;
-	private MainForm mf;
-	public static String logId;
 	public MgrPageForm mpf;
 	public AddRecipeEvt(AddRecipeForm arf){
 		this.arf=arf;
@@ -52,7 +51,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	//관리자 모드에서 버튼을 관리자 전용버튼 보여줄때
 	
 	public void showHideButton(String logId){
-		this.logId=logId;
+		logId = mfe.logId;
 	}
 	
 	// 재료추가 수행 (add버튼)
@@ -97,34 +96,42 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		fdImg.setVisible(true);
 		String path=fdImg.getDirectory();
 		file=fdImg.getFile();
+		
 		if(file != null){
-			String vaildFile="jpg,gif,png,bmp";
+			String vaildFile="jpg,gif,png,bmp,JPG,GIF,PNG,BMP";
 			if(!vaildFile.contains(file.substring(file.lastIndexOf(".")+1))){
 				JOptionPane.showMessageDialog(arf, "선택하신 파일은 이미지가 아닙니다.");
 				return;
 			}//end if
+			
 			ImageIcon temp=new ImageIcon(path+file);
-			arf.getLblImg().setIcon(temp);
+			int width = temp.getIconWidth();
+			int height = temp.getIconHeight();
+			if(width==260 && height==20){
+				arf.getLblImg().setIcon(temp);
+			}else{
+				JOptionPane.showMessageDialog(null, "이미지 파일의 크기는\n가로 : 260px / 세로 : 200px 로 맞춰 등록해주세요.");
+			}
+			
+			
 		}//end if
 	}//addImg
 	public void reqRecipe(){
 		
 		
-		String menuName=arf.getJtfRecipeName().getText();
-		String img=file;
-		String foodType=arf.getJcbCateg().getSelectedItem().toString();
-		String info=arf.getJtaInfo().getText();
-		String recipe_make=arf.getJtaWriteRecipe().getText();
-		
-		AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,logId);
 		if(arv!=null){
-		try {
-			ida.insertRecipe(arv);
-			System.out.println("성공");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			try {
+				String menuName=arf.getJtfRecipeName().getText();
+				String img=file;
+				String foodType=arf.getJcbCateg().getSelectedItem().toString();
+				String info=arf.getJtaInfo().getText();
+				String recipe_make=arf.getJtaWriteRecipe().getText();
+				
+				AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,mfe.logId);
+				ida.insertRecipe(arv);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}else{
 			JOptionPane.showMessageDialog(arf,"제대로 입력해...");
 		}
@@ -138,17 +145,15 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		String menuName=arf.getJtfRecipeName().getText();
 		
 		if(ingrdntName.length!=0&&!menuName.equals("")){
-		for(int i=0; i<table.getRowCount();i++){
-		ingrdntName[i]=table.getValueAt(i,0).toString();
-		}
-		arv=new addRemoveIngrdntVO(ingrdntName, menuName);
-		try {
-			ida.insertIngdntOfRecp(arv);
-			System.out.println("성공");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			try {
+				for(int i=0; i<table.getRowCount();i++){
+					ingrdntName[i]=table.getValueAt(i,0).toString();
+				}
+				arv=new addRemoveIngrdntVO(ingrdntName, menuName);
+				ida.insertIngdntOfRecp(arv);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}else{
 			JOptionPane.showMessageDialog(arf, "재료명을 입력하거나 재료를 추가해주세요");
 			return;
@@ -163,18 +168,18 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		String brand=arf.getJcbStore().getItemAt(arf.getJcbStore().getSelectedIndex());
 		icv=new IngrdntCategVO(brand, ingrdnt);
 		try{
-		List<ShowIngdntVO> lstMenu=ida.selectIngdnt(icv);
-		Object[] rowMenu=new Object[3];
-		DefaultTableModel dtmMenu=arf.getDtmIngrednt();
-		System.out.println(lstMenu.size());
-		ShowIngdntVO si=null;
+			List<ShowIngdntVO> lstMenu=ida.selectIngdnt(icv);
+			Object[] rowMenu=new Object[3];
+			DefaultTableModel dtmMenu=arf.getDtmIngrednt();
+			System.out.println(lstMenu.size());
+			ShowIngdntVO si=null;
 		//번호,이미지,메뉴코드","메뉴","설명","가격,
-		for( int i=0; i<lstMenu.size(); i++ ){
-			si=lstMenu.get(i);
-			rowMenu[0]=si.getIngrdntName();
-			rowMenu[1]=si.getIngrdntPrice();
-			dtmMenu.addRow(rowMenu);
-		}
+			for( int i=0; i<lstMenu.size(); i++ ){
+				si=lstMenu.get(i);
+				rowMenu[0]=si.getIngrdntName();
+				rowMenu[1]=si.getIngrdntPrice();
+				dtmMenu.addRow(rowMenu);
+			}
 		}catch(SQLException se){
 			se.printStackTrace();
 		}

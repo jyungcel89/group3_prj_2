@@ -6,15 +6,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -162,7 +157,8 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    
    // 마이페이지(관리자 페이지)로 이동 버튼
    public void showAddRecipe() {
-	   new AddRecipeForm(mainFrm,"");
+//	   Window parentWindow = SwingUtilities.windowForComponent(mainFrm.getJbAddRecipe());
+	   new AddRecipeForm("");
    }// addRecipe
    
    public void addRecipe() {
@@ -202,6 +198,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
 			e.printStackTrace();
 		}//end catch
       }//end if
+      
       if(ae.getSource()== mainFrm.getJbSecImg()){
     	  MainRecipeVO mrv;
     	  try {
@@ -211,6 +208,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
     		  e.printStackTrace();
     	  }//end catch
       }//end if
+      
       if(ae.getSource()== mainFrm.getJbTrdImg()){
     	  MainRecipeVO mrv;
     	  try {
@@ -221,7 +219,6 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
     	  }//end catch
       }//end if
       
-      //05-29-2017 추가
       if(ae.getSource()==mainFrm.getJbMypage()){
     	  movePage();
       }//end if
@@ -234,11 +231,14 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
 		}//end switch
       }//end if //닫기버튼
       
-      if(ae.getSource() == mainFrm.getJbMypage()){
-    	  
-      }//end if
-      
       if(ae.getSource() == mainFrm.getJbAddRecipe()){
+//    	  Window parentWindow = SwingUtilities.windowForComponent(button);
+//          JDialog dialog = new JDialog(parentWindow);
+//          dialog.setLocationRelativeTo(button);
+//          dialog.setModal(true);
+//          dialog.add(newPane("Label in dialog"));
+//          dialog.pack();
+//          dialog.setVisible(true);
     	  showAddRecipe();
       }//end if
        

@@ -1,6 +1,5 @@
 package kr.co.sist.recipe.view;
 
-import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
@@ -17,15 +16,12 @@ public class SignInForm extends JDialog {
 	private JLabel jlbId, jlbPw, jlbChkPw, jlbName, jlbMail;
 	public JTextField jtfId, jtfName, jtfMail;
 	private JPasswordField jpfPw, jpfChkPw;
-	private String backgroundPath;
 	private JButton jbtChkId, jbtSubmit, jbtCancel, jbtUpdate;
 	
-	public SignInForm() {
+	public SignInForm(String logId) {
+		setTitle("홍홍홍 레시피 회원가입");
 		setLayout(null);
-		backgroundPath = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/signinBack.png";
-		ImageIcon background = new ImageIcon(backgroundPath);
-		JLabel jlBackImg = new JLabel(background);
-	    setContentPane(jlBackImg);
+		String backgroundPath="";
 	    
 		jlbId=new JLabel("아이디");
 		jlbPw=new JLabel("비밀번호");
@@ -99,6 +95,17 @@ public class SignInForm extends JDialog {
 		jpfPw.addActionListener(se);
 		jpfChkPw.addActionListener(se);
 		
+		System.out.println(logId);
+		// 배경 설정
+		if(!(logId==null)){
+			backgroundPath = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/edit_signinBack.png";
+		}else{
+			backgroundPath = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/signinBack.png";
+		}//end else
+		ImageIcon background = new ImageIcon(backgroundPath);
+		JLabel jlBackImg = new JLabel(background);
+	    setContentPane(jlBackImg);
+		
 		//배치
 		add(jlbId);
 		add(jlbPw);
@@ -120,6 +127,8 @@ public class SignInForm extends JDialog {
 		jbtUpdate.setVisible(false);
 		////////////////////////////////////////////////////////
 		//
+		setModalityType(DEFAULT_MODALITY_TYPE);
+		
 		setVisible(true);
 		setResizable(false);
 //		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -188,14 +197,6 @@ public class SignInForm extends JDialog {
 
 	public void setJbtCancel(JButton jbtCancel) {
 		this.jbtCancel = jbtCancel;
-	}
-
-	public String getBackgroundPath() {
-		return backgroundPath;
-	}
-
-	public void setBackgroundPath(String backgroundPath) {
-		this.backgroundPath = backgroundPath;
 	}
 	public JButton getJbtUpdate() {
 		return jbtUpdate;

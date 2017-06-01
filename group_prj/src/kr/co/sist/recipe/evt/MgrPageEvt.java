@@ -5,8 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -18,8 +16,6 @@ import kr.co.sist.recipe.dao.MemberDAO;
 import kr.co.sist.recipe.dao.RecipeDAO;
 import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.view.ItemPreviewForm;
-import kr.co.sist.recipe.view.LogInForm;
-import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.view.MgrPageForm;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MgrMemberVO;
@@ -34,7 +30,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 	private MgrPageForm mpf;
 	private MemberDAO mem_dao;
 	private RecipeDAO rcp_dao;
-	private MainForm mf;
+	
 	public MgrPageEvt( MgrPageForm mpf ) {
 		this.mpf=mpf;
 		mem_dao=MemberDAO.getInstance();
@@ -314,11 +310,6 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				se.printStackTrace();
 			}//end catch
 		}//rmvMember
-		
-	// 닫기버튼
-		public void checkCancel(){
-			mpf.dispose();
-		}//checkCancel
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
@@ -337,10 +328,6 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 		// 관리자 - 회원관리탭 - 전체 회원리스트 삭제버튼
 		if( ae.getSource() == mpf.getJbRmvMember() ){
 			rmvMember();
-		}//end if
-		// 관리자 메뉴 취소버튼
-		if( ae.getSource() == mpf.getJbClose() ){
-			checkCancel();
 		}//end if
 		
 		if (ae.getSource() == mpf.getJbClose()) {
@@ -361,18 +348,10 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				JTable jtSmtRcp=mpf.getJtMenuList();
 				int row=jtSmtRcp.getSelectedRow();
 				String value=(String)jtSmtRcp.getValueAt(row, 0);
-				MainRecipeVO mrv;
-				try {
-					mrv=rcp_dao.selectOneRecipe(value);
-					//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
-					new AddRecipeForm(mf, value);
-					
-				} catch (SQLException se) {
-					JOptionPane.showMessageDialog(mpf, 
-							"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
-					se.printStackTrace();
-				}
+				//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
+				new AddRecipeForm(value);
 			}//end if
+			
 			// 메뉴요청리스트 더블클릭
 			if( me.getSource()==mpf.getJtMenuRequest() ){
 				try {

@@ -2,10 +2,8 @@ package kr.co.sist.recipe.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
-import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -34,9 +32,8 @@ public class MyPageForm extends JDialog {
     private JButton jbRmvMyMenu, jbRmvFavorMenu, jbEditMyInfo, jbClose;
 
     public MyPageForm(String logId) {
+    	setTitle("홍홍홍 레시피 마이페이지");
         setLayout(null);
-        JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/mypageBack.png"));
-	    setContentPane(jlBackImg);
 
 	    Font defaultFont=new Font("맑은 고딕",Font.BOLD,14);
 	    
@@ -102,13 +99,17 @@ public class MyPageForm extends JDialog {
         jpMyMenu.add(jbRmvFavorMenu);
 
         //이벤트
-        MyPageEvt mype = new MyPageEvt(this, logId);
+        MyPageEvt mype = new MyPageEvt(this);
         jtMyMenu.addMouseListener(mype);
         jbRmvMyMenu.addActionListener(mype);
         jbRmvFavorMenu.addActionListener(mype);
         jbEditMyInfo.addActionListener(mype);
         jbClose.addActionListener(mype);
 
+        // 배경설정
+        JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/mypageBack.png"));
+	    setContentPane(jlBackImg);
+	    
         //패널 위치
         jpMyMenu.setBounds(10, 100, 900, 640);
         jpMyMenu.setBackground(new Color(255, 255, 255, 130));
@@ -133,6 +134,9 @@ public class MyPageForm extends JDialog {
         add(jbClose);
 		// 사용자 아이디 라벨 붙이기
 		add(jlUserName);
+		
+		setModalityType(DEFAULT_MODALITY_TYPE);
+		setResizable(false);
         setVisible(true);
     }//MgrPageForm
 

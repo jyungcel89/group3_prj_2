@@ -1,10 +1,8 @@
 package kr.co.sist.recipe.view;
 
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.Label;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -34,12 +32,14 @@ public class ItemPreviewForm extends JDialog {
 	private JComboBox<String> jcScore;
 	private JCheckBox jchBookmark;
 	private JScrollPane jspTextArea;
-	private ItemPreviewEvt ipe;
 	
 	public ItemPreviewForm(MainRecipeVO mrv){
+		setTitle("홍홍홍 레시피 - "+mrv.getMenuName());
+		
 		setLayout(null);
 		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/previewBack.png"));
 	     setContentPane(jlImg);
+	     
 	     
 		//region 상품명,재료,별점,북마크,만드는법,이미지 라벨및 이미지 아이콘 구역
 		Font defaultFont=new Font("맑은 고딕",Font.BOLD,14);
@@ -153,9 +153,10 @@ public class ItemPreviewForm extends JDialog {
 		jbClose.addActionListener(ipe);
 		jchBookmark.addActionListener(ipe);
 		
-		
-		setVisible(true);
 		setBounds(0,0,800,700);
+		setModalityType(DEFAULT_MODALITY_TYPE);
+		setVisible(true);
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 	}//ItemPreviewForm
