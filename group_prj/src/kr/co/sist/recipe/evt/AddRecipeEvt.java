@@ -34,6 +34,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	private String file,path;
 	private MainFormEvt mfe;
 	public MgrPageForm mpf;
+	
 	@SuppressWarnings("static-access")
 	public AddRecipeEvt(AddRecipeForm arf){
 		this.arf=arf;
@@ -46,8 +47,8 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			arf.getJbRequest().setVisible(false);
 			arf.getJbMgr().setVisible(true);
 			arf.getJtfRecipeName().setEditable(false);
-		}
-	}
+		}//end if
+	}//AddRecipeEvt
 	////////////////////////////////////////// AddRecipeForm
 	
 	//관리자 모드에서 버튼을 관리자 전용버튼 보여줄때
@@ -55,6 +56,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	public void showHideButton(String logId){
 		logId = mfe.logId;
 	}//showHideButton
+	
 	// 재료추가 수행 (add버튼)
 	public void addIngdnt(){
 		Object[] rowData=new Object[3];
@@ -62,22 +64,32 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		JTable table=arf.getJtIngrednt();
 		int select=table.getSelectedRow();
 		
-		//번호,이미지,메뉴코드","메뉴","설명","가격,
+			//번호,이미지,메뉴코드","메뉴","설명","가격,
 			rowData[0]=table.getValueAt(select,0);
 			rowData[1]=table.getValueAt(select,1);
 			
 			// 동일 제료 추가 불가 조건문 
 			 
-			if(dtmIngrdnt.getRowCount()!=0){
-				for(int i=0; i<dtmIngrdnt.getRowCount(); i++){
-					if(dtmIngrdnt.getValueAt(i, 0).equals(table.getValueAt(select,0))){
-						JOptionPane.showMessageDialog(arf, "같은 재료를 두가지 이상 추가하실수 없습니다 ");
-						return;
-					}else{
-					dtmIngrdnt.addRow(rowData);
-					}//end if
-				}//end for
-			}
+			 boolean flag=false;
+		      if(dtmIngrdnt.getRowCount()!=0){
+		            
+		            for(int i=0; i<dtmIngrdnt.getRowCount(); i++){
+		               if(dtmIngrdnt.getValueAt(i, 0).equals(table.getValueAt(select,0))){
+		                  JOptionPane.showMessageDialog(arf, "같은 재료를 두가지 이상 추가하실수 없습니다 ");
+		                  flag=false;
+		                  break;
+		               }else if(!(dtmIngrdnt.getValueAt(i, 0).equals(table.getValueAt(select,0)))){
+		               flag=true;
+		               }
+		            }//end for
+		         }else if(dtmIngrdnt.getRowCount()==0){
+		            flag=true;
+		      }//end if
+		      
+		   
+		      if(flag){
+		         dtmIngrdnt.addRow(rowData);
+		      }//end if
 			// 테이블 재료르실행
 			JTable table2=arf.getJtaddedIngrednt();
 			int[] priceArr=new int[table2.getRowCount()];
@@ -85,9 +97,8 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				for(int i=0; i<table2.getRowCount();i++){
 						priceArr[i]=Integer.parseInt(table2.getValueAt(i,1).toString());
 						totalPrice=priceArr[i]+totalPrice;
-				}
+				}//end for
 				arf.getLblTotalPrice().setText(Integer.toString(totalPrice));
-				
 				
 	}//addIngdnt
 	
@@ -155,7 +166,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,id);
 				ida.insertRecipe(arv);
 		}catch(NullPointerException npe){
-			JOptionPane.showMessageDialog(null,"기입사항을 다시 확인해주세요");
+				JOptionPane.showMessageDialog(null,"기입사항을 다시 확인해주세요");
 		}catch (SQLException e) {
 				e.printStackTrace();
 		}//end catch
@@ -191,24 +202,29 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				// 요청 수행전 조건
 				// 존재하는 메뉴이름 모두 비교
 				for(int i=0; i<allMenuNameArr.length; i++){
+					
 					// 메뉴이름에 해당하는 재료들 배열
 					String[] orginIngdntNameArr = new String[ida.selectIngdntOfRecp(allMenuNameArr[i]).size()];
 					ida.getIngdntOfRecp(allMenuNameArr[i]).toArray(orginIngdntNameArr);
 					cnt=0;
 					for(int k=0; k<ingrdntName.length; k++){
 						for(int j=0; j<orginIngdntNameArr.length; j++){
+							
 							if(ingrdntName[k].equals(orginIngdntNameArr[j])){
 								cnt+=1;
 								System.out.println(cnt);
 								// 중복되는 재료가 3개이상일 때
 							}//end if
+							
 							if(cnt>2){
 								if(!(orginIngdntNameArr.length>=cnt+3)){
 									flag++;
 								}//end if
 							}//end if
+							
 						}//end for
 					}//end for
+					
 				}// end for
 				
 				// 조건이 성공한 경우 실행
@@ -242,16 +258,17 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			Object[] rowMenu=new Object[3];
 			DefaultTableModel dtmMenu=arf.getDtmIngrednt();
 			ShowIngdntVO si=null;
-		//번호,이미지,메뉴코드","메뉴","설명","가격,
+			//번호,이미지,메뉴코드","메뉴","설명","가격,
 			for( int i=0; i<lstMenu.size(); i++ ){
 				si=lstMenu.get(i);
 				rowMenu[0]=si.getIngrdntName();
 				rowMenu[1]=si.getIngrdntPrice();
 				dtmMenu.addRow(rowMenu);
-			}
+			}//end for
+			
 		}catch(SQLException se){
 			se.printStackTrace();
-		}
+		}//end catch
 	}//searchIngdnt
 	
 	public void selectMgrRecipeInfo(){
@@ -274,22 +291,27 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				rowMenu[0]=siv.getIngrdntName();
 				rowMenu[1]=siv.getIngrdntPrice();
 				dtmMenu.addRow(rowMenu);
-			}
+			}//end for
+			
 			int totalPrice=0;
 			int[] priceArr=new int[dtmMenu.getRowCount()];
 			for(int i=0; i<dtmMenu.getRowCount();i++){
 				priceArr[i]=Integer.parseInt(dtmMenu.getValueAt(i,1).toString());
 				totalPrice=priceArr[i]+totalPrice;
-		}
-		arf.getLblTotalPrice().setText(Integer.toString(totalPrice));
+			}//end for
+			
+			arf.getLblTotalPrice().setText(Integer.toString(totalPrice));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-	}
+		}//end catch
+	}//selectMgrRecipeInfo
 	/////////////////////////////////////////// MgrForm
 	//관리자가 레시피 수정 수행 (edit버튼)
 	
+	/**
+	 * 재료삭제 method
+	 */
 	public void deleteIngrdnt(){
 		String menuName=arf.getJtfRecipeName().getText();
 		try {
@@ -297,8 +319,11 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}//end catch
-		}
+	}//deleteIngrdnt
 	
+	/**
+	 * 레시피 별 재료 업데이트 method
+	 */
 	public void editMgr(){
 		 
 	  try {
@@ -314,7 +339,10 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}//end catch
-	}//
+	}//editMgr
+	/**
+	 * 추가된 이미지 파일명을 크기별로 나누어 만드는 method
+	 */
 	public void imgCopy(){
 		
 		try {
@@ -332,19 +360,19 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
             
             String[] format={"jpg","gif","png","bmp","JPG","GIF","PNG","BMP"};
             for(int i=0; i<format.length;i++){
-            if(file.substring(file.indexOf(".")+1).equals(format[i])){
-            	ImageIO.write(copy_image,format[i], file_name_b);
-            	ImageIO.write(copy_image,format[i], file_name_s);
-            }
-            }
+	            if(file.substring(file.indexOf(".")+1).equals(format[i])){
+	            	ImageIO.write(copy_image,format[i], file_name_b);
+	            	ImageIO.write(copy_image,format[i], file_name_s);
+	            }//end if
+            }//end for
         } catch (Exception e) {
             e.printStackTrace();
         }//end catch
         	if(file==null||file==""){
         		JOptionPane.showMessageDialog(null, "이미지 파일이 없습니다.");
         		return;
-        	}
-        }
+        	}//end if
+        }//imgCopy
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -375,7 +403,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				default:
 					break;
 				}//end switch
-		}
+		}//end if
 		if(e.getSource()==arf.getJbRmvIngrednt()){
 			rmvIngdnt();
 		}//end if
@@ -393,13 +421,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			case JOptionPane.NO_OPTION:
 				JOptionPane.showMessageDialog(null, "감사합니다.");
 				return;
-			}
-		}
-			if(e.getSource() == arf.getJbClose()){
-	    	  int selectNum = JOptionPane.showConfirmDialog(arf, "창을 닫으시겠습니까?");
-	    	  switch (selectNum) {
-			case JOptionPane.OK_OPTION:
-				arf.dispose();
 			}//end switch
 		}//end if
 		if(e.getSource() == arf.getJbClose()){

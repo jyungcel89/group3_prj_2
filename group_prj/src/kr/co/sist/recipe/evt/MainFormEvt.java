@@ -276,18 +276,18 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
 
    @Override
    public void mousePressed(MouseEvent e) {
-   }
+   }//mousePressed
 
    @Override
    public void mouseReleased(MouseEvent e) {
-   }
+   }//mouseReleased
 
    @Override
    public void mouseEntered(MouseEvent e) {
-   }
+   }//mouseEntered
 
    @Override
    public void mouseExited(MouseEvent e) {
-   }
+   }//mouseExited
 
 }// class

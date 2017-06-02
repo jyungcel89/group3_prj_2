@@ -204,23 +204,14 @@ public class ScoreDAO {
                }
                
         }finally {
-               if(rs!= null){ rs.close(); }
-               if(pstmt!= null){ pstmt.close(); }
-               if(con!= null){ con.close(); }
+               if(rs!= null){ rs.close(); }//end if
+               if(pstmt!= null){ pstmt.close(); }//end if
+               if(con!= null){ con.close(); }//end if
         }//end finally
- 	   
  	   
  	   return result;
 		
 	}//popUpChkScore
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 //////////////////////////////////////////////////// 메인폼 - 전체평점계산///////////////////////////////////////////////////////////////

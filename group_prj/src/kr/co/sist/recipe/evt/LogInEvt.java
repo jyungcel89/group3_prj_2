@@ -96,20 +96,20 @@ public class LogInEvt extends WindowAdapter implements  ActionListener, KeyListe
 	public void keyPressed(KeyEvent ke) {
 		if(ke.getKeyCode() == KeyEvent.VK_TAB && ke.getSource() == lf.getJtfId()){
 			lf.getJpfPass().requestFocus();
-		}
+		}//end if
 		if(ke.getKeyCode() == KeyEvent.VK_TAB && ke.getSource() == lf.getJpfPass()){
 			lf.getJbtLogIn().requestFocus();
-		}
-	}
+		}//end if
+	}//keyPressed
 
 	@Override
 	public void keyTyped(KeyEvent ke) {
 		
-	}
+	}//keyTyped
 
 	@Override
 	public void keyReleased(KeyEvent ke) {
 		
-	}
+	}//keyReleased
 
 }//class

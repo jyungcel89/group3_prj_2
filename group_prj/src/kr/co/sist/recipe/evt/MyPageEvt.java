@@ -45,9 +45,6 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
               mdao=MemberDAO.getInstance();
               idao=IngdntDAO.getInstance();
               
-              
-              
-              
               showMyRecipe();////////////////////////////////회원 아이디 들어가야함
               showBookmark();//////////////////////////////회원 아이디 들어가야함
        }//MyPageEvt
@@ -85,7 +82,6 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
               
        }//showMyRecipe
        
-       //05-29-2017
        	/**
 	     * 마이페이지 : 요청거절 삭제버튼 
 	     * - 나의 등록레시피 상태창에서 "요청거절" 상태인 레시피만 삭제 처리
@@ -236,20 +232,25 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
     				JTable jtMyRcp=mypf.getJtMyMenu();
     				int row=jtMyRcp.getSelectedRow();
     				String value=(String)jtMyRcp.getValueAt(row, 0);
+    				String valueFlag=(String)jtMyRcp.getValueAt(row, 5);
     				MainRecipeVO mrv;
     				try {
     					mrv=rdao.selectOneRecipe(value);
     					//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
-    			        ItemPreviewForm ipf = new ItemPreviewForm(mrv,mfe);
-    	                   ipf.getJchBookmark().setVisible(false);
-    	                   ipf.getJcScore().setVisible(false);
-    	                   ipf.getJbSubmit().setVisible(false);
-    	                   ipf.getJlBookmark().setVisible(false);
-    	                   ipf.getJlScore().setVisible(false);
+    					if(!valueFlag.equals("승인")){
+    						System.out.println(valueFlag);
+	    			        ItemPreviewForm ipf = new ItemPreviewForm(mrv,mfe);
+		    	                   ipf.getJchBookmark().setVisible(false);
+		    	                   ipf.getJcScore().setVisible(false);
+		    	                   ipf.getJbSubmit().setVisible(false);
+		    	                   ipf.getJlBookmark().setVisible(false);
+		    	                   ipf.getJlScore().setVisible(false);
+    					}//end if
     				} catch (SQLException se) {
     					JOptionPane.showMessageDialog(null, 
     							"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
-    					se.printStackTrace();
+    					return;
+//    					se.printStackTrace();
     				}// end catch
     			}//end if
     			
@@ -274,21 +275,20 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        @Override
        public void mousePressed(MouseEvent e) {
               // TODO Auto-generated method stub
-              
-       }
+       }//mousePressed
+       
        @Override
        public void mouseReleased(MouseEvent e) {
               // TODO Auto-generated method stub
-              
-       }
+       }//mouseReleased
+       
        @Override
        public void mouseEntered(MouseEvent e) {
               // TODO Auto-generated method stub
-              
-       }
+       }//mouseEntered
+       
        @Override
        public void mouseExited(MouseEvent e) {
               // TODO Auto-generated method stub
-              
-       }
+       }//mouseExited
 }

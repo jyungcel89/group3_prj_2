@@ -382,25 +382,21 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
-	}
+	}//mousePressed
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
-	}
+	}//mouseReleased
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
-	}
+	}//mouseEntered
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
-	}
+	}//mouseExited
 	
 }//class

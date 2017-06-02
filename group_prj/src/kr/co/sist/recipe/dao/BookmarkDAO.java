@@ -28,7 +28,7 @@ public class BookmarkDAO {
        
        private BookmarkDAO(){
               
-       }
+       }//BookmarkDAO
        
        public static BookmarkDAO getInstance(){
               if(book_dao==null){
@@ -127,9 +127,9 @@ public class BookmarkDAO {
                      flag=pstmt.executeUpdate();
                      if(flag!=0){ // flag가 0일시 insert된 결과가 없다는 것을 뜻함으로  오류 창을 띄워줘야한다 - 경우의 수 없을듯 (중복 입력되는 경우를 막아한다)
                            result=true;
-           }else{
-                 result=false;
-           }//end if
+			         }else{
+			               result=false;
+			         }//end if
                      
               }finally {
                      //5.
@@ -164,11 +164,11 @@ public class BookmarkDAO {
                      
                      if(flag!=0){ // flag가 0일시 delete된 결과가 없다는 것을 뜻함으로  오류 창을 띄워줘야한다 - 경우의 수 없을듯 (중복 입력되는 경우를 막아한다)
                            result=true;
-           }else{
-                 result=false;
-           }//end if
+			         }else{
+			               result=false;
+			         }//end if
                      
-              }finally {
+              } finally {
                      //5. 연결끊기
                      if(pstmt!=null){ pstmt.close(); }
                      if(con!=null){ con.close(); }
@@ -200,7 +200,7 @@ public class BookmarkDAO {
                   
                   if(rs.next()){
                 	  result=true;
-                  }
+                  }//end if
                   
            }finally {
                   if(rs!= null){ rs.close(); }
@@ -210,6 +210,6 @@ public class BookmarkDAO {
     	   
     	   
     	   return result;
-       }
+       }//popUpChkBookmark
        
 }//class

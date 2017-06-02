@@ -109,11 +109,11 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		try {
 			if(bmdao.popUpChkBookmark(bmuvo)){
 				ipf.getJchBookmark().setSelected(true);
-			}
+			}//end if
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(ipf, "잠시후에 시도해 주세요 ");
-		}
+		}//end catch
 		
 		
 		
@@ -124,7 +124,6 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	public void insertBookmark(){
 		BookmarkUpdateVO bmuvo = new BookmarkUpdateVO();
 		
-//		String id="duck";/////////////////////////////////////////////////////////////////////////////////////아이디 연결해야됨 
 		String menuName=ipf.getJlRecipeName().getText().replaceAll("▧","");
 		
 		bmuvo.setId(mfe.logId);

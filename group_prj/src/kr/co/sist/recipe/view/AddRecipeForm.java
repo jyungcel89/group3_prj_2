@@ -220,6 +220,8 @@ public class AddRecipeForm extends JDialog {
 		jcbIngrdntSort.addItem("아이스크림");
 		jcbIngrdntSort.addItem("라면");
 		jcbIngrdntSort.addItem("즉석요리");
+		
+		//이벤트 추가
 		AddRecipeEvt are = new AddRecipeEvt(this);
 		jbSearch.addActionListener(are);
 		jcbCateg.addActionListener(are);
@@ -230,6 +232,8 @@ public class AddRecipeForm extends JDialog {
 		jbClose.addActionListener(are);
 		jbRmvIngrednt.addActionListener(are);
 		jbMgr.addActionListener(are);
+		
+		//배치
 		Component[] com={jtaInfo,jcbCateg,jtfRecipeName,lblRecipeInfo,lblRecipeSort,lblRecipeName
 				,jbAddImg,lblTotalPriceView,lblTotalPrice,jbRmvIngrednt,jbAddIngrednt
 				,jspAddedIngrednt,jspIngrednt,jbSearch,jcbStore,lblConvenienceStore,lblIngredntChoice
@@ -237,11 +241,11 @@ public class AddRecipeForm extends JDialog {
 		
 		for(int i=0; i<com.length;i++){
 			add(com[i]);
-		}
+		}//end for
 		setResizable(false);
 		setBounds(50,50,750,850);
 		setVisible(true);
-	}
+	}//AddRecipeForm
 
 	public JButton getJbSearch() {
 		return jbSearch;

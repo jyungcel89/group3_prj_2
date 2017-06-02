@@ -145,11 +145,8 @@ public class MemberDAO {
 			if( con != null ){ con.close(); };//end if
 		}//end finally
 		
-		
 		return result;
 	}//selectMyInfo
-	
-	
 	
 	
 	/**

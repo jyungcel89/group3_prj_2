@@ -246,9 +246,9 @@ public class RecipeDAO {
                      }//end while
                      
               }finally {
-                     if(rs!= null){ rs.close(); }
-                     if(pstmt!= null){ pstmt.close(); }
-                     if(con!= null){ con.close(); }
+                     if(rs!= null){ rs.close(); }//end if
+                     if(pstmt!= null){ pstmt.close(); }//end if
+                     if(con!= null){ con.close(); }//end if
               }//end finally
               
               return recpList;
@@ -268,7 +268,7 @@ public class RecipeDAO {
                      con = getConnection();
                      
                      // 등록날짜 기준으로 정렬
-                     String query="select menu_name, img, totalprice, food_type, info, recipe_info from reciperegister order by inputdate";
+                     String query="select menu_name, img, totalprice, food_type, info, recipe_info from reciperegister where recipe_flag='Y' order by inputdate";
                      pstmt = con.prepareStatement(query);
                      
                      rs = pstmt.executeQuery();
@@ -286,9 +286,9 @@ public class RecipeDAO {
                            recntImgList.add(mrv);
                      }
               }finally {
-                     if(rs!= null){ rs.close(); }
-                     if(pstmt!= null){ pstmt.close(); }
-                     if(con!= null){ con.close(); }
+                     if(rs!= null){ rs.close(); }//end if
+                     if(pstmt!= null){ pstmt.close(); }//end if
+                     if(con!= null){ con.close(); }//end if
               }//finally
               
               return recntImgList;
@@ -311,9 +311,9 @@ public class RecipeDAO {
                 }//end while
                 
            }finally{
-        	   if(rs!= null){ rs.close(); }
-               if(pstmt!= null){ pstmt.close(); }
-               if(con!= null){ con.close(); }
+        	   if(rs!= null){ rs.close(); }//end if
+               if(pstmt!= null){ pstmt.close(); }//end if
+               if(con!= null){ con.close(); }//end if
            }//end finally
            return nameList;
        }//getAllMenuName
@@ -359,10 +359,10 @@ public class RecipeDAO {
                      }//end while
                      
               }finally{
-                     if(rs!= null){ rs.close(); }
-                     if(pstmt!= null){ pstmt.close(); }
-                     if(con!= null){ con.close(); }
-              }
+                     if(rs!= null){ rs.close(); }//end if
+                     if(pstmt!= null){ pstmt.close(); }//end if
+                     if(con!= null){ con.close(); }//end if
+              }//end finally
               return list;
        }//recipeList
        
@@ -403,17 +403,17 @@ public class RecipeDAO {
           PreparedStatement pstmt = null;
           
           try{
-             con = getConnection();
-             
-             String query="delete from reciperegister where menu_name=?";
-             pstmt = con.prepareStatement(query);
-             
-             pstmt.setString(1, menuName);
-             
-             pstmt.executeUpdate();
+	             con = getConnection();
+	             
+	             String query="delete from reciperegister where menu_name=?";
+	             pstmt = con.prepareStatement(query);
+	             
+	             pstmt.setString(1, menuName);
+	             
+	             pstmt.executeUpdate();
           }finally {
-             if(pstmt!= null){ pstmt.close(); }
-             if(con!= null){ con.close(); }
+	             if(pstmt!= null){ pstmt.close(); }
+	             if(con!= null){ con.close(); }
           }//end finally
           
           return true;
@@ -448,8 +448,8 @@ public class RecipeDAO {
                      
                      pstmt.executeUpdate();
               }finally {
-                     if(pstmt!= null){ pstmt.close(); }
-                     if(con!= null){ con.close(); }
+                     if(pstmt!= null){ pstmt.close(); }//end if
+                     if(con!= null){ con.close(); }//end if
               }//end finally
               
               return true;
@@ -478,8 +478,8 @@ public class RecipeDAO {
                      
                      pstmt.executeUpdate();
               }finally {
-                     if(pstmt!= null){ pstmt.close(); }
-                     if(con!= null){ con.close(); }
+                     if(pstmt!= null){ pstmt.close(); }//end if
+                     if(con!= null){ con.close(); }//end if
               }//end finally
               
               return true;
@@ -508,8 +508,8 @@ public class RecipeDAO {
                      
                      pstmt.executeUpdate();
               }finally {
-                     if(pstmt!= null){ pstmt.close(); }
-                     if(con!= null){ con.close(); }
+                     if(pstmt!= null){ pstmt.close(); }//end if
+                     if(con!= null){ con.close(); }//end if
               }//end finally
               
               return true;
@@ -546,8 +546,8 @@ public class RecipeDAO {
                      
                      pstmt.executeUpdate();
               }finally {
-                     if(pstmt!= null){ pstmt.close(); }
-                     if(con!= null){ con.close(); }
+                     if(pstmt!= null){ pstmt.close(); }//end if
+                     if(con!= null){ con.close(); }//end if
               }//end finally
               
               return true;

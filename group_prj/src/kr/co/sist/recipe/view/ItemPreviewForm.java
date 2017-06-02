@@ -126,7 +126,6 @@ public class ItemPreviewForm extends JDialog {
 		//endregion 닫기,제출버튼 영역 끝
 		
 		//region 만드는법 TextArea
-		
 		jtaSimple=new JTextArea(mrv.getMenuSimpeInfo());
 		jtaSimple.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		jtaSimple.setLineWrap(true);
@@ -149,7 +148,7 @@ public class ItemPreviewForm extends JDialog {
 		for(int i=0; i<com.length;i++){
 			com[i].setFont(defaultFont);
 			add(com[i]);
-		}
+		}//end for
 		
 		//이벤트 추가
 		ItemPreviewEvt ipe=new ItemPreviewEvt(mf,this,mfe);

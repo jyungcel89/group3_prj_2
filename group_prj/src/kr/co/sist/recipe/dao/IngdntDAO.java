@@ -105,21 +105,11 @@ public class IngdntDAO {
 
 			} finally {
 				// 5.
-				if (rs != null) {
-					rs.close();
-				} // end if
-
-				if (pstmt != null) {
-					pstmt.close();
-				} // end if
-
-				if (con != null) {
-					con.close();
-				} // end if
-			}
-
+				if (rs != null) { rs.close(); } // end if
+				if (pstmt != null) { pstmt.close(); } // end if
+				if (con != null) { con.close(); } // end if
+			}//end finally
 			return list;
-		 
 	 }//selectIngdntOfRecp
 	 
 	 // 사용자, 관리자 : 레시피 추가 창에서 재료선택후 메뉴당 재료 테이블에 추가
@@ -150,9 +140,7 @@ public class IngdntDAO {
 						} // end if
 					
 			  System.out.println(addIngVo.getIngrdntCode());
-			  if (pstmt != null) {
-					pstmt.close();
-				} // end if
+			  if (pstmt != null) { pstmt.close(); } // end if
 			  
 				String insertIngrdnt="insert into RECIPE_INGREDIENTS(INGREDIENTS_CODE,INGREDIENT_NAME,MENU_NAME)"
 						+ " values(?,?,?)";
@@ -164,21 +152,12 @@ public class IngdntDAO {
 				pstmt.executeUpdate();
 				} // end for
 				flag=true;
-				}
-				finally{
-				
-				if (pstmt != null) {
-					pstmt.close();
-				} // end if
-
-				if (con != null) {
-					con.close();
-				} // end if
-				if (rs != null) {
-					rs.close();
-				} // end if
-			}
-		return flag;
+			} finally {
+					if (pstmt != null) { pstmt.close(); } // end if
+					if (con != null) { con.close(); } // end if
+					if (rs != null) {	rs.close(); } // end if
+			}//end finally
+			return flag;
 	 }//insertIngdntOfRecp
 	 
 	 // 관리자 : 레시피 추가 창에서 재료 수정
@@ -207,7 +186,6 @@ public class IngdntDAO {
 			return result;
 	 }//updateIngdntOfRecp
 	 
-	 
 	 // 관리자 : 레시피 추가 창에서 재료 수정
 	 /**
 	 *  05-26 홍승환 코드 작성
@@ -220,22 +198,18 @@ public class IngdntDAO {
 		      PreparedStatement pstmt = null;
 		      boolean flag=false;
 		      try {
-		         con = getConnection();
-		         String deleteIngrdnt="delete from RECIPE_INGREDIENTS where MENU_NAME=?";
-		         pstmt=con.prepareStatement(deleteIngrdnt);
-		         pstmt.setString(1,menuName);
-		         pstmt.executeUpdate(); 
-		         flag=true;
+			         con = getConnection();
+			         String deleteIngrdnt="delete from RECIPE_INGREDIENTS where MENU_NAME=?";
+			         pstmt=con.prepareStatement(deleteIngrdnt);
+			         pstmt.setString(1,menuName);
+			         pstmt.executeUpdate(); 
+			         flag=true;
 		      } finally {
 		         // 5.
-		         if (pstmt!= null) {
-		            pstmt.close();
-		         }
-		         if (con != null) {
-		            con.close();
-		         }
+			         if (pstmt!= null) { pstmt.close(); }//end if
+			         if (con != null) { con.close(); }//end if
 		      } // end finally
-		 return flag;
+		      return flag;
 	 }//updateIngdntOfRecp
 	 
 	/**
@@ -283,55 +257,55 @@ public class IngdntDAO {
 			MgrRecipeInfoVO mriv=null;
 			ShowIngdntVO si=null;
 			try {
-				con = getConnection();
-				String selectMgrRecipeInfo ="select MENU_NAME,IMG, FOOD_TYPE, INFO, RECIPE_INFO, TOTALPRICE,ID "
-						+ "from RECIPEREGISTER "
-						+ "where menu_name=?";
-				String selectMgrRecipeInfo2 ="select ri.INGREDIENT_NAME,i.PRICE "
-						+ "from INGREDIENTS i,RECIPE_INGREDIENTS ri "
-						+ "where(ri.INGREDIENT_NAME=i.INGREDIENT_NAME) "
-						+ "and ri.MENU_NAME=?";
-				pstmt = con.prepareStatement(selectMgrRecipeInfo);
-				pstmt.setString(1,menuName);
-				pstmt2 = con.prepareStatement(selectMgrRecipeInfo2);
-				pstmt2.setString(1,menuName);
-				rs = pstmt.executeQuery();
-				rs2=pstmt2.executeQuery();
-				List<ShowIngdntVO>list=new ArrayList<ShowIngdntVO>();
-				mrv= new MgrRecipeVO();
-				mriv=new MgrRecipeInfoVO(list,mrv);
-				while (rs.next()) {
-					mriv.getMrv().setMenu_name(rs.getString("menu_name"));
-					mriv.getMrv().setImg(rs.getString("img"));
-					mriv.getMrv().setFoodType(rs.getString("food_type"));
-					mriv.getMrv().setInfo(rs.getString("info"));
-					mriv.getMrv().setRecipe_info(rs.getString("recipe_info"));
-					mriv.getMrv().setTotalPrice(rs.getString("totalprice"));
-					mriv.getMrv().setId(rs.getString("id"));
-				} // end while
-				while(rs2.next()){
-					si=new ShowIngdntVO();
-					si.setIngrdntName(rs2.getString("ingredient_name"));
-					si.setIngrdntPrice(rs2.getString("price"));
-					list.add(si);
-				}
-				mriv.setSiv(list);
+					con = getConnection();
+					String selectMgrRecipeInfo ="select MENU_NAME,IMG, FOOD_TYPE, INFO, RECIPE_INFO, TOTALPRICE,ID "
+							+ "from RECIPEREGISTER "
+							+ "where menu_name=?";
+					String selectMgrRecipeInfo2 ="select ri.INGREDIENT_NAME,i.PRICE "
+							+ "from INGREDIENTS i,RECIPE_INGREDIENTS ri "
+							+ "where(ri.INGREDIENT_NAME=i.INGREDIENT_NAME) "
+							+ "and ri.MENU_NAME=?";
+					pstmt = con.prepareStatement(selectMgrRecipeInfo);
+					pstmt.setString(1,menuName);
+					pstmt2 = con.prepareStatement(selectMgrRecipeInfo2);
+					pstmt2.setString(1,menuName);
+					rs = pstmt.executeQuery();
+					rs2=pstmt2.executeQuery();
+					List<ShowIngdntVO>list=new ArrayList<ShowIngdntVO>();
+					mrv= new MgrRecipeVO();
+					mriv=new MgrRecipeInfoVO(list,mrv);
+					while (rs.next()) {
+						mriv.getMrv().setMenu_name(rs.getString("menu_name"));
+						mriv.getMrv().setImg(rs.getString("img"));
+						mriv.getMrv().setFoodType(rs.getString("food_type"));
+						mriv.getMrv().setInfo(rs.getString("info"));
+						mriv.getMrv().setRecipe_info(rs.getString("recipe_info"));
+						mriv.getMrv().setTotalPrice(rs.getString("totalprice"));
+						mriv.getMrv().setId(rs.getString("id"));
+					} // end while
+					while(rs2.next()){
+						si=new ShowIngdntVO();
+						si.setIngrdntName(rs2.getString("ingredient_name"));
+						si.setIngrdntPrice(rs2.getString("price"));
+						list.add(si);
+					}
+					mriv.setSiv(list);
 			} finally {
 				// 5.
-				if (rs != null&&rs2!=null) {
-					rs.close();
-					rs2.close();
-				} // end if
-
-				if (pstmt != null&&pstmt2!=null) {
-					pstmt.close();
-					pstmt2.close();
-				} // end if
-
-				if (con != null) {
-					con.close();
-				} // end if
-			}
+					if (rs != null&&rs2!=null) {
+						rs.close();
+						rs2.close();
+					} // end if
+	
+					if (pstmt != null&&pstmt2!=null) {
+						pstmt.close();
+						pstmt2.close();
+					} // end if
+	
+					if (con != null) {
+						con.close();
+					} // end if
+			}//end finally
 			return mriv;
 	 }//selectIngdnt
 	
@@ -350,70 +324,58 @@ public class IngdntDAO {
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			try {
-				
-				con = getConnection();
-				String selectIngrdnt ="select price,ingredient_name "
-						+ "from ingredients "
-						+ "where brand=? and type=?";
-
-				pstmt = con.prepareStatement(selectIngrdnt);
-				pstmt.setString(1,icv.getBrand());
-				pstmt.setString(2,icv.getIngrdntSort());
-				rs = pstmt.executeQuery();
-				
-				ShowIngdntVO siv= null;
-				while (rs.next()) {
-					siv =new ShowIngdntVO();
-					siv.setIngrdntName(rs.getString("ingredient_name"));
-					siv.setIngrdntPrice(rs.getString("price"));
 					
-					list.add(siv);
-				} // end while
+					con = getConnection();
+					String selectIngrdnt ="select price,ingredient_name "
+							+ "from ingredients "
+							+ "where brand=? and type=?";
+	
+					pstmt = con.prepareStatement(selectIngrdnt);
+					pstmt.setString(1,icv.getBrand());
+					pstmt.setString(2,icv.getIngrdntSort());
+					rs = pstmt.executeQuery();
+					
+					ShowIngdntVO siv= null;
+					while (rs.next()) {
+							siv =new ShowIngdntVO();
+							siv.setIngrdntName(rs.getString("ingredient_name"));
+							siv.setIngrdntPrice(rs.getString("price"));
+							
+							list.add(siv);
+					} // end while
 
 			} finally {
 				// 5.
-				if (rs != null) {
-					rs.close();
-				} // end if
-
-				if (pstmt != null) {
-					pstmt.close();
-				} // end if
-
-				if (con != null) {
-					con.close();
-				} // end if
-			}
-
+					if (rs != null) {	rs.close(); } // end if
+					if (pstmt != null) { pstmt.close(); } // end if
+					if (con != null) { con.close(); 	} // end if
+			}//end finally
 			return list;
 	 }//selectIngdnt
+	
 	public boolean insertRecipe(AddRecipeVO arv)throws SQLException{
 		boolean flag=false;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			con=getConnection();
-			String insertRecipe="insert into RECIPEREGISTER(MENU_NAME, IMG, FOOD_TYPE, INFO, "
-					+ "RECIPE_INFO, TOTALPRICE, ID, INPUTDATE, RECIPE_FLAG)"
-					+ " values(?,?,?,?,?,?,?,to_char(sysdate,'yyyy-mm-dd'),'S')";
-			pstmt=con.prepareStatement(insertRecipe);
-			pstmt.setString(1, arv.getMenuName());
-			pstmt.setString(2, arv.getMenuImg());
-			pstmt.setString(3, arv.getMenuType());
-			pstmt.setString(4, arv.getMenuSimpleInfo());
-			pstmt.setString(5, arv.getMenuDetailInfo());
-			pstmt.setInt(6, arv.getMenuPrice());
-			pstmt.setString(7, arv.getId());
-			pstmt.executeUpdate();
-			flag=true;
+				con=getConnection();
+				String insertRecipe="insert into RECIPEREGISTER(MENU_NAME, IMG, FOOD_TYPE, INFO, "
+						+ "RECIPE_INFO, TOTALPRICE, ID, INPUTDATE, RECIPE_FLAG)"
+						+ " values(?,?,?,?,?,?,?,to_char(sysdate,'yyyy-mm-dd'),'S')";
+				pstmt=con.prepareStatement(insertRecipe);
+				pstmt.setString(1, arv.getMenuName());
+				pstmt.setString(2, arv.getMenuImg());
+				pstmt.setString(3, arv.getMenuType());
+				pstmt.setString(4, arv.getMenuSimpleInfo());
+				pstmt.setString(5, arv.getMenuDetailInfo());
+				pstmt.setInt(6, arv.getMenuPrice());
+				pstmt.setString(7, arv.getId());
+				pstmt.executeUpdate();
+				flag=true;
 		} finally {
-			if (pstmt != null) {
-				pstmt.close();
-			} // end if
-			if (con != null) {
-				con.close();
-			} // end if
-		}
-	return flag;
-	}
+				if (pstmt != null) { pstmt.close(); } // end if
+				if (con != null) { con.close(); } // end if
+		}//end finally
+			return flag;
+	}//insertRecipe
 }//class

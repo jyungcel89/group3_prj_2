@@ -121,16 +121,11 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 		String pw=new String(sf.getJpfPw().getPassword());
 		String pwChk=new String(sf.getJpfChkPw().getPassword());
 		
-		
 		if( !pw.equals( pwChk ) ){
 			JOptionPane.showMessageDialog(sf, 
 					"비밀번호가 일치하지 않습니다.");
 			return;
 		}//end if
-
-			
-			
-			
 			
 		mem_vo.setId("duck");///////////////////////////아이디 연결해야함 
 		mem_vo.setPw(new String(sf.getJpfPw().getPassword()));
@@ -142,14 +137,17 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 			case JOptionPane.OK_OPTION:
 				try {
 					if(mem_dao.updateMember(mem_vo)){
-						JOptionPane.showMessageDialog(sf, "정상적으로 수정되었습니다.");
+						JOptionPane.showMessageDialog(sf, 
+								"정상적으로 수정되었습니다.");
 					}else{
-						JOptionPane.showMessageDialog(sf, "죄송합니다. 잠시후에 다시시도해 주세요");
-					}
+						JOptionPane.showMessageDialog(sf, 
+								"죄송합니다. 잠시후에 다시시도해 주세요");
+					}//end if
 				} catch (SQLException e) {
-					JOptionPane.showMessageDialog(sf, "모든 내용을 기입해주세요");
+					JOptionPane.showMessageDialog(sf, 
+							"모든 내용을 기입해주세요");
 					return;
-				}
+				}//end catch
 				sf.dispose();
 				break;
 			case JOptionPane.NO_OPTION : 
@@ -159,7 +157,6 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 				sf.dispose();
 				break;
 			}//end switch
-			
 		
 	}//editMember
 	
@@ -210,9 +207,7 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 	
 	public void updateMember(){
 		  String id=mfe.logId;
-		 
-	}
-	
+	}//updateMember
 
 	
 	@Override
