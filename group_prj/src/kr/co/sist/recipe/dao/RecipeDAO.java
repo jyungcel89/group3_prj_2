@@ -293,6 +293,31 @@ public class RecipeDAO {
               
               return recntImgList;
        }//showNewRecipe
+       
+       // 존재하는 모든 메뉴
+       public List<String> getAllMenuName() throws SQLException{
+    	   Connection con= null;
+           PreparedStatement pstmt = null;
+           ResultSet rs = null;
+           List<String> nameList = new ArrayList<String>();
+           try{
+        	    con = getConnection();
+        	    String query="select menu_name from reciperegister where recipe_flag='Y'";
+                pstmt = con.prepareStatement(query);
+                rs = pstmt.executeQuery();
+        	    
+                while(rs.next()){
+                	nameList.add(rs.getString("menu_name"));
+                }//end while
+                
+           }finally{
+        	   if(rs!= null){ rs.close(); }
+               if(pstmt!= null){ pstmt.close(); }
+               if(con!= null){ con.close(); }
+           }//end finally
+           return nameList;
+       }//getAllMenuName
+       
        /**
         * 관리자폼
         *  - jtMenuList, jtMenuRequest DB조회
@@ -532,7 +557,7 @@ public class RecipeDAO {
        public static void main(String[] args){
               RecipeDAO md= RecipeDAO.getInstance();
               
-//           try {
+           try {
 //                         List<MainRecipeVO> list;
 //                         list = md.selectAllRecipe(new MenuTypeVO("","","",""));
 //                         for(MainRecipeVO tmp : list){
@@ -588,10 +613,17 @@ public class RecipeDAO {
 //============================================================
 //                  md.deleteRecipe("추가된당");
 //                  System.out.println("제거성공");
-//           } catch (SQLException e) {
-//                  // TODO Auto-generated catch block
-//                  e.printStackTrace();
-//           }
+//============================================================
+              // 모든 레시피의 이름조회
+        	   List<String> list = md.getAllMenuName();
+              for(String tmp : list){
+            	  System.out.println(tmp);
+              }//end for
+             
+           } catch (SQLException e) {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+           }
               
        }//main
 }//class

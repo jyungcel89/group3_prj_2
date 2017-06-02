@@ -22,17 +22,20 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
 
 import kr.co.sist.recipe.dao.IngdntDAO;
+import kr.co.sist.recipe.dao.RecipeDAO;
 import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.view.MgrPageForm;
 import kr.co.sist.recipe.vo.AddRecipeVO;
 import kr.co.sist.recipe.vo.IngrdntCategVO;
+import kr.co.sist.recipe.vo.MenuTypeVO;
 import kr.co.sist.recipe.vo.MgrRecipeInfoVO;
 import kr.co.sist.recipe.vo.MgrUpdateIngrdntVO;
 import kr.co.sist.recipe.vo.ShowIngdntVO;
 import kr.co.sist.recipe.vo.addRemoveIngrdntVO;
 
 public class AddRecipeEvt extends WindowAdapter implements ActionListener {
+	private RecipeDAO rda;
 	private IngdntDAO ida;
 	private AddRecipeForm arf;
 	private IngrdntCategVO icv;
@@ -42,9 +45,11 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	private MainForm mf;
 	private MainFormEvt mfe;
 	public MgrPageForm mpf;
+	
 	public AddRecipeEvt(AddRecipeForm arf){
 		this.arf=arf;
 		ida=IngdntDAO.getInstance();
+		rda=RecipeDAO.getInstance();
 		selectMgrRecipeInfo();
 		System.out.println();
 		String id=mfe.logId;
@@ -68,14 +73,30 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		DefaultTableModel dtmIngrdnt=arf.getDtmAddedIngrednt();
 		JTable table=arf.getJtIngrednt();
 		int select=table.getSelectedRow();
+		
 		//번호,이미지,메뉴코드","메뉴","설명","가격,
 			rowData[0]=table.getValueAt(select,0);
 			rowData[1]=table.getValueAt(select,1);
-			dtmIngrdnt.addRow(rowData);
 			
+			// 동일 제료 추가 불가 조건문 
+			
+			if(dtmIngrdnt.getRowCount()!=0){
+				for(int i=0; i<dtmIngrdnt.getRowCount(); i++){
+					if(dtmIngrdnt.getValueAt(i, 0).equals(table.getValueAt(select,0))){
+						JOptionPane.showMessageDialog(arf, "같은 재료를 두가지 이상 추가하실수 없습니다 ");
+						break;
+					}else{
+					dtmIngrdnt.addRow(rowData);
+					}//end if
+				}//end for
+			}else{
+				dtmIngrdnt.addRow(rowData);
+			}//end if			
+			
+			// 테이블 재료르실행
 			JTable table2=arf.getJtaddedIngrednt();
 			int[] priceArr=new int[table2.getRowCount()];
-			 int totalPrice=0;
+			 int totalPrice=0; 
 				for(int i=0; i<table2.getRowCount();i++){
 						priceArr[i]=Integer.parseInt(table2.getValueAt(i,1).toString());
 						totalPrice=priceArr[i]+totalPrice;
@@ -128,6 +149,8 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			
 		}//end if
 	}//addImg
+	
+	////////////////////////////////////////////////////////////////
 	public void reqRecipe(){
 		 String menuName=null;
 		 String img=null;
@@ -136,48 +159,94 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		 String recipe_make=null;
 		 String id=null;
 	
-			try {
-				 menuName=arf.getJtfRecipeName().getText();
-				  img=file;
-				  foodType=arf.getJcbCateg().getSelectedItem().toString();
-				  info=arf.getJtaInfo().getText();
-				  recipe_make=arf.getJtaWriteRecipe().getText();
-				  id=mfe.logId;
-				  int totalPrice=Integer.parseInt(arf.getLblTotalPrice().getText());
-				  AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,id);
+		try {
+				menuName=arf.getJtfRecipeName().getText();
+				img=file;
+				foodType=arf.getJcbCateg().getSelectedItem().toString();
+				info=arf.getJtaInfo().getText();
+				recipe_make=arf.getJtaWriteRecipe().getText();
+				id=mfe.logId;
+				int totalPrice=Integer.parseInt(arf.getLblTotalPrice().getText());
+				AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,id);
 				ida.insertRecipe(arv);
 				JOptionPane.showMessageDialog(null, "성공적으로 레시피가 추가되었습니다.");	
-				} catch (SQLException e) {
+		}catch (SQLException e) {
 				e.printStackTrace();
-				}catch(NullPointerException npe){
-					JOptionPane.showMessageDialog(null,"기입사항을 다시 확인해주세요");
-				}
+		}catch(NullPointerException npe){
+				JOptionPane.showMessageDialog(null,"기입사항을 다시 확인해주세요");
+		}//end catch
+		
+		
 
 		
 		
 	}//reqRecipe
+	/////////////////////////////////////////33333333333333333333333333333333333333
 	// 관리자에게 요청 수행 (request버튼)
 	public void reqRecipeIngrdnt(){
 		
 		JTable table=arf.getJtaddedIngrednt();
 		
-		String[] ingrdntName=new String[table.getRowCount()];
+		// 추가하려는 메뉴이름
 		String menuName=arf.getJtfRecipeName().getText();
+		String[] ingrdntName=new String[table.getRowCount()];
+		// 추가하려는 재료 이름들을 배열로 가져옴 // 추가표에 그려지는 재료들
+		for(int i=0; i<table.getRowCount(); i++){
+			ingrdntName[i]=table.getValueAt(i,0).toString();
+		}//end for
 		
-		if(ingrdntName.length!=0&&!menuName.equals("")){
+		if(ingrdntName.length!=0 && !menuName.equals("")){
 			try {
-				for(int i=0; i<table.getRowCount();i++){
-					ingrdntName[i]=table.getValueAt(i,0).toString();
-				}
-				addRemoveIngrdntVO arv=new addRemoveIngrdntVO(ingrdntName, menuName);
-				ida.insertIngdntOfRecp(arv);
+				// 모든 메뉴이름이 있는 리스트를 배열로 가져옴
+				System.out.println("사이즈"+rda.getAllMenuName().size());
+				String[] allMenuNameArr = new String[rda.getAllMenuName().size()];
+				rda.getAllMenuName().toArray(allMenuNameArr);
+//				for(String tmp: allMenuNameArr){
+//					System.out.println(tmp);
+//				}
+				int cnt;
+				int flag=0;
+//-------------------------------------------------------------------
+				// 요청 수행전 조건
+				// 존재하는 메뉴이름 모두 비교
+				for(int i=0; i<allMenuNameArr.length; i++){
+					// 메뉴이름에 해당하는 재료들 배열
+					String[] orginIngdntNameArr = new String[ida.selectIngdntOfRecp(allMenuNameArr[i]).size()];
+					ida.getIngdntOfRecp(allMenuNameArr[i]).toArray(orginIngdntNameArr);
+					cnt=0;
+					for(int k=0; k<ingrdntName.length; k++){
+						for(int j=0; j<orginIngdntNameArr.length; j++){
+							if(ingrdntName[k].equals(orginIngdntNameArr[j])){
+								cnt+=1;
+								System.out.println(cnt);
+								// 중복되는 재료가 3개이상일 때
+							}//end if
+							if(cnt>2){
+								if(!(orginIngdntNameArr.length>=cnt+3)){
+									flag++;
+								}//end if
+							}//end if
+						}//end for
+					}//end for
+				}// end for
+				
+				// 조건이 성공한 경우 실행
+				if(flag==0){
+					addRemoveIngrdntVO arv=new addRemoveIngrdntVO(ingrdntName, menuName);
+					ida.insertIngdntOfRecp(arv);
+				}else{
+					JOptionPane.showMessageDialog(arf, "※추가실패 !! \n"
+							+ "추가하는 재료 중 같은 재료를 3개이상 쓰고 있는 메뉴가 존재합니다.\n"
+							+ "다른 재료를 더 추가하거나 색다른 레시피를 연구해보시길 바랍니다.");
+				}//end else
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}
+			}//end catch
 		}else{
 			JOptionPane.showMessageDialog(arf, "재료를 추가해주세요");
 			return;
-		}
+		}//end else
 	}//reqRecipe
  
 	// 재료 조회 수행 < IngdntDAO에서 selectIngdnt(IngdntSchVO:편의점, 재료타입) :  List<showIngredntVO>
@@ -301,9 +370,8 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			rmvIngdnt();
 		}
 		if(e.getSource()==arf.getJbMgr()){
-			 int index=JOptionPane.showConfirmDialog(null, "정말로 수정하시겠습니까?");
-			 switch (index) {
-		case JOptionPane.OK_OPTION:
+			 switch (JOptionPane.showConfirmDialog(null, "정말로 수정하시겠습니까?")) {
+			 case JOptionPane.OK_OPTION:
 				editMgr();
 				deleteIngrdnt();
 				reqRecipeIngrdnt();
