@@ -79,7 +79,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			rowData[1]=table.getValueAt(select,1);
 			
 			// 동일 제료 추가 불가 조건문 
-			
+			 
 			if(dtmIngrdnt.getRowCount()!=0){
 				for(int i=0; i<dtmIngrdnt.getRowCount(); i++){
 					if(dtmIngrdnt.getValueAt(i, 0).equals(table.getValueAt(select,0))){
