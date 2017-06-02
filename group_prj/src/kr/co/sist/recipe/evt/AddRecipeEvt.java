@@ -72,15 +72,12 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				for(int i=0; i<dtmIngrdnt.getRowCount(); i++){
 					if(dtmIngrdnt.getValueAt(i, 0).equals(table.getValueAt(select,0))){
 						JOptionPane.showMessageDialog(arf, "같은 재료를 두가지 이상 추가하실수 없습니다 ");
-						break;
+						return;
 					}else{
 					dtmIngrdnt.addRow(rowData);
 					}//end if
 				}//end for
-			}else{
-				dtmIngrdnt.addRow(rowData);
-			}//end if			
-			
+			}
 			// 테이블 재료르실행
 			JTable table2=arf.getJtaddedIngrednt();
 			int[] priceArr=new int[table2.getRowCount()];
@@ -157,7 +154,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				int totalPrice=Integer.parseInt(arf.getLblTotalPrice().getText());
 				AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,id);
 				ida.insertRecipe(arv);
-				JOptionPane.showMessageDialog(null, "성공적으로 레시피가 추가되었습니다.");	
 		}catch(NullPointerException npe){
 			JOptionPane.showMessageDialog(null,"기입사항을 다시 확인해주세요");
 		}catch (SQLException e) {
@@ -335,7 +331,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
             graphic.drawImage(original_image, 0, 0, width, height, null);
             
             String[] format={"jpg","gif","png","bmp","JPG","GIF","PNG","BMP"};
-            System.out.println("썸네일 생성완료");
             for(int i=0; i<format.length;i++){
             if(file.substring(file.indexOf(".")+1).equals(format[i])){
             	ImageIO.write(copy_image,format[i], file_name_b);
