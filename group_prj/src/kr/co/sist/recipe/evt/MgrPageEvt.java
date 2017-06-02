@@ -66,7 +66,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				dtmMenu.setRowCount(0);
 				// name,img,type,info,price 
 				for( int i=0; i < listAllRcp.size(); i++ ){
-					mrv=listAllRcp.get(i);
+					 mrv=listAllRcp.get(i);
 					rowMenu[0]=mrv.getMenuName();
 					rowMenu[1]=new ImageIcon(path+mrv.getMenuImg());
 					rowMenu[2]=mrv.getMenuType();
