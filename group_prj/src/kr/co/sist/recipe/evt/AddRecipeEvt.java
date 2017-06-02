@@ -256,26 +256,25 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		
 		
 		try {
-            int thumbnail_width = 260;
-            int thumbnail_height = 200;
-            File origin_file_name = new File(path+file);
+            int width = 260;
+            int height = 200;
+            File file_name = new File(path+file);
            String path="C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img";
-            File thumb_file_name_b = new File(path+"/b_FI_"+file);
-            File thumb_file_name_s = new File(path+"/s_FI_"+file);
+            File file_name_b = new File(path+"/b_FI_"+file);
+            File file_name_s = new File(path+"/s_FI_"+file);
             
-            BufferedImage buffer_original_image = ImageIO.read(origin_file_name);
-            BufferedImage buffer_thumbnail_image = new BufferedImage(thumbnail_width, thumbnail_height, BufferedImage.TYPE_3BYTE_BGR);
-            Graphics2D graphic = buffer_thumbnail_image.createGraphics();
-            graphic.drawImage(buffer_original_image, 0, 0, thumbnail_width, thumbnail_height, null);
+            BufferedImage original_image = ImageIO.read(file_name);
+            BufferedImage copy_image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+            Graphics2D graphic = copy_image.createGraphics();
+            graphic.drawImage(original_image, 0, 0, width, height, null);
             
             String[] format={"jpg","gif","png","bmp","JPG","GIF","PNG","BMP"};
             for(int i=0; i<format.length;i++){
             if(file.substring(file.indexOf(".")+1).equals(format[i])){
-            	ImageIO.write(buffer_thumbnail_image,format[i], thumb_file_name_b);
-            	ImageIO.write(buffer_thumbnail_image,format[i], thumb_file_name_s);
+            	ImageIO.write(copy_image,format[i], file_name_b);
+            	ImageIO.write(copy_image,format[i], file_name_s);
             }
             }
-            System.out.println("썸네일 생성완료");
         } catch (Exception e) {
         	if(file==null||file==""){
         		JOptionPane.showMessageDialog(null, "이미지 파일이 없습니다.");
