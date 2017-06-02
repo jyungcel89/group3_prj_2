@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import kr.co.sist.recipe.dao.BookmarkDAO;
+import kr.co.sist.recipe.dao.IngdntDAO;
 import kr.co.sist.recipe.dao.MemberDAO;
 import kr.co.sist.recipe.dao.RecipeDAO;
 import kr.co.sist.recipe.view.ItemPreviewForm;
@@ -29,6 +30,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        private RecipeDAO rdao;
        private MemberDAO mdao;
        private MainForm mf;
+       private IngdntDAO idao;
        
 	    /**
 	     * 마이페이지 이벤트
@@ -41,6 +43,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
               bdao=BookmarkDAO.getInstance();
               rdao=RecipeDAO.getInstance();
               mdao=MemberDAO.getInstance();
+              idao=IngdntDAO.getInstance();
               showMyRecipe();////////////////////////////////회원 아이디 들어가야함
               showBookmark();//////////////////////////////회원 아이디 들어가야함
        }//MyPageEvt
@@ -107,6 +110,9 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
 				case JOptionPane.OK_OPTION:
 					// 가져온 menuName 값 > 삭제
 					rdao.deleteRecipeUser(value);
+					idao.deleteIngdntOfRecp(value);
+					JOptionPane.showMessageDialog(null,"성공적으로 삭제되었습니다.");
+					
 				}//end catch
 				
 				// 삭제 후 갱신

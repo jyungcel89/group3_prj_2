@@ -352,8 +352,6 @@ public class IngdntDAO {
 
 			return list;
 	 }//selectIngdnt
-	
-	
 	public boolean insertRecipe(AddRecipeVO arv)throws SQLException{
 		boolean flag=false;
 		Connection con = null;

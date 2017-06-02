@@ -7,13 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -139,13 +134,12 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				  int totalPrice=Integer.parseInt(arf.getLblTotalPrice().getText());
 				  AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,id);
 				ida.insertRecipe(arv);
-				JOptionPane.showMessageDialog(null, "성공적으로 레시피가 추가되었습니다.");	
 				} catch (SQLException e) {
 				e.printStackTrace();
 				}catch(NullPointerException npe){
 					JOptionPane.showMessageDialog(null,"기입사항을 다시 확인해주세요");
+					return;
 				}
-
 		
 		
 	}//reqRecipe
@@ -241,7 +235,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}//deleteIngrdnt
 	
 	public void editMgr(){
 		MgrUpdateIngrdntVO muiv=new MgrUpdateIngrdntVO();
@@ -252,36 +246,20 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		 muiv.setRecipeInfo(arf.getJtaWriteRecipe().getText());
 		 muiv.setTotalPrice(Integer.parseInt(arf.getLblTotalPrice().getText()));
 		 
-		 try {
-			 int index=JOptionPane.showConfirmDialog(null, "정말로 수정하시겠습니까?");
-			 switch (index) {
-			case JOptionPane.OK_OPTION:
-				ida.updateIngdntOfRecp(muiv,menuName);
-				JOptionPane.showMessageDialog(null,"성공적으로 수행되었습니다.");
-				break;
-			case JOptionPane.NO_OPTION:
-				return;
-			default:
-				break;
-			}//end switch
-			
-			ida.updateIngdntOfRecp(muiv,menuName);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}//
-	@SuppressWarnings("resource")
-	public void copy(){
+		
+				try {
+					ida.updateIngdntOfRecp(muiv,menuName);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+	}//editMgr
+	public void imgCopy(){
+		
 		
 		try {
-            //썸네일 가로사이즈
             int thumbnail_width = 260;
-            //썸네일 세로사이즈
             int thumbnail_height = 200;
-            //원본이미지파일의 경로+파일명
             File origin_file_name = new File(path+file);
-            //생성할 썸네일파일의 경로+썸네일파일명
            String path="C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img";
             File thumb_file_name_b = new File(path+"/b_FI_"+file);
             File thumb_file_name_s = new File(path+"/s_FI_"+file);
@@ -301,7 +279,10 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
             }
             System.out.println("썸네일 생성완료");
         } catch (Exception e) {
-            e.printStackTrace();
+        	if(file==null||file==""){
+        		JOptionPane.showMessageDialog(null, "이미지 파일이 없습니다.");
+        		return;
+        	}
         }
 	}
 
@@ -318,13 +299,22 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				addIngdnt();
 		}
 		if(e.getSource()==arf.getJbAddImg()){
-				
 				addImg();
 		}
 		if(e.getSource()==arf.getJbRequest()){
-						copy();
-						reqRecipe();
-						reqRecipeIngrdnt();
+				 int index=JOptionPane.showConfirmDialog(null, "위의 내용대로 요청하시겠습니까?");
+				 switch (index) {
+				case JOptionPane.OK_OPTION:
+					imgCopy();
+					reqRecipe();
+					reqRecipeIngrdnt();
+					JOptionPane.showMessageDialog(null,"성공적으로 요청되었습니다!");
+					break;
+				case JOptionPane.NO_OPTION:
+					return;
+				default:
+					break;
+				}//end switch
 		}
 		if(e.getSource()==arf.getJbRmvIngrednt()){
 			rmvIngdnt();
@@ -336,7 +326,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				editMgr();
 				deleteIngrdnt();
 				reqRecipeIngrdnt();
-			
 				JOptionPane.showMessageDialog(null, "성공적으로 수행되었습니다.");
 				break;
 			case JOptionPane.NO_OPTION:

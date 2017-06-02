@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import kr.co.sist.recipe.dao.IngdntDAO;
 import kr.co.sist.recipe.dao.MemberDAO;
 import kr.co.sist.recipe.dao.RecipeDAO;
 import kr.co.sist.recipe.view.AddRecipeForm;
@@ -31,6 +32,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 	private MgrPageForm mpf;
 	private MemberDAO mem_dao;
 	private RecipeDAO rcp_dao;
+	private IngdntDAO ida_dao;
 	MainFormEvt mfe;
 	
 	public MgrPageEvt( MgrPageForm mpf, MainFormEvt mfe ) {
@@ -38,6 +40,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 		this.mfe=mfe;
 		mem_dao=MemberDAO.getInstance();
 		rcp_dao=RecipeDAO.getInstance();
+		ida_dao=IngdntDAO.getInstance();
 		allRecipeList();
 		requestList();
 		memberList();
@@ -148,6 +151,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				case JOptionPane.OK_OPTION:
 					// 가져온 menuName 값 > 삭제
 					rcp_dao.deleteRecipe(value);
+					ida_dao.deleteIngdntOfRecp(value);
 				}//end catch
 				// 삭제 후 갱신
 				allRecipeList();
