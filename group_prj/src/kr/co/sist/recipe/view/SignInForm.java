@@ -205,7 +205,7 @@ public class SignInForm extends JDialog {
 
 	public void setJbtChkId(JButton jbtChkId) {
 		this.jbtChkId = jbtChkId;
-	}
+	} 
 
 	public JButton getJbtSubmit() {
 		return jbtSubmit;
