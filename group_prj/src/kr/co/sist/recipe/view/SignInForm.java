@@ -1,14 +1,15 @@
 package kr.co.sist.recipe.view;
 
 import java.awt.Font;
-
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
+import kr.co.sist.recipe.dao.MemberDAO;
+import kr.co.sist.recipe.evt.MainFormEvt;
 import kr.co.sist.recipe.evt.SignEvt;
 
 @SuppressWarnings("serial")
@@ -17,8 +18,11 @@ public class SignInForm extends JDialog {
 	public JTextField jtfId, jtfName, jtfMail;
 	private JPasswordField jpfPw, jpfChkPw;
 	private JButton jbtChkId, jbtSubmit, jbtCancel, jbtUpdate;
-	
+	private MainFormEvt mfe;
+	private MemberDAO mdao;
+	@SuppressWarnings("static-access")
 	public SignInForm(String logId) {
+		mdao=MemberDAO.getInstance();
 		setTitle("홍홍홍 레시피 회원가입");
 		setLayout(null);
 		String backgroundPath="";
@@ -95,7 +99,6 @@ public class SignInForm extends JDialog {
 		jpfPw.addActionListener(se);
 		jpfChkPw.addActionListener(se);
 		
-		System.out.println(logId);
 		// 배경 설정
 		if(!(logId==null)){
 			backgroundPath = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/edit_signinBack.png";
@@ -127,6 +130,27 @@ public class SignInForm extends JDialog {
 		jbtUpdate.setVisible(false);
 		////////////////////////////////////////////////////////
 		//
+			
+			//사용자가 로그인 후 마이페이지에 들어가 개인정보 수정을 할경우 조건에 따라 컴포넌트 들의 속성을 바꾸어 준부분
+			if(!mfe.logId.equals("mgr")){
+		   	  String mail="";
+	          try {
+	        	 mail=mdao.selectMyInfo(mfe.logId);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.out.println("오류");
+			}
+	          jtfId.setText(mfe.logId);
+	          jtfId.setEditable(false);
+	          jtfName.setText(mail);
+	          jbtChkId.setVisible(false);
+	          jbtSubmit.setVisible(false);
+	          jbtCancel.setVisible(false);
+	          jbtUpdate.setVisible(true);
+	          jtfId.setEditable(false);
+	          jtfName.setEditable(false);
+		   	  }//end if
+		
 		setModalityType(DEFAULT_MODALITY_TYPE);
 		
 		setVisible(true);

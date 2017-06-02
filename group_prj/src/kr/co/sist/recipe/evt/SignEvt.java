@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import kr.co.sist.recipe.dao.MemberDAO;
 import kr.co.sist.recipe.view.LogInForm;
+import kr.co.sist.recipe.view.MyPageForm;
 import kr.co.sist.recipe.view.SignInForm;
 import kr.co.sist.recipe.vo.InsertMemberVO;
 import kr.co.sist.recipe.vo.MemberVO;
@@ -28,10 +29,15 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 	
 	private SignInForm sf;
 	private MemberDAO mem_dao;
+	private MemberDAO mdao;
+	private MainFormEvt mfe;
+	private SignInForm sif;
+	private MyPageForm mpf;
 	private boolean flag;
 	
 	public SignEvt(SignInForm sf) {
 		this.sf = sf;
+		
 	}//SignEvt
 
 	/**
@@ -202,7 +208,10 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 		}//end switch
 	}//checkCancel
 	
-
+	public void updateMember(){
+		  String id=mfe.logId;
+		 
+	}
 	
 
 	

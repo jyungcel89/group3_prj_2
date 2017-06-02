@@ -33,7 +33,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 	private MemberDAO mem_dao;
 	private RecipeDAO rcp_dao;
 	private IngdntDAO ida_dao;
-	MainFormEvt mfe;
+	private MainFormEvt mfe;
 	
 	public MgrPageEvt( MgrPageForm mpf, MainFormEvt mfe ) {
 		this.mpf=mpf;
@@ -55,7 +55,6 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 		 * menu_flag='Y' 
 		 */
 		public void allRecipeList(){
-			
 			try {
 				String flag="Y";
 				List<MainRecipeVO> listAllRcp = rcp_dao.recipeList(flag);

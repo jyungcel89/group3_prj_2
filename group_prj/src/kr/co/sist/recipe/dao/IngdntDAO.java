@@ -249,17 +249,18 @@ public class IngdntDAO {
 			MgrRecipeInfoVO mriv=null;
 			ShowIngdntVO si=null;
 			try {
-				
 				con = getConnection();
 				String selectMgrRecipeInfo ="select MENU_NAME,IMG, FOOD_TYPE, INFO, RECIPE_INFO, TOTALPRICE,ID "
 						+ "from RECIPEREGISTER "
-						+ "where menu_name='"+menuName+"'";
+						+ "where menu_name=?";
 				String selectMgrRecipeInfo2 ="select ri.INGREDIENT_NAME,i.PRICE "
 						+ "from INGREDIENTS i,RECIPE_INGREDIENTS ri "
 						+ "where(ri.INGREDIENT_NAME=i.INGREDIENT_NAME) "
-						+ "and ri.MENU_NAME='"+menuName+"'";
+						+ "and ri.MENU_NAME=?";
 				pstmt = con.prepareStatement(selectMgrRecipeInfo);
+				pstmt.setString(1,menuName);
 				pstmt2 = con.prepareStatement(selectMgrRecipeInfo2);
+				pstmt2.setString(1,menuName);
 				rs = pstmt.executeQuery();
 				rs2=pstmt2.executeQuery();
 				List<ShowIngdntVO>list=new ArrayList<ShowIngdntVO>();

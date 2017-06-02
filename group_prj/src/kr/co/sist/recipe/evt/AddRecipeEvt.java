@@ -36,7 +36,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		this.arf=arf;
 		ida=IngdntDAO.getInstance();
 		selectMgrRecipeInfo();
-		System.out.println();
 		String id=mfe.logId;
 		if(id.equals("mgr")){
 			arf.getJbRequest().setVisible(false);
@@ -232,7 +231,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		try {
 			ida.deleteIngdntOfRecp(menuName);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}//deleteIngrdnt
@@ -272,7 +270,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
             String[] format={"jpg","gif","png","bmp","JPG","GIF","PNG","BMP"};
             for(int i=0; i<format.length;i++){
             if(file.substring(file.indexOf(".")+1).equals(format[i])){
-            	System.out.println("ggg");
             	ImageIO.write(buffer_thumbnail_image,format[i], thumb_file_name_b);
             	ImageIO.write(buffer_thumbnail_image,format[i], thumb_file_name_s);
             }
@@ -327,6 +324,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				deleteIngrdnt();
 				reqRecipeIngrdnt();
 				JOptionPane.showMessageDialog(null, "성공적으로 수행되었습니다.");
+				arf.dispose();
 				break;
 			case JOptionPane.NO_OPTION:
 				JOptionPane.showMessageDialog(null, "감사합니다.");

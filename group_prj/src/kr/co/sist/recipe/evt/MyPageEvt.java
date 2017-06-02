@@ -31,7 +31,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        private MemberDAO mdao;
        private MainForm mf;
        private IngdntDAO idao;
-       
+       private SignInForm sif;
 	    /**
 	     * 마이페이지 이벤트
 	     * <수정사항>
@@ -44,12 +44,17 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
               rdao=RecipeDAO.getInstance();
               mdao=MemberDAO.getInstance();
               idao=IngdntDAO.getInstance();
+              
+              
+              
+              
               showMyRecipe();////////////////////////////////회원 아이디 들어가야함
               showBookmark();//////////////////////////////회원 아이디 들어가야함
        }//MyPageEvt
        
        // 내가 등록한 메뉴 리스트
-       public void showMyRecipe(){
+       @SuppressWarnings("static-access")
+	public void showMyRecipe(){
               try {
                      List<MyRecipeVO> listMyRcp = rdao.myRecipe(mfe.logId);
                      Object[] rowMenu = new Object[6];
@@ -128,7 +133,8 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        }//rmvRecipe
 	    
        // 북마크한 메뉴 리스트
-       public void showBookmark(){
+       @SuppressWarnings("static-access")
+	public void showBookmark(){
               try {
                      List<BookmarkVO> bklist = bdao.searchAll(mfe.logId);
                      Object[] rowMenu = new Object[5];
@@ -189,45 +195,15 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        }//rmvBookmark
        
        // 내 정보창으로 이동 > 내정보 값 가져와서 SignInForm에 setter값을 설정
-       public void goMyInfo(){
-    	   	  String id=mfe.logId; 
-    	   	  SignInForm sif=new SignInForm(id);
-    	   	  String mail="";
-
-              try {
-            	  mail=mdao.selectMyInfo(id).toString();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-              sif.getJtfId().setText(id);
-              sif.getJtfName().setText(mail);
-              
-              //////// 필요 없는 버튼들 안보이게 //////
-              sif.getJbtChkId().setVisible(false);
-              sif.getJbtSubmit().setVisible(false);
-              sif.getJbtCancel().setVisible(false);
-              ////////////////////////////////////////////
-              ///////////////////취소 버튼 수정 버튼으로 변경////////////////
-              sif.getJbtUpdate().setVisible(true);
-              ////////////////////////////////////////////////////////////////////
-              ////////////////아이디 이름 부분 정보 입력//////////////////////////////////아이디 연결 부분 !!!!!!!!!!!!!!!!!!!!!!!!!
-              
-              ////////////////////////////////////////////////////
-              
-              //////////////수정 불가 부분 설정///////////////
-              sif.getJtfId().setEditable(false);
-              sif.getJtfName().setEditable(false);
-              ///////////////////////////////////////////////////
-              
-              /////////////////버튼 이름 변경/////////////////
-              ///////////////////////////////////////////////////
-              /////////버튼 이름 변경함과 동시에 sigevt부분에 메소드 추가되어야함 (이벤트)//
+       @SuppressWarnings("static-access")
+	public void goMyInfo(){
+    	 new SignInForm(mfe.logId);
        }//goMyInfo
        
        @Override 
        public void actionPerformed(ActionEvent ae) {
               if(ae.getSource()==mypf.getJbEditMyInfo()){
-                     goMyInfo();
+          			goMyInfo();
               }//end if
               
               if(ae.getSource()==mypf.getJbRmvFavorMenu()){

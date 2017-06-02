@@ -28,7 +28,6 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	private ScoreDAO sdao;
 	private int scoreFlag;  
 	private MyPageForm mypf;
-	private MyPageEvt mype;
 	private MainForm mf;
 	private MainFormEvt mfe;
 	
@@ -212,7 +211,6 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 			int selectNum = JOptionPane.showConfirmDialog(ipf, "창을 닫으시겠습니까?");
 			switch (selectNum) {
 			case JOptionPane.OK_OPTION:
-				mype.showBookmark();
 				ipf.dispose();
 				
 //				mypf.dispose();
