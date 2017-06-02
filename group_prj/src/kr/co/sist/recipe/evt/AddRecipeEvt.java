@@ -60,7 +60,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	
 	public void showHideButton(String logId){
 		logId = mfe.logId;
-	}
+	}//showHideButton
 	
 	// 재료추가 수행 (add버튼)
 	public void addIngdnt(){
@@ -152,8 +152,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				}catch(NullPointerException npe){
 					JOptionPane.showMessageDialog(null,"기입사항을 다시 확인해주세요");
 				}
-
-		
 		
 	}//reqRecipe
 	// 관리자에게 요청 수행 (request버튼)
