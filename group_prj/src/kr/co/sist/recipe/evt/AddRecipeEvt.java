@@ -68,7 +68,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	
 	// 재료추가 수행 (add버튼)
 	public void addIngdnt(){
-		  
+		   
 		Object[] rowData=new Object[3];
 		DefaultTableModel dtmIngrdnt=arf.getDtmAddedIngrednt();
 		JTable table=arf.getJtIngrednt();
