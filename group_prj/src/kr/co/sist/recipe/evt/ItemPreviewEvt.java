@@ -215,7 +215,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 				ipf.dispose();
 			}// end switch
 		}//end if
-		
+		 
 		if(ae.getSource()==ipf.getJchBookmark()){
 			if(ipf.getJchBookmark().isSelected()){
 				insertBookmark();
