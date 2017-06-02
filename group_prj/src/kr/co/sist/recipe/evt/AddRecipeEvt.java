@@ -32,7 +32,7 @@ import kr.co.sist.recipe.vo.ShowIngdntVO;
 import kr.co.sist.recipe.vo.addRemoveIngrdntVO;
 
 public class AddRecipeEvt extends WindowAdapter implements ActionListener {
-	private RecipeDAO rda;
+	private RecipeDAO rda; 
 	private IngdntDAO ida;
 	private AddRecipeForm arf;
 	private IngrdntCategVO icv;
