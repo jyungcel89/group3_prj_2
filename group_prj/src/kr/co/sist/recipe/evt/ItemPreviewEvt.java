@@ -15,6 +15,7 @@ import kr.co.sist.recipe.dao.IngdntDAO;
 import kr.co.sist.recipe.dao.BookmarkDAO;
 import kr.co.sist.recipe.dao.ScoreDAO;
 import kr.co.sist.recipe.view.ItemPreviewForm;
+import kr.co.sist.recipe.view.MyPageForm;
 import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.vo.ShowIngdntVO;
 import kr.co.sist.recipe.vo.BookmarkUpdateVO;
@@ -26,8 +27,11 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	private BookmarkDAO bmdao;
 	private ScoreDAO sdao;
 	private int scoreFlag;  
+	private MyPageForm mypf;
+	private MyPageEvt mype;
 	private MainForm mf;
 	private MainFormEvt mfe;
+	
 	
 	
 	public ItemPreviewEvt(MainForm mf, ItemPreviewForm ipf, MainFormEvt mfe) {
@@ -58,8 +62,10 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		ShowIngdntVO si=null;
 		for( int i=0; i<lstMenu.size(); i++ ){
 			si=lstMenu.get(i);
-			rowMenu[0]=si.getIngrdntName();
-			rowMenu[1]=si.getIngrdntPrice();
+			System.out.println(si.getBrand());
+			rowMenu[0]=si.getBrand();
+			rowMenu[1]=si.getIngrdntName();
+			rowMenu[2]=si.getIngrdntPrice();
 			dtmMenu.addRow(rowMenu);
 		}
 		}catch(SQLException se){
