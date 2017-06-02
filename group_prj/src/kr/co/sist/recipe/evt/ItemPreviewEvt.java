@@ -28,12 +28,12 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	private ScoreDAO sdao;
 	private int scoreFlag;  
 	private MyPageForm mypf;
-	private MyPageEvt mype;
 	private MainForm mf;
 	private MainFormEvt mfe;
 	
 	
 	
+	@SuppressWarnings("static-access")
 	public ItemPreviewEvt(MainForm mf, ItemPreviewForm ipf, MainFormEvt mfe) {
 		this.mf = mf;
 		this.ipf=ipf;
@@ -45,14 +45,17 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		sdao=ScoreDAO.getInstance();
 		chkScore();
 		chkBookmark();
-		
+		if(mfe.logId.equals("mgr")){
+			ipf.getJchBookmark().setEnabled(false);
+			ipf.getJbSubmit().setVisible(false);
+		}
 		
 		//////////////////////////////////////////////
 	}//ItemPreviewEvt
 	
 	// 메뉴정보 가져와서 보여줌
 	public void showRcpInfo() {
-		String recipeName=ipf.getJlRecipeName().getText().replace("▧ ","").replace(" ▧","");
+		String recipeName=ipf.getJlRecipeName().getText().replace("▧","");
 		DefaultTableModel dtm=(DefaultTableModel)ipf.getJtIngrednt().getModel();
 		dtm.setNumRows(0);
 		try{

@@ -212,27 +212,4 @@ public class BookmarkDAO {
     	   return result;
        }
        
-       
-       
-       
-       
-       
-       ///////////////////////////////////////////차후 삭제 요망
-       /**
-     * @param args
-     */
-    public static void main(String[] args){
-              BookmarkDAO bd= BookmarkDAO.getInstance();
-//           List<BookmarkVO> list = null;
-//           try {
-//                  list=bd.searchAll("duck");
-//           } catch (SQLException e) {
-//                  e.printStackTrace();
-//           }
-//                  for(BookmarkVO tmp : list){
-//                  System.out.println(tmp.toString());
-//}
-       }
-       
-       
 }//class

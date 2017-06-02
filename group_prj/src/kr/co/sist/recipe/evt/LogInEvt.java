@@ -40,10 +40,15 @@ public class LogInEvt extends WindowAdapter implements  ActionListener, KeyListe
 	public void loginChk(){
 		logId=lf.getJtfId().getText();
 //		logId="duck";
+<<<<<<< HEAD
 //		logId="mgr";
 		String logPw=new String(lf.getJpfPass().getPassword());
 //		String logPw=new String("1111"); 
 //		String logPw=new String("1234");
+=======
+		String logPw=new String(lf.getJpfPass().getPassword());
+//		String logPw=new String("1111");
+>>>>>>> refs/heads/Hong
 		
 		//LogInForm에서 id, pw가 비었을때
 		if( logId.equals("") || logPw.equals("") ){

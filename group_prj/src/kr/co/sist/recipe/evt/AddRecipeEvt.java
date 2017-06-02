@@ -7,13 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -169,6 +164,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				e.printStackTrace();
 		}//end catch
 		
+		
 	}//reqRecipe
 	/////////////////////////////////////////33333333333333333333333333333333333333
 	// 관리자에게 요청 수행 (request버튼)
@@ -305,7 +301,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}//end catch
-	}//deleteIngrdnt
+		}
 	
 	public void editMgr(){
 		 
@@ -323,38 +319,37 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			e.printStackTrace();
 		}//end catch
 	}//
-	public void copy(){
+	public void imgCopy(){
 		
 		try {
-            //썸네일 가로사이즈
-            int thumbnail_width = 260;
-            //썸네일 세로사이즈
-            int thumbnail_height = 200;
-            //원본이미지파일의 경로+파일명
-            File origin_file_name = new File(path+file);
-            //생성할 썸네일파일의 경로+썸네일파일명
+            int width = 260;
+            int height = 200;
+            File file_name = new File(path+file);
            String path="C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img";
-            File thumb_file_name_b = new File(path+"/b_FI_"+file);
-            File thumb_file_name_s = new File(path+"/s_FI_"+file);
+            File file_name_b = new File(path+"/b_FI_"+file);
+            File file_name_s = new File(path+"/s_FI_"+file);
             
-            BufferedImage buffer_original_image = ImageIO.read(origin_file_name);
-            BufferedImage buffer_thumbnail_image = new BufferedImage(thumbnail_width, thumbnail_height, BufferedImage.TYPE_3BYTE_BGR);
-            Graphics2D graphic = buffer_thumbnail_image.createGraphics();
-            graphic.drawImage(buffer_original_image, 0, 0, thumbnail_width, thumbnail_height, null);
+            BufferedImage original_image = ImageIO.read(file_name);
+            BufferedImage copy_image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+            Graphics2D graphic = copy_image.createGraphics();
+            graphic.drawImage(original_image, 0, 0, width, height, null);
             
             String[] format={"jpg","gif","png","bmp","JPG","GIF","PNG","BMP"};
-	            for(int i=0; i<format.length;i++){
-		            if(file.substring(file.indexOf(".")+1).equals(format[i])){
-		            	System.out.println("ggg");
-		            	ImageIO.write(buffer_thumbnail_image,format[i], thumb_file_name_b);
-		            	ImageIO.write(buffer_thumbnail_image,format[i], thumb_file_name_s);
-		            }//end if
-	            }//end for
             System.out.println("썸네일 생성완료");
+            for(int i=0; i<format.length;i++){
+            if(file.substring(file.indexOf(".")+1).equals(format[i])){
+            	ImageIO.write(copy_image,format[i], file_name_b);
+            	ImageIO.write(copy_image,format[i], file_name_s);
+            }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }//end catch
-	}
+        	if(file==null||file==""){
+        		JOptionPane.showMessageDialog(null, "이미지 파일이 없습니다.");
+        		return;
+        	}
+        }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -372,10 +367,20 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			addImg();
 		}//end if
 		if(e.getSource()==arf.getJbRequest()){
-			copy();
-			reqRecipe();
-			reqRecipeIngrdnt();
-		}//end if
+				 int index=JOptionPane.showConfirmDialog(null, "위의 내용대로 요청하시겠습니까?");
+				 switch (index) {
+				case JOptionPane.OK_OPTION:
+					imgCopy();
+					reqRecipe();
+					reqRecipeIngrdnt();
+					JOptionPane.showMessageDialog(null,"성공적으로 요청되었습니다!");
+					break;
+				case JOptionPane.NO_OPTION:
+					return;
+				default:
+					break;
+				}//end switch
+		}
 		if(e.getSource()==arf.getJbRmvIngrednt()){
 			rmvIngdnt();
 		}//end if
@@ -388,6 +393,17 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				reqRecipeIngrdnt();
 				//수정 성공 후 나가기
 				JOptionPane.showMessageDialog(null, "성공적으로 수행되었습니다.");
+				arf.dispose();
+				break;
+			case JOptionPane.NO_OPTION:
+				JOptionPane.showMessageDialog(null, "감사합니다.");
+				return;
+			}
+		}
+			if(e.getSource() == arf.getJbClose()){
+	    	  int selectNum = JOptionPane.showConfirmDialog(arf, "창을 닫으시겠습니까?");
+	    	  switch (selectNum) {
+			case JOptionPane.OK_OPTION:
 				arf.dispose();
 			}//end switch
 		}//end if
