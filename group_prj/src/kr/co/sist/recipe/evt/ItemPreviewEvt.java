@@ -77,11 +77,11 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	// 평점 ( 조건문 : 없을때 있을때 )
 	public void chkScore() {
 		BookmarkUpdateVO bmuvo = new BookmarkUpdateVO();
-		String id="duck";/////////////////////////////////////////////////////////////////////////////////////아이디 연결해야됨 
-		String menuName=ipf.getJlRecipeName().getText().replaceAll(" ", "").replaceAll("▧","");
+//		String id="duck";/////////////////////////////////////////////////////////////////////////////////////아이디 연결해야됨 
+		String menuName=ipf.getJlRecipeName().getText().replaceAll("▧","");
 		int score =0;
 		
-		bmuvo.setId(id);
+		bmuvo.setId(mfe.logId);
 		bmuvo.setMenuName(menuName);
 		
 		try {
@@ -98,9 +98,9 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	// 북마크 ( 조건문 : 체크 없을때 있을때 )
 	public void chkBookmark() {
 		BookmarkUpdateVO bmuvo = new BookmarkUpdateVO();
-		String id="duck";/////////////////////////////////////////////////////////////////////////////////////아이디 연결해야됨 
-		String menuName=ipf.getJlRecipeName().getText().replaceAll(" ", "").replaceAll("▧","");
-		bmuvo.setId(id);
+//		String id="duck";/////////////////////////////////////////////////////////////////////////////////////아이디 연결해야됨 
+		String menuName=ipf.getJlRecipeName().getText().replaceAll("▧","");
+		bmuvo.setId(mfe.logId);
 		bmuvo.setMenuName(menuName);
 		
 		try {
@@ -121,10 +121,10 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	public void insertBookmark(){
 		BookmarkUpdateVO bmuvo = new BookmarkUpdateVO();
 		
-		String id="duck";/////////////////////////////////////////////////////////////////////////////////////아이디 연결해야됨 
-		String menuName=ipf.getJlRecipeName().getText().replaceAll(" ", "").replaceAll("▧","");
+//		String id="duck";/////////////////////////////////////////////////////////////////////////////////////아이디 연결해야됨 
+		String menuName=ipf.getJlRecipeName().getText().replaceAll("▧","");
 		
-		bmuvo.setId(id);
+		bmuvo.setId(mfe.logId);
 		bmuvo.setMenuName(menuName);
 		try {
 			bmdao.insertBookmark(bmuvo);
@@ -139,10 +139,10 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	public void rmvBookmark(){
 		BookmarkUpdateVO bmuvo = new BookmarkUpdateVO();
 		
-		String id="duck";/////////////////////////////////////////////////////////////////////////////////////아이디 연결해야됨 
-		String menuName=ipf.getJlRecipeName().getText().replaceAll(" ", "").replaceAll("▧","");
+//		String id="duck";/////////////////////////////////////////////////////////////////////////////////////아이디 연결해야됨 
+		String menuName=ipf.getJlRecipeName().getText().replaceAll("▧","");
 		
-		bmuvo.setId(id);
+		bmuvo.setId(mfe.logId);
 		bmuvo.setMenuName(menuName);
 		try {
 			bmdao.rmvBookmark(bmuvo);
@@ -156,17 +156,18 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	public void insertScore(){
 		ScoreVO svo = new ScoreVO();
 		
-		String id="duck";/////////////////////////////////////////////////////////////////////////////////////아이디 연결해야됨 
-		String menuName=ipf.getJlRecipeName().getText().replaceAll(" ", "").replaceAll("▧","");
+//		String id="duck";/////////////////////////////////////////////////////////////////////////////////////아이디 연결해야됨 
+		String menuName=ipf.getJlRecipeName().getText().replaceAll("▧","");
 		int value=ipf.getJcScore().getSelectedIndex();
 		if(value==0){
 			JOptionPane.showMessageDialog(ipf, "점수는 0점을 주실수 없습니다.");
 			return;
 		}
 		
-		svo.setId(id);
+		svo.setId(mfe.logId);
 		svo.setMenuName(menuName);
 		svo.setValue(value);
+		
 		try {
 			sdao.insertScore(svo);
 		} catch (SQLException e) {
@@ -182,7 +183,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		try {
 			ScoreVO svo = new ScoreVO();
 			String id= mfe.logId; 
-			String menuName=ipf.getJlRecipeName().getText().replaceAll(" ", "").replaceAll("▧","");
+			String menuName=ipf.getJlRecipeName().getText().replaceAll("▧","");
 			int value=ipf.getJcScore().getSelectedIndex();
 			if(value==0){
 				JOptionPane.showMessageDialog(ipf, "점수를 선택하여 주세요.");
@@ -193,8 +194,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 			svo.setValue(value);
 			sdao.updateScore(svo);
 //			mfe.newRecipe();
-			mfe.searchList();
-			JOptionPane.showMessageDialog(ipf, value+"점이 반영되었습니다.");
+			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(ipf, "잠시후에 시도해 주세요 ");
 			e.printStackTrace();
@@ -226,9 +226,16 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		
 		if(ae.getSource()==ipf.getJbSubmit()){
 			if(scoreFlag==0){
+				System.out.println("insert");
 				insertScore();
+				mfe.searchList();
+				scoreFlag=1;
+				JOptionPane.showMessageDialog(ipf,"점수가 반영되었습니다.");
 			}else{
+				System.out.println("update");
 				updateScroe();
+				mfe.searchList();
+				JOptionPane.showMessageDialog(ipf,"점수가 반영되었습니다.");
 			}//end else
 			
 		}//end if

@@ -47,7 +47,7 @@ public class ItemPreviewForm extends JDialog {
 		//region 상품명,재료,별점,북마크,만드는법,이미지 라벨및 이미지 아이콘 구역
 		Font defaultFont=new Font("맑은 고딕",Font.BOLD,14);
 		
-		jlRecipeName=new JLabel("▧ "+mrv.getMenuName()+" ▧");
+		jlRecipeName=new JLabel("▧"+mrv.getMenuName()+"▧");
 		jlRecipeName.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 		jlRecipeName.setBounds(30,70,300,30);
 		
