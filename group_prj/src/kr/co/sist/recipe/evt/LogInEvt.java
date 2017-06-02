@@ -38,12 +38,12 @@ public class LogInEvt extends WindowAdapter implements  ActionListener, KeyListe
 	 * 입력한 아이디와 비밀번호가 유효한지 판단하는 method
 	 */
 	public void loginChk(){
-//		logId=lf.getJtfId().getText();
+		logId=lf.getJtfId().getText();
 //		logId="duck";
-		logId="mgr";
-//		String logPw=new String(lf.getJpfPass().getPassword());
+//		logId="mgr";
+		String logPw=new String(lf.getJpfPass().getPassword());
 //		String logPw=new String("1111");
-		String logPw=new String("1234");
+//		String logPw=new String("1234");
 		
 		//LogInForm에서 id, pw가 비었을때
 		if( logId.equals("") || logPw.equals("") ){

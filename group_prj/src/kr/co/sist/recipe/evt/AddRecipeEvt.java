@@ -116,12 +116,12 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			ImageIcon temp=new ImageIcon(path+file);
 			int width = temp.getIconWidth();
 			int height = temp.getIconHeight();
+			
 			if(width==260 && height==200){
 				arf.getLblImg().setIcon(temp);
 			}else{
 				JOptionPane.showMessageDialog(null, "이미지 파일의 크기는/n가로 : 260px / 세로 : 200px 로 맞춰 등록해주세요.");
-			}
-			
+			}//end if
 			
 		}//end if
 	}//addImg
@@ -241,40 +241,26 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		try {
 			ida.deleteIngdntOfRecp(menuName);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-	}
+		}//end catch
+	}//deleteIngrdnt
 	
 	public void editMgr(){
-		MgrUpdateIngrdntVO muiv=new MgrUpdateIngrdntVO();
-		String menuName=arf.getJtfRecipeName().getText();
-		 muiv.setFoodType(arf.getJcbCateg().getSelectedItem().toString());
-		 muiv.setImg(arf.getLblImg().getIcon().toString().substring(arf.getLblImg().getIcon().toString().indexOf("F")));
-		 muiv.setInfo(arf.getJtaInfo().getText());
-		 muiv.setRecipeInfo(arf.getJtaWriteRecipe().getText());
-		 muiv.setTotalPrice(Integer.parseInt(arf.getLblTotalPrice().getText()));
 		 
-		 try {
-			 int index=JOptionPane.showConfirmDialog(null, "정말로 수정하시겠습니까?");
-			 switch (index) {
-			case JOptionPane.OK_OPTION:
-				ida.updateIngdntOfRecp(muiv,menuName);
-				JOptionPane.showMessageDialog(null,"성공적으로 수행되었습니다.");
-				break;
-			case JOptionPane.NO_OPTION:
-				return;
-			default:
-				break;
-			}//end switch
+	  try {
+			 MgrUpdateIngrdntVO muiv=new MgrUpdateIngrdntVO();
+			 String menuName=arf.getJtfRecipeName().getText();
+			 muiv.setFoodType(arf.getJcbCateg().getSelectedItem().toString());
+			 muiv.setImg(arf.getLblImg().getIcon().toString().substring(arf.getLblImg().getIcon().toString().indexOf("F")));
+			 muiv.setInfo(arf.getJtaInfo().getText());
+			 muiv.setRecipeInfo(arf.getJtaWriteRecipe().getText());
+			 muiv.setTotalPrice(Integer.parseInt(arf.getLblTotalPrice().getText()));
 			
 			ida.updateIngdntOfRecp(muiv,menuName);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}//end catch
 	}//
-	@SuppressWarnings("resource")
 	public void copy(){
 		
 		try {
@@ -295,64 +281,60 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
             graphic.drawImage(buffer_original_image, 0, 0, thumbnail_width, thumbnail_height, null);
             
             String[] format={"jpg","gif","png","bmp","JPG","GIF","PNG","BMP"};
-            for(int i=0; i<format.length;i++){
-            if(file.substring(file.indexOf(".")+1).equals(format[i])){
-            	System.out.println("ggg");
-            	ImageIO.write(buffer_thumbnail_image,format[i], thumb_file_name_b);
-            	ImageIO.write(buffer_thumbnail_image,format[i], thumb_file_name_s);
-            }
-            }
+	            for(int i=0; i<format.length;i++){
+		            if(file.substring(file.indexOf(".")+1).equals(format[i])){
+		            	System.out.println("ggg");
+		            	ImageIO.write(buffer_thumbnail_image,format[i], thumb_file_name_b);
+		            	ImageIO.write(buffer_thumbnail_image,format[i], thumb_file_name_s);
+		            }//end if
+	            }//end for
             System.out.println("썸네일 생성완료");
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }//end catch
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==arf.getJbSearch()){
 			searchIngdnt(icv);
-		}
+		}//end if
 		if(e.getSource()==arf.getJbAddIngrednt()){
 			if(arf.getJtIngrednt().getRowCount()==0){
 				JOptionPane.showMessageDialog(null, "재료를 검색해주세요");
 				return;
-			}
-				addIngdnt();
-		}
+			}//end if
+			addIngdnt();
+		}//end if
 		if(e.getSource()==arf.getJbAddImg()){
-				
-				addImg();
-		}
+			addImg();
+		}//end if
 		if(e.getSource()==arf.getJbRequest()){
-						copy();
-						reqRecipe();
-						reqRecipeIngrdnt();
-		}
+			copy();
+			reqRecipe();
+			reqRecipeIngrdnt();
+		}//end if
 		if(e.getSource()==arf.getJbRmvIngrednt()){
 			rmvIngdnt();
-		}
+		}//end if
 		if(e.getSource()==arf.getJbMgr()){
 			 int index=JOptionPane.showConfirmDialog(null, "정말로 수정하시겠습니까?");
 			 switch (index) {
-		case JOptionPane.OK_OPTION:
+			 case JOptionPane.OK_OPTION:
 				editMgr();
 				deleteIngrdnt();
 				reqRecipeIngrdnt();
-			
+				//수정 성공 후 나가기
 				JOptionPane.showMessageDialog(null, "성공적으로 수행되었습니다.");
-				break;
-			case JOptionPane.NO_OPTION:
-				JOptionPane.showMessageDialog(null, "감사합니다.");
-				return;
-			}
-		}
-			if(e.getSource() == arf.getJbClose()){
-	    	  int selectNum = JOptionPane.showConfirmDialog(arf, "창을 닫으시겠습니까?");
-	    	  switch (selectNum) {
-			case JOptionPane.OK_OPTION:
 				arf.dispose();
 			}//end switch
-		}
-	}
-}
+		}//end if
+		if(e.getSource() == arf.getJbClose()){
+	    	  int selectNum = JOptionPane.showConfirmDialog(arf, "창을 닫으시겠습니까?");
+	    	  switch (selectNum) {
+	    	  case JOptionPane.OK_OPTION:
+				arf.dispose();
+	    	  }//end switch
+		}//end if
+	}//actionPerformed
+}//class
