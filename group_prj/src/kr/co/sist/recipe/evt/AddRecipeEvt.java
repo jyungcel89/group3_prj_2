@@ -251,7 +251,20 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		 muiv.setInfo(arf.getJtaInfo().getText());
 		 muiv.setRecipeInfo(arf.getJtaWriteRecipe().getText());
 		 muiv.setTotalPrice(Integer.parseInt(arf.getLblTotalPrice().getText()));
-		try {
+		 
+		 try {
+			 int index=JOptionPane.showConfirmDialog(null, "정말로 수정하시겠습니까?");
+			 switch (index) {
+			case JOptionPane.OK_OPTION:
+				ida.updateIngdntOfRecp(muiv,menuName);
+				JOptionPane.showMessageDialog(null,"성공적으로 수행되었습니다.");
+				break;
+			case JOptionPane.NO_OPTION:
+				return;
+			default:
+				break;
+			}//end switch
+			
 			ida.updateIngdntOfRecp(muiv,menuName);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -291,6 +304,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
             e.printStackTrace();
         }
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==arf.getJbSearch()){

@@ -44,7 +44,7 @@ public class AddRecipeForm extends JDialog {
 //		region 레시피 이미지 추가하는 라벨 및 이미지 아이콘
 		imgIcon=new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/default.jpg");
 		lblImg = new JLabel(imgIcon);
-		lblImg.setBounds(40,40,300,220);
+		lblImg.setBounds(80,50,260,200);
 		add(lblImg);
 		
 		//기본이미지

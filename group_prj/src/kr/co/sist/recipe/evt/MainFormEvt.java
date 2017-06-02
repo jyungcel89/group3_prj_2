@@ -31,11 +31,6 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    private ScoreDAO score_dao;
    private MenuTypeVO mtv;
    public static String logId;
-   
-   
-    
-   public MainFormEvt() {
-   }//MainFormEvt
 
    public MainFormEvt(MainForm mainFrm, String logId) {
       this.mainFrm = mainFrm;
@@ -164,7 +159,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    }// addRecipe
    
    public void addRecipe() {
-	   
+	   showAddRecipe();
    }// addRecipe
 
    //05-29-2017 추가
@@ -172,7 +167,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    // member_flag 추가되면 그 조건으로 추가
    public void movePage() {
 	   if( logId.equals("mgr") ){
-		   new MgrPageForm(logId);
+		   new MgrPageForm(logId, this);
 	   }else{
 		   new MyPageForm(logId);
 	   }//end if
@@ -205,7 +200,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
     	  MainRecipeVO mrv;
 		try {
 			mrv = rcp_dao.selectOneRecipe(mainFrm.getImgName1());
-			new ItemPreviewForm(mrv);
+			new ItemPreviewForm(mrv,this);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}//end catch
@@ -215,7 +210,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
     	  MainRecipeVO mrv;
     	  try {
     		  mrv = rcp_dao.selectOneRecipe(mainFrm.getImgName2());
-    		  new ItemPreviewForm(mrv);
+    		  new ItemPreviewForm(mrv,this);
     	  } catch (SQLException e) {
     		  e.printStackTrace();
     	  }//end catch
@@ -225,7 +220,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
     	  MainRecipeVO mrv;
     	  try {
     		  mrv = rcp_dao.selectOneRecipe(mainFrm.getImgName3());
-    		  new ItemPreviewForm(mrv);
+    		  new ItemPreviewForm(mrv,this);
     	  } catch (SQLException e) {
     		  e.printStackTrace();
     	  }//end catch
@@ -244,14 +239,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
       }//end if //닫기버튼 
       
       if(ae.getSource() == mainFrm.getJbAddRecipe()){
-//    	  Window parentWindow = SwingUtilities.windowForComponent(button);
-//          JDialog dialog = new JDialog(parentWindow);
-//          dialog.setLocationRelativeTo(button);
-//          dialog.setModal(true);
-//          dialog.add(newPane("Label in dialog"));
-//          dialog.pack();
-//          dialog.setVisible(true);
-    	  showAddRecipe();
+    	  addRecipe();
       }//end if
       
       if(ae.getSource() == mainFrm.getJbLogOut()){
@@ -270,7 +258,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
 		try {
 			mrv = rcp_dao.selectOneRecipe((String)jtTmp.getValueAt(selecedRow, 0));
 			/// 자세한 정보도 같이 가져와야함
-			new ItemPreviewForm(mrv);
+			new ItemPreviewForm(mrv,this);
 		} catch (SQLException se) {
 			JOptionPane.showMessageDialog(mainFrm, 
 					"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");

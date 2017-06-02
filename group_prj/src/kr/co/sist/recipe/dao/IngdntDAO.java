@@ -84,18 +84,19 @@ public class IngdntDAO {
 
 			try {
 				con = getConnection();
-				String selectIngrdnt ="select ri.INGREDIENT_NAME,i.PRICE "
+				String selectIngrdnt ="select i.BRAND,ri.INGREDIENT_NAME,i.PRICE "
 						+ "from INGREDIENTS i,RECIPE_INGREDIENTS ri "
 						+ "where(ri.INGREDIENT_NAME=i.INGREDIENT_NAME) "
 						+ "and ri.MENU_NAME=?"; 
-				
 				pstmt = con.prepareStatement(selectIngrdnt);
 				pstmt.setString(1,recipeName);
+				pstmt.setString(1, recipeName);
 				rs = pstmt.executeQuery();
 				
 				ShowIngdntVO siv= null;
 				while (rs.next()) {
 					siv =new ShowIngdntVO();
+					siv.setBrand(rs.getString("brand"));
 					siv.setIngrdntName(rs.getString("ingredient_name"));
 					siv.setIngrdntPrice(rs.getString("price"));
 					
@@ -134,7 +135,7 @@ public class IngdntDAO {
 			boolean flag=false;
 			try {
 				con=getConnection();
-					
+				
 					for(int i=0;i<addIngVo.getIngrdntName().length;i++){
 					String selectIngrdntCode ="select distinct ingredients_code "
 							+ "from RECIPE_INGREDIENTS "
@@ -143,10 +144,12 @@ public class IngdntDAO {
 					pstmt = con.prepareStatement(selectIngrdntCode);
 					rs = pstmt.executeQuery();
 					String result="";
-						if(rs.next()) {
+					if(rs.next()) {
 						result=rs.getString("ingredients_code");
 						addIngVo.setIngrdntCode(result);
-						} // end while
+						} // end if
+					
+			  System.out.println(addIngVo.getIngrdntCode());
 			  if (pstmt != null) {
 					pstmt.close();
 				} // end if
@@ -159,11 +162,10 @@ public class IngdntDAO {
 				pstmt.setString(2, addIngVo.getIngrdntName()[i]);
 				pstmt.setString(3, addIngVo.getMenuName());
 				pstmt.executeUpdate();
-				}
-				
+				} // end for
 				flag=true;
-			} finally {
-			// 5.
+				}
+				finally{
 				
 				if (pstmt != null) {
 					pstmt.close();

@@ -16,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
+import kr.co.sist.recipe.evt.MainFormEvt;
 import kr.co.sist.recipe.evt.MgrPageEvt;
 
 @SuppressWarnings("serial")
@@ -26,8 +27,9 @@ public class MgrPageForm extends JDialog {
 	private DefaultTableModel dtmMenuList, dtmMenuRequest, dtmMember;
 	private JTabbedPane jtpTab;
 	private JButton jbRmvMenu, jbRmvRqust, jbSmitRqust, jbRmvMember, jbClose;
+	private MainFormEvt mfe;
 	
-	public MgrPageForm(String logId) {
+	public MgrPageForm(String logId, MainFormEvt mfe) {
 		setTitle("홍홍홍 레시피 관리자");
 		setLayout(null);
 		JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/mgrpageBack.png"));
@@ -82,16 +84,28 @@ public class MgrPageForm extends JDialog {
 			}
 		};
 		
-		jtMenuList=new JTable(dtmMenuList); 
-		jtMenuRequest=new JTable(dtmMenuRequest);
+		jtMenuList=new JTable(dtmMenuList){
+			//컬럼에 이미지를 넣기 위한 method Override
+			@Override
+			public Class<?> getColumnClass(int column) {
+				return getValueAt(0, column).getClass();
+			}//getColumnClass
+		}; 
+		jtMenuRequest=new JTable(dtmMenuRequest){
+			//컬럼에 이미지를 넣기 위한 method Override
+			@Override
+			public Class<?> getColumnClass(int column) {
+				return getValueAt(0, column).getClass();
+			}//getColumnClass
+		};
 		jtMember=new JTable(dtmMember);
 		//컬럼 고정 
 		jtMenuList.getTableHeader().setReorderingAllowed(false);
 		jtMenuRequest.getTableHeader().setReorderingAllowed(false);
 		jtMember.getTableHeader().setReorderingAllowed(false);
 		//컬럼 높이 설정
-		jtMenuList.setRowHeight(100);
-		jtMenuRequest.setRowHeight(100);
+		jtMenuList.setRowHeight(120);
+		jtMenuRequest.setRowHeight(120);
 		//컬럼 너비 설정
 		jtMenuList.getColumnModel().getColumn(0).setPreferredWidth(100);
 		jtMenuList.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -149,7 +163,7 @@ public class MgrPageForm extends JDialog {
 
 		
 		//이벤트
-		MgrPageEvt mpe=new MgrPageEvt(this);
+		MgrPageEvt mpe=new MgrPageEvt(this,mfe);
 		jbRmvMenu.addActionListener(mpe);
 		jbRmvRqust.addActionListener(mpe);
 		jbSmitRqust.addActionListener(mpe);

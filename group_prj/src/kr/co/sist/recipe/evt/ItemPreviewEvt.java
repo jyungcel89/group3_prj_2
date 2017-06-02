@@ -15,6 +15,8 @@ import kr.co.sist.recipe.dao.IngdntDAO;
 import kr.co.sist.recipe.dao.BookmarkDAO;
 import kr.co.sist.recipe.dao.ScoreDAO;
 import kr.co.sist.recipe.view.ItemPreviewForm;
+import kr.co.sist.recipe.view.MyPageForm;
+import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.vo.ShowIngdntVO;
 import kr.co.sist.recipe.vo.BookmarkUpdateVO;
 import kr.co.sist.recipe.vo.ScoreVO;
@@ -25,11 +27,17 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	private BookmarkDAO bmdao;
 	private ScoreDAO sdao;
 	private int scoreFlag;  
+	private MyPageForm mypf;
+	private MyPageEvt mype;
+	private MainForm mf;
+	private MainFormEvt mfe;
 	
 	
 	
-	public ItemPreviewEvt(ItemPreviewForm ipf) {
+	public ItemPreviewEvt(MainForm mf, ItemPreviewForm ipf, MainFormEvt mfe) {
+		this.mf = mf;
 		this.ipf=ipf;
+		this.mfe=mfe;
 		ida=IngdntDAO.getInstance();
 		showRcpInfo();
 		//////////////////복사 ///////////////////////
@@ -54,8 +62,10 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		ShowIngdntVO si=null;
 		for( int i=0; i<lstMenu.size(); i++ ){
 			si=lstMenu.get(i);
-			rowMenu[0]=si.getIngrdntName();
-			rowMenu[1]=si.getIngrdntPrice();
+			System.out.println(si.getBrand());
+			rowMenu[0]=si.getBrand();
+			rowMenu[1]=si.getIngrdntName();
+			rowMenu[2]=si.getIngrdntPrice();
 			dtmMenu.addRow(rowMenu);
 		}
 		}catch(SQLException se){
@@ -118,6 +128,8 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		bmuvo.setMenuName(menuName);
 		try {
 			bmdao.insertBookmark(bmuvo);
+			JOptionPane.showMessageDialog(ipf, "북마크가 추가되었습니다.");
+			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(ipf, "잠시후에 시도해 주세요 ");
 			e.printStackTrace();
@@ -166,21 +178,23 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	
 	/////////////////////////////////////////////스코어 점수변경
 	public void updateScroe(){
-		ScoreVO svo = new ScoreVO();
-		MainFormEvt mfe = new MainFormEvt();
-		String id= mfe.logId; 
-		String menuName=ipf.getJlRecipeName().getText().replaceAll(" ", "").replaceAll("▧","");
-		int value=ipf.getJcScore().getSelectedIndex();
-		if(value==0){
-			JOptionPane.showMessageDialog(ipf, "점수는 0점을 주실수 없습니다.");
-			return;
-		}//end if
 		
-		svo.setId(id);
-		svo.setMenuName(menuName);
-		svo.setValue(value);
 		try {
+			ScoreVO svo = new ScoreVO();
+			String id= mfe.logId; 
+			String menuName=ipf.getJlRecipeName().getText().replaceAll(" ", "").replaceAll("▧","");
+			int value=ipf.getJcScore().getSelectedIndex();
+			if(value==0){
+				JOptionPane.showMessageDialog(ipf, "점수를 선택하여 주세요.");
+				return;
+			}//end if
+			svo.setId(id);
+			svo.setMenuName(menuName);
+			svo.setValue(value);
 			sdao.updateScore(svo);
+//			mfe.newRecipe();
+			mfe.searchList();
+			JOptionPane.showMessageDialog(ipf, value+"점이 반영되었습니다.");
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(ipf, "잠시후에 시도해 주세요 ");
 			e.printStackTrace();
@@ -198,7 +212,11 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 			int selectNum = JOptionPane.showConfirmDialog(ipf, "창을 닫으시겠습니까?");
 			switch (selectNum) {
 			case JOptionPane.OK_OPTION:
+				mype.showBookmark();
 				ipf.dispose();
+				
+//				mypf.dispose();
+//				new MyPageEvt(mypf);
 			}// end switch
 		}//end if
 		

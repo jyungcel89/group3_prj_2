@@ -18,6 +18,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.recipe.evt.ItemPreviewEvt;
+import kr.co.sist.recipe.evt.MainFormEvt;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 
 @SuppressWarnings("serial")
@@ -32,8 +33,10 @@ public class ItemPreviewForm extends JDialog {
 	private JComboBox<String> jcScore;
 	private JCheckBox jchBookmark;
 	private JScrollPane jspTextArea;
+	private MainForm mf;
+	private MainFormEvt mfe;
 	
-	public ItemPreviewForm(MainRecipeVO mrv){
+	public ItemPreviewForm(MainRecipeVO mrv, MainFormEvt mfe){
 		setTitle("홍홍홍 레시피 - "+mrv.getMenuName());
 		
 		setLayout(null);
@@ -71,7 +74,7 @@ public class ItemPreviewForm extends JDialog {
 		jlSimpleInfo.setBounds(30, 380, 100, 40);
 		
 		//region 재료테이블 영역
-		String[] columnNames={"재료명","가격"};
+		String[] columnNames={"편의점","재료명","가격"};
 		String[][] data={};
 		dtmIngrednt=new DefaultTableModel(data, columnNames);
 		jtIngrednt=new JTable(dtmIngrednt){
@@ -88,8 +91,9 @@ public class ItemPreviewForm extends JDialog {
 		jtIngrednt.setRowHeight(20);
 		//컬럼의 넒이 설정 
 		//"번호","이미지","메뉴코드","설명","가격"
-		jtIngrednt.getColumnModel().getColumn(0).setPreferredWidth(140);
-		jtIngrednt.getColumnModel().getColumn(1).setPreferredWidth(50);
+		jtIngrednt.getColumnModel().getColumn(0).setPreferredWidth(50);
+		jtIngrednt.getColumnModel().getColumn(1).setPreferredWidth(140);
+		jtIngrednt.getColumnModel().getColumn(2).setPreferredWidth(50);
 		jspIngrednt=new JScrollPane(jtIngrednt);
 		jspIngrednt.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		jspIngrednt.setBounds(400,100,350,180);
@@ -148,7 +152,7 @@ public class ItemPreviewForm extends JDialog {
 		}
 		
 		//이벤트 추가
-		ItemPreviewEvt ipe=new ItemPreviewEvt(this);
+		ItemPreviewEvt ipe=new ItemPreviewEvt(mf,this,mfe);
 		jbSubmit.addActionListener(ipe);
 		jbClose.addActionListener(ipe);
 		jchBookmark.addActionListener(ipe);

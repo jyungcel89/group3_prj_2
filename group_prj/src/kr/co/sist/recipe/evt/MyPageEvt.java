@@ -6,6 +6,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -26,6 +28,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        private BookmarkDAO bdao;
        private RecipeDAO rdao;
        private MemberDAO mdao;
+       private MainForm mf;
        
 	    /**
 	     * 마이페이지 이벤트
@@ -35,7 +38,6 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
 	     */
        public MyPageEvt(MyPageForm mypf){
               this.mypf=mypf;
-        
               bdao=BookmarkDAO.getInstance();
               rdao=RecipeDAO.getInstance();
               mdao=MemberDAO.getInstance();
@@ -49,18 +51,19 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
                      List<MyRecipeVO> listMyRcp = rdao.myRecipe(mfe.logId);
                      Object[] rowMenu = new Object[6];
                      DefaultTableModel dtmMenu = mypf.getDtmMyMenu();
+                     String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
                      
-                     MyRecipeVO myrv=null;
+                     MyRecipeVO mrv=null;
                      dtmMenu.setRowCount(0);
                      // name,img,type,info,price
                      for( int i=0; i < listMyRcp.size(); i++ ){
-                           myrv=listMyRcp.get(i);
-                           rowMenu[0]=myrv.getMenuName();
-                           rowMenu[1]=myrv.getMenuImg();
-                           rowMenu[2]=myrv.getMenuType();
-                           rowMenu[3]=myrv.getMenuInfo();
-                           rowMenu[4]=myrv.getMenuPrice();
-                           rowMenu[5]=myrv.getFlag();
+                    	 mrv=listMyRcp.get(i);
+                           rowMenu[0]=mrv.getMenuName();
+                           rowMenu[1]=new ImageIcon(path+mrv.getMenuImg());
+                           rowMenu[2]=mrv.getMenuType();
+                           rowMenu[3]=mrv.getMenuInfo();
+                           rowMenu[4]=mrv.getMenuPrice();
+                           rowMenu[5]=mrv.getFlag();
                            
                            dtmMenu.addRow(rowMenu);
                      }//end for
@@ -117,13 +120,14 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
 				se.printStackTrace();
 			}//end catch
        }//rmvRecipe
-       
+	    
        // 북마크한 메뉴 리스트
        public void showBookmark(){
               try {
                      List<BookmarkVO> bklist = bdao.searchAll(mfe.logId);
                      Object[] rowMenu = new Object[5];
                      DefaultTableModel dtmMenu = mypf.getDtmFavorMenu();
+                     String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
                      
                      BookmarkVO bmvo=null;
                      dtmMenu.setRowCount(0);
@@ -131,7 +135,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
                      for( int i=0; i < bklist.size(); i++ ){
                            bmvo=bklist.get(i);
                            rowMenu[0]=bmvo.getMenuName();
-                           rowMenu[1]=bmvo.getImg();
+                           rowMenu[1]=new ImageIcon(path+bmvo.getImg());
                            rowMenu[2]=bmvo.getMenuType();
                            rowMenu[3]=bmvo.getMenuInfo();
                            rowMenu[4]=bmvo.getMenuPrice();
@@ -233,6 +237,10 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
       			switch (selectNum) {
       			case JOptionPane.OK_OPTION:
       				mypf.dispose();
+      				
+//      				mf.getJbSearch();
+//      				mfe.searchCondition();
+//      				mfe.searchList();
       			}// end switch
       		}//end if
               
@@ -240,8 +248,6 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        
        @Override
        public void mouseClicked(MouseEvent me) {
-    	   //05-29-2017
-    	   //나중에 북마크테이블로 변경할것!
      		if( me.getClickCount()==2 ){
     			// 메뉴리스트 더블클릭
     			if( me.getSource()==mypf.getJtMyMenu() ){
@@ -252,7 +258,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
     				try {
     					mrv=rdao.selectOneRecipe(value);
     					//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
-    			        ItemPreviewForm ipf = new ItemPreviewForm(mrv);
+    			        ItemPreviewForm ipf = new ItemPreviewForm(mrv,mfe);
     	                   ipf.getJchBookmark().setVisible(false);
     	                   ipf.getJcScore().setVisible(false);
     	                   ipf.getJbSubmit().setVisible(false);
@@ -273,14 +279,13 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
     				try {
     					mrv=rdao.selectOneRecipe(value);
     					//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
-    					new ItemPreviewForm(mrv);
+    					new ItemPreviewForm(mrv,mfe);
     				} catch (SQLException se) {
     					JOptionPane.showMessageDialog(null, 
     							"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
     					se.printStackTrace();
     				}// end catch
     			}//end if
-    			
          	}//end if
               
        }//mouseClicked
