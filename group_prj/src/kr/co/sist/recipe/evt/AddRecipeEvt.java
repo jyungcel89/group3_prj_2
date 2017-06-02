@@ -1,9 +1,11 @@
 package kr.co.sist.recipe.evt;
 
 import java.awt.FileDialog;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,6 +13,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -29,7 +33,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	private IngdntDAO ida;
 	private AddRecipeForm arf;
 	private IngrdntCategVO icv;
-	private String file;
+	private String file,path;
 	private MainFormEvt mfe;
 	public MgrPageForm mpf;
 	@SuppressWarnings("static-access")
@@ -94,7 +98,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	public void addImg(){
 		FileDialog fdImg=new FileDialog(arf,"레시피 이미지선택!", FileDialog.LOAD);
 		fdImg.setVisible(true);
-		String path=fdImg.getDirectory();
+		path=fdImg.getDirectory();
 		file=fdImg.getFile();
 		
 		if(file != null){
@@ -107,10 +111,10 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			ImageIcon temp=new ImageIcon(path+file);
 			int width = temp.getIconWidth();
 			int height = temp.getIconHeight();
-			if(width==260 && height==20){
+			if(width==260 && height==200){
 				arf.getLblImg().setIcon(temp);
 			}else{
-				JOptionPane.showMessageDialog(null, "이미지 파일의 크기는\n가로 : 260px / 세로 : 200px 로 맞춰 등록해주세요.");
+				JOptionPane.showMessageDialog(null, "이미지 파일의 크기는/n가로 : 260px / 세로 : 200px 로 맞춰 등록해주세요.");
 			}
 			
 			
@@ -254,61 +258,38 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			e.printStackTrace();
 		}
 	}//
+	@SuppressWarnings("resource")
 	public void copy(){
-		  //이미지는 C:/dev/workspace/jdbc_prj/src/kr/co/sist/menu/img에 복사
-		   //이미지의 경로
-		   //메뉴이름,가격,설명
-		   ImageIcon icon=(ImageIcon)maf.getJlPreview().getIcon();
-		  
-		   
-		   File file=new File(icon.toString());
-		   String tempFile=file.getName();
-		   if(tempFile.equals("default.jpg")){
-			   JOptionPane.showMessageDialog(maf, "기본 이미지는 사용할 수 없습니다.");
-			   return;
-		   }
-		   File sFile=new File(file.getParent()+"/s_"+tempFile);
-		   //파일명 앞에 s_가 붙는 파일이 없다면
-		   if(!sFile.exists()){
-			   JOptionPane.showMessageDialog(maf, "메뉴 선택시 추가되는 파일인 s_"+tempFile+"\"이 필요 합니다.");
-			   return;
-		   }
-		   //파일을 사용위치에 복붙.
-		   //선택한 위치가 파일을 보여주는 위치가 아니라면
-		   //복,붙을 시도한다.
-		   if(!file.getParent().equals("C:/dev/workspace/jdbc_prj/src/kr/co/sist/menu/img")){
-			   try {
-				//원본 파일 복.붙
-				FileInputStream fis = new FileInputStream(file);
-				FileOutputStream fos=new FileOutputStream("C:/dev/workspace/jdbc_prj/src/kr/co/sist/menu/img/"+file.getName());
-				
-				byte[] temp=new byte[512];
-				
-				int readData=0;
-				while((readData=fis.read(temp))!=-1){
-					fos.write(temp,0,readData);
-				}
-				//메뉴선택 파일 복.붙
-					fos.flush();
-					if(fis!=null){fis.close();}
-					if(fos!=null){fos.close();}
-					
-					 fis = new FileInputStream(file.getParent()+"/s_"+file.getName());
-					 fos=new FileOutputStream("C:/dev/workspace/jdbc_prj/src/kr/co/sist/menu/img/s_"+file.getName());
-					 while((readData=fis.read())!=-1){
-					
-					 }
-					 fos.write(readData);
-			   } catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			  
-			   
-		   }
+		
+		try {
+            //썸네일 가로사이즈
+            int thumbnail_width = 260;
+            //썸네일 세로사이즈
+            int thumbnail_height = 200;
+            //원본이미지파일의 경로+파일명
+            File origin_file_name = new File(path+file);
+            //생성할 썸네일파일의 경로+썸네일파일명
+           String path="C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img";
+            File thumb_file_name_b = new File(path+"/b_FI_"+file);
+            File thumb_file_name_s = new File(path+"/s_FI_"+file);
+            
+            BufferedImage buffer_original_image = ImageIO.read(origin_file_name);
+            BufferedImage buffer_thumbnail_image = new BufferedImage(thumbnail_width, thumbnail_height, BufferedImage.TYPE_3BYTE_BGR);
+            Graphics2D graphic = buffer_thumbnail_image.createGraphics();
+            graphic.drawImage(buffer_original_image, 0, 0, thumbnail_width, thumbnail_height, null);
+            
+            String[] format={"jpg","gif","png","bmp","JPG","GIF","PNG","BMP"};
+            for(int i=0; i<format.length;i++){
+            if(file.substring(file.indexOf(".")+1).equals(format[i])){
+            	System.out.println("ggg");
+            	ImageIO.write(buffer_thumbnail_image,format[i], thumb_file_name_b);
+            	ImageIO.write(buffer_thumbnail_image,format[i], thumb_file_name_s);
+            }
+            }
+            System.out.println("썸네일 생성완료");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -327,6 +308,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				addImg();
 		}
 		if(e.getSource()==arf.getJbRequest()){
+						copy();
 						reqRecipe();
 						reqRecipeIngrdnt();
 		}
@@ -340,6 +322,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				editMgr();
 				deleteIngrdnt();
 				reqRecipeIngrdnt();
+			
 				JOptionPane.showMessageDialog(null, "성공적으로 수행되었습니다.");
 				break;
 			case JOptionPane.NO_OPTION:
