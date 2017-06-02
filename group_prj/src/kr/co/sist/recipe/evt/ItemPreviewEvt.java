@@ -212,11 +212,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 			int selectNum = JOptionPane.showConfirmDialog(ipf, "창을 닫으시겠습니까?");
 			switch (selectNum) {
 			case JOptionPane.OK_OPTION:
-				mype.showBookmark();
 				ipf.dispose();
-				
-//				mypf.dispose();
-//				new MyPageEvt(mypf);
 			}// end switch
 		}//end if
 		
