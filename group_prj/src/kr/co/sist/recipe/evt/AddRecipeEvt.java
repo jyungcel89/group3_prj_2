@@ -42,7 +42,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		ida=IngdntDAO.getInstance();
 		selectMgrRecipeInfo();
 		System.out.println();
-		String id=mfe.logId;
+		String id=mfe.logId; 
 		if(id.equals("mgr")){
 			arf.getJbRequest().setVisible(false);
 			arf.getJbMgr().setVisible(true);
