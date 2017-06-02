@@ -162,7 +162,9 @@ public class ScoreDAO {
 			int sum=0;
 			int cnt=0;
 				while (rs.next()) {
+					
 					sum+=rs.getInt("value");
+					
 					cnt++;
 				} // end while
 				if(sum!=0){
@@ -170,7 +172,7 @@ public class ScoreDAO {
 					flag=(double)sum/cnt;
 					result=form.format(flag); // 결과 값을 소수점 2째자리 까지 표현
 				}else{
-					result="-"; // 초기 값은 "-" 한번도 검색이 되지 않더라도 값은 - 로 표현
+					result="0"; // 초기 값은 "-" 한번도 검색이 되지 않더라도 값은 - 로 표현
 				} //end if
 		}finally{
 		// 5.
