@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -32,7 +33,9 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        private MainForm mf;
        private IngdntDAO idao;
        private SignInForm sif;
-	    /**
+       private LogInEvt le;
+
+		/**
 	     * 마이페이지 이벤트
 	     * <수정사항>
 	     * 1. MyPageForm 객체명 변경 : mpf > mypf
@@ -45,15 +48,15 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
               mdao=MemberDAO.getInstance();
               idao=IngdntDAO.getInstance();
               
-              showMyRecipe();////////////////////////////////회원 아이디 들어가야함
-              showBookmark();//////////////////////////////회원 아이디 들어가야함
+              showMyRecipe();
+              showBookmark();
        }//MyPageEvt
        
        // 내가 등록한 메뉴 리스트
        @SuppressWarnings("static-access")
 	public void showMyRecipe(){
               try {
-                     List<MyRecipeVO> listMyRcp = rdao.myRecipe(mfe.logId);
+                     List<MyRecipeVO> listMyRcp = rdao.myRecipe(le.logId);
                      Object[] rowMenu = new Object[6];
                      DefaultTableModel dtmMenu = mypf.getDtmMyMenu();
                      String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
@@ -79,7 +82,6 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
                      se.printStackTrace();
               }//end catch
               
-              
        }//showMyRecipe
        
        	/**
@@ -94,10 +96,6 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
 				int row=jtMyMenu.getSelectedRow();
 				String value = (String) jtMyMenu.getValueAt(row, 0);
 				String valueFlag = (String) jtMyMenu.getValueAt(row, 5);
-//				System.out.println(row);
-//				System.out.println("row : "+row+", 선택 값 : "+value+
-//						"\n row : "+row+", 선택 값 : "+valueFlag);
-//				System.out.println("delFlag : "+rdao.deleteRecipeUser(value));
 				
 				// valueFlag값이 "요청거절"이 아니면 return
 				if( !valueFlag.equals("요청거절") ){
@@ -110,8 +108,8 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
 				switch (flag) {
 				case JOptionPane.OK_OPTION:
 					// 가져온 menuName 값 > 삭제
-					rdao.deleteRecipeUser(value);
 					idao.deleteIngdntOfRecp(value);
+					rdao.deleteRecipeUser(value);
 					JOptionPane.showMessageDialog(null,"성공적으로 삭제되었습니다.");
 					
 				}//end catch
@@ -132,7 +130,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        @SuppressWarnings("static-access")
 	public void showBookmark(){
               try {
-                     List<BookmarkVO> bklist = bdao.searchAll(mfe.logId);
+                     List<BookmarkVO> bklist = bdao.searchAll(le.logId);
                      Object[] rowMenu = new Object[5];
                      DefaultTableModel dtmMenu = mypf.getDtmFavorMenu();
                      String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
@@ -193,7 +191,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
        // 내 정보창으로 이동 > 내정보 값 가져와서 SignInForm에 setter값을 설정
        @SuppressWarnings("static-access")
 	public void goMyInfo(){
-    	 new SignInForm(mfe.logId);
+    	 new SignInForm();
        }//goMyInfo
        
        @Override 
@@ -211,20 +209,18 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
               }//end if
               
               if (ae.getSource() == mypf.getJbClose()) {
-      			int selectNum = JOptionPane.showConfirmDialog(null, "창을 닫으시겠습니까?");
+      			int selectNum = JOptionPane.showConfirmDialog(null, "MyPage창을 닫으시겠습니까?");
       			switch (selectNum) {
       			case JOptionPane.OK_OPTION:
       				mypf.dispose();
       				
-//      				mf.getJbSearch();
-//      				mfe.searchCondition();
-//      				mfe.searchList();
       			}// end switch
       		}//end if
               
        }//actionPerformed
        
-       @Override
+
+	@Override
        public void mouseClicked(MouseEvent me) {
      		if( me.getClickCount()==2 ){
     			// 메뉴리스트 더블클릭
@@ -237,20 +233,12 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
     				try {
     					mrv=rdao.selectOneRecipe(value);
     					//MENU_NAME, IMG, FOOD_TYPE, INFO, RECIPE_INFO
-    					if(!valueFlag.equals("승인")){
-    						System.out.println(valueFlag);
-	    			        ItemPreviewForm ipf = new ItemPreviewForm(mrv,mfe);
-		    	                   ipf.getJchBookmark().setVisible(false);
-		    	                   ipf.getJcScore().setVisible(false);
-		    	                   ipf.getJbSubmit().setVisible(false);
-		    	                   ipf.getJlBookmark().setVisible(false);
-		    	                   ipf.getJlScore().setVisible(false);
-    					}//end if
+    					new ItemPreviewForm(mrv, mfe);
+//    					new ItemPreviewForm(mrv, mfe/*, valueFlag*/);
     				} catch (SQLException se) {
     					JOptionPane.showMessageDialog(null, 
     							"죄송합니다. 일시적인 서버장애가 발생하였습니다.\n잠시후에 다시 시도해주세요.");
     					return;
-//    					se.printStackTrace();
     				}// end catch
     			}//end if
     			

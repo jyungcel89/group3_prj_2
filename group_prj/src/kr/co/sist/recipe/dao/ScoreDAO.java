@@ -30,10 +30,8 @@ public class ScoreDAO {
 	
 	private Connection getConnection() throws SQLException {
 	      Connection con = null;
-	      //지용이인 내가 수정 하였다!!!!!!! merge 하였음
 	      Properties prop = new Properties();
 	      try {
-//	         File file = new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
 	         File file=new File(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/dao/recipe_db.properties");
 	         if (file.exists()) {
 	            prop.load(new FileInputStream(file));
@@ -97,7 +95,6 @@ public class ScoreDAO {
 		return result;
 	}//insertScore
 //////////////////////////////////////////////////// 상품보기 팝업 - 평점주기///////////////////////////////////////////////////////////////
-	
 	
 //////////////////////////////////////////////////// 상품보기 팝업 - 평점 갱신///////////////////////////////////////////////////////////////
 	public boolean updateScore(ScoreVO sv) throws SQLException{
@@ -201,7 +198,7 @@ public class ScoreDAO {
                
                if(rs.next()){
              	  result=rs.getInt("VALUE");
-               }
+               }//end if
                
         }finally {
                if(rs!= null){ rs.close(); }//end if
@@ -210,9 +207,35 @@ public class ScoreDAO {
         }//end finally
  	   
  	   return result;
-		
 	}//popUpChkScore
 	
+    /**
+     * 회원 정보 제거시 회원이 추가한 평점 제거 method
+     * @param id
+     * @return flag
+     * @throws SQLException
+     */
+    public boolean deleteScoreMem(String id) throws SQLException{
+ 	   Connection con=null;
+ 	   PreparedStatement pstmt = null;
+ 	   
+ 	   try{
+ 		   con = getConnection();
+ 		   
+ 		   String query=
+ 				   "delete from score where id=?";
+ 		   pstmt = con.prepareStatement(query);
+ 		   
+ 		   pstmt.setString(1, id);
+ 		   
+ 		   pstmt.executeUpdate();
+ 	   }finally {
+ 		   if(pstmt!= null){ pstmt.close(); }
+ 		   if(con!= null){ con.close(); }
+ 	   }//end finally
+ 	   
+ 	   return true;
+ }//deleteRecipe
 	
 //////////////////////////////////////////////////// 메인폼 - 전체평점계산///////////////////////////////////////////////////////////////
 ////////////////////단위테스트///////////////////////////////////////////	

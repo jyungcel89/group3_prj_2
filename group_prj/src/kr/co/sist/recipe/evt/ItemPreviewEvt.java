@@ -30,14 +30,17 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	private MyPageForm mypf;
 	private MainForm mf;
 	private MainFormEvt mfe;
-	
-	
+	private LogInEvt le;
+//	private MyPageEvt mype;
 	
 	@SuppressWarnings("static-access")
 	public ItemPreviewEvt(MainForm mf, ItemPreviewForm ipf, MainFormEvt mfe) {
+//	public ItemPreviewEvt(MainForm mf, ItemPreviewForm ipf, MainFormEvt mfe, MyPageEvt mype) {
 		this.mf = mf;
 		this.ipf=ipf;
 		this.mfe=mfe;
+//		this.mype=mype;
+		
 		ida=IngdntDAO.getInstance();
 		showRcpInfo();
 		//////////////////복사 ///////////////////////
@@ -45,10 +48,16 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		sdao=ScoreDAO.getInstance();
 		chkScore();
 		chkBookmark();
-		if(mfe.logId.equals("mgr")){
+		
+//		System.out.println(mype.valueFlag);
+//		if(le.logId.equals("mgr") /*|| mype.valueFlag.equals("승인대기") || mype.valueFlag.equals("요청거절")*/){
+//			ipf.getJchBookmark().setEnabled(false);
+//			ipf.getJbSubmit().setVisible(false);
+//		}
+		if(le.logId.equals("mgr") /*|| mype.valueFlag.equals("승인대기") || mype.valueFlag.equals("요청거절")*/){
 			ipf.getJchBookmark().setEnabled(false);
 			ipf.getJbSubmit().setVisible(false);
-		}
+		}//end if
 		
 		//////////////////////////////////////////////
 	}//ItemPreviewEvt
@@ -59,21 +68,21 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		DefaultTableModel dtm=(DefaultTableModel)ipf.getJtIngrednt().getModel();
 		dtm.setNumRows(0);
 		try{
-		List<ShowIngdntVO> lstMenu=ida.selectIngdntOfRecp(recipeName);
-		Object[] rowMenu=new Object[3];
-		DefaultTableModel dtmMenu=ipf.getDtmIngrednt();
-		ShowIngdntVO si=null;
-		for( int i=0; i<lstMenu.size(); i++ ){
-			si=lstMenu.get(i);
-			System.out.println(si.getBrand());
-			rowMenu[0]=si.getBrand();
-			rowMenu[1]=si.getIngrdntName();
-			rowMenu[2]=si.getIngrdntPrice();
-			dtmMenu.addRow(rowMenu);
-		}
+			List<ShowIngdntVO> lstMenu=ida.selectIngdntOfRecp(recipeName);
+			Object[] rowMenu=new Object[3];
+			DefaultTableModel dtmMenu=ipf.getDtmIngrednt();
+			ShowIngdntVO si=null;
+			for( int i=0; i<lstMenu.size(); i++ ){
+				si=lstMenu.get(i);
+				System.out.println(si.getBrand());
+				rowMenu[0]=si.getBrand();
+				rowMenu[1]=si.getIngrdntName();
+				rowMenu[2]=si.getIngrdntPrice();
+				dtmMenu.addRow(rowMenu);
+			}//end for
 		}catch(SQLException se){
 			se.printStackTrace();
-		}
+		}//end catch
 			
 	}// showRcpInfo
 
@@ -84,7 +93,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		String menuName=ipf.getJlRecipeName().getText().replaceAll("▧","");
 		int score =0;
 		
-		bmuvo.setId(mfe.logId);
+		bmuvo.setId(le.logId);
 		bmuvo.setMenuName(menuName);
 		
 		try {
@@ -103,7 +112,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		BookmarkUpdateVO bmuvo = new BookmarkUpdateVO();
 //		String id="duck";/////////////////////////////////////////////////////////////////////////////////////아이디 연결해야됨 
 		String menuName=ipf.getJlRecipeName().getText().replaceAll("▧","");
-		bmuvo.setId(mfe.logId);
+		bmuvo.setId(le.logId);
 		bmuvo.setMenuName(menuName);
 		
 		try {
@@ -115,8 +124,6 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 			JOptionPane.showMessageDialog(ipf, "잠시후에 시도해 주세요 ");
 		}//end catch
 		
-		
-		
 	}// chkBookmark
 
 	
@@ -126,7 +133,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		
 		String menuName=ipf.getJlRecipeName().getText().replaceAll("▧","");
 		
-		bmuvo.setId(mfe.logId);
+		bmuvo.setId(le.logId);
 		bmuvo.setMenuName(menuName);
 		try {
 			bmdao.insertBookmark(bmuvo);
@@ -144,7 +151,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 //		String id="duck";/////////////////////////////////////////////////////////////////////////////////////아이디 연결해야됨 
 		String menuName=ipf.getJlRecipeName().getText().replaceAll("▧","");
 		
-		bmuvo.setId(mfe.logId);
+		bmuvo.setId(le.logId);
 		bmuvo.setMenuName(menuName);
 		try {
 			bmdao.rmvBookmark(bmuvo);
@@ -166,7 +173,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 			return;
 		}
 		
-		svo.setId(mfe.logId);
+		svo.setId(le.logId);
 		svo.setMenuName(menuName);
 		svo.setValue(value);
 		
@@ -184,7 +191,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		
 		try {
 			ScoreVO svo = new ScoreVO();
-			String id= mfe.logId; 
+			String id= le.logId; 
 			String menuName=ipf.getJlRecipeName().getText().replaceAll("▧","");
 			int value=ipf.getJcScore().getSelectedIndex();
 			if(value==0){
@@ -202,6 +209,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 			e.printStackTrace();
 		}//end catch
 	}//updateScore
+	
 	
 	@Override
 	public void itemStateChanged(ItemEvent ie) {

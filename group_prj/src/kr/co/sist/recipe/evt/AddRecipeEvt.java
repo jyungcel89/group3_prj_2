@@ -20,7 +20,6 @@ import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.view.MgrPageForm;
 import kr.co.sist.recipe.vo.AddRecipeVO;
 import kr.co.sist.recipe.vo.IngrdntCategVO;
-import kr.co.sist.recipe.vo.MenuTypeVO;
 import kr.co.sist.recipe.vo.MgrRecipeInfoVO;
 import kr.co.sist.recipe.vo.MgrUpdateIngrdntVO;
 import kr.co.sist.recipe.vo.ShowIngdntVO;
@@ -34,6 +33,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	private String file,path;
 	private MainFormEvt mfe;
 	public MgrPageForm mpf;
+	private LogInEvt le;
 	
 	@SuppressWarnings("static-access")
 	public AddRecipeEvt(AddRecipeForm arf){
@@ -42,7 +42,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		rda=RecipeDAO.getInstance();
 		selectMgrRecipeInfo();
 		System.out.println();
-		String id=mfe.logId; 
+		String id=le.logId; 
 		if(id.equals("mgr")){
 			arf.getJbRequest().setVisible(false);
 			arf.getJbMgr().setVisible(true);
@@ -54,7 +54,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	//관리자 모드에서 버튼을 관리자 전용버튼 보여줄때
 	
 	public void showHideButton(String logId){
-		logId = mfe.logId;
+		logId = le.logId;
 	}//showHideButton
 	
 	// 재료추가 수행 (add버튼)
@@ -161,7 +161,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				foodType=arf.getJcbCateg().getSelectedItem().toString();
 				info=arf.getJtaInfo().getText();
 				recipe_make=arf.getJtaWriteRecipe().getText();
-				id=mfe.logId;
+				id=le.logId;
 				int totalPrice=Integer.parseInt(arf.getLblTotalPrice().getText());
 				AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,id);
 				ida.insertRecipe(arv);

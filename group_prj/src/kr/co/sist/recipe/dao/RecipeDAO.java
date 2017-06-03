@@ -13,10 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import javax.swing.JOptionPane;
-import kr.co.sist.recipe.vo.IngredientOfRecipeVO;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MenuTypeVO;
-import kr.co.sist.recipe.vo.MgrRcpInfoListVO;
 import kr.co.sist.recipe.vo.MyRecipeVO;
 import kr.co.sist.recipe.vo.RecipeInfoUpdateVO;
 /**
@@ -405,7 +403,7 @@ public class RecipeDAO {
           try{
 	             con = getConnection();
 	             
-	             String query="delete from reciperegister where menu_name=?";
+	             String query="delete from reciperegister where menu_name=? and menu_flag='Y'";
 	             pstmt = con.prepareStatement(query);
 	             
 	             pstmt.setString(1, menuName);
@@ -418,6 +416,36 @@ public class RecipeDAO {
           
           return true;
        }//deleteRecipe
+       
+       
+       /**
+        * 회원 삭제 시 해당 회원이 추가한 레시피 삭제하는 method
+        *  - 회원 id 받아서 삭제
+	    * @param id
+	    * @return
+	    * @throws SQLException
+	    */
+	    public boolean deleteRecipeMem(String id) throws SQLException{
+	    	   Connection con=null;
+	    	   PreparedStatement pstmt = null;
+	    	   
+	    	   try{
+	    		   con = getConnection();
+	    		   
+	    		   String query=
+	    				   "delete from reciperegister where id=?";
+	    		   pstmt = con.prepareStatement(query);
+	    		   
+	    		   pstmt.setString(1, id);
+	    		   
+	    		   pstmt.executeUpdate();
+	    	   }finally {
+	    		   if(pstmt!= null){ pstmt.close(); }
+	    		   if(con!= null){ con.close(); }
+	    	   }//end finally
+	    	   
+	    	   return true;
+	    }//deleteRecipe
        
        /**
         * 관리자폼 > 추가/수정메뉴폼 : 수정버튼
@@ -552,6 +580,8 @@ public class RecipeDAO {
               
               return true;
        }//insertRecipe
+       
+       
        
        
        public static void main(String[] args){

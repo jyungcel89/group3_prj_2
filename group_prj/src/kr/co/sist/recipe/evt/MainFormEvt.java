@@ -30,11 +30,10 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    private RecipeDAO rcp_dao;
    private ScoreDAO score_dao;
    private MenuTypeVO mtv;
-   public static String logId;
+   private LogInEvt le;
 
    public MainFormEvt(MainForm mainFrm, String logId) {
       this.mainFrm = mainFrm;
-      this.logId = logId;
       rcp_dao = RecipeDAO.getInstance();
       score_dao = ScoreDAO.getInstance();
       
@@ -154,7 +153,6 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    
    // 마이페이지(관리자 페이지)로 이동 버튼
    public void showAddRecipe() {
-//	   Window parentWindow = SwingUtilities.windowForComponent(mainFrm.getJbAddRecipe());
 	   new AddRecipeForm("");
    }// addRecipe
    
@@ -166,20 +164,19 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    // 마이페이지(관리자 페이지)로 이동 버튼
    // member_flag 추가되면 그 조건으로 추가
    public void movePage() {
-	   if( logId.equals("mgr") ){
-		   new MgrPageForm(logId, this);
+	   if( le.logId.equals("mgr") ){
+		   new MgrPageForm(le.logId, this);
 	   }else{
-		   new MyPageForm(logId);
+		   new MyPageForm(le.logId);
 	   }//end if
    }//movePage
    
    public void logOut(){
 	   int flag=JOptionPane.showConfirmDialog(null, 
-			   " [ "+logId+" ] 님 로그아웃 하시겠습니까?\n로그아웃하시면 로그인 화면으로 돌아갑니다.");
+			   " [ "+le.logId+" ] 님 로그아웃 하시겠습니까?\n로그아웃하시면 프로그램이 종료됩니다.");
 	   switch (flag) {
 			case JOptionPane.OK_OPTION:
 				mainFrm.dispose();
-				new LogInForm();
 			}//end catch
    }//logOut
    

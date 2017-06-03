@@ -5,7 +5,6 @@ import java.awt.Font;
 
 import javax.security.auth.login.LoginException;
 import javax.swing.ImageIcon;
-//import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -72,8 +71,6 @@ public class LogInForm extends JFrame {
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
 	}//LogInForm
 
 	public JTextField getJtfId() {
@@ -124,7 +121,4 @@ public class LogInForm extends JFrame {
 		//무조건 false가 반환
 		return flag;
 	}//end getFlag
-	public static void main(String[] args){
-		new LogInForm();
-	}
 }//class

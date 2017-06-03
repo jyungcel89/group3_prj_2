@@ -33,6 +33,7 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 	private MainFormEvt mfe;
 	private SignInForm sif;
 	private MyPageForm mpf;
+	private LogInEvt le;
 	private boolean flag;
 	
 	public SignEvt(SignInForm sf) {
@@ -205,9 +206,9 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 		}//end switch
 	}//checkCancel
 	
-	public void updateMember(){
-		  String id=mfe.logId;
-	}//updateMember
+//	public void updateMember(){
+//		  String id=le.logId;
+//	}//updateMember
 
 	
 	@Override

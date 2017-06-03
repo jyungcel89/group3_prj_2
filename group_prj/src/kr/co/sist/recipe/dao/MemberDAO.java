@@ -23,6 +23,7 @@ import kr.co.sist.recipe.vo.MgrMemberVO;
 public class MemberDAO {
 
 	private static MemberDAO mem_dao;
+	private RecipeDAO rcp_dao;
 	
 	//생성자
 	private MemberDAO() {
@@ -43,8 +44,6 @@ public class MemberDAO {
 		Properties prop=new Properties();
 		try{
 			//파일 경로 확인하고 수정할 것!
-//			File file=new File("C:/dev/git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
-//			File file=new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
 			File file=new File(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/dao/recipe_db.properties");
 			
 			if( file.exists() ){
@@ -239,8 +238,8 @@ public class MemberDAO {
 	public boolean deleteMember(String id) throws SQLException{
 		Connection con=null;
 		PreparedStatement pstmt=null;
-//		ResultSet rs=null;
 		boolean flag=false;
+		
 		try{
 		//1.드라이버로딩
 		//2.Connection 얻기
@@ -253,16 +252,12 @@ public class MemberDAO {
 			pstmt.setString(1, id);
 		//4.쿼리문 수행 후 결과 얻기
 			pstmt.executeUpdate();
-//			rs=pstmt.executeUpdate();
 			//해당 아이디가 일치하는 것이 있다면 flag 값에 true를 담는다.
-//			if(rs.next()){
 				flag=true;
-//			}
 		}finally{
 		//5.연결끊기
 			if( pstmt != null ){ pstmt.close(); };//end if
 			if( con != null ){ con.close(); };//end if
-//			if( rs != null ){ rs.close(); }//end if
 		}//end finally
 		return flag;
 	}//deleteMember

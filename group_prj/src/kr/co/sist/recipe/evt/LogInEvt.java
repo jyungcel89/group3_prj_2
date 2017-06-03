@@ -27,7 +27,7 @@ public class LogInEvt extends WindowAdapter implements  ActionListener, KeyListe
 	private LogInForm lf;
 	private LoginVO log_vo;
 	private MemberDAO mem_dao;
-	private static String logId;
+	public static String logId;
 	
 	public LogInEvt(LogInForm lf) {
 		this.lf=lf;
@@ -78,7 +78,7 @@ public class LogInEvt extends WindowAdapter implements  ActionListener, KeyListe
 	 * 회원가입창으로 이동
 	 */
 	public void moveSignin(){
-		new SignInForm(logId);
+		new SignInForm();
 		lf.dispose();
 	}//moveSignin
 	

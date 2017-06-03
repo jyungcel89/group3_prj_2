@@ -6,10 +6,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import kr.co.sist.recipe.dao.MemberDAO;
-import kr.co.sist.recipe.evt.MainFormEvt;
+import kr.co.sist.recipe.evt.LogInEvt;
 import kr.co.sist.recipe.evt.SignEvt;
 
 @SuppressWarnings("serial")
@@ -18,10 +19,11 @@ public class SignInForm extends JDialog {
 	public JTextField jtfId, jtfName, jtfMail;
 	private JPasswordField jpfPw, jpfChkPw;
 	private JButton jbtChkId, jbtSubmit, jbtCancel, jbtUpdate;
-	private MainFormEvt mfe;
 	private MemberDAO mdao;
+	private LogInEvt le;
+	
 	@SuppressWarnings("static-access")
-	public SignInForm(String logId) {
+	public SignInForm() {
 		mdao=MemberDAO.getInstance();
 		setTitle("홍홍홍 레시피 회원가입");
 		setLayout(null);
@@ -100,7 +102,7 @@ public class SignInForm extends JDialog {
 		jpfChkPw.addActionListener(se);
 		
 		// 배경 설정
-		if(!(logId==null)){
+		if(!(le.logId==null)){
 			backgroundPath = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/edit_signinBack.png";
 		}else{
 			backgroundPath = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/signinBack.png";
@@ -130,17 +132,18 @@ public class SignInForm extends JDialog {
 		jbtUpdate.setVisible(false);
 		////////////////////////////////////////////////////////
 		//
-			
-			//사용자가 로그인 후 마이페이지에 들어가 개인정보 수정을 할경우 조건에 따라 컴포넌트 들의 속성을 바꾸어 준부분
-			if(!mfe.logId.equals("mgr")){
+			System.out.println("signinForm"+le.logId);
+		//사용자가 로그인 후 마이페이지에 들어가 개인정보 수정을 할경우 조건에 따라 컴포넌트 들의 속성을 바꾸어 준부분
+		if(le.logId!=null){
 		   	  String mail="";
 	          try {
-	        	 mail=mdao.selectMyInfo(mfe.logId);
-			} catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println("오류");
-			}
-	          jtfId.setText(mfe.logId);
+	        	  	mail=mdao.selectMyInfo(le.logId);
+	          } catch (SQLException e) {
+					JOptionPane.showMessageDialog(null, 
+							"서버에 일시적인 장애가 생겼습니다. \n잠시후에 다시 시도해 주세요.");
+					e.printStackTrace();
+	          }//end catch
+	          jtfId.setText(le.logId);
 	          jtfId.setEditable(false);
 	          jtfName.setText(mail);
 	          jbtChkId.setVisible(false);
@@ -149,13 +152,13 @@ public class SignInForm extends JDialog {
 	          jbtUpdate.setVisible(true);
 	          jtfId.setEditable(false);
 	          jtfName.setEditable(false);
-		   	  }//end if
+		}//end if
 		
 		setModalityType(DEFAULT_MODALITY_TYPE);
 		
 		setVisible(true);
 		setResizable(false);
-//		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 	}//SignInForm
 
