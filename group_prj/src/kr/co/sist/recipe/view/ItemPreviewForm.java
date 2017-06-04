@@ -157,13 +157,22 @@ public class ItemPreviewForm extends JDialog {
 		jbClose.addActionListener(ipe);
 		jchBookmark.addActionListener(ipe);
 		
-//		System.out.println("mype.valueFlag : "+valueFlag);
-//		if( !valueFlag.equals("½ÂÀÎ") ){
+		//
+//		System.out.println(mype.staticValueFlag);
+//		if( mype.staticValueFlag!=null || mype.staticValueFlag.equals("½ÂÀÎ´ë±â") || mype.staticValueFlag.equals("¿äÃ»°ÅÀý") ){
 //			jlBookmark.setVisible(false);
 //			jchBookmark.setVisible(false);
 //			jlScore.setVisible(false);
 //			jcScore.setVisible(false);
 //			jbSubmit.setVisible(false);
+//			jlBookmark.setEnabled(false);
+//			jchBookmark.setEnabled(false);
+//			jlScore.setEnabled(false);
+//			jcScore.setEnabled(false);
+//			jbSubmit.setEnabled(false);
+//		}//end if
+//		System.out.println("mype.valueFlag : "+valueFlag);
+//		if( !valueFlag.equals("½ÂÀÎ") ){
 //		}//end if
 		
 		setBounds(0,0,800,700);

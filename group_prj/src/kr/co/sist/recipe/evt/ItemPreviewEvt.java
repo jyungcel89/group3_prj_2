@@ -15,7 +15,6 @@ import kr.co.sist.recipe.dao.IngdntDAO;
 import kr.co.sist.recipe.dao.BookmarkDAO;
 import kr.co.sist.recipe.dao.ScoreDAO;
 import kr.co.sist.recipe.view.ItemPreviewForm;
-import kr.co.sist.recipe.view.MyPageForm;
 import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.vo.ShowIngdntVO;
 import kr.co.sist.recipe.vo.BookmarkUpdateVO;
@@ -27,19 +26,16 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	private BookmarkDAO bmdao;
 	private ScoreDAO sdao;
 	private int scoreFlag;  
-	private MyPageForm mypf;
 	private MainForm mf;
 	private MainFormEvt mfe;
 	private LogInEvt le;
-//	private MyPageEvt mype;
+	
 	
 	@SuppressWarnings("static-access")
 	public ItemPreviewEvt(MainForm mf, ItemPreviewForm ipf, MainFormEvt mfe) {
-//	public ItemPreviewEvt(MainForm mf, ItemPreviewForm ipf, MainFormEvt mfe, MyPageEvt mype) {
 		this.mf = mf;
 		this.ipf=ipf;
 		this.mfe=mfe;
-//		this.mype=mype;
 		
 		ida=IngdntDAO.getInstance();
 		showRcpInfo();
@@ -49,12 +45,8 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		chkScore();
 		chkBookmark();
 		
-//		System.out.println(mype.valueFlag);
-//		if(le.logId.equals("mgr") /*|| mype.valueFlag.equals("승인대기") || mype.valueFlag.equals("요청거절")*/){
-//			ipf.getJchBookmark().setEnabled(false);
-//			ipf.getJbSubmit().setVisible(false);
-//		}
-		if(le.logId.equals("mgr") /*|| mype.valueFlag.equals("승인대기") || mype.valueFlag.equals("요청거절")*/){
+		// 관리자 북마크, 수정 X
+		if(le.logId.equals("mgr")){
 			ipf.getJchBookmark().setEnabled(false);
 			ipf.getJbSubmit().setVisible(false);
 		}//end if
@@ -74,13 +66,14 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 			ShowIngdntVO si=null;
 			for( int i=0; i<lstMenu.size(); i++ ){
 				si=lstMenu.get(i);
-				System.out.println(si.getBrand());
+//				System.out.println(si.getBrand());
 				rowMenu[0]=si.getBrand();
 				rowMenu[1]=si.getIngrdntName();
 				rowMenu[2]=si.getIngrdntPrice();
 				dtmMenu.addRow(rowMenu);
 			}//end for
 		}catch(SQLException se){
+			JOptionPane.showMessageDialog(ipf, "잠시후에 시도해 주세요 ");
 			se.printStackTrace();
 		}//end catch
 			
@@ -101,7 +94,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(ipf, "잠시후에 시도해 주세요 ");
 			e.printStackTrace();
-		}
+		}//end catch
 		
 		scoreFlag=score;
 		ipf.getJcScore().setSelectedIndex(score);
@@ -142,8 +135,8 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(ipf, "잠시후에 시도해 주세요 ");
 			e.printStackTrace();
-		}
-	}
+		}//end catch
+	}//insertBookmark
 	/////////////////////////////////////////////북마크 해제시
 	public void rmvBookmark(){
 		BookmarkUpdateVO bmuvo = new BookmarkUpdateVO();
@@ -171,7 +164,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		if(value==0){
 			JOptionPane.showMessageDialog(ipf, "점수는 0점을 주실수 없습니다.");
 			return;
-		}
+		}//end if
 		
 		svo.setId(le.logId);
 		svo.setMenuName(menuName);
@@ -182,8 +175,8 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(ipf, "잠시후에 시도해 주세요 ");
 			e.printStackTrace();
-		}
-	}
+		}//end catch
+	}//insertScore
 	
 	
 	/////////////////////////////////////////////스코어 점수변경
@@ -219,7 +212,7 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 	@Override 
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == ipf.getJbClose()) {
-			int selectNum = JOptionPane.showConfirmDialog(ipf, "창을 닫으시겠습니까?");
+			int selectNum = JOptionPane.showConfirmDialog(ipf, "[ 상품 미리보기 ] 창을 닫으시겠습니까?");
 			switch (selectNum) {
 			case JOptionPane.OK_OPTION:
 				ipf.dispose();
@@ -236,13 +229,13 @@ public class ItemPreviewEvt extends WindowAdapter implements ActionListener, Ite
 		
 		if(ae.getSource()==ipf.getJbSubmit()){
 			if(scoreFlag==0){
-				System.out.println("insert");
+//				System.out.println("insert");
 				insertScore();
 				mfe.searchList();
 				scoreFlag=1;
 				JOptionPane.showMessageDialog(ipf,"점수가 반영되었습니다.");
 			}else{
-				System.out.println("update");
+//				System.out.println("update");
 				updateScroe();
 				mfe.searchList();
 				JOptionPane.showMessageDialog(ipf,"점수가 반영되었습니다.");

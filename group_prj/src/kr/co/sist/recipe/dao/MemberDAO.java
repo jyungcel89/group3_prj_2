@@ -384,46 +384,4 @@ public class MemberDAO {
 		return flag;
 	}//loginCheck
 	
-	public static void main(String[] args){
-		MemberDAO md=new MemberDAO();
-		try {
-			//관리자  - 회원 전체 조회
-			List<MgrMemberVO> list;
-			list=md.selectAllMember();
-			for(MgrMemberVO tmp : list){
-				System.out.println(tmp.toString());
-			}
-			//회원가입 - id pw name mail
-//			InsertMemberVO imemVo=new InsertMemberVO("choi", "5678", "jiyong", "choi@gmail.com");
-//			InsertMemberVO imemVo=new InsertMemberVO("kim", "1111", "suyeon", "kim@gmail.com");
-//			InsertMemberVO imemVo=new InsertMemberVO("hong", "9999", "seunghwan", "hong@gmail.com");
-//			InsertMemberVO imemVo=new InsertMemberVO("jung", "5555", "yoonho", "jung@gmail.com");
-//			InsertMemberVO imemVo=new InsertMemberVO("koo", "7777", "changmo", "koo@gmail.com");
-//			InsertMemberVO imemVo=new InsertMemberVO("kdr", "4444", "dongryul", "kdr@gmail.com");
-//			md.insertMember(imemVo);
-//			System.out.println("회원가입성공!");
-			//회원정보 수정 - pw mail
-//			MemberVO memVo=new MemberVO("6666","jung@naver.com");
-//			String id="jung";
-//			md.updateMember(memVo,id);
-//			System.out.println("회원수정성공!");
-			//해당 회원정보 조회
-//			String id="choi";
-//			md.selectOneMember(id);
-//			System.out.println("해당 회원정보 조회 성공!"+md.selectOneMember(id));
-			//아이디 중복확인
-//			String id="choi";
-//			System.out.println(md.checkId(id));
-			//로그인 확인
-//			LoginVO lv=new LoginVO("choi","5678");
-//			md.loginCheck(lv);
-//			System.out.println(md.loginCheck(lv));
-			//회원 삭제
-//			String id="kdr";
-//			md.deleteMember(id);
-//			System.out.println(md.deleteMember(id));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}//end catch
-	}//main
 }//class

@@ -3,16 +3,12 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
 import kr.co.sist.recipe.dao.MemberDAO;
 import kr.co.sist.recipe.view.LogInForm;
-import kr.co.sist.recipe.view.MyPageForm;
 import kr.co.sist.recipe.view.SignInForm;
 import kr.co.sist.recipe.vo.InsertMemberVO;
 import kr.co.sist.recipe.vo.MemberVO;
@@ -29,16 +25,10 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 	
 	private SignInForm sf;
 	private MemberDAO mem_dao;
-	private MemberDAO mdao;
-	private MainFormEvt mfe;
-	private SignInForm sif;
-	private MyPageForm mpf;
-	private LogInEvt le;
 	private boolean flag;
 	
 	public SignEvt(SignInForm sf) {
 		this.sf = sf;
-		
 	}//SignEvt
 
 	/**
@@ -109,11 +99,6 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 		}//end if
 	}//addMember
 	
-	/**
-	 * 2017-05-30
-	 * 정윤호 추가  \n 마이페이지에서 정보수정으로 들어갔을시 수정버튼 이벤트 
-	 */
-	
 	 
 	// 자신의 정보 수정
 	public void editMember(){ 
@@ -128,7 +113,7 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 			return;
 		}//end if
 			
-		mem_vo.setId("duck");///////////////////////////아이디 연결해야함 
+		mem_vo.setId(LogInEvt.logId);
 		mem_vo.setPw(new String(sf.getJpfPw().getPassword()));
 		mem_vo.setMail(sf.getJtfMail().getText().toString());
 		
@@ -206,10 +191,6 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 		}//end switch
 	}//checkCancel
 	
-//	public void updateMember(){
-//		  String id=le.logId;
-//	}//updateMember
-
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {

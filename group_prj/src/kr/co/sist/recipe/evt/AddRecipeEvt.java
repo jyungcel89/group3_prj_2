@@ -31,7 +31,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	private AddRecipeForm arf;
 	private IngrdntCategVO icv;
 	private String file,path;
-	private MainFormEvt mfe;
 	public MgrPageForm mpf;
 	private LogInEvt le;
 	
@@ -41,7 +40,6 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		ida=IngdntDAO.getInstance();
 		rda=RecipeDAO.getInstance();
 		selectMgrRecipeInfo();
-		System.out.println();
 		String id=le.logId; 
 		if(id.equals("mgr")){
 			arf.getJbRequest().setVisible(false);
@@ -52,9 +50,8 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	////////////////////////////////////////// AddRecipeForm
 	
 	//관리자 모드에서 버튼을 관리자 전용버튼 보여줄때
-	
 	public void showHideButton(String logId){
-		logId = le.logId;
+		logId = LogInEvt.logId;
 	}//showHideButton
 	
 	// 재료추가 수행 (add버튼)
@@ -68,8 +65,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			rowData[0]=table.getValueAt(select,0);
 			rowData[1]=table.getValueAt(select,1);
 			
-			// 동일 제료 추가 불가 조건문 
-			 
+			// 동일 재료 추가 불가 조건문 
 			 boolean flag=false;
 		      if(dtmIngrdnt.getRowCount()!=0){
 		            
@@ -85,20 +81,21 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		         }else if(dtmIngrdnt.getRowCount()==0){
 		            flag=true;
 		      }//end if
-		      
 		   
 		      if(flag){
 		         dtmIngrdnt.addRow(rowData);
 		      }//end if
-			// 테이블 재료르실행
+		      
+			// 테이블 재료 실행
 			JTable table2=arf.getJtaddedIngrednt();
 			int[] priceArr=new int[table2.getRowCount()];
-			 int totalPrice=0; 
-				for(int i=0; i<table2.getRowCount();i++){
-						priceArr[i]=Integer.parseInt(table2.getValueAt(i,1).toString());
-						totalPrice=priceArr[i]+totalPrice;
-				}//end for
-				arf.getLblTotalPrice().setText(Integer.toString(totalPrice));
+			int totalPrice=0; 
+			for(int i=0; i<table2.getRowCount();i++){
+					priceArr[i]=Integer.parseInt(table2.getValueAt(i,1).toString());
+					totalPrice=priceArr[i]+totalPrice;
+			}//end for
+			
+			arf.getLblTotalPrice().setText(Integer.toString(totalPrice));
 				
 	}//addIngdnt
 	
@@ -112,17 +109,18 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			int totalPrice=Integer.parseInt(arf.getLblTotalPrice().getText().toString());
 			int resultPrice=0;
 			resultPrice=totalPrice-minusPrice;
-			System.out.println(resultPrice);
+//			System.out.println(resultPrice);
 			arf.getLblTotalPrice().setText(Integer.toString(resultPrice));
 		}else{
 			JOptionPane.showMessageDialog(null,"0원이하는 말이안되...");
 			return;
-		}
+		}//end if
 	}//rmvIngdnt
 	
 	// 이미지추가 수행 (add버튼)
 	public void addImg(){
-		FileDialog fdImg=new FileDialog(arf,"레시피 이미지선택!", FileDialog.LOAD);
+		FileDialog fdImg=new FileDialog(arf,
+				"레시피 이미지선택!", FileDialog.LOAD);
 		fdImg.setVisible(true);
 		path=fdImg.getDirectory();
 		file=fdImg.getFile();
@@ -130,7 +128,8 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		if(file != null){
 			String vaildFile="jpg,gif,png,bmp,JPG,GIF,PNG,BMP";
 			if(!vaildFile.contains(file.substring(file.lastIndexOf(".")+1))){
-				JOptionPane.showMessageDialog(arf, "선택하신 파일은 이미지가 아닙니다.");
+				JOptionPane.showMessageDialog(arf, 
+						"선택하신 파일은 이미지가 아닙니다.");
 				return;
 			}//end if
 			
@@ -141,7 +140,8 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			if(width==260 && height==200){
 				arf.getLblImg().setIcon(temp);
 			}else{
-				JOptionPane.showMessageDialog(null, "이미지 파일의 크기는/n가로 : 260px / 세로 : 200px 로 맞춰 등록해주세요.");
+				JOptionPane.showMessageDialog(null, 
+						"이미지 파일의 크기는/n가로 : 260px / 세로 : 200px 로 맞춰 등록해주세요.");
 			}//end if
 			
 		}//end if
@@ -166,7 +166,8 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 				AddRecipeVO arv= new AddRecipeVO(menuName,img,foodType,info,recipe_make,totalPrice,id);
 				ida.insertRecipe(arv);
 		}catch(NullPointerException npe){
-				JOptionPane.showMessageDialog(null,"기입사항을 다시 확인해주세요");
+				JOptionPane.showMessageDialog(null,
+						"기입사항을 다시 확인해주세요");
 		}catch (SQLException e) {
 				e.printStackTrace();
 		}//end catch
@@ -190,12 +191,9 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 		if(ingrdntName.length!=0 && !menuName.equals("")){
 			try {
 				// 모든 메뉴이름이 있는 리스트를 배열로 가져옴
-				System.out.println("사이즈"+rda.getAllMenuName().size());
+//				System.out.println("사이즈"+rda.getAllMenuName().size());
 				String[] allMenuNameArr = new String[rda.getAllMenuName().size()];
 				rda.getAllMenuName().toArray(allMenuNameArr);
-//				for(String tmp: allMenuNameArr){
-//					System.out.println(tmp);
-//				}
 				int cnt;
 				int flag=0;
 //-------------------------------------------------------------------
@@ -212,7 +210,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 							
 							if(ingrdntName[k].equals(orginIngdntNameArr[j])){
 								cnt+=1;
-								System.out.println(cnt);
+//								System.out.println(cnt);
 								// 중복되는 재료가 3개이상일 때
 							}//end if
 							
@@ -408,14 +406,16 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			rmvIngdnt();
 		}//end if
 		if(e.getSource()==arf.getJbMgr()){
-			 int index=JOptionPane.showConfirmDialog(null, "정말로 수정하시겠습니까?");
+			 int index=JOptionPane.showConfirmDialog(null, 
+					 "정말로 수정하시겠습니까?");
 			 switch (index) {
 			 case JOptionPane.OK_OPTION:
 				editMgr();
 				deleteIngrdnt();
 				reqRecipeIngrdnt();
 				//수정 성공 후 나가기
-				JOptionPane.showMessageDialog(null, "성공적으로 수행되었습니다.");
+				JOptionPane.showMessageDialog(null, 
+						"성공적으로 수행되었습니다.");
 				arf.dispose();
 				break;
 			case JOptionPane.NO_OPTION:
@@ -424,7 +424,8 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			}//end switch
 		}//end if
 		if(e.getSource() == arf.getJbClose()){
-	    	  int selectNum = JOptionPane.showConfirmDialog(arf, "창을 닫으시겠습니까?");
+	    	  int selectNum = JOptionPane.showConfirmDialog(arf, 
+	    			  "[ 메뉴요청 ] 창을 닫으시겠습니까?\n작성중인 내용은 저장되지 않습니다.");
 	    	  switch (selectNum) {
 	    	  case JOptionPane.OK_OPTION:
 				arf.dispose();

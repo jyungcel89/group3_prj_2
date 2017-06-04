@@ -132,7 +132,7 @@ public class SignInForm extends JDialog {
 		jbtUpdate.setVisible(false);
 		////////////////////////////////////////////////////////
 		//
-			System.out.println("signinForm"+le.logId);
+//			System.out.println("signinForm"+le.logId);
 		//사용자가 로그인 후 마이페이지에 들어가 개인정보 수정을 할경우 조건에 따라 컴포넌트 들의 속성을 바꾸어 준부분
 		if(le.logId!=null){
 		   	  String mail="";

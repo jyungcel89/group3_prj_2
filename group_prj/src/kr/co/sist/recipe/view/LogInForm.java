@@ -1,6 +1,5 @@
 package kr.co.sist.recipe.view;
 
-import java.awt.Color;
 import java.awt.Font;
 
 import javax.security.auth.login.LoginException;

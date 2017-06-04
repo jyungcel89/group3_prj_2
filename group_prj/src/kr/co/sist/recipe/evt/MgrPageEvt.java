@@ -333,7 +333,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 	public void actionPerformed(ActionEvent ae) {
 		// 관리자 - 메뉴관리탭 - 메뉴리스트 삭제버튼
 		if( ae.getSource() == mpf.getJbRmvMenu() ){
-				rmvRecipe();
+			rmvRecipe();
 		}//end if
 		// 관리자 - 메뉴관리탭 - 메뉴요청리스트 요청거절버튼
 		if( ae.getSource() == mpf.getJbRmvRqust() ){
@@ -349,7 +349,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 		}//end if
 		
 		if (ae.getSource() == mpf.getJbClose()) {
-			int selectNum = JOptionPane.showConfirmDialog(mpf, "창을 닫으시겠습니까?");
+			int selectNum = JOptionPane.showConfirmDialog(mpf, "[ 관리자페이지 ] 창을 닫으시겠습니까?");
 			switch (selectNum) {
 			case JOptionPane.OK_OPTION:
 				mpf.dispose();

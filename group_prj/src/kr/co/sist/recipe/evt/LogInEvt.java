@@ -79,7 +79,7 @@ public class LogInEvt extends WindowAdapter implements  ActionListener, KeyListe
 	 */
 	public void moveSignin(){
 		new SignInForm();
-		lf.dispose();
+//		lf.dispose();
 	}//moveSignin
 	
 	@Override

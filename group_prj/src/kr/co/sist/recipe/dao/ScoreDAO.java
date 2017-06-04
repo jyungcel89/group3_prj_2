@@ -216,49 +216,25 @@ public class ScoreDAO {
      * @throws SQLException
      */
     public boolean deleteScoreMem(String id) throws SQLException{
- 	   Connection con=null;
- 	   PreparedStatement pstmt = null;
- 	   
- 	   try{
- 		   con = getConnection();
- 		   
- 		   String query=
- 				   "delete from score where id=?";
- 		   pstmt = con.prepareStatement(query);
- 		   
- 		   pstmt.setString(1, id);
- 		   
- 		   pstmt.executeUpdate();
- 	   }finally {
- 		   if(pstmt!= null){ pstmt.close(); }
- 		   if(con!= null){ con.close(); }
- 	   }//end finally
- 	   
- 	   return true;
- }//deleteRecipe
+	 	   Connection con=null;
+	 	   PreparedStatement pstmt = null;
+	 	   
+	 	   try{
+	 		   con = getConnection();
+	 		   
+	 		   String query=
+	 				   "delete from score where id=?";
+	 		   pstmt = con.prepareStatement(query);
+	 		   
+	 		   pstmt.setString(1, id);
+	 		   
+	 		   pstmt.executeUpdate();
+	 	   }finally {
+	 		   if(pstmt!= null){ pstmt.close(); }
+	 		   if(con!= null){ con.close(); }
+	 	   }//end finally
+	 	   
+	 	   return true;
+    }//deleteRecipe
 	
-//////////////////////////////////////////////////// 메인폼 - 전체평점계산///////////////////////////////////////////////////////////////
-////////////////////단위테스트///////////////////////////////////////////	
-/*	
- 	public static void main(String[] args){
-		String id="duck";
-		String menu_name="";
-		int value=5;
-		
-		ScoreDAO sd = new ScoreDAO();
-		ScoreVO sv = new ScoreVO();
-		
-		sv.setId(id);
-		sv.setMenuName(menu_name);
-		sv.setValue(value);
-		
-		try {
-			//System.out.println(sd.insertScore(sv));
-			System.out.println(sd.getAvg(menu_name));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-*/
-////////////////////단위테스트///////////////////////////////////////////	
 }//class

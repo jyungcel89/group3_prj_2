@@ -72,7 +72,7 @@ public class BookmarkDAO {
                      con= getConnection();
                      
                      String selectQuery=
-                                  "select  rr.menu_name, img, food_type, info, totalprice from reciperegister rr, bookmark bm where bm.id=? and rr.menu_name=bm.menu_name";
+                                  "select  rr.menu_name, img, food_type, info, totalprice from reciperegister rr, bookmark bm where bm.id=? and rr.menu_name=bm.menu_name and rr.recipe_flag='Y'";
                      
                      pstmt = con.prepareStatement(selectQuery);
                      pstmt.setString(1, id);
