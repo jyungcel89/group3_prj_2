@@ -71,7 +71,7 @@ public class LogInEvt extends WindowAdapter implements  ActionListener, KeyListe
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}//end catch
-	}//loginChk
+	}//loginChk 
 
 	/**
 	 * 회원가입 버튼
