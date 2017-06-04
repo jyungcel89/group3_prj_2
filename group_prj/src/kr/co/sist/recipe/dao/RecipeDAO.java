@@ -13,10 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import javax.swing.JOptionPane;
-import kr.co.sist.recipe.vo.IngredientOfRecipeVO;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MenuTypeVO;
-import kr.co.sist.recipe.vo.MgrRcpInfoListVO;
 import kr.co.sist.recipe.vo.MyRecipeVO;
 import kr.co.sist.recipe.vo.RecipeInfoUpdateVO;
 /**
@@ -46,7 +44,6 @@ public class RecipeDAO {
               
               Properties prop = new Properties();
               try {
-//                     File file=new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
             	  File file=new File(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/dao/recipe_db.properties");
                      
                      if(file.exists()){
@@ -405,7 +402,7 @@ public class RecipeDAO {
           try{
 	             con = getConnection();
 	             
-	             String query="delete from reciperegister where menu_name=?";
+	             String query="delete from reciperegister where menu_name=? and menu_flag='Y'";
 	             pstmt = con.prepareStatement(query);
 	             
 	             pstmt.setString(1, menuName);
@@ -418,6 +415,36 @@ public class RecipeDAO {
           
           return true;
        }//deleteRecipe
+       
+       
+       /**
+        * 회원 삭제 시 해당 회원이 추가한 레시피 삭제하는 method
+        *  - 회원 id 받아서 삭제
+	    * @param id
+	    * @return
+	    * @throws SQLException
+	    */
+	    public boolean deleteRecipeMem(String id) throws SQLException{
+	    	   Connection con=null;
+	    	   PreparedStatement pstmt = null;
+	    	   
+	    	   try{
+	    		   con = getConnection();
+	    		   
+	    		   String query=
+	    				   "delete from reciperegister where id=?";
+	    		   pstmt = con.prepareStatement(query);
+	    		   
+	    		   pstmt.setString(1, id);
+	    		   
+	    		   pstmt.executeUpdate();
+	    	   }finally {
+	    		   if(pstmt!= null){ pstmt.close(); }
+	    		   if(con!= null){ con.close(); }
+	    	   }//end finally
+	    	   
+	    	   return true;
+	    }//deleteRecipe
        
        /**
         * 관리자폼 > 추가/수정메뉴폼 : 수정버튼
@@ -553,77 +580,4 @@ public class RecipeDAO {
               return true;
        }//insertRecipe
        
-       
-       public static void main(String[] args){
-              RecipeDAO md= RecipeDAO.getInstance();
-              
-           try {
-//                         List<MainRecipeVO> list;
-//                         list = md.selectAllRecipe(new MenuTypeVO("","","",""));
-//                         for(MainRecipeVO tmp : list){
-//                                System.out.println(tmp.toString());
-//                         }//end for
-//============================================================
-//                  SelectRecipeInfoVO srv = new SelectRecipeInfoVO();
-//                  srv=md.selectOneRecipe("공화뽕");
-//                  
-//                  System.out.println(srv.getMenuName()+"\n"+srv.getMenuImg()+"\n"+
-//                                srv.getMenuPrice()+"\n"+srv.getMenuType()+"\n"+srv.getMenuSimpleInfo()+"\n"+
-//                                srv.getRecipeInfo());
-//============================================================
-//
-//                         List<MyRecipeVO> list = null;
-//           try {
-//                  list=md.myRecipe("mgr");
-//           } catch (SQLException e) {
-//                  // TODO Auto-generated catch block
-//                  e.printStackTrace();
-//           }
-//           for(MyRecipeVO tmp : list){
-//                  System.out.println(tmp.toString());
-//           }
-////         
-//===========================================================     
-              
-              
-//                  List<MainRecipeVO> list;
-//                  list = md.recipeList("Y");
-//                  for(MainRecipeVO tmp: list){
-//                         System.out.println(tmp.toString());
-//                  }//end for
-//============================================================
-//                  List<ShowRecipeVO> list= md.showNewRecipe();
-//                  for(ShowRecipeVO tmp: list){
-//                         System.out.println(tmp.toString());
-//                  }
-//============================================================
-//                  AddRecipeVO arv = new AddRecipeVO("추가된당", "img", "안주류", "된당된당", "된당된당 자세한 정보", "5000");
-//                  md.insertRecipe(arv, "mgr");
-//                  System.out.println("메뉴추가성공");
-//============================================================
-                     
-//                  md.updateFlag("추가된당");
-//                  System.out.println("업데이트 성공");
-//============================================================
-//============================================================
-                     
-//                  RecipeInfoUpdateVO riuv = new RecipeInfoUpdateVO("바뀐이미지", "바뀐타입", "바뀜", "바뀜");
-//                  md.updateRecipe(riuv, "추가된당");
-//                  System.out.println("성공");
-//============================================================
-//                  md.deleteRecipe("추가된당");
-//                  System.out.println("제거성공");
-//============================================================
-              // 모든 레시피의 이름조회
-        	   List<String> list = md.getAllMenuName();
-              for(String tmp : list){
-            	  System.out.println(tmp);
-              }//end for
-             
-           } catch (SQLException e) {
-                  // TODO Auto-generated catch block
-                  e.printStackTrace();
-           }
-              
-       }//main
 }//class

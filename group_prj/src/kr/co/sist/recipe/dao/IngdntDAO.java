@@ -29,13 +29,11 @@ public class IngdntDAO {
 		}
 		return ing_dao;
 	}//getInstance
-	//*********************getConnection()추가(원래 없었음)*********************************
+	
 	private Connection getConnection() throws SQLException {
 		Connection con = null;
-		//지용이인 내가 수정 하였다!!!!!!! merge 하였음
 		Properties prop = new Properties();
 		try {
-//			File file = new File("C:/dev/group3_prj_2/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
 			File file=new File(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/dao/recipe_db.properties");
 			
 			if (file.exists()) {
@@ -64,10 +62,9 @@ public class IngdntDAO {
 
 		return con;
 	}// getConnection
-	//
 	
-	// 레시피 당 재료조회
 	 /**
+	  * 레시피 당 재료조회
 	*수정사항*
 	-기존 계획 사항:selectIngdntOfRecp()는 매개변수로 ingredntOfRecipeVO형의 객체를 매개변수로 받았음.
 	-변경 사항:selectIngdntOfRecp(String recipeName)과 같이 String형의 레시피명만을 받도록 해둠				
@@ -112,8 +109,8 @@ public class IngdntDAO {
 			return list;
 	 }//selectIngdntOfRecp
 	 
-	 // 사용자, 관리자 : 레시피 추가 창에서 재료선택후 메뉴당 재료 테이블에 추가
 	 /**
+	  * 사용자, 관리자 : 레시피 추가 창에서 재료선택후 메뉴당 재료 테이블에 추가
 	 * 05-25 홍승환 작성
 	 * 수정사항:레시피 추가 폼에서 내가 선택한 재료들을 요청하여 메뉴당 재료테이블에 insert를 하는 메서드 인데
 	 * 기존의 VO에선 menuName을 받아오는VO가 없어 addIngVo를 만들어 매개변수로 넣어줌
@@ -124,34 +121,38 @@ public class IngdntDAO {
 			ResultSet rs = null;
 			boolean flag=false;
 			try {
-				con=getConnection();
-				
+					con=getConnection();
+					
 					for(int i=0;i<addIngVo.getIngrdntName().length;i++){
-					String selectIngrdntCode ="select distinct ingredients_code "
-							+ "from RECIPE_INGREDIENTS "
-							+ "where INGREDIENT_NAME='"+addIngVo.getIngrdntName()[i]+"'";
-					
-					pstmt = con.prepareStatement(selectIngrdntCode);
-					rs = pstmt.executeQuery();
-					String result="";
-					if(rs.next()) {
-						result=rs.getString("ingredients_code");
-						addIngVo.setIngrdntCode(result);
+						
+						String selectIngrdntCode ="select distinct ingredients_code "
+								+ "from RECIPE_INGREDIENTS "
+								+ "where INGREDIENT_NAME='"+addIngVo.getIngrdntName()[i]+"'";
+						
+						pstmt = con.prepareStatement(selectIngrdntCode);
+						rs = pstmt.executeQuery();
+						
+						String result="";
+						if(rs.next()) {
+							result=rs.getString("ingredients_code");
+							addIngVo.setIngrdntCode(result);
 						} // end if
-					
-			  System.out.println(addIngVo.getIngrdntCode());
-			  if (pstmt != null) { pstmt.close(); } // end if
-			  
-				String insertIngrdnt="insert into RECIPE_INGREDIENTS(INGREDIENTS_CODE,INGREDIENT_NAME,MENU_NAME)"
-						+ " values(?,?,?)";
-				pstmt=con.prepareStatement(insertIngrdnt);
-			// 4.
-				pstmt.setString(1, addIngVo.getIngrdntCode());
-				pstmt.setString(2, addIngVo.getIngrdntName()[i]);
-				pstmt.setString(3, addIngVo.getMenuName());
-				pstmt.executeUpdate();
-				} // end for
-				flag=true;
+						
+					  System.out.println(addIngVo.getIngrdntCode());
+					  
+					  if (pstmt != null) { pstmt.close(); } // end if
+					  
+						String insertIngrdnt="insert into RECIPE_INGREDIENTS(INGREDIENTS_CODE,INGREDIENT_NAME,MENU_NAME)"
+								+ " values(?,?,?)";
+						pstmt=con.prepareStatement(insertIngrdnt);
+					// 4.
+						pstmt.setString(1, addIngVo.getIngrdntCode());
+						pstmt.setString(2, addIngVo.getIngrdntName()[i]);
+						pstmt.setString(3, addIngVo.getMenuName());
+						pstmt.executeUpdate();
+						
+					} // end for
+					flag=true;
 			} finally {
 					if (pstmt != null) { pstmt.close(); } // end if
 					if (con != null) { con.close(); } // end if
@@ -186,8 +187,8 @@ public class IngdntDAO {
 			return result;
 	 }//updateIngdntOfRecp
 	 
-	 // 관리자 : 레시피 추가 창에서 재료 수정
 	 /**
+	  * 관리자 : 레시피 추가 창에서 재료 수정
 	 *  05-26 홍승환 코드 작성
 	 * 	 수정사항: 관리자창에서 재료를 클릭 후 삭제를 하기 위하 메소드로 기존에 재료코드를 받아와 재료코드를 가지고 삭제되도록
 	 *  했지만 그렇게 하지 않고 재료명,메뉴이름이 들어 있는 addRemoveIngrdntVO를 만들어 매개변수로 받게함
@@ -199,7 +200,8 @@ public class IngdntDAO {
 		      boolean flag=false;
 		      try {
 			         con = getConnection();
-			         String deleteIngrdnt="delete from RECIPE_INGREDIENTS where MENU_NAME=?";
+			         String deleteIngrdnt=
+			        		 "delete from RECIPE_INGREDIENTS where MENU_NAME=?";
 			         pstmt=con.prepareStatement(deleteIngrdnt);
 			         pstmt.setString(1,menuName);
 			         pstmt.executeUpdate(); 
@@ -211,7 +213,38 @@ public class IngdntDAO {
 		      } // end finally
 		      return flag;
 	 }//updateIngdntOfRecp
+	
+	
+	/**
+	 * 회원 삭제 시 해당 회원이 레시피를 추가하면서 
+	 * 추가된 레시피당 재료를 삭제하는 method
+	 *  - 회원id를 받아서 서브쿼리로 조건을 줌
+	 * @param id
+	 * @return flag
+	 * @throws SQLException
+	 */
+	public boolean deleteIngdntOfRecpMem(String id)throws SQLException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		boolean flag=false;
+		try {
+			con = getConnection();
+			String deleteIngrdnt=
+					"delete from recipe_ingredients where menu_name in (select menu_name from reciperegister where id=?)";
+			pstmt=con.prepareStatement(deleteIngrdnt);
+			pstmt.setString(1,id);
+			pstmt.executeUpdate(); 
+			flag=true;
+		} finally {
+			// 5.
+			if (pstmt!= null) { pstmt.close(); }//end if
+			if (con != null) { con.close(); }//end if
+		} // end finally
+		return flag;
+	}//updateIngdntOfRecp
 	 
+	
+	
 	/**
 	 * 메뉴 당 재료들 이름만 조회
 	 * 메뉴추가에서 재료추가 조건에 사용
@@ -271,6 +304,7 @@ public class IngdntDAO {
 					pstmt2.setString(1,menuName);
 					rs = pstmt.executeQuery();
 					rs2=pstmt2.executeQuery();
+					
 					List<ShowIngdntVO>list=new ArrayList<ShowIngdntVO>();
 					mrv= new MgrRecipeVO();
 					mriv=new MgrRecipeInfoVO(list,mrv);
@@ -283,13 +317,15 @@ public class IngdntDAO {
 						mriv.getMrv().setTotalPrice(rs.getString("totalprice"));
 						mriv.getMrv().setId(rs.getString("id"));
 					} // end while
+					
 					while(rs2.next()){
 						si=new ShowIngdntVO();
 						si.setIngrdntName(rs2.getString("ingredient_name"));
 						si.setIngrdntPrice(rs2.getString("price"));
 						list.add(si);
-					}
+					} //end while
 					mriv.setSiv(list);
+					
 			} finally {
 				// 5.
 					if (rs != null&&rs2!=null) {
@@ -310,8 +346,8 @@ public class IngdntDAO {
 	 }//selectIngdnt
 	
 	
-	 // 레시피 추가 창에서 카테고리별 재료 조회
 	 /**
+	  * 레시피 추가 창에서 카테고리별 재료 조회
 	  *	작성자:홍승환
 	  *	   날짜:05-25
 	  *		특이사항: 이 메서드는 원래 IngrdntSchVO를 매개변수로 받아 카테고리별 재료명,가격조회를 하기 위해 만든 메서드
@@ -353,6 +389,12 @@ public class IngdntDAO {
 			return list;
 	 }//selectIngdnt
 	
+	/**
+	 * 레시피 테이블에 레시피 추가
+	 * @param arv
+	 * @return
+	 * @throws SQLException
+	 */
 	public boolean insertRecipe(AddRecipeVO arv)throws SQLException{
 		boolean flag=false;
 		Connection con = null;

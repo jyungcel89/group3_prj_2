@@ -245,8 +245,10 @@ public class AddRecipeForm extends JDialog {
 		setResizable(false);
 		setBounds(50,50,750,850);
 		setVisible(true);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}//AddRecipeForm
 
+	
 	public JButton getJbSearch() {
 		return jbSearch;
 	}
@@ -319,5 +321,5 @@ public class AddRecipeForm extends JDialog {
 		return jbMgr;
 	}
 	
-}
+}//class
 

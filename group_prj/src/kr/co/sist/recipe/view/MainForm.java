@@ -248,299 +248,177 @@ public class MainForm extends JFrame{
 		
 	}//MainForm
 	
-	
-	
 	//////////////////////////////////////////////////////////////////////
 	public JButton getJbSearch() {
 		return jbSearch;
 	}
 
-
-
-
 	public void setJbSearch(JButton jbSearch) {
 		this.jbSearch = jbSearch;
 	}
-
-
-
 
 	public JButton getJbFstImg() {
 		return jbFstImg;
 	}
 
-
-
-
 	public void setJbFstImg(JButton jbFstImg) {
 		this.jbFstImg = jbFstImg;
 	}
-
-
-
 
 	public JButton getJbSecImg() {
 		return jbSecImg;
 	}
 
-
-
-
 	public void setJbSecImg(JButton jbSecImg) {
 		this.jbSecImg = jbSecImg;
 	}
-
-
-
 
 	public JButton getJbTrdImg() {
 		return jbTrdImg;
 	}
 
-
-
-
 	public void setJbTrdImg(JButton jbTrdImg) {
 		this.jbTrdImg = jbTrdImg;
 	}
-
-
-
 
 	public JButton getJbMypage() {
 		return jbMypage;
 	}
 
-
-
-
 	public void setJbMypage(JButton jbMypage) {
 		this.jbMypage = jbMypage;
 	}
-
-
-
 
 	public JButton getJbClose() {
 		return jbClose;
 	}
 
-
-
-
 	public void setJbClose(JButton jbClose) {
 		this.jbClose = jbClose;
 	}
-
-
-
 
 	public JButton getJbAddRecipe() {
 		return jbAddRecipe;
 	}
 
-
-
-
 	public void setJbAddRecipe(JButton jbAddRecipe) {
 		this.jbAddRecipe = jbAddRecipe;
 	}
-
-
-
 
 	public JTable getJtRecipe() {
 		return jtRecipe;
 	}
 
-
-
-
 	public void setJtRecipe(JTable jtRecipe) {
 		this.jtRecipe = jtRecipe;
 	}
-
-
-
 
 	public DefaultTableModel getDtmRecipe() {
 		return dtmRecipe;
 	}
 
-
-
-
 	public void setDtmRecipe(DefaultTableModel dtmRecipe) {
 		this.dtmRecipe = dtmRecipe;
 	}
-
-
-
 
 	public JCheckBox getChkOne() {
 		return chkOne;
 	}
 
-
-
-
 	public void setChkOne(JCheckBox chkOne) {
 		this.chkOne = chkOne;
 	}
-
-
-
 
 	public JCheckBox getChkTwo() {
 		return chkTwo;
 	}
 
-
-
-
 	public void setChkTwo(JCheckBox chkTwo) {
 		this.chkTwo = chkTwo;
 	}
-
-
-
 
 	public JCheckBox getChkThree() {
 		return chkThree;
 	}
 
-
-
-
 	public void setChkThree(JCheckBox chkThree) {
 		this.chkThree = chkThree;
 	}
-
-
-
 
 	public JCheckBox getChkFour() {
 		return chkFour;
 	}
 
-
-
-
 	public void setChkFour(JCheckBox chkFour) {
 		this.chkFour = chkFour;
 	}
-
-
-
 
 	public JTextField getJtfSearch() {
 		return jtfSearch;
 	}
 
-
-
-
 	public void setJtfSearch(JTextField jtfSearch) {
 		this.jtfSearch = jtfSearch;
 	}
-
-	
-
-
 
 	public String getImgPath1() {
 		return imgPath1;
 	}
 
-
-
 	public void setImgPath1(String imgPath1) {
 		this.imgPath1 = imgPath1;
 	}
-
-
 
 	public String getImgPath2() {
 		return imgPath2;
 	}
 
-
-
 	public void setImgPath2(String imgPath2) {
 		this.imgPath2 = imgPath2;
 	}
-
-
 
 	public String getImgPath3() {
 		return imgPath3;
 	}
 
-
-
 	public void setImgPath3(String imgPath3) {
 		this.imgPath3 = imgPath3;
 	}
-	
-	
-
 
 	public String getImgName1() {
 		return imgName1;
 	}
 
-
-
 	public void setImgName1(String imgName1) {
 		this.imgName1 = imgName1;
 	}
-
-
 
 	public String getImgName2() {
 		return imgName2;
 	}
 
-
-
 	public void setImgName2(String imgName2) {
 		this.imgName2 = imgName2;
 	}
-
-
 
 	public String getImgName3() {
 		return imgName3;
 	}
 
-
-
 	public void setImgName3(String imgName3) {
 		this.imgName3 = imgName3;
 	}
-
-
 
 	public JButton getJbLogOut() {
 		return jbLogOut;
 	}
 
-
-
 	public void setJbLogOut(JButton jbLogOut) {
 		this.jbLogOut = jbLogOut;
 	}
 
-
-
 	public String getLogId() {
 		return logId;
 	}
-	
-
-
-//	public static void main(String[] args) {
-//		new MainForm(String logId);
-//	}//main
 
 }//class

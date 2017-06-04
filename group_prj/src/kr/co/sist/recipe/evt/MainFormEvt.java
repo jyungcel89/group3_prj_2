@@ -18,7 +18,6 @@ import kr.co.sist.recipe.dao.RecipeDAO;
 import kr.co.sist.recipe.dao.ScoreDAO;
 import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.view.ItemPreviewForm;
-import kr.co.sist.recipe.view.LogInForm;
 import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.view.MgrPageForm;
 import kr.co.sist.recipe.view.MyPageForm;
@@ -30,11 +29,9 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    private RecipeDAO rcp_dao;
    private ScoreDAO score_dao;
    private MenuTypeVO mtv;
-   public static String logId;
 
    public MainFormEvt(MainForm mainFrm, String logId) {
       this.mainFrm = mainFrm;
-      this.logId = logId;
       rcp_dao = RecipeDAO.getInstance();
       score_dao = ScoreDAO.getInstance();
       
@@ -62,7 +59,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
         	 mainFrm.setImgPath1(path + dataList.get(0).getMenuImg());
         	 mainFrm.setImgPath2(path + dataList.get(1).getMenuImg());
         	 mainFrm.setImgPath3(path + dataList.get(2).getMenuImg());
-        	 System.out.println(dataList.get(2).getMenuImg());
+//        	 System.out.println(dataList.get(2).getMenuImg());
         	 // 등록한 날짜기준 3위까지 이름 등록
         	 mainFrm.setImgName1(dataList.get(0).getMenuName());
         	 mainFrm.setImgName2(dataList.get(1).getMenuName());
@@ -154,7 +151,6 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    
    // 마이페이지(관리자 페이지)로 이동 버튼
    public void showAddRecipe() {
-//	   Window parentWindow = SwingUtilities.windowForComponent(mainFrm.getJbAddRecipe());
 	   new AddRecipeForm("");
    }// addRecipe
    
@@ -166,27 +162,22 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    // 마이페이지(관리자 페이지)로 이동 버튼
    // member_flag 추가되면 그 조건으로 추가
    public void movePage() {
-	   if( logId.equals("mgr") ){
-		   new MgrPageForm(logId, this);
+	   if( LogInEvt.logId.equals("mgr") ){
+		   new MgrPageForm(LogInEvt.logId, this);
 	   }else{
-		   new MyPageForm(logId);
+		   new MyPageForm(LogInEvt.logId);
 	   }//end if
    }//movePage
    
    public void logOut(){
 	   int flag=JOptionPane.showConfirmDialog(null, 
-			   " [ "+logId+" ] 님 로그아웃 하시겠습니까?\n로그아웃하시면 로그인 화면으로 돌아갑니다.");
+			   " [ "+LogInEvt.logId+" ] 님 로그아웃 하시겠습니까?\n로그아웃하시면 프로그램이 종료됩니다.");
 	   switch (flag) {
 			case JOptionPane.OK_OPTION:
 				mainFrm.dispose();
-				new LogInForm();
 			}//end catch
    }//logOut
    
-   // 닫기
-   public void close() {
-
-   }// close
 
    @Override 
    public void actionPerformed(ActionEvent ae) {
@@ -231,7 +222,8 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
       }//end if
       
       if(ae.getSource() == mainFrm.getJbClose()){
-    	  int selectNum = JOptionPane.showConfirmDialog(mainFrm, "창을 닫으시겠습니까?");
+    	  int selectNum = JOptionPane.showConfirmDialog(mainFrm, 
+    			  "[ 메인 ] 창을 닫으시겠습니까?\n닫으시면 프로그램이 종료됩니다.");
     	  switch (selectNum) {
 		case JOptionPane.OK_OPTION:
 			mainFrm.dispose();

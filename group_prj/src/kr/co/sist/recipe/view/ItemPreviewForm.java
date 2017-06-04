@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.recipe.evt.ItemPreviewEvt;
 import kr.co.sist.recipe.evt.MainFormEvt;
+import kr.co.sist.recipe.evt.MyPageEvt;
 import kr.co.sist.recipe.vo.MainRecipeVO;
 
 @SuppressWarnings("serial")
@@ -35,10 +36,10 @@ public class ItemPreviewForm extends JDialog {
 	private JScrollPane jspTextArea;
 	private MainForm mf;
 	private MainFormEvt mfe;
+	private MyPageEvt mype;
 	
-	public ItemPreviewForm(MainRecipeVO mrv, MainFormEvt mfe){
+	public ItemPreviewForm(MainRecipeVO mrv, MainFormEvt mfe/*, String valueFlag*/){
 		setTitle("È«È«È« ·¹½ÃÇÇ - "+mrv.getMenuName());
-		
 		setLayout(null);
 		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/previewBack.png"));
 	     setContentPane(jlImg);
@@ -151,10 +152,28 @@ public class ItemPreviewForm extends JDialog {
 		}//end for
 		
 		//ÀÌº¥Æ® Ãß°¡
-		ItemPreviewEvt ipe=new ItemPreviewEvt(mf,this,mfe);
+		ItemPreviewEvt ipe=new ItemPreviewEvt(mf,this,mfe/*,mype*/);
 		jbSubmit.addActionListener(ipe);
 		jbClose.addActionListener(ipe);
 		jchBookmark.addActionListener(ipe);
+		
+		//
+//		System.out.println(mype.staticValueFlag);
+//		if( mype.staticValueFlag!=null || mype.staticValueFlag.equals("½ÂÀÎ´ë±â") || mype.staticValueFlag.equals("¿äÃ»°ÅÀý") ){
+//			jlBookmark.setVisible(false);
+//			jchBookmark.setVisible(false);
+//			jlScore.setVisible(false);
+//			jcScore.setVisible(false);
+//			jbSubmit.setVisible(false);
+//			jlBookmark.setEnabled(false);
+//			jchBookmark.setEnabled(false);
+//			jlScore.setEnabled(false);
+//			jcScore.setEnabled(false);
+//			jbSubmit.setEnabled(false);
+//		}//end if
+//		System.out.println("mype.valueFlag : "+valueFlag);
+//		if( !valueFlag.equals("½ÂÀÎ") ){
+//		}//end if
 		
 		setBounds(0,0,800,700);
 		setModalityType(DEFAULT_MODALITY_TYPE);
@@ -267,6 +286,5 @@ public class ItemPreviewForm extends JDialog {
 	public void setJlBookmark(JLabel jlBookmark) {
 		this.jlBookmark = jlBookmark;
 	}
-	
 
 }//class

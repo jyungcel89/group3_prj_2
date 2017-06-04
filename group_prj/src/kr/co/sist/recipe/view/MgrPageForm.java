@@ -42,7 +42,7 @@ public class MgrPageForm extends JDialog {
 		jlbMenuList.setFont(defaultFont);
 		jlbMenuRequest.setFont(defaultFont);
 		jlbMember.setFont(defaultFont);
-		System.out.println("MgrPage : "+logId);
+//		System.out.println("MgrPage : "+logId);
 		jlbMenuList=new JLabel("메뉴 리스트");
 		jlbMenuRequest=new JLabel("메뉴 요청대기 리스트");
 		jlbMember=new JLabel("전체 회원 리스트");
@@ -204,10 +204,6 @@ public class MgrPageForm extends JDialog {
 		setVisible(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}//MgrPageForm
-	
-//	public static void main(String[] args) {
-//		new MgrPageForm();
-//	}//main
 
 	public JLabel getJlbMenuList() {
 		return jlbMenuList;

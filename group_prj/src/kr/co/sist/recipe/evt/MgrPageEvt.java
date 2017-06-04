@@ -13,9 +13,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import kr.co.sist.recipe.dao.BookmarkDAO;
 import kr.co.sist.recipe.dao.IngdntDAO;
 import kr.co.sist.recipe.dao.MemberDAO;
 import kr.co.sist.recipe.dao.RecipeDAO;
+import kr.co.sist.recipe.dao.ScoreDAO;
 import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.view.ItemPreviewForm;
 import kr.co.sist.recipe.view.MgrPageForm;
@@ -34,6 +36,8 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 	private RecipeDAO rcp_dao;
 	private IngdntDAO ida_dao;
 	private MainFormEvt mfe;
+	private ScoreDAO score_dao;
+	private BookmarkDAO book_dao;
 	
 	public MgrPageEvt( MgrPageForm mpf, MainFormEvt mfe ) {
 		this.mpf=mpf;
@@ -41,6 +45,8 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 		mem_dao=MemberDAO.getInstance();
 		rcp_dao=RecipeDAO.getInstance();
 		ida_dao=IngdntDAO.getInstance();
+		score_dao=ScoreDAO.getInstance();
+		book_dao=BookmarkDAO.getInstance();
 		allRecipeList();
 		requestList();
 		memberList();
@@ -149,8 +155,8 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				switch (flag) {
 				case JOptionPane.OK_OPTION:
 					// 가져온 menuName 값 > 삭제
-					rcp_dao.deleteRecipe(value);
 					ida_dao.deleteIngdntOfRecp(value);
+					rcp_dao.deleteRecipe(value);
 				}//end catch
 				// 삭제 후 갱신
 				allRecipeList();
@@ -282,11 +288,12 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 			}//end catch
 		}//memberList
 		
-		
 		/**
 		 * 회원탈퇴 시키기 : remove 버튼
 		 * 테이블에서 선택된 회원 id를 가져와서 
 		 * MemberDAO - deleteMember(id) method를 실행
+		 * <수정사항>
+		 * 회원정보삭제 4개 추가
 		 */
 		public void rmvMember(){ 
 			
@@ -302,9 +309,12 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 			switch (flag) {
 			case JOptionPane.OK_OPTION:
 				// 가져온 id 값 > 삭제
-				mem_dao.deleteMember(value);
+				ida_dao.deleteIngdntOfRecpMem(value);//1. 회원이 작성한 재료테이블 지우고
+				rcp_dao.deleteRecipeMem(value);//2. 회원이 작성한 레시피를 지우고
+				score_dao.deleteScoreMem(value);//3. 회원 스코어
+				book_dao.deleteBookmarkMem(value);//4. 회원 북마크
+				mem_dao.deleteMember(value);//5. 회원테이블 정보 삭제
 			}//end switch
-//				System.out.println("delFlag : "+mem_dao.deleteMember(value));
 			
 				// 삭제 후 갱신
 				memberList();
@@ -323,7 +333,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 	public void actionPerformed(ActionEvent ae) {
 		// 관리자 - 메뉴관리탭 - 메뉴리스트 삭제버튼
 		if( ae.getSource() == mpf.getJbRmvMenu() ){
-				rmvRecipe();
+			rmvRecipe();
 		}//end if
 		// 관리자 - 메뉴관리탭 - 메뉴요청리스트 요청거절버튼
 		if( ae.getSource() == mpf.getJbRmvRqust() ){
@@ -339,7 +349,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 		}//end if
 		
 		if (ae.getSource() == mpf.getJbClose()) {
-			int selectNum = JOptionPane.showConfirmDialog(mpf, "창을 닫으시겠습니까?");
+			int selectNum = JOptionPane.showConfirmDialog(mpf, "[ 관리자페이지 ] 창을 닫으시겠습니까?");
 			switch (selectNum) {
 			case JOptionPane.OK_OPTION:
 				mpf.dispose();

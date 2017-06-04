@@ -168,114 +168,72 @@ public class MyPageForm extends JDialog {
 		setModalityType(DEFAULT_MODALITY_TYPE);
 		setResizable(false);
         setVisible(true);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }//MgrPageForm
-
-
 
     public JButton getJbRmvFavorMenu() {
         return jbRmvFavorMenu;
     }
 
-
-
     public JButton getJbEditMyInfo() {
         return jbEditMyInfo;
     }
-
-
 
     public JButton getJbClose() {
         return jbClose;
     }
 
-
-
-
     public DefaultTableModel getDtmMyMenu() {
         return dtmMyMenu;
     }
-
-
 
     public void setDtmMyMenu(DefaultTableModel dtmMyMenu) {
         this.dtmMyMenu = dtmMyMenu;
     }
 
-
-
     public DefaultTableModel getDtmFavorMenu() {
         return dtmFavorMenu;
     }
-
-
 
     public void setDtmFavorMenu(DefaultTableModel dtmFavorMenu) {
         this.dtmFavorMenu = dtmFavorMenu;
     }
 
-
-
     public JTable getJtMyMenu() {
         return jtMyMenu;
     }
-
-
 
     public void setJtMyMenu(JTable jtMyMenu) {
         this.jtMyMenu = jtMyMenu;
     }
 
-
-
     public JTable getJtFavorMenu() {
         return jtFavorMenu;
     }
-
-
 
     public void setJtFavorMenu(JTable jtFavorMenu) {
         this.jtFavorMenu = jtFavorMenu;
     }
 
-
-
     public void setJbRmvFavorMenu(JButton jbRmvFavorMenu) {
         this.jbRmvFavorMenu = jbRmvFavorMenu;
     }
-
-
 
     public void setJbEditMyInfo(JButton jbEditMyInfo) {
         this.jbEditMyInfo = jbEditMyInfo;
     }
 
-
-
     public void setJbClose(JButton jbClose) {
         this.jbClose = jbClose;
     }
-
-    
-
-
-	///////////////////////////////////////////////차후 삭제요망////////////////////////////////////
     
 	public JButton getJbRmvMyMenu() {
 		return jbRmvMyMenu;
 	}
 
-
-
 	public void setJbRmvMyMenu(JButton jbRmvMyMenu) {
 		this.jbRmvMyMenu = jbRmvMyMenu;
 	}
-
-
-
-	///////////////////////////////////////////////차후 삭제요망////////////////////////////////////
-//    public static void main(String[] args) {
-//        new MyPageForm(String logId);
-//    }//main
 
 }//class
 

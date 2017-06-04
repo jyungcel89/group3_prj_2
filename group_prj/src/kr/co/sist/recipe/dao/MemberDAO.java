@@ -23,6 +23,7 @@ import kr.co.sist.recipe.vo.MgrMemberVO;
 public class MemberDAO {
 
 	private static MemberDAO mem_dao;
+	private RecipeDAO rcp_dao;
 	
 	//생성자
 	private MemberDAO() {
@@ -43,8 +44,6 @@ public class MemberDAO {
 		Properties prop=new Properties();
 		try{
 			//파일 경로 확인하고 수정할 것!
-//			File file=new File("C:/dev/git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
-//			File file=new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
 			File file=new File(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/dao/recipe_db.properties");
 			
 			if( file.exists() ){
@@ -239,8 +238,8 @@ public class MemberDAO {
 	public boolean deleteMember(String id) throws SQLException{
 		Connection con=null;
 		PreparedStatement pstmt=null;
-//		ResultSet rs=null;
 		boolean flag=false;
+		
 		try{
 		//1.드라이버로딩
 		//2.Connection 얻기
@@ -253,16 +252,12 @@ public class MemberDAO {
 			pstmt.setString(1, id);
 		//4.쿼리문 수행 후 결과 얻기
 			pstmt.executeUpdate();
-//			rs=pstmt.executeUpdate();
 			//해당 아이디가 일치하는 것이 있다면 flag 값에 true를 담는다.
-//			if(rs.next()){
 				flag=true;
-//			}
 		}finally{
 		//5.연결끊기
 			if( pstmt != null ){ pstmt.close(); };//end if
 			if( con != null ){ con.close(); };//end if
-//			if( rs != null ){ rs.close(); }//end if
 		}//end finally
 		return flag;
 	}//deleteMember
@@ -389,46 +384,4 @@ public class MemberDAO {
 		return flag;
 	}//loginCheck
 	
-	public static void main(String[] args){
-		MemberDAO md=new MemberDAO();
-		try {
-			//관리자  - 회원 전체 조회
-			List<MgrMemberVO> list;
-			list=md.selectAllMember();
-			for(MgrMemberVO tmp : list){
-				System.out.println(tmp.toString());
-			}
-			//회원가입 - id pw name mail
-//			InsertMemberVO imemVo=new InsertMemberVO("choi", "5678", "jiyong", "choi@gmail.com");
-//			InsertMemberVO imemVo=new InsertMemberVO("kim", "1111", "suyeon", "kim@gmail.com");
-//			InsertMemberVO imemVo=new InsertMemberVO("hong", "9999", "seunghwan", "hong@gmail.com");
-//			InsertMemberVO imemVo=new InsertMemberVO("jung", "5555", "yoonho", "jung@gmail.com");
-//			InsertMemberVO imemVo=new InsertMemberVO("koo", "7777", "changmo", "koo@gmail.com");
-//			InsertMemberVO imemVo=new InsertMemberVO("kdr", "4444", "dongryul", "kdr@gmail.com");
-//			md.insertMember(imemVo);
-//			System.out.println("회원가입성공!");
-			//회원정보 수정 - pw mail
-//			MemberVO memVo=new MemberVO("6666","jung@naver.com");
-//			String id="jung";
-//			md.updateMember(memVo,id);
-//			System.out.println("회원수정성공!");
-			//해당 회원정보 조회
-//			String id="choi";
-//			md.selectOneMember(id);
-//			System.out.println("해당 회원정보 조회 성공!"+md.selectOneMember(id));
-			//아이디 중복확인
-//			String id="choi";
-//			System.out.println(md.checkId(id));
-			//로그인 확인
-//			LoginVO lv=new LoginVO("choi","5678");
-//			md.loginCheck(lv);
-//			System.out.println(md.loginCheck(lv));
-			//회원 삭제
-//			String id="kdr";
-//			md.deleteMember(id);
-//			System.out.println(md.deleteMember(id));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}//end catch
-	}//main
 }//class

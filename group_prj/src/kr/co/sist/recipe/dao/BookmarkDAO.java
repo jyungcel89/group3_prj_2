@@ -12,11 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import javax.swing.JOptionPane;
-import org.w3c.dom.ls.LSInput;
 import kr.co.sist.recipe.vo.BookmarkUpdateVO;
 import kr.co.sist.recipe.vo.BookmarkVO;
-import kr.co.sist.recipe.vo.MyRecipeVO;
-import kr.co.sist.recipe.vo.MainRecipeVO;
  
 /**
  * 2017-05-28 추가 및 수정
@@ -41,7 +38,6 @@ public class BookmarkDAO {
              Connection con = null;
              Properties prop = new Properties();
              try {
-//                      File file=new File("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/dao/recipe_db.properties");
             	 File file=new File(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/dao/recipe_db.properties");
                 if (file.exists()) {
                    prop.load(new FileInputStream(file));
@@ -76,7 +72,7 @@ public class BookmarkDAO {
                      con= getConnection();
                      
                      String selectQuery=
-                                  "select  rr.menu_name, img, food_type, info, totalprice from reciperegister rr, bookmark bm where bm.id=? and rr.menu_name=bm.menu_name";
+                                  "select  rr.menu_name, img, food_type, info, totalprice from reciperegister rr, bookmark bm where bm.id=? and rr.menu_name=bm.menu_name and rr.recipe_flag='Y'";
                      
                      pstmt = con.prepareStatement(selectQuery);
                      pstmt.setString(1, id);
@@ -175,12 +171,34 @@ public class BookmarkDAO {
               }//end finally
               return result;
        }//rmvBookmark
-//     
-//     // 마이페이지 북마크리스트의 메뉴 > 메뉴 정보창에 정보들 넣기
-//     public ShowRecipeVO showBookmarkMenu(String menuName){
-//           return null;
-//           
-//     }//showBookmarkMenu
+       
+	    /**
+	     * 회원 정보 제거시 회원이 추가한 북마크 삭제 method
+	     * @param id
+	     * @return flag
+	     * @throws SQLException
+	     */
+	    public boolean deleteBookmarkMem(String id) throws SQLException{
+	    	   Connection con=null;
+	    	   PreparedStatement pstmt = null;
+	    	   
+	    	   try{
+	    		   con = getConnection();
+	    		   
+	    		   String query=
+	    				   "delete from bookmark where id=?";
+	    		   pstmt = con.prepareStatement(query);
+	    		   
+	    		   pstmt.setString(1, id);
+	    		   
+	    		   pstmt.executeUpdate();
+	    	   }finally {
+	    		   if(pstmt!= null){ pstmt.close(); }
+	    		   if(con!= null){ con.close(); }
+	    	   }//end finally
+	    	   
+	    	   return true;
+	    }//deleteRecipe
        
        public boolean popUpChkBookmark( BookmarkUpdateVO  bmuvo) throws SQLException{
     	   boolean result=false;
