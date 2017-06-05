@@ -402,7 +402,7 @@ public class RecipeDAO {
           try{
 	             con = getConnection();
 	             
-	             String query="delete from reciperegister where menu_name=? and menu_flag='Y'";
+	             String query="delete from reciperegister where menu_name=? and recipe_flag='Y'";
 	             pstmt = con.prepareStatement(query);
 	             
 	             pstmt.setString(1, menuName);
