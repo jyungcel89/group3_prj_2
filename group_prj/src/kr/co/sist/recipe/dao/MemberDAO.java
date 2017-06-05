@@ -20,6 +20,11 @@ import kr.co.sist.recipe.vo.LoginVO;
 import kr.co.sist.recipe.vo.MemberVO;
 import kr.co.sist.recipe.vo.MgrMemberVO;
  
+/**
+ * MemberDAO
+ * 회원 관련 DB에 관여하는 DAO
+ * @author JiYong
+ */
 public class MemberDAO {
 
 	private static MemberDAO mem_dao;
@@ -74,11 +79,9 @@ public class MemberDAO {
 	}//getConnection
 	
 	/**
-	 * 회원 상세정보 조회 - 회원가입/수정창
-	 * 수정사항
-	 * 1.MemberVO > MgrMemeberVO (id,name,mail)
+	 * 회원 상세정보 조회 - 회원가입/수정창<br>
 	 * @param id
-	 * @return
+	 * @return MgrMemberVO mmv
 	 * @throws SQLException
 	 */
 	public MgrMemberVO selectOneMember(String id) throws SQLException{
@@ -113,8 +116,8 @@ public class MemberDAO {
 	}//selectOneMember
 	
 	/**
-	 * 회원 - 마이페이지에서 내정보 수정 시 데이터 입력 값
-	 * @param 05-30 정윤호
+	 * 회원 - 마이페이지에서 내정보 수정 시 데이터 입력 값<br>
+	 * @param id
 	 * @throws SQLException 
 	 */
 	public String selectMyInfo(String id) throws SQLException{
@@ -151,7 +154,7 @@ public class MemberDAO {
 	/**
 	 * 관리자 - 전체 회원 목록 조회<br>
 	 * id,name,email을 조회하여
-	 * MgrMemberVO에 저장하고 List에 추가하여 반환하는 일
+	 * MgrMemberVO에 저장하고 List에 추가하여 반환하는 일<br>
 	 * @return
 	 * @throws SQLException
 	 */
@@ -167,7 +170,7 @@ public class MemberDAO {
 			con=getConnection();
 		//3.쿼리문 생성객체 얻기
 			String selectAllMember=
-					"select id,name,mail from members";//정렬된 데이터로 조회 하게 하기 orderBy
+					"select id,name,mail from members order by member_flag";//정렬된 데이터로 조회
 			pstmt=con.prepareStatement(selectAllMember);
 		//4.쿼리수행 후 결과 얻기
 			rs=pstmt.executeQuery();

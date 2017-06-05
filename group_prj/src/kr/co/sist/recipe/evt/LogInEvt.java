@@ -16,11 +16,11 @@ import kr.co.sist.recipe.view.SignInForm;
 import kr.co.sist.recipe.vo.LoginVO;
 
 /**
- * 로그인 창 이벤트
- * <수정사항>
- * 1. parameter 제거
+ * 로그인 창 이벤트<br>
+ *  - 로그인시 작성한 아이디, 비밀번호의 유효성을 판단하고
+ * 맞다면 메인창으로 이동, 틀리다면 return<br>
+ *  - 회원가입창으로 이동<br>
  * @author JiYong
- *
  */
 public class LogInEvt extends WindowAdapter implements  ActionListener, KeyListener{
 
@@ -38,8 +38,8 @@ public class LogInEvt extends WindowAdapter implements  ActionListener, KeyListe
 	 * 입력한 아이디와 비밀번호가 유효한지 판단하는 method
 	 */
 	public void loginChk(){
-		logId=lf.getJtfId().getText();
-		String logPw=new String(lf.getJpfPass().getPassword());
+		logId=lf.getJtfId().getText().trim();
+		String logPw=new String(lf.getJpfPass().getPassword()).trim();
 		
 		//LogInForm에서 id, pw가 비었을때
 		if( logId.equals("") || logPw.equals("") ){
@@ -94,6 +94,7 @@ public class LogInEvt extends WindowAdapter implements  ActionListener, KeyListe
 	
 	@Override
 	public void keyPressed(KeyEvent ke) {
+		// 탭키 이벤트 조건
 		if(ke.getKeyCode() == KeyEvent.VK_TAB && ke.getSource() == lf.getJtfId()){
 			lf.getJpfPass().requestFocus();
 		}//end if

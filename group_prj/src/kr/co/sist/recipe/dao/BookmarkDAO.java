@@ -16,9 +16,9 @@ import kr.co.sist.recipe.vo.BookmarkUpdateVO;
 import kr.co.sist.recipe.vo.BookmarkVO;
  
 /**
- * 2017-05-28 추가 및 수정
+ * BookmarkDAO
+ * 북마크 관련 DB에 관여하는 DAO
  * @author JiYong
- *
  */ 
 public class BookmarkDAO {
        private static BookmarkDAO book_dao;

@@ -17,6 +17,12 @@ import javax.swing.JOptionPane;
 import kr.co.sist.recipe.vo.BookmarkUpdateVO;
 import kr.co.sist.recipe.vo.ScoreVO;
  
+/**
+ * ScoreDAO
+ * 스코어 관련 DB에 관여하는 DAO
+ * @author JiYong
+ *
+ */
 public class ScoreDAO {
 
 	private static ScoreDAO score_dao;
@@ -68,14 +74,14 @@ public class ScoreDAO {
 		PreparedStatement pstmt = null;
 		
 		try{
-			//1. 드라이버로딩
-			//2. 커넥션 얻기
+		//1. 드라이버로딩
+		//2. 커넥션 얻기
 			con = getConnection();
-			//3. 쿼리문 생성객체 얻기
+		//3. 쿼리문 생성객체 얻기
 			String insertPoint = "insert into score(id,menu_name,value) values(?,?,?)";
 			pstmt = con.prepareStatement(insertPoint);
-			//4. 쿼리수행 후 결과얻기
-				// 바인드변수에 값 설정
+		//4. 쿼리수행 후 결과얻기
+			// 바인드변수에 값 설정
 			pstmt.setString(1, sv.getId());
 			pstmt.setString(2, sv.getMenuName());
 			pstmt.setInt(3, sv.getValue());
@@ -84,9 +90,9 @@ public class ScoreDAO {
 
 			if(flag!=0){
                  result=true;
-           }else{
+            }else{
                  result=false;
-           }//end if
+            }//end if
 		}finally {
 			//5.
 			if(pstmt!=null){ pstmt.close(); }
@@ -104,14 +110,14 @@ public class ScoreDAO {
 		PreparedStatement pstmt = null;
 		
 		try{
-			//1. 드라이버로딩
-			//2. 커넥션 얻기
+		//1. 드라이버로딩
+		//2. 커넥션 얻기
 			con = getConnection();
-			//3. 쿼리문 생성객체 얻기
+		//3. 쿼리문 생성객체 얻기
 			String updatePoint = "update score set value = ? where id = ? and menu_name = ?";
 			pstmt = con.prepareStatement(updatePoint.toString());
-			//4. 쿼리수행 후 결과얻기
-				// 바인드변수에 값 설정
+		//4. 쿼리수행 후 결과얻기
+			// 바인드변수에 값 설정
 			pstmt.setInt(1, sv.getValue());
 			pstmt.setString(2, sv.getId());
 			pstmt.setString(3, sv.getMenuName());
@@ -158,19 +164,20 @@ public class ScoreDAO {
 
 			int sum=0;
 			int cnt=0;
-				while (rs.next()) {
-					
-					sum+=rs.getInt("value");
-					
-					cnt++;
-				} // end while
-				if(sum!=0){
-					double flag=0.0;
-					flag=(double)sum/cnt;
-					result=form.format(flag); // 결과 값을 소수점 2째자리 까지 표현
-				}else{
-					result="0"; // 초기 값은 "-" 한번도 검색이 되지 않더라도 값은 - 로 표현
-				} //end if
+			while (rs.next()) {
+				
+				sum+=rs.getInt("value");
+				
+				cnt++;
+			} // end while
+			
+			if(sum!=0){
+				double flag=0.0;
+				flag=(double)sum/cnt;
+				result=form.format(flag); // 결과 값을 소수점 2째자리 까지 표현
+			}else{
+				result="0"; // 초기 값은 "-" 한번도 검색이 되지 않더라도 값은 - 로 표현
+			} //end if
 		}finally{
 		// 5.
 			if (rs != null) { rs.close();	} // end if

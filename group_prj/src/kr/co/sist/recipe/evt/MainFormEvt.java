@@ -52,7 +52,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    public void newRecipe() {
       try {
          List<MainRecipeVO> dataList = rcp_dao.showNewRecipe();
-         String path = "C:/dev/group_prj_git/group3_prj_2/group_prjsrc/kr/co/sist/recipe/img/";
+         String path = "C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/";
          
          // 등록한 이미지가 날짜기준 3개이상일때
          if(dataList.size()>2){
@@ -121,7 +121,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
         	 List<MainRecipeVO> list = rcp_dao.selectAllRecipe(mtv, searchText);
         	 Object[] rowMenu = new Object[6];
         	 DefaultTableModel dtmMenu = mainFrm.getDtmRecipe();
-        	 String path = "C:/dev/group_prj_git/group3_prj_2/group_prjsrc/kr/co/sist/recipe/img/s_";
+        	 String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
         	 
         	 // 메뉴종류가 저장된 VO에
         	 MainRecipeVO mrv = null;

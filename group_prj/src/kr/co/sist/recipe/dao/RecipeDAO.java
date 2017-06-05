@@ -336,7 +336,7 @@ public class RecipeDAO {
                      con = getConnection();
                      
                      String selectQuery=
-                                  "select menu_name, img, food_type, info, recipe_info, totalprice from reciperegister where recipe_flag=?";
+                                  "select menu_name, img, food_type, info, recipe_info, totalprice from reciperegister where recipe_flag=? order by desc";
                      pstmt = con.prepareStatement(selectQuery);
                      
                      // 바인드 변수 flag조건에 따라서 이벤트 처리

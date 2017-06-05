@@ -27,7 +27,6 @@ import kr.co.sist.recipe.vo.MgrMemberVO;
 /**
  * 관리자페이지 이벤트 클래스
  * @author JiYong
- *
  */ 
 public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseListener {
 
@@ -47,6 +46,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 		ida_dao=IngdntDAO.getInstance();
 		score_dao=ScoreDAO.getInstance();
 		book_dao=BookmarkDAO.getInstance();
+		//관리자페이지가 실행되면서 리스트 조회 method를 바로 실행
 		allRecipeList();
 		requestList();
 		memberList();
@@ -66,7 +66,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				List<MainRecipeVO> listAllRcp = rcp_dao.recipeList(flag);
 				Object[] rowMenu = new Object[5];
 				DefaultTableModel dtmMenu = mpf.getDtmMenuList();
-				String path = "C:/dev/group_prj_git/group3_prj_2/group_prjsrc/kr/co/sist/recipe/img/s_";
+				String path = System.getProperty("user.dir")+"/src/kr/co/sist/recipe/img/s_";
 				
 				MainRecipeVO mrv=null; 
 				dtmMenu.setRowCount(0);
@@ -106,7 +106,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				List<MainRecipeVO> listReqRcp = rcp_dao.recipeList(flag);
 				Object[] rowMenu = new Object[5];
 				DefaultTableModel dtmMenu = mpf.getDtmMenuRequest();
-				String path = "src/kr/co/sist/recipe/img/s_";
+				String path = System.getProperty("user.dir")+"/src/kr/co/sist/recipe/img/s_";
 				
 				MainRecipeVO mrv=null;
 				dtmMenu.setRowCount(0);
@@ -304,6 +304,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				String value = (String) jtMem.getValueAt(row, 0);
 //				System.out.println(row);
 //				System.out.println("row : "+row+", 선택 값 : "+value);
+				
 			int flag=JOptionPane.showConfirmDialog(mpf, 
 					"[ "+value+" ] 선택하신 회원을 영구적으로 삭제하시겠습니까?");
 			switch (flag) {
@@ -347,7 +348,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 		if( ae.getSource() == mpf.getJbRmvMember() ){
 			rmvMember();
 		}//end if
-		
+		// 닫기
 		if (ae.getSource() == mpf.getJbClose()) {
 			int selectNum = JOptionPane.showConfirmDialog(mpf, "[ 관리자페이지 ] 창을 닫으시겠습니까?");
 			switch (selectNum) {
