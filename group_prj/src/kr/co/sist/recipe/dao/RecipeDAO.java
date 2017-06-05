@@ -80,7 +80,7 @@ public class RecipeDAO {
         * @return
         */
        public MainRecipeVO selectOneRecipe(String menuName) throws SQLException{
-              MainRecipeVO mrv = new MainRecipeVO();
+              MainRecipeVO mrv = new MainRecipeVO();//NULL로 초기화
               Connection con = null;
               PreparedStatement pstmt= null;
               ResultSet rs= null;
@@ -96,7 +96,8 @@ public class RecipeDAO {
                      rs = pstmt.executeQuery();
                      
                      // 선택된 한가지 메뉴에대한 정보를 RecipeVO에 저장
-                     while(rs.next()){
+                     while(rs.next()){//IF사용
+                    	 	//여기다 mrv객체생성
                            mrv.setMenuName(menuName);
                            mrv.setMenuImg(rs.getString("img"));
                            mrv.setMenuPrice(rs.getString("totalprice"));
@@ -186,7 +187,7 @@ public class RecipeDAO {
                      StringBuilder sbSelectRecipe = new StringBuilder();
                      sbSelectRecipe.append("select menu_name, img, food_type, info, recipe_info, totalprice from reciperegister");
                      
-                     if(mtv.getAnju().equals("") && mtv.getBunsik().equals("") && mtv.getDessert().equals("") && mtv.getMeal().equals("")){
+                     if("".equals(mtv.getAnju())&& mtv.getBunsik().equals("") && mtv.getDessert().equals("") && mtv.getMeal().equals("")){
                            // 메뉴타입이 체크되어있지않은 경우
                            if(!srchText.equals("")){
                                   // 메뉴타입이 체크되어 있지 않고 검색어를 갖는 경우
@@ -197,7 +198,8 @@ public class RecipeDAO {
                            }else{
                                   // 메뉴타입이 체크되어 있지 않고 검색어를 갖지 않는 경우
                         	   	  sbSelectRecipe.append(" where recipe_flag='Y'");
-                                  pstmt= con.prepareStatement(sbSelectRecipe.toString());
+                                  
+								  pstmt= con.prepareStatement(sbSelectRecipe.toString());
                                   rs=pstmt.executeQuery();
                            }//end else
                      }else{
@@ -402,7 +404,7 @@ public class RecipeDAO {
           try{
 	             con = getConnection();
 	             
-	             String query="delete from reciperegister where menu_name=? and menu_flag='Y'";
+	             String query="delete from reciperegister where menu_name=? and recipe_flag='Y'";
 	             pstmt = con.prepareStatement(query);
 	             
 	             pstmt.setString(1, menuName);

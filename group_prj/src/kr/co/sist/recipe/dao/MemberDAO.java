@@ -45,7 +45,7 @@ public class MemberDAO {
 		try{
 			//파일 경로 확인하고 수정할 것!
 			File file=new File(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/dao/recipe_db.properties");
-			
+			//현재실행되고 있는 JVM의 사용자경로:getProperty
 			if( file.exists() ){
 				prop.load(new FileInputStream(file));
 				String driver=prop.getProperty("driver");
@@ -167,7 +167,7 @@ public class MemberDAO {
 			con=getConnection();
 		//3.쿼리문 생성객체 얻기
 			String selectAllMember=
-					"select id,name,mail from members";
+					"select id,name,mail from members";//정렬된 데이터로 조회 하게 하기 orderBy
 			pstmt=con.prepareStatement(selectAllMember);
 		//4.쿼리수행 후 결과 얻기
 			rs=pstmt.executeQuery();
@@ -210,7 +210,7 @@ public class MemberDAO {
 		//3.쿼리문 생성객체 얻기
 			//회원가입시 정보를 members 테이블에 추가하는 쿼리문  
 			String insertMember=
-					"insert into members(id,pw,name,mail,member_flag) values (?,?,?,?,'U')";
+					"insert into members(id,pw,name,mail,member_flag) values (?,?,?,?,'U')";//DB default처리 
 			pstmt=con.prepareStatement(insertMember);
 		//4.쿼리문 수행 후 결과 얻기
 			//바인딩.set자료형(컬럼, 들어갈 데이터)

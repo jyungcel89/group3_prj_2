@@ -92,7 +92,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 			int totalPrice=0; 
 			for(int i=0; i<table2.getRowCount();i++){
 					priceArr[i]=Integer.parseInt(table2.getValueAt(i,1).toString());
-					totalPrice=priceArr[i]+totalPrice;
+					totalPrice+=priceArr[i];
 			}//end for
 			
 			arf.getLblTotalPrice().setText(Integer.toString(totalPrice));
@@ -209,7 +209,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 						for(int j=0; j<orginIngdntNameArr.length; j++){
 							
 							if(ingrdntName[k].equals(orginIngdntNameArr[j])){
-								cnt+=1;
+								cnt++;
 //								System.out.println(cnt);
 								// 중복되는 재료가 3개이상일 때
 							}//end if
@@ -234,7 +234,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 							+ "추가하는 재료 중 같은 재료를 3개이상 쓰고 있는 메뉴가 존재합니다.\n"
 							+ "다른 재료를 더 추가하거나 색다른 레시피를 연구해보시길 바랍니다.");
 				}//end else
-				
+				//NULLPOINTEXCEPTION추가
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}//end catch
@@ -272,7 +272,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	public void selectMgrRecipeInfo(){
 		try {
 			MgrRecipeInfoVO mriv=ida.selectMgrRecipe(arf.getJtfRecipeName().getText());
-			ImageIcon icon=new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/"+mriv.getMrv().getImg());
+			ImageIcon icon=new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prjsrc/kr/co/sist/recipe/img/"+mriv.getMrv().getImg());
 			arf.getJtfRecipeName().setText(mriv.getMrv().getMenu_name());
 			arf.getJcbCateg().setSelectedItem(mriv.getMrv().getFoodType());
 			arf.getJtaInfo().setText(mriv.getMrv().getInfo());
@@ -347,7 +347,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
             int width = 260;
             int height = 200;
             File file_name = new File(path+file);
-           String path="C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img";
+           String path="C:/dev/group_prj_git/group3_prj_2/group_prjsrc/kr/co/sist/recipe/img";
             File file_name_b = new File(path+"/b_FI_"+file);
             File file_name_s = new File(path+"/s_FI_"+file);
             

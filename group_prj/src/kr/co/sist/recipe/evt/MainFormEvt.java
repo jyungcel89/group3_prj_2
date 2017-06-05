@@ -18,6 +18,7 @@ import kr.co.sist.recipe.dao.RecipeDAO;
 import kr.co.sist.recipe.dao.ScoreDAO;
 import kr.co.sist.recipe.view.AddRecipeForm;
 import kr.co.sist.recipe.view.ItemPreviewForm;
+import kr.co.sist.recipe.view.LogInForm;
 import kr.co.sist.recipe.view.MainForm;
 import kr.co.sist.recipe.view.MgrPageForm;
 import kr.co.sist.recipe.view.MyPageForm;
@@ -51,7 +52,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    public void newRecipe() {
       try {
          List<MainRecipeVO> dataList = rcp_dao.showNewRecipe();
-         String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/";
+         String path = "C:/dev/group_prj_git/group3_prj_2/group_prjsrc/kr/co/sist/recipe/img/";
          
          // 등록한 이미지가 날짜기준 3개이상일때
          if(dataList.size()>2){
@@ -120,7 +121,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
         	 List<MainRecipeVO> list = rcp_dao.selectAllRecipe(mtv, searchText);
         	 Object[] rowMenu = new Object[6];
         	 DefaultTableModel dtmMenu = mainFrm.getDtmRecipe();
-        	 String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
+        	 String path = "C:/dev/group_prj_git/group3_prj_2/group_prjsrc/kr/co/sist/recipe/img/s_";
         	 
         	 // 메뉴종류가 저장된 VO에
         	 MainRecipeVO mrv = null;
@@ -171,10 +172,12 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    
    public void logOut(){
 	   int flag=JOptionPane.showConfirmDialog(null, 
-			   " [ "+LogInEvt.logId+" ] 님 로그아웃 하시겠습니까?\n로그아웃하시면 프로그램이 종료됩니다.");
+			   " [ "+LogInEvt.logId+" ] 님 로그아웃 하시겠습니까?\n로그아웃하시면 로그인 창으로 돌아가게됩니다.");
 	   switch (flag) {
 			case JOptionPane.OK_OPTION:
 				mainFrm.dispose();
+				new LogInForm();
+				LogInEvt.logId=null;
 			}//end catch
    }//logOut
    
