@@ -402,7 +402,7 @@ public class RecipeDAO {
           try{
 	             con = getConnection();
 	             
-	             String query="delete from reciperegister where menu_name=? and recipe_flag='Y'";
+	             String query="delete from reciperegister where menu_name=? and menu_flag='Y'";
 	             pstmt = con.prepareStatement(query);
 	             
 	             pstmt.setString(1, menuName);
@@ -546,7 +546,7 @@ public class RecipeDAO {
        /**
         * 회원 - 레시피 승인요청버튼을 누르면 테이블에 flag가 S인 상태로 추가
         *
-        * ---------------------------------변경사항---------------------------------------- 
+        * ---------------------------------변경사항----------------------------------------
         * 메소드명 requestRecipe > insertRecipe으로 변경
         * 매개변수 id 추가
         * @param addVo(AddRecipeVO) : String menuName, menuImg, menuInfo, menuType, id
