@@ -39,7 +39,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
       newRecipe();
       
       searchList();
-   }// MainFormEvt
+   }// MainFormEvt 
 
    // 최근 등록된 레시피 이미지 띄우기
    public void newRecipe() {
