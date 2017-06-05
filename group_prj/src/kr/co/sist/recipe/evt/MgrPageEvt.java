@@ -66,7 +66,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				List<MainRecipeVO> listAllRcp = rcp_dao.recipeList(flag);
 				Object[] rowMenu = new Object[5];
 				DefaultTableModel dtmMenu = mpf.getDtmMenuList();
-				String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
+				String path = "C:/dev/group_prj_git/group3_prj_2/group_prjsrc/kr/co/sist/recipe/img/s_";
 				
 				MainRecipeVO mrv=null; 
 				dtmMenu.setRowCount(0);
@@ -106,7 +106,7 @@ public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseLi
 				List<MainRecipeVO> listReqRcp = rcp_dao.recipeList(flag);
 				Object[] rowMenu = new Object[5];
 				DefaultTableModel dtmMenu = mpf.getDtmMenuRequest();
-				String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
+				String path = "src/kr/co/sist/recipe/img/s_";
 				
 				MainRecipeVO mrv=null;
 				dtmMenu.setRowCount(0);

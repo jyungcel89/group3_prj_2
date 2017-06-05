@@ -1,6 +1,7 @@
 package kr.co.sist.recipe.view;
 
 import java.awt.Font;
+import java.io.File;
 
 import javax.security.auth.login.LoginException;
 import javax.swing.ImageIcon;

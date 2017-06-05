@@ -1,6 +1,6 @@
 package kr.co.sist.recipe.dao;
 
-import java.io.File;
+import java.io.File; 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -81,13 +81,13 @@ public class IngdntDAO {
 
 			try {
 				con = getConnection();
+				//StringBuilder 사용
 				String selectIngrdnt ="select i.BRAND,ri.INGREDIENT_NAME,i.PRICE "
 						+ "from INGREDIENTS i,RECIPE_INGREDIENTS ri "
 						+ "where(ri.INGREDIENT_NAME=i.INGREDIENT_NAME) "
 						+ "and ri.MENU_NAME=?"; 
 				pstmt = con.prepareStatement(selectIngrdnt);
 				pstmt.setString(1,recipeName);
-				pstmt.setString(1, recipeName);
 				rs = pstmt.executeQuery();
 				
 				ShowIngdntVO siv= null;
@@ -246,6 +246,7 @@ public class IngdntDAO {
 	
 	
 	/**
+	 * -김수연-
 	 * 메뉴 당 재료들 이름만 조회
 	 * 메뉴추가에서 재료추가 조건에 사용
 	 * @param recipeName
