@@ -17,7 +17,7 @@ import kr.co.sist.recipe.vo.BookmarkVO;
  
 /**
  * BookmarkDAO
- * 북마크 관련 DB에 관여하는 DAO
+ * 북마크 관련 DB에 관여하는 DAO 
  * @author JiYong
  */ 
 public class BookmarkDAO {
