@@ -118,7 +118,7 @@ public class MainForm extends JFrame{
 		jtRecipe.getColumnModel().getColumn(5).setPreferredWidth(30);
  
 		// 백그라운드 설정
-		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/background_image.png"));
+		JLabel jlImg = new JLabel(new ImageIcon(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/img/background_image.png"));
 		setContentPane(jlImg);
 		
 		// 이벤트 선언
@@ -219,7 +219,7 @@ public class MainForm extends JFrame{
 		add(jbLogOut);
 
 		//로고
-		JLabel mainLogo=new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/mainHong.png"));
+		JLabel mainLogo=new JLabel(new ImageIcon(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/img/mainHong.png"));
 		mainLogo.setBounds(450, 15, 85, 125);
 		add(mainLogo);
 		

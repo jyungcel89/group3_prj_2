@@ -44,7 +44,7 @@ public class RecipeDAO {
               
               Properties prop = new Properties();
               try {
-            	  File file=new File(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/dao/recipe_db.properties");
+                 File file=new File(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/dao/recipe_db.properties");
                      
                      if(file.exists()){
                            prop.load(new FileInputStream(file));
@@ -202,9 +202,9 @@ public class RecipeDAO {
                                   rs=pstmt.executeQuery();
                            }else{
                                   // 메뉴타입이 체크되어 있지 않고 검색어를 갖지 않는 경우
-                        	   	  sbSelectRecipe.append(" where recipe_flag='Y'");
+                                   sbSelectRecipe.append(" where recipe_flag='Y'");
                                   
-								  pstmt= con.prepareStatement(sbSelectRecipe.toString());
+                          pstmt= con.prepareStatement(sbSelectRecipe.toString());
                                   rs=pstmt.executeQuery();
                            }//end else
                      }else{
@@ -300,22 +300,22 @@ public class RecipeDAO {
        
        // 존재하는 모든 메뉴
        public List<String> getAllMenuName() throws SQLException{
-    	   Connection con= null;
+          Connection con= null;
            PreparedStatement pstmt = null;
            ResultSet rs = null;
            List<String> nameList = new ArrayList<String>();
            try{
-        	    con = getConnection();
-        	    String query="select menu_name from reciperegister where recipe_flag='Y'";
+               con = getConnection();
+               String query="select menu_name from reciperegister where recipe_flag='Y'";
                 pstmt = con.prepareStatement(query);
                 rs = pstmt.executeQuery();
-        	    
+               
                 while(rs.next()){
-                	nameList.add(rs.getString("menu_name"));
+                   nameList.add(rs.getString("menu_name"));
                 }//end while
                 
            }finally{
-        	   if(rs!= null){ rs.close(); }//end if
+              if(rs!= null){ rs.close(); }//end if
                if(pstmt!= null){ pstmt.close(); }//end if
                if(con!= null){ con.close(); }//end if
            }//end finally
@@ -341,7 +341,7 @@ public class RecipeDAO {
                      con = getConnection();
                      
                      String selectQuery=
-                                  "select menu_name, img, food_type, info, recipe_info, totalprice from reciperegister where recipe_flag=?";
+                                  "select menu_name, img, food_type, info, recipe_info, totalprice from reciperegister where recipe_flag=? order by inputdate";
                      pstmt = con.prepareStatement(selectQuery);
                      
                      // 바인드 변수 flag조건에 따라서 이벤트 처리
@@ -407,17 +407,17 @@ public class RecipeDAO {
           PreparedStatement pstmt = null;
           
           try{
-	             con = getConnection();
-	             
-	             String query="delete from reciperegister where menu_name=? and recipe_flag='Y'";
-	             pstmt = con.prepareStatement(query);
-	             
-	             pstmt.setString(1, menuName);
-	             
-	             pstmt.executeUpdate();
+                con = getConnection();
+                
+                String query="delete from reciperegister where menu_name=? and recipe_flag='Y'";
+                pstmt = con.prepareStatement(query);
+                
+                pstmt.setString(1, menuName);
+                
+                pstmt.executeUpdate();
           }finally {
-	             if(pstmt!= null){ pstmt.close(); }
-	             if(con!= null){ con.close(); }
+                if(pstmt!= null){ pstmt.close(); }
+                if(con!= null){ con.close(); }
           }//end finally
           
           return true;
@@ -427,31 +427,31 @@ public class RecipeDAO {
        /**
         * 회원 삭제 시 해당 회원이 추가한 레시피 삭제하는 method
         *  - 회원 id 받아서 삭제
-	    * @param id
-	    * @return
-	    * @throws SQLException
-	    */
-	    public boolean deleteRecipeMem(String id) throws SQLException{
-	    	   Connection con=null;
-	    	   PreparedStatement pstmt = null;
-	    	   
-	    	   try{
-	    		   con = getConnection();
-	    		   
-	    		   String query=
-	    				   "delete from reciperegister where id=?";
-	    		   pstmt = con.prepareStatement(query);
-	    		   
-	    		   pstmt.setString(1, id);
-	    		   
-	    		   pstmt.executeUpdate();
-	    	   }finally {
-	    		   if(pstmt!= null){ pstmt.close(); }
-	    		   if(con!= null){ con.close(); }
-	    	   }//end finally
-	    	   
-	    	   return true;
-	    }//deleteRecipe
+       * @param id
+       * @return
+       * @throws SQLException
+       */
+       public boolean deleteRecipeMem(String id) throws SQLException{
+             Connection con=null;
+             PreparedStatement pstmt = null;
+             
+             try{
+                con = getConnection();
+                
+                String query=
+                      "delete from reciperegister where id=?";
+                pstmt = con.prepareStatement(query);
+                
+                pstmt.setString(1, id);
+                
+                pstmt.executeUpdate();
+             }finally {
+                if(pstmt!= null){ pstmt.close(); }
+                if(con!= null){ con.close(); }
+             }//end finally
+             
+             return true;
+       }//deleteRecipe
        
        /**
         * 관리자폼 > 추가/수정메뉴폼 : 수정버튼

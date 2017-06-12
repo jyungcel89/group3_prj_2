@@ -15,11 +15,7 @@ import kr.co.sist.recipe.vo.MemberVO;
 
 /**
  * 회원가입 창 이벤트
- * !!!!!!!!회원정보 수정 부분 미완료 추후 완료!!!!!!
- * <수정사항>
- * 1. parameter 제거
  * @author JiYong
- * 
  */
 public class SignEvt extends WindowAdapter implements ActionListener {
 	
@@ -43,11 +39,11 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 		mem_dao=MemberDAO.getInstance();
 		InsertMemberVO imem_vo=new InsertMemberVO();
 		
-		String id=sf.getJtfId().getText();
-		String pw=new String(sf.getJpfPw().getPassword());
-		String pwChk=new String(sf.getJpfChkPw().getPassword());
-		String name=sf.getJtfName().getText();
-		String mail=sf.getJtfMail().getText();
+		String id=sf.getJtfId().getText().trim();
+		String pw=new String(sf.getJpfPw().getPassword()).trim();
+		String pwChk=new String(sf.getJpfChkPw().getPassword()).trim();
+		String name=sf.getJtfName().getText().trim();
+		String mail=sf.getJtfMail().getText().trim();
 		
 		if( flag ){
 			try {
@@ -104,8 +100,8 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 	public void editMember(){ 
 		mem_dao=MemberDAO.getInstance();
 		MemberVO mem_vo=new MemberVO();
-		String pw=new String(sf.getJpfPw().getPassword());
-		String pwChk=new String(sf.getJpfChkPw().getPassword());
+		String pw=new String(sf.getJpfPw().getPassword()).trim();
+		String pwChk=new String(sf.getJpfChkPw().getPassword()).trim();
 		
 		if( !pw.equals( pwChk ) ){
 			JOptionPane.showMessageDialog(sf, 
@@ -117,38 +113,38 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 		mem_vo.setPw(new String(sf.getJpfPw().getPassword()));
 		mem_vo.setMail(sf.getJtfMail().getText().toString());
 		
-			int updateFlag=JOptionPane.showConfirmDialog(sf, 
-					"수정 하시겠습니까?");
-			switch (updateFlag) {
-			case JOptionPane.OK_OPTION:
-				try {
-					if(mem_dao.updateMember(mem_vo)){
-						JOptionPane.showMessageDialog(sf, 
-								"정상적으로 수정되었습니다.");
-					}else{
-						JOptionPane.showMessageDialog(sf, 
-								"죄송합니다. 잠시후에 다시시도해 주세요");
-					}//end if
-				} catch (SQLException e) {
+		int updateFlag=JOptionPane.showConfirmDialog(sf, 
+				"수정 하시겠습니까?");
+		switch (updateFlag) {
+		case JOptionPane.OK_OPTION:
+			try {
+				if(mem_dao.updateMember(mem_vo)){
 					JOptionPane.showMessageDialog(sf, 
-							"모든 내용을 기입해주세요");
-					return;
-				}//end catch
-				sf.dispose();
-				break;
-			case JOptionPane.NO_OPTION : 
-				sf.dispose();
-				break;
-			case JOptionPane.CANCEL_OPTION : 
-				sf.dispose();
-				break;
-			}//end switch
+							"정상적으로 수정되었습니다.");
+				}else{
+					JOptionPane.showMessageDialog(sf, 
+							"죄송합니다. 잠시후에 다시시도해 주세요");
+				}//end if
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(sf, 
+						"모든 내용을 기입해주세요");
+				return;
+			}//end catch
+			sf.dispose();
+			break;
+		case JOptionPane.NO_OPTION : 
+			sf.dispose();
+			break;
+		case JOptionPane.CANCEL_OPTION : 
+			sf.dispose();
+			break;
+		}//end switch
 		
 	}//editMember
 	
 	/**
-	 * 아이디 중복확인
-	 * 입력한 아이디가 기존 회원아이디와 중복되는지 판단하는 method
+	 * 아이디 중복확인<br>
+	 * 입력한 아이디가 기존 회원아이디와 중복되는지 판단하는 method<br>
 	 */
 	public void checkId(){
 		
@@ -194,17 +190,22 @@ public class SignEvt extends WindowAdapter implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
+		
+		//아이디 중복확인
 		if(ae.getSource()==sf.getJbtChkId() || ae.getSource() == sf.getJtfId()){
 			checkId();
 		}//end if
+		//회원가입
 		if(ae.getSource()==sf.getJbtSubmit() || ae.getSource() == sf.getJtfMail() || 
 				ae.getSource() == sf.getJtfName() || ae.getSource() == sf.getJpfPw() ||
 				ae.getSource() == sf.getJpfChkPw() ){
 			addMember();
 		}//end if
+		//닫기
 		if(ae.getSource()==sf.getJbtCancel()){
 			checkCancel();
 		}//end if
+		//회원수정
 		if(ae.getSource()==sf.getJbtUpdate()){
 			editMember();
 		}//end if

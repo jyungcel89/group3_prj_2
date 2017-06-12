@@ -103,9 +103,9 @@ public class SignInForm extends JDialog {
 		
 		// 배경 설정
 		if(!(le.logId==null)){
-			backgroundPath = "C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/edit_signinBack.png";
+			backgroundPath = System.getProperty("user.dir")+"/src/kr/co/sist/recipe/img/edit_signinBack.png";
 		}else{
-			backgroundPath = "C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/signinBack.png";
+			backgroundPath = System.getProperty("user.dir")+"/src/kr/co/sist/recipe/img/signinBack.png";
 		}//end else
 		ImageIcon background = new ImageIcon(backgroundPath);
 		JLabel jlBackImg = new JLabel(background);

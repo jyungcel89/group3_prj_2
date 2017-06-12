@@ -41,7 +41,7 @@ public class ItemPreviewForm extends JDialog {
 	public ItemPreviewForm(MainRecipeVO mrv, MainFormEvt mfe/*, String valueFlag*/){
 		setTitle("홍홍홍 레시피 - "+mrv.getMenuName());
 		setLayout(null);
-		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/previewBack.png"));
+		JLabel jlImg = new JLabel(new ImageIcon(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/img/previewBack.png"));
 	     setContentPane(jlImg);
 	     
 	     
@@ -65,7 +65,7 @@ public class ItemPreviewForm extends JDialog {
 		jlMakeMethod.setBounds(400,380,70,40);
 		
 		// 이미지 경로
-		String path = "C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/b_";
+		String path = System.getProperty("user.dir")+"/src/kr/co/sist/recipe/img/b_";
 		// 이미지 넣어주기
 		ImageIcon imgIcon=new ImageIcon(path+mrv.getMenuImg());
 		JLabel imgLabel=new JLabel(imgIcon);
@@ -157,23 +157,6 @@ public class ItemPreviewForm extends JDialog {
 		jbClose.addActionListener(ipe);
 		jchBookmark.addActionListener(ipe);
 		
-		//
-//		System.out.println(mype.staticValueFlag);
-//		if( mype.staticValueFlag!=null || mype.staticValueFlag.equals("승인대기") || mype.staticValueFlag.equals("요청거절") ){
-//			jlBookmark.setVisible(false);
-//			jchBookmark.setVisible(false);
-//			jlScore.setVisible(false);
-//			jcScore.setVisible(false);
-//			jbSubmit.setVisible(false);
-//			jlBookmark.setEnabled(false);
-//			jchBookmark.setEnabled(false);
-//			jlScore.setEnabled(false);
-//			jcScore.setEnabled(false);
-//			jbSubmit.setEnabled(false);
-//		}//end if
-//		System.out.println("mype.valueFlag : "+valueFlag);
-//		if( !valueFlag.equals("승인") ){
-//		}//end if
 		
 		setBounds(0,0,800,700);
 		setModalityType(DEFAULT_MODALITY_TYPE);

@@ -25,9 +25,9 @@ public class LogInForm extends JFrame {
 	 
 	public LogInForm() {
 		setLayout(null);
-		JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/loginBack.png"));
+		JLabel jlBackImg = new JLabel(new ImageIcon(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/img/loginBack.png"));
 	    setContentPane(jlBackImg);
-		jlblLogo=new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/logo.png"));
+		jlblLogo=new JLabel(new ImageIcon(System.getProperty("user.dir")+"/src/kr/co/sist/recipe/img/logo.png"));
 
 		jtfId=new JTextField();
 		jtfId.setBorder(new TitledBorder("ID"));
