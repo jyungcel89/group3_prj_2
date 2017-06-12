@@ -37,18 +37,18 @@ public class AddRecipeForm extends JDialog {
 		this.setModal(true);
 		setLayout(null);
 		// 백그라운드
-		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/addrcpBack.png"));
+		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/addrcpBack.png"));
 		setContentPane(jlImg);
 		Font defaultFont =new Font("맑은 고딕", Font.BOLD, 14);
 	
 //		region 레시피 이미지 추가하는 라벨 및 이미지 아이콘
-		imgIcon=new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/default.jpg");
+		imgIcon=new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/default.jpg");
 		lblImg = new JLabel(imgIcon);
 		lblImg.setBounds(80,50,260,200);
 		add(lblImg);
 		
 		//기본이미지
-		JLabel img = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/default.jpg"));
+		JLabel img = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/default.jpg"));
 		img.setBounds(80,50,260,200);
 		add(img); 
 		

@@ -32,7 +32,7 @@ public class MgrPageForm extends JDialog {
 	public MgrPageForm(String logId, MainFormEvt mfe) {
 		setTitle("È«È«È« ·¹½ÃÇÇ °ü¸®ÀÚ");
 		setLayout(null);
-		JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/mgrpageBack.png"));
+		JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/mgrpageBack.png"));
 	    setContentPane(jlBackImg);
 		Font defaultFont=new Font("¸¼Àº °íµñ",Font.BOLD,14);
 		

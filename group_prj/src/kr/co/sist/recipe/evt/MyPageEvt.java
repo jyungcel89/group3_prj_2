@@ -56,7 +56,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
                      List<MyRecipeVO> listMyRcp = rdao.myRecipe(le.logId);
                      Object[] rowMenu = new Object[6];
                      DefaultTableModel dtmMenu = mypf.getDtmMyMenu();
-                     String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
+                     String path = "C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/s_";
                      
                      MyRecipeVO mrv=null;
                      dtmMenu.setRowCount(0);
@@ -131,7 +131,7 @@ public class MyPageEvt extends WindowAdapter implements ActionListener, MouseLis
                      List<BookmarkVO> bklist = bdao.searchAll(le.logId);
                      Object[] rowMenu = new Object[5];
                      DefaultTableModel dtmMenu = mypf.getDtmFavorMenu();
-                     String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
+                     String path = "C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/s_";
                      
                      BookmarkVO bmvo=null;
                      dtmMenu.setRowCount(0);

@@ -41,7 +41,7 @@ public class ItemPreviewForm extends JDialog {
 	public ItemPreviewForm(MainRecipeVO mrv, MainFormEvt mfe/*, String valueFlag*/){
 		setTitle("홍홍홍 레시피 - "+mrv.getMenuName());
 		setLayout(null);
-		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/previewBack.png"));
+		JLabel jlImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/previewBack.png"));
 	     setContentPane(jlImg);
 	     
 	     
@@ -65,7 +65,7 @@ public class ItemPreviewForm extends JDialog {
 		jlMakeMethod.setBounds(400,380,70,40);
 		
 		// 이미지 경로
-		String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/b_";
+		String path = "C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/b_";
 		// 이미지 넣어주기
 		ImageIcon imgIcon=new ImageIcon(path+mrv.getMenuImg());
 		JLabel imgLabel=new JLabel(imgIcon);

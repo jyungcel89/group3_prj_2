@@ -137,7 +137,7 @@ public class MyPageForm extends JDialog {
         jbClose.addActionListener(mype);
         
         // 배경설정
-        JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/mypageBack.png"));
+        JLabel jlBackImg = new JLabel(new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj//src/kr/co/sist/recipe/img/mypageBack.png"));
 	    setContentPane(jlBackImg);
 	    
         //패널 위치

@@ -26,7 +26,7 @@ import kr.co.sist.recipe.vo.ShowIngdntVO;
 import kr.co.sist.recipe.vo.addRemoveIngrdntVO;
 
 public class AddRecipeEvt extends WindowAdapter implements ActionListener {
-	private RecipeDAO rda;  
+	private RecipeDAO rda;   
 	private IngdntDAO ida;
 	private AddRecipeForm arf;
 	private IngrdntCategVO icv;
@@ -272,7 +272,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
 	public void selectMgrRecipeInfo(){
 		try {
 			MgrRecipeInfoVO mriv=ida.selectMgrRecipe(arf.getJtfRecipeName().getText());
-			ImageIcon icon=new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prjsrc/kr/co/sist/recipe/img/"+mriv.getMrv().getImg());
+			ImageIcon icon=new ImageIcon("C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/"+mriv.getMrv().getImg());
 			arf.getJtfRecipeName().setText(mriv.getMrv().getMenu_name());
 			arf.getJcbCateg().setSelectedItem(mriv.getMrv().getFoodType());
 			arf.getJtaInfo().setText(mriv.getMrv().getInfo());
@@ -347,7 +347,7 @@ public class AddRecipeEvt extends WindowAdapter implements ActionListener {
             int width = 260;
             int height = 200;
             File file_name = new File(path+file);
-           String path="C:/dev/group_prj_git/group3_prj_2/group_prjsrc/kr/co/sist/recipe/img";
+           String path="C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img";
             File file_name_b = new File(path+"/b_FI_"+file);
             File file_name_s = new File(path+"/s_FI_"+file);
             

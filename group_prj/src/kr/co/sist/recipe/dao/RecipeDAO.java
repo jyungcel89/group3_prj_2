@@ -80,7 +80,7 @@ public class RecipeDAO {
         * @return
         */
        public MainRecipeVO selectOneRecipe(String menuName) throws SQLException{
-              MainRecipeVO mrv = new MainRecipeVO();//NULL로 초기화
+              MainRecipeVO mrv = null;
               Connection con = null;
               PreparedStatement pstmt= null;
               ResultSet rs= null;
@@ -97,7 +97,7 @@ public class RecipeDAO {
                      
                      // 선택된 한가지 메뉴에대한 정보를 RecipeVO에 저장
                      while(rs.next()){//IF사용
-                    	 	//여기다 mrv객체생성
+                    	 	mrv = new MainRecipeVO();
                            mrv.setMenuName(menuName);
                            mrv.setMenuImg(rs.getString("img"));
                            mrv.setMenuPrice(rs.getString("totalprice"));
@@ -187,7 +187,12 @@ public class RecipeDAO {
                      StringBuilder sbSelectRecipe = new StringBuilder();
                      sbSelectRecipe.append("select menu_name, img, food_type, info, recipe_info, totalprice from reciperegister");
                      
-                     if("".equals(mtv.getAnju())&& mtv.getBunsik().equals("") && mtv.getDessert().equals("") && mtv.getMeal().equals("")){
+                     // 객체가 empty 일때 nullpointException이 발생 - 객체를 생성해야함 
+//                     if(mtv.getAnju().equals("")&& mtv.getBunsik().equals("") && mtv.getDessert().equals("") && mtv.getMeal().equals("")){
+                     // 객체가 empty 일때 nullpointException을 발생하지않음 - 객체를 생성하지 않아도 됨
+//                     if("".equals(mtv.getAnju())&& "".equals(mtv.getBunsik()) && "".equals(mtv.getDessert()) && "".equals(mtv.getMeal())){
+                     // 객체가 null 일때
+                     if(mtv.getAnju()==null&& mtv.getBunsik()==null && mtv.getDessert()==null && mtv.getMeal()==null){
                            // 메뉴타입이 체크되어있지않은 경우
                            if(!srchText.equals("")){
                                   // 메뉴타입이 체크되어 있지 않고 검색어를 갖는 경우
@@ -203,7 +208,7 @@ public class RecipeDAO {
                                   rs=pstmt.executeQuery();
                            }//end else
                      }else{
-                           // 메뉴타입이 체크되어 있을 때
+                           // 메뉴타입이 하나라도 체크되어 있을 때
                            if(!srchText.equals("")){
                                   // 타입이 체크되어있고 검색어를 갖는 경우
                                   sbSelectRecipe.append(" where menu_name like '%'||?||'%' and food_type in(?,?,?,?)  and recipe_flag='Y'");

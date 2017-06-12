@@ -38,13 +38,6 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
       
       newRecipe();
       
-      mtv = new MenuTypeVO();
-      // 검색조건 초기화
-      mtv.setAnju("");
-      mtv.setMeal("");
-      mtv.setDessert("");
-      mtv.setBunsik("");
-      mainFrm.getJtfSearch().setText("");
       searchList();
    }// MainFormEvt
 
@@ -52,7 +45,7 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    public void newRecipe() {
       try {
          List<MainRecipeVO> dataList = rcp_dao.showNewRecipe();
-         String path = "C:/dev/group_prj_git/group3_prj_2/group_prjsrc/kr/co/sist/recipe/img/";
+         String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/";
          
          // 등록한 이미지가 날짜기준 3개이상일때
          if(dataList.size()>2){
@@ -87,11 +80,6 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
    // 선택된 레시피 검색조건 가져오기
    public void searchCondition() {
       mtv = new MenuTypeVO();
-       
-      mtv.setAnju("");
-      mtv.setMeal("");
-      mtv.setDessert("");
-      mtv.setBunsik("");
 
       // 체크박스 옵션이 선택될때 vo에 해당값저장
       if (mainFrm.getChkOne().isSelected()) {
@@ -117,11 +105,10 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
          // 검색조건 메소드 실행하여 조건을 걸러줌
     	 String searchText = mainFrm.getJtfSearch().getText();
          searchCondition();
-         
         	 List<MainRecipeVO> list = rcp_dao.selectAllRecipe(mtv, searchText);
         	 Object[] rowMenu = new Object[6];
         	 DefaultTableModel dtmMenu = mainFrm.getDtmRecipe();
-        	 String path = "C:/dev/group_prj_git/group3_prj_2/group_prjsrc/kr/co/sist/recipe/img/s_";
+        	 String path = "C:/dev/group_prj_git/group3_prj_2/group_prj/src/kr/co/sist/recipe/img/s_";
         	 
         	 // 메뉴종류가 저장된 VO에
         	 MainRecipeVO mrv = null;
@@ -170,6 +157,8 @@ public class MainFormEvt implements MouseListener, ItemListener, ActionListener 
 	   }//end if
    }//movePage
    
+   
+   // 로그아웃 
    public void logOut(){
 	   int flag=JOptionPane.showConfirmDialog(null, 
 			   " [ "+LogInEvt.logId+" ] 님 로그아웃 하시겠습니까?\n로그아웃하시면 로그인 창으로 돌아가게됩니다.");
