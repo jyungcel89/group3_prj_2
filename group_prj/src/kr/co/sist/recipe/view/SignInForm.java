@@ -77,7 +77,7 @@ public class SignInForm extends JDialog {
 		jpfChkPw.setBounds(160, 180, 200, 30);
 		jtfName.setBounds(160, 220, 130, 30);
 		jtfMail.setBounds(160, 260, 250, 30);
-		
+		 
 		jbtChkId.setBounds(300, 100, 110, 30);
 		jbtSubmit.setBounds(270, 320, 80, 40);
 		jbtCancel.setBounds(360, 320, 80, 40);
