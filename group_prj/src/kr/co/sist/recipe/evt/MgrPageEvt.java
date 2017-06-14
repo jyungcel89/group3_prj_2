@@ -27,7 +27,7 @@ import kr.co.sist.recipe.vo.MgrMemberVO;
 /**
  * 관리자페이지 이벤트 클래스
  * @author JiYong
- */ 
+ */  
 public class MgrPageEvt extends WindowAdapter implements ActionListener, MouseListener {
 
 	private MgrPageForm mpf;
