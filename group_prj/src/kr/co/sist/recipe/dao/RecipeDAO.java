@@ -17,7 +17,7 @@ import kr.co.sist.recipe.vo.MainRecipeVO;
 import kr.co.sist.recipe.vo.MenuTypeVO;
 import kr.co.sist.recipe.vo.MyRecipeVO;
 import kr.co.sist.recipe.vo.RecipeInfoUpdateVO;
-/**
+/** 
  * <수정사항>
  * 1. flag 수정 : recipe_flag='Y' : 승인 / recipe_flag='N' : 요청거절 / recipe_flag='S' : 승인대기
  * 2. updateFlag method명 변경 : updateFlagY()
